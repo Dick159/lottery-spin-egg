@@ -1,0 +1,287 @@
+class ReceiveUI extends egret.Sprite {
+
+    private shpBeMask1;
+    private shpBeMask2;
+    private shpBeMask3;
+    private dd;
+    private num = 0;
+    private laohuji;
+    private rocker;
+    private rockeer_mp3;
+    private laohuji_mp3;
+    private title;
+    private lq_btn;
+    private balls = [];
+    private topX = 150;
+    private topY = 650;
+    private bottomX = 600;
+    private bottomY = 850;
+    private soundChannel;
+    private isFinishSpin = true;
+
+    public constructor() {
+        super();
+        //this.createView();
+        this.once(egret.Event.ADDED_TO_STAGE, this.createView, this);
+    }
+    private createView(): void {
+        this.width = 750;
+        this.height = 1206;
+        //添加背景
+        // var bg=createBitmap("zj_bg_png");
+        // this.addChild(bg);
+        //添加标题
+        var title = createBitmap("title_png");
+        title.anchorOffsetX = title.width * .5;
+        title.anchorOffsetY = title.height * .5;
+        title.x = 18 + title.width * .5;
+        title.y = 110 + title.height * .5;
+
+        this.addChild(title);
+        this.title=title;
+        title.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            var gameui = ScenceManage.create(this.stage);
+            gameui.loadScence("index", this, IndexUI);
+        }, this);
+        title.touchEnabled = true;
+        //添加中奖标题
+        var zj_title = createBitmap("zj_bt_png");
+        zj_title.anchorOffsetX = zj_title.width * .5;
+        zj_title.anchorOffsetY = zj_title.height * .5;
+        zj_title.x = 32 + zj_title.width * .5;
+        zj_title.y = 19 + zj_title.height * .5;
+        zj_title.scaleX = 0;
+        zj_title.scaleY = 0;
+        this.addChild(zj_title);
+        //添加底部地板
+        var diban = createBitmap("diban_png");
+        diban.x = 0;
+        diban.y = 842;
+        this.addChild(diban);
+
+        //添加老虎机的启动杆
+        this.rocker = createBitmap("qidong_png", 320, 339);
+        this.addChild(this.rocker);
+        this.rocker.anchorOffsetX = 0;
+        this.rocker.anchorOffsetY = this.rocker.height;
+        //添加老虎机
+        this.laohuji = createBitmap("laohuji_png");
+        this.laohuji.x = 30;
+        this.laohuji.y = 339;
+        this.addChild(this.laohuji);
+        this.laohuji.touchEnabled = true;
+
+        //声音
+        this.dd = new egret.Sound;
+        this.dd.load("resource/assets/dd.mp3");
+        //摇杆声音
+        this.rockeer_mp3 = new egret.Sound;
+        this.rockeer_mp3.load("resource/assets/rocker.mp3");
+        //老虎机声音
+        this.laohuji_mp3 = new egret.Sound;
+        this.laohuji_mp3.load("resource/assets/jiqi.mp3");
+
+       //(150,650)  (600,850)
+
+       for(var i=0;i<2;i++){
+        for(var j=0;j < ((600-150) / 50) - i*2;j++){
+            var ball = createBitmap("gift" + ( 9 + (j%2)).toString() + "_png");
+            ball.x = 150 + (j*50) + (i*50);
+            ball.y = 850 - (i * 50);
+            ball.width=50;
+            ball.height=50;
+            ball.anchorOffsetX = ball.width * .5;
+            ball.anchorOffsetY = ball.height * .5;
+            this.addChild(ball);
+            this.balls.push(ball);
+        }
+       }
+
+
+        //添加领取按钮
+        var lq_btn = createBitmap("lingq_btn_png");
+        lq_btn.x = 171;
+        lq_btn.y = 1045;
+        this.addChild(lq_btn);
+        this.lq_btn=lq_btn;
+        //添加领奖容器
+        var ljDisplay = new egret.DisplayObjectContainer();
+        //ljDisplay.y=148;
+        if (Main.mask_onoff) {
+            ljDisplay.y = 148;
+            title.scaleX=0;
+            title.scaleY=0;
+            egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300)
+        } else {
+            ljDisplay.y = 1206;
+            zj_title.scaleX=0;
+            zj_title.scaleY=0;
+            egret.Tween.get(title).to({ scaleX: 1, scaleY: 1 }, 300)
+        }
+
+        ljDisplay.x = 15;
+        ljDisplay.width = 720;
+        ljDisplay.height = 1047;
+        this.addChild(ljDisplay);
+        //添加容器内容背景
+        var ljDisplayBg = createBitmap("djy_wbk_png");
+        ljDisplayBg.x = 0;
+        ljDisplayBg.y = 217;
+        ljDisplay.addChild(ljDisplayBg);
+        //添加容器圣诞老人背景
+        var sdlaorenBg = createBitmap("zj_title_png");
+        sdlaorenBg.y = 0;
+        sdlaorenBg.x = 89;
+        ljDisplay.addChild(sdlaorenBg);
+        //添加容器内容
+        var content = createBitmap("djy_hbk_png");
+        content.y = 288;
+        content.x = 95;
+        ljDisplay.addChild(content);
+        //
+        var jptext = createTextFiled(Main.zpname, 195, 450, 50, 0xff0000);
+        ljDisplay.addChild(jptext);
+        var text1 = createTextFiled("(优惠券or现金)", 269, 720, 35, 0xffffff);
+        ljDisplay.addChild(text1);
+        var text2 = createTextFiled("恭喜你获奖，请火速前来领取", 170, 778, 30, 0xffffff);
+        ljDisplay.addChild(text2);
+        var text3 = createTextFiled("领取地点：", 102, 850, 30, 0xffffff);
+        ljDisplay.addChild(text3);
+        var text4 = createTextFiled("领取方式：", 102, 925, 30, 0xffffff);
+        ljDisplay.addChild(text4);
+        var text5 = createTextFiled("xxxxx省x市xxx路", 253, 850, 30, 0xffffff, "left", 360, 80, "", false, 0x000000, true);
+        ljDisplay.addChild(text5);
+        var text6 = createTextFiled("2020年12月25日-30日到现场领取", 253, 925, 30, 0xffffff, "left", 360, 80, "", false, 0x000000, true);
+        ljDisplay.addChild(text6);
+        text1.bold = true;
+        text2.bold = true;
+        text3.bold = true;
+        text4.bold = true;
+        text5.bold = true;
+        text6.bold = true;
+        //可点击对象
+        lq_btn.touchEnabled = true;
+        ljDisplay.touchEnabled = true;
+        //点击领取按钮事件
+        var This = this;
+        lq_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            jptext.text = Main.zpname;
+            egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
+                egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300)
+            })
+            egret.Tween.get(ljDisplay)
+                .to({ y: 148 }, 500);
+        }, this)
+
+        ljDisplay.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            egret.Tween.get(zj_title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
+                egret.Tween.get(title).to({ scaleX: 1, scaleY: 1 }, 300)
+            })
+            egret.Tween.get(ljDisplay)
+                .to({ y: 1206 }, 500);
+        }, this)
+
+
+
+        var onoff = true;
+        this.laohuji.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+
+            if (Main.laohujiButOnoff) {
+                title.touchEnabled=false;
+                lq_btn.touchEnabled=false;
+                Main.laohujiButOnoff = false;
+                this.rockeer_mp3.play(0, 1);
+
+               egret.Tween.get(this.rocker).to({ rotation: -50 }, 600).to({ rotation: 0 }, 400).call(function () {
+                    this.soundChannel = this.laohuji_mp3.play(0, 1);
+                    egret.Tween.get(this.laohuji, { loop: true }).to({ y: 354, }, 100).to({ y: 339 }, 100).to({ y: 345, x: this.laohuji.x - 5 }, 100).to({ y: 330 }, 100).to({ y: 350, x: this.laohuji.x + 5 }, 100).to({ y: 339 }, 100);
+                    egret.Tween.get(this.rocker, { loop: true }).to({ y: 350 }, 100).to({ y: 339 }, 100).to({ y: 350 }, 100).to({ y: 339 }, 100).to({ y: 350 }, 100).to({ y: 339 }, 100);
+
+                    for(var i=0;i<this.balls.length;i++){
+                     var b = this.balls[i];
+                     egret.Tween.get(b, { loop: false }).to({ x : this.random_num(this.topX,this.bottomX) , y : this.random_num(this.topY,this.bottomY)}, 800).to({ x : this.random_num(this.topX,this.bottomX) , y : this.random_num(this.topY,this.bottomY)}, 800).to({ x : this.random_num(this.topX,this.bottomX) , y : this.random_num(this.topY,this.bottomY)}, 800).to({ x : this.random_num(this.topX,this.bottomX) , y : this.random_num(this.topY,this.bottomY)}, 800).call(function(){
+                            if(i==this.balls.length && this.isFinishSpin){
+                                this.isFinishSpin = false;
+                                console.log(i,this.balls.length)
+                                egret.Tween.pauseTweens(this.laohuji);
+                                egret.Tween.pauseTweens(this.rocker);
+                                this.soundChannel.stop();
+                                egret.Tween.get(this.balls[this.random_num(0,this.balls.length-1)],{loop:false}).to({x:375,y:this.bottomY + 100,scaleX : 2.5,scaleY : 2.5},1000).to({},1000).call(function(){
+                                        jptext.text = "优惠券$300";
+                                        egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
+                                            egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300)
+                                        })
+                                        egret.Tween.get(ljDisplay)
+                                            .to({ y: 148 }, 500);
+                                },this);
+                            }
+                  },this); 
+                    }
+
+                }, this);
+                //this.Mask(this.shpBeMask1, 100, 0, 5, x1);
+                //this.Mask(this.shpBeMask2, 500, 0, 8, x2);
+                //this.Mask(this.shpBeMask3, 500, 0, 10, x3);
+            }
+        }, this)
+
+    }
+    private Mask(mask, time, j, num, x) {
+        egret.Tween.get(mask).to({ y: 290 }, time).call(function () {
+            mask.y = 695;
+            j++;
+            if (j < num) {
+                time *= .9;
+                time < 30 ? time = 30 : time = time;
+            } else {
+                time *= 1.1;
+                time > 1000 ? time = 1000 : time = time;
+            }
+            if (time >= 1000) {
+                egret.Tween.pauseTweens(mask);
+                if (x * 135 + 290 == 695) {
+                    egret.Tween.get(mask).to({ y: (x * 135 + 290) }, 100).call(function () {
+                        this.dd.play(0, 1);
+                        this.num++;
+                        if (this.num == 1) {
+                            egret.Tween.pauseTweens(this.laohuji);
+                            egret.Tween.pauseTweens(this.rocker);
+                            this.title.touchEnabled=true;
+                            this.lq_btn.touchEnabled=true;
+                        }
+                    }.bind(this));
+                } else {
+                    egret.Tween.get(mask).to({ y: (x * 135 + 290) }, 1500).call(function () {
+                        this.dd.play(0, 1);
+                        this.num++;
+                        if (this.num == 1) {
+                            egret.Tween.pauseTweens(this.laohuji);
+                            egret.Tween.pauseTweens(this.rocker);
+                            this.laohuji.x = 30;
+                            this.laohuji.y = 339;
+                            this.title.touchEnabled=true;
+                            this.lq_btn.touchEnabled=true;
+                        }
+                    }.bind(this));
+                }
+
+            } else {
+                this.Mask(mask, time, j, num, x);
+            }
+
+        }.bind(this));
+    }
+
+    private random_num(min:number,max:number){
+        let Range = max - min;  
+        let Rand = Math.random();  
+        return (min + Math.round(Rand * Range));  
+    }
+
+    private done(){
+        for(var i=0;i<this.balls.length;i++){
+            console.log(i);
+        }
+    }
+
+}
