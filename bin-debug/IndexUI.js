@@ -45,8 +45,9 @@ var IndexUI = (function (_super) {
         }, this);
         bell.touchEnabled = true;
         //袜子
-        var sock = createBitmap("index_sock_png", 556, 176);
-        this.addChild(sock);
+        var gameRule = createBitmap("index_sock_png", 556, 176);
+        this.addChild(gameRule);
+        gameRule.touchEnabled = true;
         //背景树
         var tree = createBitmap("index_mine_png", 556, 276);
         this.addChild(tree);
@@ -76,12 +77,12 @@ var IndexUI = (function (_super) {
         var fawn2 = createBitmap("index_fawn_2_png", 190, 820);
         this.addChild(fawn2);
         //我的奖品
-        var Prize = createBitmap("ingdex_Prize_jpg", 543, 1011);
-        if (Main.jp_onoff) {
-            this.addChild(Prize);
-        }
-        Prize.touchEnabled = true;
-        Prize.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        // var Prize = createBitmap("index_mine_png", 543, 1011);
+        // if(Main.jp_onoff){
+        //     this.addChild(Prize);
+        // }
+        tree.touchEnabled = true;
+        tree.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             Main.mask_onoff = true;
             var receiveui = ScenceManage.create(this.stage);
             receiveui.loadScence("ResultUI", this, ReceiveUI);
@@ -102,45 +103,43 @@ var IndexUI = (function (_super) {
         // this.addChild(scoreText);
         // scoreText.touchEnabled = true;
         //游戏规则弹窗
-        // var mask = createBitmap("rule_jpg", 375, 603);
-        // this.addChild(mask);
-        // mask.visible = false;   //隐藏对象
-        // mask.scaleX = 0;
-        // mask.scaleY = 0;
-        // mask.anchorOffsetX = mask.width * .5;
-        // mask.anchorOffsetY = mask.height * .5;
-        // //游戏规则弹窗里面的圣诞老头
-        // var old_man = createBitmap("old_man_png", 750, 1000);
+        var mask = createBitmap("rule_jpg", 375, 603);
+        mask.touchEnabled = true;
+        mask.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            egret.Tween.get(mask).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
+                start_btn.touchEnabled = true;
+                mask.visible = false;
+            }, this);
+        }, this);
+        this.addChild(mask);
+        mask.visible = false; //隐藏对象
+        mask.scaleX = 0;
+        mask.scaleY = 0;
+        mask.anchorOffsetX = mask.width * .5;
+        mask.anchorOffsetY = mask.height * .5;
+        //游戏规则弹窗里面的圣诞老头
+        var old_man = createBitmap("old_man_png", 750, 1000);
         // this.addChild(old_man);
         // old_man.visible = false;
-        // //点击显示/隐藏游戏规则弹出窗
-        // scoreText.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-        //     this.textColor = 0x000000;
-        //     // scoreText. = 0xbf0c21;
-        //     if (mask.visible == false) {
-        //         start_btn.touchEnabled = false;
-        //         mask.visible = true;            //显示游戏规则弹窗
-        //         egret.Tween.get(Prize).to({ x: 750 }, 300).call(function () {
-        //             Prize.visible = false;      //将我的奖品移出页面可见
-        //         }, this);
-        //         egret.Tween.get(mask).to({ scaleX: 1, scaleY: 1 }, 500).call(function () {
-        //             old_man.visible = true;     //老头从右边不可见出缓慢移动到可见出
-        //             egret.Tween.get(old_man).to({ x: 500 }, 1000).call(function () {
-        //             }, this);
-        //         }, this);
-        //     } else {
-        //         start_btn.touchEnabled = true;
-        //         egret.Tween.get(mask).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
-        //             mask.visible = false;
-        //             egret.Tween.get(old_man).to({ x: 750 }, 300).call(function () {
-        //                 old_man.visible = false;
-        //                 Prize.visible = true;
-        //                 egret.Tween.get(Prize).to({ x: 543 }, 1000).call(function () {
-        //                 }, this);
-        //             }, this);
-        //         }, this);
-        //     }
-        // }, this);
+        //点击显示/隐藏游戏规则弹出窗
+        gameRule.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            //this.textColor = 0x000000;
+            // scoreText. = 0xbf0c21;
+            if (mask.visible == false) {
+                start_btn.touchEnabled = false;
+                mask.visible = true; //显示游戏规则弹窗
+                egret.Tween.get(tree).to({ x: 750 }, 300).call(function () {
+                    tree.visible = false; //将我的奖品移出页面可见
+                }, this);
+                egret.Tween.get(mask).to({ scaleX: 1, scaleY: 1 }, 500).call(function () { }, this);
+            }
+            else {
+                start_btn.touchEnabled = true;
+                egret.Tween.get(mask).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
+                    mask.visible = false;
+                }, this);
+            }
+        }, this);
         //下滑线
         // var Line = drawReactShape("", 306, 1172, 140, 2, 0x717171);
         // this.addChild(Line);

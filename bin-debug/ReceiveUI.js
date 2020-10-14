@@ -20,6 +20,7 @@ var ReceiveUI = (function (_super) {
         _this.laohujiBasePos = 230;
         _this.lotteryExitBasePos = 505;
         _this.shockRange = [6, -5, 8, -3, 4, -7];
+        _this.isRegistPopUp = false;
         _this.ballMap = [
             //small
             { src: "gift9_png", size: 50, x: 200, y: 650 },
@@ -160,6 +161,23 @@ var ReceiveUI = (function (_super) {
         content.y = 288;
         content.x = 95;
         ljDisplay.addChild(content);
+        // 添加注册登录也页面
+        var loginRegist = createBitmap("login_regist_jpg", 375, 603);
+        loginRegist.width = this.$stage.width;
+        loginRegist.height = this.$stage.height * 0.5;
+        loginRegist.scaleX = 0;
+        loginRegist.scaleY = 0;
+        loginRegist.anchorOffsetX = loginRegist.width * .5;
+        loginRegist.anchorOffsetY = loginRegist.height * .5;
+        this.addChildAt(loginRegist, 999);
+        loginRegist.touchEnabled = true;
+        loginRegist.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (this.isRegistPopUp) {
+                egret.Tween.get(loginRegist)
+                    .to({ scaleX: 0, scaleY: 0 }, 500);
+                this.isRegistPopUp = false;
+            }
+        }, this);
         //
         var jptext = createTextFiled(Main.zpname, 195, 450, 50, 0xff0000);
         ljDisplay.addChild(jptext);
@@ -170,6 +188,14 @@ var ReceiveUI = (function (_super) {
         var text4 = createTextFiled("领取方式：", 102, 850, 30, 0xffffff);
         ljDisplay.addChild(text4);
         var Rec = crawReactShape(null, 253, 830, 360, 80, 0xffffff, 0xfffff, 2);
+        Rec.touchEnabled = true;
+        Rec.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (!this.isRegistPopUp) {
+                egret.Tween.get(loginRegist)
+                    .to({ scaleX: 1, scaleY: 1 }, 500);
+                this.isRegistPopUp = true;
+            }
+        }, this);
         ljDisplay.addChild(Rec);
         var text6 = createTextFiled("登录/注册 领取", 253, 850, 30, 0x000, "center", 360, 80, "", false, 0x000000, true);
         ljDisplay.addChild(text6);
@@ -227,8 +253,7 @@ var ReceiveUI = (function (_super) {
                                 this.addChild(randomBall);
                                 egret.Tween.get(randomBall).to({ y: 1000, scaleX: 2, scaleY: 2 }, 500).to({}, 500).call(function () {
                                     //完毕
-                                    randomBall.scaleX = 0;
-                                    randomBall.scaleY = 0;
+                                    randomBall.visible = false;
                                     jptext.text = this.randomPriceText();
                                     egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
                                         egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300);
