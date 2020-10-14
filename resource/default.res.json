@@ -1,11 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "zhadan2_png,zhadan1_png,yuanhu_bg_png,wazi3_png,wazi2_png,wazi1_png,start_btn_png,start_bg_jpg,start_2_jpg,maozi2_png,maozi1_png,logo9_png,logo8_png,logo7_png,logo6_png,logo5_png,logo4_png,logo3_png,logo2_png,logo10_png,logo1_png,loading_rec_png,loading_blue_png,loading_bg_png,liwu1_png,lingdan1_png,lindang2_png,gift9_png,gift8_png,gift7_png,gift6_png,gift5_png,gift4_png,gift3_png,gift2_png,gift10_png,gift1_png,gameEnd_2_jpg,gameEnd_1_jpg,fenxiang_03_jpg,end_jpg,egret_icon_png,continue_game_png,bottom_bg_png,bg_jpg,old_png,award_png,oi_png,tow_png,four_btnpink_png,seven_btnblue_png,four_stan_png,four_bgimg_png,btn_green_png,seven_gameover_png,jx_game_jpg,seven_bgmsg_png,seven_share_png,fun_title_png,music_mp3,dd_mp3,far_mp3,readyGo_mp3,defeated_mp3,win_mp3,click_mp3,bruise_mp3,laohuji_bak_png,title_bak_png,index_title_bak_png,lottery_box2_png,asuzx-doomm2_png,bg_png,bg_old_jpg,common_bg_old_png,diban_old_png,gift9_old_png,index_bg_png,index_bg1_jpg,index_fawn_1_old_png,index_hand_old_png,index_handgift_old_png,index_iceflat_old_png,index_man_old_png,index_mine_png,start_btn_old_png",
+			"keys": "zhadan2_png,zhadan1_png,yuanhu_bg_png,wazi3_png,wazi2_png,wazi1_png,start_btn_png,start_bg_jpg,start_2_jpg,maozi2_png,maozi1_png,logo9_png,logo8_png,logo7_png,logo6_png,logo5_png,logo4_png,logo3_png,logo2_png,logo10_png,logo1_png,loading_rec_png,loading_blue_png,loading_bg_png,liwu1_png,lingdan1_png,lindang2_png,gift9_png,gift8_png,gift7_png,gift6_png,gift5_png,gift4_png,gift3_png,gift2_png,gift10_png,gift1_png,gameEnd_2_jpg,gameEnd_1_jpg,fenxiang_03_jpg,end_jpg,egret_icon_png,continue_game_png,bottom_bg_png,bg_jpg,old_png,award_png,oi_png,tow_png,four_btnpink_png,seven_btnblue_png,four_stan_png,four_bgimg_png,btn_green_png,seven_gameover_png,jx_game_jpg,seven_bgmsg_png,seven_share_png,fun_title_png,music_mp3,dd_mp3,far_mp3,readyGo_mp3,defeated_mp3,win_mp3,click_mp3,bruise_mp3,laohuji_bak_png,title_bak_png,lottery_box2_png,asuzx-doomm2_png,bg_png,bg_old_jpg,common_bg_old_png,diban_old_png,gift9_old_png,index_bg_png,index_bg1_jpg,index_mine_png,index_title_2_png",
 			"name": "preload"
 		},
 		{
-			"keys": "index_handgift_png,index_iceflat_png,index_man_png,index_title_png,index_tree_png,ingdex_Prize_jpg,music_logo_png,old_man_png,index_sock_png,rule_jpg,start_btn_png,index_bg_jpg,index_bell_png,index_fawn_png,index_gift_png,snowflake_png,music_mp3,common_bg_png,diban_png,dd_mp3,dog_mp3,index_fawn_1_png,index_fawn_2_png,index_hand_png",
+			"keys": "index_handgift_png,index_iceflat_png,index_man_png,index_title_png,ingdex_Prize_jpg,music_logo_png,old_man_png,index_sock_png,index_mine_png,rule_jpg,start_btn_png,index_bg_jpg,index_bell_png,index_gift_png,snowflake_png,music_mp3,common_bg_png,diban_png,dd_mp3,dog_mp3",
 			"name": "index"
 		},
 		{
@@ -734,11 +734,6 @@
 			"name": "index_title_png"
 		},
 		{
-			"url": "assets/index_tree.png",
-			"type": "image",
-			"name": "index_tree_png"
-		},
-		{
 			"url": "assets/ingdex_Prize.jpg",
 			"type": "image",
 			"name": "ingdex_Prize_jpg"
@@ -759,6 +754,11 @@
 			"name": "index_sock_png"
 		},
 		{
+			"url": "assets/index_mine.png",
+			"type": "image",
+			"name": "index_mine_png"
+		},
+		{
 			"url": "assets/rule.jpg",
 			"type": "image",
 			"name": "rule_jpg"
@@ -772,11 +772,6 @@
 			"url": "assets/index_bell.png",
 			"type": "image",
 			"name": "index_bell_png"
-		},
-		{
-			"url": "assets/index_fawn.png",
-			"type": "image",
-			"name": "index_fawn_png"
 		},
 		{
 			"url": "assets/index_gift.png",
@@ -914,21 +909,6 @@
 			"name": "dog_mp3"
 		},
 		{
-			"url": "assets/index_fawn_1.png",
-			"type": "image",
-			"name": "index_fawn_1_png"
-		},
-		{
-			"url": "assets/index_fawn_2.png",
-			"type": "image",
-			"name": "index_fawn_2_png"
-		},
-		{
-			"url": "assets/index_hand.png",
-			"type": "image",
-			"name": "index_hand_png"
-		},
-		{
 			"url": "assets/qidong.png",
 			"type": "image",
 			"name": "qidong_png"
@@ -957,11 +937,6 @@
 			"name": "title_bak_png",
 			"type": "image",
 			"url": "assets/title_bak.png"
-		},
-		{
-			"name": "index_title_bak_png",
-			"type": "image",
-			"url": "assets/index_title_bak.png"
 		},
 		{
 			"name": "lottery_box2_png",
@@ -1009,26 +984,6 @@
 			"url": "assets/index_bg1.jpg"
 		},
 		{
-			"name": "index_fawn_1_old_png",
-			"type": "image",
-			"url": "assets/index_fawn_1_old.png"
-		},
-		{
-			"name": "index_hand_old_png",
-			"type": "image",
-			"url": "assets/index_hand_old.png"
-		},
-		{
-			"name": "index_handgift_old_png",
-			"type": "image",
-			"url": "assets/index_handgift_old.png"
-		},
-		{
-			"name": "index_iceflat_old_png",
-			"type": "image",
-			"url": "assets/index_iceflat_old.png"
-		},
-		{
 			"name": "index_man_old_png",
 			"type": "image",
 			"url": "assets/index_man_old.png"
@@ -1039,9 +994,9 @@
 			"url": "assets/index_mine.png"
 		},
 		{
-			"name": "start_btn_old_png",
+			"name": "index_title_2_png",
 			"type": "image",
-			"url": "assets/start_btn_old.png"
+			"url": "assets/index_title_2.png"
 		}
 	]
 }

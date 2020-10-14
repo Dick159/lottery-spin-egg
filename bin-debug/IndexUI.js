@@ -23,7 +23,7 @@ var IndexUI = (function (_super) {
         diban.y = 842;
         this.addChild(diban);
         //标题
-        var title = createBitmap("index_title_png", 0, 100);
+        var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
         //铃铛
         //声音
@@ -45,10 +45,10 @@ var IndexUI = (function (_super) {
         }, this);
         bell.touchEnabled = true;
         //袜子
-        var sock = createBitmap("index_sock_png", 656, 206);
+        var sock = createBitmap("index_sock_png", 556, 176);
         this.addChild(sock);
         //背景树
-        var tree = createBitmap("index_tree_png", 50, 595);
+        var tree = createBitmap("index_mine_png", 556, 276);
         this.addChild(tree);
         //人物的手
         // var hand = createBitmap("index_hand_png",308,740);
@@ -58,14 +58,14 @@ var IndexUI = (function (_super) {
         // hand.rotation=-15;
         // egret.Tween.get(hand,{loop:true}).to({rotation:0},250).to({rotation:-15},500).to({rotation:-15},750).to({rotation:-15},1000)
         //人物
-        var man = createBitmap("index_man_png", 80, 290);
+        var man = createBitmap("index_man_png", 70, 180);
         this.addChild(man);
         //手上的礼物
-        var handgift = createBitmap("index_handgift_png", 190, 610);
+        var handgift = createBitmap("index_handgift_png", 350, 610);
         this.addChild(handgift);
         handgift.anchorOffsetX = handgift.width * .5;
         handgift.anchorOffsetY = handgift.height * .5;
-        egret.Tween.get(handgift, { loop: true }).to({ y: 560 }, 200).to({ y: 400 }, 800).to({ y: 440 }, 150).to({ y: 600 }, 350).to({ y: 600 }, 1000);
+        egret.Tween.get(handgift, { loop: true }).to({ y: 560 }, 200).to({ y: 480 }, 800).to({ y: 520 }, 150).to({ y: 600 }, 350).to({ y: 600 }, 1000);
         egret.Tween.get(handgift, { loop: true }).to({ rotation: -90 }, 200).to({ rotation: -720 }, 800).to({ rotation: -720 }, 500).to({ rotation: -720 }, 1000);
         //鹿
         //声音
@@ -89,7 +89,7 @@ var IndexUI = (function (_super) {
         //开始游戏按钮
         // var start_btn = createButton(273, 1034, 210, 70, 0x299a0e, 0xffffff, "开始游戏", 0xbf0c21, 0xffffff);
         // this.addChild(start_btn);
-        var start_btn = createBitmap("start_btn_png", 276, 1038);
+        var start_btn = createBitmap("start_btn_png", 230, 1095);
         this.addChild(start_btn);
         start_btn.touchEnabled = true;
         start_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {

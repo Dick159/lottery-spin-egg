@@ -147,7 +147,7 @@ class Main extends egret.DisplayObjectContainer {
         var index=new IndexUI();
         this.stage.addChild(index);
         //音乐图标__可做点击播放/暂停
-        var music_logo = createBitmap("music_logo_png",80,50);
+        var music_logo = createBitmap("music_logo_png",55, 350);
         this.addChild(music_logo);
         music_logo.anchorOffsetX = 65*.5;
         music_logo.anchorOffsetY = 65*.5;
