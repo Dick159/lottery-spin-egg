@@ -303,8 +303,31 @@ class ReceiveUI extends egret.Sprite {
     }
 
     private randomPriceText(){
-        var text = this.random_num(0,1000) + " Coins Prize"
-        return text;
+        var prizes = [1,3,10,100,'DD $100'];
+        var rI = this.random_num(0,101);
+        // if(rI > 95){
+        //     return "DD $100 Prize!";
+        // }else if(rI > 80 && rI <= 95)(
+        //     return "Oxx 100";
+        // )else if(rI > 60 && rI <=80){
+        //       return "Oxx 10 Coins";
+        // }else if(rI > 40 && rI <= 60){
+        //      return "Oxx 3 Coins";
+        // }else{
+        //     return "Oxx 1 Coins";
+        // }
+        if(rI > 99){
+            return "DD $100 Prize!";;
+        }
+        else if( rI > 90 && rI <= 99){
+            return "Oxx 100 Coins";
+        }else if(rI > 80 && rI <= 90){
+             return "Oxx 10 Coins";
+        }else if(rI > 60 && rI <= 80){
+            return "Oxx 3 Coins";
+        }else{
+             return "Oxx 1 Coins";
+        }
     }
 
     private Mask(mask, time, j, num, x) {

@@ -5,7 +5,7 @@
 			"name": "preload"
 		},
 		{
-			"keys": "index_handgift_png,index_iceflat_png,index_man_png,index_title_png,ingdex_Prize_jpg,music_logo_png,old_man_png,index_sock_png,index_mine_png,rule_jpg,start_btn_png,index_bg_jpg,index_bell_png,index_gift_png,snowflake_png,music_mp3,common_bg_png,diban_png,dd_mp3,dog_mp3",
+			"keys": "index_handgift_png,index_iceflat_png,index_man_png,index_title_png,ingdex_Prize_jpg,music_logo_png,old_man_png,index_sock_png,index_mine_png,rule_jpg,start_btn_png,index_bg_jpg,index_bell_png,index_gift_png,snowflake_png,music_mp3,common_bg_png,diban_png,dd_mp3",
 			"name": "index"
 		},
 		{
@@ -892,11 +892,6 @@
 			"url": "assets/bruise.mp3",
 			"type": "sound",
 			"name": "bruise_mp3"
-		},
-		{
-			"url": "assets/dog.mp3",
-			"type": "sound",
-			"name": "dog_mp3"
 		},
 		{
 			"url": "assets/qidong.png",

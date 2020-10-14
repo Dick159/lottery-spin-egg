@@ -31,7 +31,7 @@ class IndexUI extends egret.Sprite {
                 dd.play(0,1);
                 egret.Tween.get(bell).to({ rotation: -30 }, 300).call(function () {
                     bell.rotation=0;
-                    dog.play(0,1);
+                    //dog.play(0,1);
                     egret.Tween.get(fawn2).to({ alpha: 0 }, 300).to({alpha: 1},300).to({alpha: 0},300).call(function () {
                         fawn2.alpha=1;
                      }.bind(this));
@@ -70,8 +70,8 @@ class IndexUI extends egret.Sprite {
 
         //鹿
         //声音
-        var dog = new egret.Sound;
-        dog.load("resource/assets/dog.mp3");
+        // var dog = new egret.Sound;
+        // dog.load("resource/assets/dog.mp3");
         var fawn = createBitmap("index_fawn_1_png", 40, 725);
         this.addChild(fawn);
         var fawn2 = createBitmap("index_fawn_2_png", 190, 820);
