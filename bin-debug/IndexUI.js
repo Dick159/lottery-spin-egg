@@ -51,14 +51,14 @@ var IndexUI = (function (_super) {
         var tree = createBitmap("index_tree_png", 50, 595);
         this.addChild(tree);
         //人物的手
-        var hand = createBitmap("index_hand_png", 308, 740);
-        this.addChild(hand);
-        hand.anchorOffsetX = hand.width;
-        hand.anchorOffsetY = hand.height;
-        hand.rotation = -15;
-        egret.Tween.get(hand, { loop: true }).to({ rotation: 0 }, 250).to({ rotation: -15 }, 500).to({ rotation: -15 }, 750).to({ rotation: -15 }, 1000);
+        // var hand = createBitmap("index_hand_png",308,740);
+        // this.addChild(hand);        
+        // hand.anchorOffsetX = hand.width;
+        // hand.anchorOffsetY = hand.height;
+        // hand.rotation=-15;
+        // egret.Tween.get(hand,{loop:true}).to({rotation:0},250).to({rotation:-15},500).to({rotation:-15},750).to({rotation:-15},1000)
         //人物
-        var man = createBitmap("index_man_png", 248, 290);
+        var man = createBitmap("index_man_png", 80, 290);
         this.addChild(man);
         //手上的礼物
         var handgift = createBitmap("index_handgift_png", 190, 610);

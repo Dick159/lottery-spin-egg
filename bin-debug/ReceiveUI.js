@@ -12,15 +12,46 @@ var ReceiveUI = (function (_super) {
         var _this = _super.call(this) || this;
         _this.num = 0;
         _this.balls = [];
-        _this.topX = 150;
-        _this.topY = 650;
-        _this.bottomX = 600;
-        _this.bottomY = 850;
+        _this.topX = 10;
+        _this.topY = 100;
+        _this.bottomX = -10;
+        _this.bottomY = -50;
         _this.isFinishSpin = true;
+        _this.laohujiBasePos = 230;
+        _this.lotteryExitBasePos = 505;
+        _this.shockRange = [6, -5, 8, -3, 4, -7];
+        _this.ballMap = [
+            //small
+            { src: "gift9_png", size: 50, x: 200, y: 650 },
+            { src: "gift10_png", size: 50, x: 270, y: 600 },
+            { src: "gift9_png", size: 50, x: 350, y: 550 },
+            { src: "gift9_png", size: 50, x: 450, y: 650 },
+            //medium
+            { src: "gift10_png", size: 80, x: 250, y: 700 },
+            { src: "gift9_png", size: 80, x: 280, y: 600 },
+            { src: "gift10_png", size: 80, x: 380, y: 580 },
+            { src: "gift10_png", size: 80, x: 450, y: 620 },
+            //big
+            { src: "gift9_png", size: 120, x: 400, y: 700 },
+            { src: "gift10_png", size: 120, x: 500, y: 690 },
+            { src: "gift9_png", size: 120, x: 350, y: 680 },
+            { src: "gift9_png", size: 120, x: 570, y: 630 }
+        ];
         //this.createView();
         _this.once(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
         return _this;
     }
+    ReceiveUI.prototype.createLotteryBall = function (src, size, x, y) {
+        //var ball = createBitmap("gift" + ( 9 + (i%2)).toString() + "_png");
+        var ball = createBitmap(src);
+        ball.width = size;
+        ball.height = size;
+        ball.x = x;
+        ball.y = y;
+        ball.anchorOffsetX = ball.width * .5;
+        ball.anchorOffsetY = ball.height * .5;
+        return ball;
+    };
     ReceiveUI.prototype.createView = function () {
         this.width = 750;
         this.height = 1206;
@@ -28,7 +59,7 @@ var ReceiveUI = (function (_super) {
         // var bg=createBitmap("zj_bg_png");
         // this.addChild(bg);
         //添加标题
-        var title = createBitmap("title_png");
+        var title = createBitmap("index_title_png");
         title.anchorOffsetX = title.width * .5;
         title.anchorOffsetY = title.height * .5;
         title.x = 18 + title.width * .5;
@@ -55,16 +86,22 @@ var ReceiveUI = (function (_super) {
         diban.y = 842;
         this.addChild(diban);
         //添加老虎机的启动杆
-        this.rocker = createBitmap("qidong_png", 320, 339);
-        this.addChild(this.rocker);
-        this.rocker.anchorOffsetX = 0;
-        this.rocker.anchorOffsetY = this.rocker.height;
+        // this.rocker = createBitmap("qidong_png", 320, 339);
+        // this.addChild(this.rocker);
+        // this.rocker.anchorOffsetX = 0;
+        // this.rocker.anchorOffsetY = this.rocker.height;
+        // this.rocker.touchEnabled = true;
         //添加老虎机
-        this.laohuji = createBitmap("laohuji_png");
+        this.laohuji = createBitmap("lottery_box2_png");
         this.laohuji.x = 30;
-        this.laohuji.y = 339;
+        this.laohuji.y = this.laohujiBasePos;
         this.addChild(this.laohuji);
         this.laohuji.touchEnabled = true;
+        //出奖口
+        this.lotteryExit = createBitmap("asuzx-doomm_png");
+        this.lotteryExit.x = 20;
+        this.lotteryExit.y = 505;
+        //this.addChild(this.lotteryExit);
         //声音
         this.dd = new egret.Sound;
         this.dd.load("resource/assets/dd.mp3");
@@ -74,20 +111,15 @@ var ReceiveUI = (function (_super) {
         //老虎机声音
         this.laohuji_mp3 = new egret.Sound;
         this.laohuji_mp3.load("resource/assets/jiqi.mp3");
-        //(150,650)  (600,850)
-        for (var i = 0; i < 2; i++) {
-            for (var j = 0; j < ((600 - 150) / 50) - i * 2; j++) {
-                var ball = createBitmap("gift" + (9 + (j % 2)).toString() + "_png");
-                ball.x = 150 + (j * 50) + (i * 50);
-                ball.y = 850 - (i * 50);
-                ball.width = 50;
-                ball.height = 50;
-                ball.anchorOffsetX = ball.width * .5;
-                ball.anchorOffsetY = ball.height * .5;
-                this.addChild(ball);
-                this.balls.push(ball);
-            }
+        for (var _i = 0, _a = this.ballMap; _i < _a.length; _i++) {
+            var ball = _a[_i];
+            var obj = this.createLotteryBall(ball.src, ball.size, ball.x, ball.y);
+            this.addChild(obj);
+            this.balls.push(obj);
         }
+        //this.addChild(this.laohuji);
+        this.addChild(this.lotteryExit);
+        this.addChild(this.laohuji);
         //添加领取按钮
         var lq_btn = createBitmap("lingq_btn_png");
         lq_btn.x = 171;
@@ -175,32 +207,46 @@ var ReceiveUI = (function (_super) {
                 title.touchEnabled = false;
                 lq_btn.touchEnabled = false;
                 Main.laohujiButOnoff = false;
+                this.isFinishSpin = true;
                 this.rockeer_mp3.play(0, 1);
-                egret.Tween.get(this.rocker).to({ rotation: -50 }, 600).to({ rotation: 0 }, 400).call(function () {
-                    this.soundChannel = this.laohuji_mp3.play(0, 1);
-                    egret.Tween.get(this.laohuji, { loop: true }).to({ y: 354, }, 100).to({ y: 339 }, 100).to({ y: 345, x: this.laohuji.x - 5 }, 100).to({ y: 330 }, 100).to({ y: 350, x: this.laohuji.x + 5 }, 100).to({ y: 339 }, 100);
-                    egret.Tween.get(this.rocker, { loop: true }).to({ y: 350 }, 100).to({ y: 339 }, 100).to({ y: 350 }, 100).to({ y: 339 }, 100).to({ y: 350 }, 100).to({ y: 339 }, 100);
-                    for (var i = 0; i < this.balls.length; i++) {
-                        var b = this.balls[i];
-                        egret.Tween.get(b, { loop: false }).to({ x: this.random_num(this.topX, this.bottomX), y: this.random_num(this.topY, this.bottomY) }, 800).to({ x: this.random_num(this.topX, this.bottomX), y: this.random_num(this.topY, this.bottomY) }, 800).to({ x: this.random_num(this.topX, this.bottomX), y: this.random_num(this.topY, this.bottomY) }, 800).to({ x: this.random_num(this.topX, this.bottomX), y: this.random_num(this.topY, this.bottomY) }, 800).call(function () {
-                            if (i == this.balls.length && this.isFinishSpin) {
-                                this.isFinishSpin = false;
-                                console.log(i, this.balls.length);
-                                egret.Tween.pauseTweens(this.laohuji);
-                                egret.Tween.pauseTweens(this.rocker);
-                                this.soundChannel.stop();
-                                egret.Tween.get(this.balls[this.random_num(0, this.balls.length - 1)], { loop: false }).to({ x: 375, y: this.bottomY + 100, scaleX: 2.5, scaleY: 2.5 }, 1000).to({}, 1000).call(function () {
+                this.soundChannel = this.laohuji_mp3.play(0, 1);
+                egret.Tween.get(this.laohuji, { loop: true }).to({ y: this.laohujiBasePos + this.shockRange[0] }, 100).to({ y: this.laohujiBasePos + this.shockRange[1] }, 100).to({ y: this.laohujiBasePos + this.shockRange[2], x: this.laohuji.x - 5 }, 100).to({ y: this.laohujiBasePos + this.shockRange[3] }, 100).to({ y: this.laohujiBasePos + this.shockRange[4], x: this.laohuji.x + 5 }, 100).to({ y: this.laohujiBasePos }, 100);
+                egret.Tween.get(this.lotteryExit, { loop: true }).to({ y: this.lotteryExitBasePos + this.shockRange[0] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[1] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[2] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[3] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[4] }, 100).to({ y: this.lotteryExitBasePos }, 100);
+                for (var i = 0; i < this.balls.length; i++) {
+                    var b = this.balls[i];
+                    var ori_x = b.x;
+                    var ori_y = b.y;
+                    egret.Tween.get(b, { loop: false }).to({ x: b.x + this.random_num(this.topX, this.bottomX), y: b.y + this.random_num(this.topY, this.bottomY) }, 800).to({ x: b.x + this.random_num(this.topX, this.bottomX), y: b.y + this.random_num(this.topY, this.bottomY) }, 800).to({ x: b.x + this.random_num(this.topX, this.bottomX), y: b.y + this.random_num(this.topY, this.bottomY) }, 800).to({ x: ori_x, y: ori_y }, 800).call(function () {
+                        if (i == this.balls.length && this.isFinishSpin) {
+                            this.isFinishSpin = false;
+                            //console.log(i,this.balls.length)
+                            egret.Tween.pauseTweens(this.laohuji);
+                            //egret.Tween.pauseTweens(this.rocker);
+                            egret.Tween.pauseTweens(this.lotteryExit);
+                            this.soundChannel.stop();
+                            var randomBall = this.balls[this.random_num(0, this.balls.length - 1)];
+                            randomBall.anchorOffsetX = 50 * .5;
+                            randomBall.anchorOffsetY = 50 * .5;
+                            egret.Tween.get(randomBall, { loop: false }).to({ x: 170, y: 575, width: 50, height: 50 }, 1000).to({ x: 75 }, 300).to({ y: 920 }, 500).to({ x: 240 }, 300).call(function () {
+                                this.addChild(randomBall);
+                                egret.Tween.get(randomBall).to({ y: 1000, scaleX: 2, scaleY: 2 }, 500).to({}, 500).call(function () {
+                                    //完毕
+                                    randomBall.scaleX = 0;
+                                    randomBall.scaleY = 0;
                                     jptext.text = "优惠券$300";
                                     egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
                                         egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300);
                                     });
                                     egret.Tween.get(ljDisplay)
                                         .to({ y: 148 }, 500);
-                                }, this);
-                            }
-                        }, this);
-                    }
-                }, this);
+                                });
+                                this.title.touchEnabled = true;
+                                this.lq_btn.touchEnabled = true;
+                                Main.laohujiButOnoff = true;
+                            }, this);
+                        }
+                    }, this);
+                }
             }
         }, this);
     };
@@ -238,7 +284,7 @@ var ReceiveUI = (function (_super) {
                             egret.Tween.pauseTweens(this.laohuji);
                             egret.Tween.pauseTweens(this.rocker);
                             this.laohuji.x = 30;
-                            this.laohuji.y = 339;
+                            this.laohuji.y = 300;
                             this.title.touchEnabled = true;
                             this.lq_btn.touchEnabled = true;
                         }
