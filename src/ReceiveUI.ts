@@ -181,19 +181,15 @@ class ReceiveUI extends egret.Sprite {
         ljDisplay.addChild(text1);
         var text2 = createTextFiled("恭喜你获奖，请火速前来领取", 170, 778, 30, 0xffffff);
         ljDisplay.addChild(text2);
-        var text3 = createTextFiled("领取地点：", 102, 850, 30, 0xffffff);
-        ljDisplay.addChild(text3);
-        var text4 = createTextFiled("领取方式：", 102, 925, 30, 0xffffff);
+        var text4 = createTextFiled("领取方式：", 102, 850, 30, 0xffffff);
         ljDisplay.addChild(text4);
-        var text5 = createTextFiled("xxxxx省x市xxx路", 253, 850, 30, 0xffffff, "left", 360, 80, "", false, 0x000000, true);
-        ljDisplay.addChild(text5);
-        var text6 = createTextFiled("2020年12月25日-30日到现场领取", 253, 925, 30, 0xffffff, "left", 360, 80, "", false, 0x000000, true);
+        var Rec = crawReactShape(null,253,830,360,80,0xffffff,0xfffff,2);
+        ljDisplay.addChild(Rec);
+        var text6 = createTextFiled("登录/注册 领取", 253, 850, 30, 0x000, "center", 360, 80, "", false, 0x000000, true);
         ljDisplay.addChild(text6);
         text1.bold = true;
         text2.bold = true;
-        text3.bold = true;
         text4.bold = true;
-        text5.bold = true;
         text6.bold = true;
         //可点击对象
         lq_btn.touchEnabled = true;
@@ -254,13 +250,13 @@ class ReceiveUI extends egret.Sprite {
                                                 //完毕
                                         randomBall.scaleX = 0;
                                         randomBall.scaleY = 0;
-                                        jptext.text = "优惠券$300";
+                                        jptext.text = this.randomPriceText();
                                         egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
                                             egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300)
                                         })
                                         egret.Tween.get(ljDisplay)
                                             .to({ y: 148 }, 500);
-                                        });
+                                        },this);
                                         this.title.touchEnabled=true;
                                         this.lq_btn.touchEnabled=true;
                                         Main.laohujiButOnoff = true;
@@ -275,6 +271,12 @@ class ReceiveUI extends egret.Sprite {
         }, this)
 
     }
+
+    private randomPriceText(){
+        var text = this.random_num(0,1000) + " Coins Prize"
+        return text;
+    }
+
     private Mask(mask, time, j, num, x) {
         egret.Tween.get(mask).to({ y: 290 }, time).call(function () {
             mask.y = 695;
