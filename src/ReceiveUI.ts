@@ -19,28 +19,31 @@ class ReceiveUI extends egret.Sprite {
     private soundChannel;
     private isFinishSpin = true;
     private lotteryExit;
-    private laohujiBasePos = 230;
+    private laohujiBasePos = 303;
     private lotteryExitBasePos = 505;
     private shockRange = [6,-5,8,-3,4,-7];
     private isRegistPopUp = false;
-
+    private xLeftBorder = 150;
+    private xRightBorder = 640;
+    private yTopBorder = 460;
+    private yBottomBorder = 770;
     private ballMap = [
-
+        //U: (150,460) D (610,770)
         //small
-        {src:"gift9_png",size:50,x:200,y:650},
-        {src:"gift10_png",size:50,x:270,y:600},
-        {src:"gift9_png",size:50,x:350,y:550},
-        {src:"gift9_png",size:50,x:450,y:650},
-        //medium
-        {src:"gift10_png",size:80,x:250,y:700},
-        {src:"gift9_png",size:80,x:280,y:600},
-        {src:"gift10_png",size:80,x:380,y:580},
-        {src:"gift10_png",size:80,x:450,y:620},
-        //big
-        {src:"gift9_png",size:120,x:400,y:700},
-        {src:"gift10_png",size:120,x:500,y:690},
-        {src:"gift9_png",size:120,x:350,y:680},
-         {src:"gift9_png",size:120,x:570,y:630}
+        {src:"gift9_png",size:50,x:200,y:615},
+        {src:"gift9_png",size:50,x:390,y:660},
+        {src:"gift9_png",size:50,x:495,y:630},
+        {src:"gift9_png",size:50,x:550,y:580},
+        // // //medium
+        {src:"gift9_png",size:80,x:250,y:640},
+        {src:"gift10_png",size:80,x:280,y:720},
+        {src:"gift9_png",size:80,x:380,y:720},
+        {src:"gift10_png",size:80,x:550,y:730},
+        // //big
+        {src:"gift9_png",size:120,x:210,y:710},
+        {src:"gift10_png",size:120,x:330,y:710},
+        {src:"gift9_png",size:120,x:450,y:710},
+        {src:"gift10_png",size:120,x:550,y:650}
     ]
     public constructor() {
         super();
@@ -110,7 +113,7 @@ class ReceiveUI extends egret.Sprite {
 
         //出奖口
         this.lotteryExit = createBitmap("asuzx-doomm_png");
-        this.lotteryExit.x = 20;
+        this.lotteryExit.x = 40;
         this.lotteryExit.y = 505;
 
         //this.addChild(this.lotteryExit);
@@ -264,7 +267,8 @@ class ReceiveUI extends egret.Sprite {
                      var b = this.balls[i];
                      var ori_x = b.x;
                      var ori_y = b.y;
-                     egret.Tween.get(b, { loop: false }).to({ x : b.x + this.random_num(this.topX,this.bottomX) , y : b.y + this.random_num(this.topY,this.bottomY)}, 800).to({ x :b.x + this.random_num(this.topX,this.bottomX) , y : b.y+this.random_num(this.topY,this.bottomY)}, 800).to({ x : b.x + this.random_num(this.topX,this.bottomX) , y : b.y + this.random_num(this.topY,this.bottomY)}, 800).to({ x : ori_x , y : ori_y}, 800).call(function(){
+                     //抖动动画
+                     egret.Tween.get(b, { loop: false }).to({ x : this.randomLimitMoveBoxX(b.width) , y :  this.randomLimitMoveBoxY(b.width)}, 800).to({ x : this.randomLimitMoveBoxX(b.width) , y :  this.randomLimitMoveBoxY(b.width)}, 800).to({ x : this.randomLimitMoveBoxX(b.width) , y :  this.randomLimitMoveBoxY(b.width)}, 800).to({ x : ori_x , y : ori_y}, 800).call(function(){
                             if(i==this.balls.length && this.isFinishSpin){
                                 this.isFinishSpin = false;
                                 //console.log(i,this.balls.length)
@@ -275,9 +279,10 @@ class ReceiveUI extends egret.Sprite {
                                 var randomBall =  this.balls[this.random_num(0,this.balls.length-1)];
                                 randomBall.anchorOffsetX = 50 * .5;
                                 randomBall.anchorOffsetY = 50 * .5;
-                                egret.Tween.get(randomBall,{loop:false}).to({x:170,y:575,width:50,height:50},1000).to({x:75},300).to({y:920},500).to({x:240},300).call(function(){
+                                //出奖
+                                egret.Tween.get(randomBall,{loop:false}).to({x:210,y:900,width:50,height:50},1000).call(function(){
                                         this.addChild(randomBall);
-                                        egret.Tween.get(randomBall).to({y:1000,scaleX:2,scaleY:2},500).to({},500).call(function(){
+                                        egret.Tween.get(randomBall).to({y:960,scaleX:2.5,scaleY:2.5,rotation:360},1000).to({},500).call(function(){
                                                 //完毕
                                         randomBall.visible = false;
                                         jptext.text = this.randomPriceText();
@@ -294,9 +299,6 @@ class ReceiveUI extends egret.Sprite {
                             }
                   },this); 
                     }
-                //this.Mask(this.shpBeMask1, 100, 0, 5, x1);
-                //this.Mask(this.shpBeMask2, 500, 0, 8, x2);
-                //this.Mask(this.shpBeMask3, 500, 0, 10, x3);
             }
         }, this)
 
@@ -305,17 +307,7 @@ class ReceiveUI extends egret.Sprite {
     private randomPriceText(){
         var prizes = [1,3,10,100,'DD $100'];
         var rI = this.random_num(0,101);
-        // if(rI > 95){
-        //     return "DD $100 Prize!";
-        // }else if(rI > 80 && rI <= 95)(
-        //     return "Oxx 100";
-        // )else if(rI > 60 && rI <=80){
-        //       return "Oxx 10 Coins";
-        // }else if(rI > 40 && rI <= 60){
-        //      return "Oxx 3 Coins";
-        // }else{
-        //     return "Oxx 1 Coins";
-        // }
+
         if(rI > 99){
             return "DD $100 Prize!";;
         }
@@ -330,51 +322,59 @@ class ReceiveUI extends egret.Sprite {
         }
     }
 
-    private Mask(mask, time, j, num, x) {
-        egret.Tween.get(mask).to({ y: 290 }, time).call(function () {
-            mask.y = 695;
-            j++;
-            if (j < num) {
-                time *= .9;
-                time < 30 ? time = 30 : time = time;
-            } else {
-                time *= 1.1;
-                time > 1000 ? time = 1000 : time = time;
-            }
-            if (time >= 1000) {
-                egret.Tween.pauseTweens(mask);
-                if (x * 135 + 290 == 695) {
-                    egret.Tween.get(mask).to({ y: (x * 135 + 290) }, 100).call(function () {
-                        this.dd.play(0, 1);
-                        this.num++;
-                        if (this.num == 1) {
-                            egret.Tween.pauseTweens(this.laohuji);
-                            egret.Tween.pauseTweens(this.rocker);
-                            this.title.touchEnabled=true;
-                            this.lq_btn.touchEnabled=true;
-                        }
-                    }.bind(this));
-                } else {
-                    egret.Tween.get(mask).to({ y: (x * 135 + 290) }, 1500).call(function () {
-                        this.dd.play(0, 1);
-                        this.num++;
-                        if (this.num == 1) {
-                            egret.Tween.pauseTweens(this.laohuji);
-                            egret.Tween.pauseTweens(this.rocker);
-                            this.laohuji.x = 30;
-                            this.laohuji.y = 300;
-                            this.title.touchEnabled=true;
-                            this.lq_btn.touchEnabled=true;
-                        }
-                    }.bind(this));
-                }
-
-            } else {
-                this.Mask(mask, time, j, num, x);
-            }
-
-        }.bind(this));
+    private randomLimitMoveBoxX(obj_width){
+        return this.random_num(this.xLeftBorder + obj_width , this.xRightBorder - obj_width );
     }
+
+    private randomLimitMoveBoxY(obj_width){
+        return this.random_num(this.yTopBorder + obj_width , this.yBottomBorder - obj_width );
+    }
+
+    // private Mask(mask, time, j, num, x) {
+    //     egret.Tween.get(mask).to({ y: 290 }, time).call(function () {
+    //         mask.y = 695;
+    //         j++;
+    //         if (j < num) {
+    //             time *= .9;
+    //             time < 30 ? time = 30 : time = time;
+    //         } else {
+    //             time *= 1.1;
+    //             time > 1000 ? time = 1000 : time = time;
+    //         }
+    //         if (time >= 1000) {
+    //             egret.Tween.pauseTweens(mask);
+    //             if (x * 135 + 290 == 695) {
+    //                 egret.Tween.get(mask).to({ y: (x * 135 + 290) }, 100).call(function () {
+    //                     this.dd.play(0, 1);
+    //                     this.num++;
+    //                     if (this.num == 1) {
+    //                         egret.Tween.pauseTweens(this.laohuji);
+    //                         egret.Tween.pauseTweens(this.rocker);
+    //                         this.title.touchEnabled=true;
+    //                         this.lq_btn.touchEnabled=true;
+    //                     }
+    //                 }.bind(this));
+    //             } else {
+    //                 egret.Tween.get(mask).to({ y: (x * 135 + 290) }, 1500).call(function () {
+    //                     this.dd.play(0, 1);
+    //                     this.num++;
+    //                     if (this.num == 1) {
+    //                         egret.Tween.pauseTweens(this.laohuji);
+    //                         egret.Tween.pauseTweens(this.rocker);
+    //                         this.laohuji.x = 30;
+    //                         this.laohuji.y = 300;
+    //                         this.title.touchEnabled=true;
+    //                         this.lq_btn.touchEnabled=true;
+    //                     }
+    //                 }.bind(this));
+    //             }
+
+    //         } else {
+    //             this.Mask(mask, time, j, num, x);
+    //         }
+
+    //     }.bind(this));
+    // }
 
     private random_num(min:number,max:number){
         let Range = max - min;  
