@@ -153,9 +153,5 @@ class IndexUI extends egret.Sprite {
             }
         }, this);
 
-        //下滑线
-        // var Line = drawReactShape("", 306, 1172, 140, 2, 0x717171);
-        // this.addChild(Line);
-
     }
 }

@@ -38,18 +38,31 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
+        _this.getProbabilityData = "/services/h5game/property";
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
+    Main.prototype.serverDataLoadCompelete = function (event) {
+        var request = event.currentTarget;
+        var jsonObject = JSON.parse(request.response);
+        if (jsonObject.code == '200') {
+            console.log(jsonObject);
+            console.log(jsonObject.data.PrizeProperty);
+            setLocalStorage("prizeList", jsonObject.data.PrizeProperty, 1);
+            //初始化Resource资源加载库
+            //initiate Resource loading library
+            RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
+            RES.loadConfig("resource/default.res.json", "resource/");
+        }
+    };
     Main.prototype.onAddToStage = function (event) {
         //设置加载进度界面
         //Config to load process interface
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
-        //初始化Resource资源加载库
-        //initiate Resource loading library
-        RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
-        RES.loadConfig("resource/default.res.json", "resource/");
+        var request = requestGet(Main.baseUrl + this.getProbabilityData, "");
+        request.send();
+        request.addEventListener(egret.Event.COMPLETE, this.serverDataLoadCompelete, this);
     };
     /**
      * 配置文件加载完成,开始预加载preload资源组。
@@ -199,6 +212,7 @@ var Main = (function (_super) {
 Main.jp_onoff = false;
 Main.mask_onoff = false;
 Main.laohujiButOnoff = true;
+Main.baseUrl = "http://127.0.0.1:4503";
 Main.zpname = "请进行抽奖"; //奖的名称
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

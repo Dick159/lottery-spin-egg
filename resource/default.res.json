@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "zhadan2_png,zhadan1_png,yuanhu_bg_png,wazi3_png,wazi2_png,wazi1_png,start_btn_png,start_bg_jpg,start_2_jpg,maozi2_png,maozi1_png,logo9_png,logo8_png,logo7_png,logo6_png,logo5_png,logo4_png,logo3_png,logo2_png,logo10_png,logo1_png,loading_rec_png,loading_blue_png,loading_bg_png,liwu1_png,lingdan1_png,lindang2_png,gift9_png,gift8_png,gift7_png,gift6_png,gift5_png,gift4_png,gift3_png,gift2_png,gift10_png,gift1_png,gameEnd_2_jpg,gameEnd_1_jpg,fenxiang_03_jpg,end_jpg,egret_icon_png,continue_game_png,bottom_bg_png,bg_jpg,old_png,award_png,oi_png,tow_png,four_btnpink_png,seven_btnblue_png,four_stan_png,four_bgimg_png,btn_green_png,seven_gameover_png,jx_game_jpg,seven_bgmsg_png,seven_share_png,fun_title_png,music_mp3,dd_mp3,far_mp3,readyGo_mp3,defeated_mp3,win_mp3,click_mp3,bruise_mp3,laohuji_bak_png,title_bak_png,lottery_box2_png,asuzx-doomm2_png,bg_png,bg_old_jpg,common_bg_old_png,diban_old_png,gift9_old_png,index_bg_png,index_bg1_jpg,index_mine_png,index_title_2_png,index_title_22_png,music_logo_old_png,old_old_png,login_regist2_jpg,bg - 副本_png,asuzx-doomm1_png,lottery_box3_png,lottery_box4_png",
+			"keys": "zhadan2_png,zhadan1_png,yuanhu_bg_png,wazi3_png,wazi2_png,wazi1_png,start_btn_png,start_bg_jpg,start_2_jpg,maozi2_png,maozi1_png,logo9_png,logo8_png,logo7_png,logo6_png,logo5_png,logo4_png,logo3_png,logo2_png,logo10_png,logo1_png,loading_rec_png,loading_blue_png,loading_bg_png,liwu1_png,lingdan1_png,lindang2_png,gift9_png,gift8_png,gift7_png,gift6_png,gift5_png,gift4_png,gift3_png,gift2_png,gift10_png,gift1_png,gameEnd_2_jpg,gameEnd_1_jpg,fenxiang_03_jpg,end_jpg,egret_icon_png,continue_game_png,bottom_bg_png,bg_jpg,old_png,award_png,oi_png,tow_png,four_btnpink_png,seven_btnblue_png,four_stan_png,four_bgimg_png,btn_green_png,seven_gameover_png,jx_game_jpg,seven_bgmsg_png,seven_share_png,fun_title_png,music_mp3,dd_mp3,far_mp3,readyGo_mp3,defeated_mp3,win_mp3,click_mp3,bruise_mp3,laohuji_bak_png,title_bak_png,lottery_box2_png,asuzx-doomm2_png,bg_png,bg_old_jpg,common_bg_old_png,diban_old_png,gift9_old_png,index_bg_png,index_bg1_jpg,index_mine_png,index_title_2_png,index_title_22_png,music_logo_old_png,old_old_png,login_regist2_jpg,bg - 副本_png,asuzx-doomm1_png,lottery_box3_png,lottery_box4_png,niu_png",
 			"name": "preload"
 		},
 		{
@@ -1017,6 +1017,11 @@
 			"name": "lottery_box4_png",
 			"type": "image",
 			"url": "assets/lottery_box4.png"
+		},
+		{
+			"name": "niu_png",
+			"type": "image",
+			"url": "assets/niu.png"
 		}
 	]
 }

@@ -201,4 +201,87 @@ function createTextFiled(text, x, y, size, textColor, textAlign, width, height, 
     TextField.type = type;
     return TextField;
 }
+function setLocalStorage(key, value, expiredDay) {
+    if (expiredDay === void 0) { expiredDay = 0; }
+    if (value) {
+        var _value = {};
+        _value = {
+            "value": value,
+            "expired": expiredDay,
+            "startTime": new Date().getTime()
+        };
+        egret.localStorage.setItem(key, JSON.stringify(_value));
+    }
+}
+function getLocalStorage(key) {
+    var value = localStorage.getItem(key);
+    if (value && value != "undefined" && value != "null") {
+        var data = JSON.parse(value);
+        if (data.expired) {
+            var period = data.expired * 86400;
+            var distance = (new Date().getTime() - data.startTime) / 1000;
+            if (distance - period >= 0) {
+                egret.localStorage.removeItem(key);
+                return null;
+            }
+            else {
+                return data;
+            }
+        }
+        else {
+            return data;
+        }
+    }
+    return null;
+}
+function requestGet(postUrl, parameter) {
+    var request;
+    request = new egret.HttpRequest();
+    request.responseType = egret.HttpResponseType.TEXT;
+    request.open(postUrl + parameter, egret.HttpMethod.GET);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+    return request;
+}
+function requestPost(postUrl, parameter) {
+    var request;
+    request = new egret.HttpRequest();
+    request.responseType = egret.HttpResponseType.TEXT;
+    request.open(postUrl + parameter, egret.HttpMethod.POST);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+    //request.setRequestHeader("clientID","mbs-repo-client-001");
+    return request;
+}
+function randomToken() {
+    return this.uuid2(32);
+}
+function removeExpiredToken(existsSet, target) {
+    var n_s = [];
+    for (var i = 0; i < existsSet.length; i++) {
+        if (existsSet[i] != target) {
+            n_s.push(existsSet[i]);
+        }
+    }
+    return n_s;
+}
+function uuid2(len, radix) {
+    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+    var uuid = [], i;
+    radix = radix || chars.length;
+    if (len) {
+        for (i = 0; i < len; i++)
+            uuid[i] = chars[0 | Math.random() * radix];
+    }
+    else {
+        var r;
+        uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+        uuid[14] = '4';
+        for (i = 0; i < 36; i++) {
+            if (!uuid[i]) {
+                r = 0 | Math.random() * 16;
+                uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+            }
+        }
+    }
+    return uuid.join('');
+}
 //# sourceMappingURL=until.js.map

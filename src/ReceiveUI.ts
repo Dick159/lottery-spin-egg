@@ -1,5 +1,5 @@
 class ReceiveUI extends egret.Sprite {
-
+    private lotteryApi = "/services/h5game/lottery";
     private shpBeMask1;
     private shpBeMask2;
     private shpBeMask3;
@@ -27,6 +27,7 @@ class ReceiveUI extends egret.Sprite {
     private xRightBorder = 640;
     private yTopBorder = 460;
     private yBottomBorder = 770;
+    private token = "";
     private ballMap = [
         //U: (150,460) D (610,770)
         //small
@@ -61,6 +62,12 @@ class ReceiveUI extends egret.Sprite {
             ball.anchorOffsetX = ball.width * .5;
             ball.anchorOffsetY = ball.height * .5;
             return ball
+    }
+
+    private pauseAllBalls(balls){
+        for(var i=0;i<balls.length;i++){
+            egret.Tween.pauseTweens(balls[i]);
+        }
     }
 
     private createView(): void {
@@ -253,6 +260,10 @@ class ReceiveUI extends egret.Sprite {
         this.laohuji.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
 
             if (Main.laohujiButOnoff) {
+
+                //生成randomToken;
+                this.token = randomToken();
+
                 title.touchEnabled=false;
                 lq_btn.touchEnabled=false;
                 Main.laohujiButOnoff = false;
@@ -263,19 +274,28 @@ class ReceiveUI extends egret.Sprite {
                     egret.Tween.get(this.laohuji, { loop: true }).to({ y: this.laohujiBasePos + this.shockRange[0] }, 100).to({ y: this.laohujiBasePos + this.shockRange[1] }, 100).to({ y: this.laohujiBasePos + this.shockRange[2], x: this.laohuji.x - 5 }, 100).to({ y: this.laohujiBasePos + this.shockRange[3] }, 100).to({ y: this.laohujiBasePos + this.shockRange[4], x: this.laohuji.x + 5 }, 100).to({ y: this.laohujiBasePos }, 100);
                     egret.Tween.get(this.lotteryExit, { loop: true }).to({ y: this.lotteryExitBasePos + this.shockRange[0] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[1] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[2] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[3] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[4] }, 100).to({ y: this.lotteryExitBasePos }, 100);
 
+
+                    //开始抽奖，后台生成
+                    var request = requestPost(Main.baseUrl + this.lotteryApi,"?token=" + this.token + "&memberId=" + "");
+                    request.send();
+                    request.addEventListener(egret.Event.COMPLETE,this.lotteryResultComplete,this);
+
+
+                    //抽奖动画
                     for(var i=0;i<this.balls.length;i++){
                      var b = this.balls[i];
                      var ori_x = b.x;
                      var ori_y = b.y;
                      //抖动动画
-                     egret.Tween.get(b, { loop: false }).to({ x : this.randomLimitMoveBoxX(b.width) , y :  this.randomLimitMoveBoxY(b.width)}, 800).to({ x : this.randomLimitMoveBoxX(b.width) , y :  this.randomLimitMoveBoxY(b.width)}, 800).to({ x : this.randomLimitMoveBoxX(b.width) , y :  this.randomLimitMoveBoxY(b.width)}, 800).to({ x : ori_x , y : ori_y}, 800).call(function(){
-                            if(i==this.balls.length && this.isFinishSpin){
-                                this.isFinishSpin = false;
-                                //console.log(i,this.balls.length)
+                     egret.Tween.get(b, { loop: true }).to({ x : this.randomLimitMoveBoxX(b.width) , y :  this.randomLimitMoveBoxY(b.width)}, 800).to({ x : this.randomLimitMoveBoxX(b.width) , y :  this.randomLimitMoveBoxY(b.width)}, 800).to({ x : this.randomLimitMoveBoxX(b.width) , y :  this.randomLimitMoveBoxY(b.width)}, 800).to({ x : ori_x , y : ori_y}, 800).call(function(){
+
+                            if(this.isFinishSpin){
+                                this.pauseAllBalls(this.balls);
                                 egret.Tween.pauseTweens(this.laohuji);
-                                //egret.Tween.pauseTweens(this.rocker);
                                 egret.Tween.pauseTweens(this.lotteryExit);
                                 this.soundChannel.stop();
+
+
                                 var randomBall =  this.balls[this.random_num(0,this.balls.length-1)];
                                 randomBall.anchorOffsetX = 50 * .5;
                                 randomBall.anchorOffsetY = 50 * .5;
@@ -285,7 +305,7 @@ class ReceiveUI extends egret.Sprite {
                                         egret.Tween.get(randomBall).to({y:960,scaleX:2.5,scaleY:2.5,rotation:360},1000).to({},500).call(function(){
                                                 //完毕
                                         randomBall.visible = false;
-                                        jptext.text = this.randomPriceText();
+                                        jptext.text = this.getPrizeResult();
                                         egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
                                             egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300)
                                         })
@@ -297,29 +317,41 @@ class ReceiveUI extends egret.Sprite {
                                         Main.laohujiButOnoff = true;
                                 },this);
                             }
-                  },this); 
+                        },this); 
                     }
             }
         }, this)
 
     }
 
-    private randomPriceText(){
-        var prizes = [1,3,10,100,'DD $100'];
-        var rI = this.random_num(0,101);
 
-        if(rI > 99){
-            return "DD $100 Prize!";;
-        }
-        else if( rI > 90 && rI <= 99){
-            return "Oxx 100 Coins";
-        }else if(rI > 80 && rI <= 90){
-             return "Oxx 10 Coins";
-        }else if(rI > 60 && rI <= 80){
-            return "Oxx 3 Coins";
+    private getPrizeResult(){
+        var result = getLocalStorage(this.token);
+        if(result){
+            return result.value;
         }else{
-             return "Oxx 1 Coins";
+            return "The prize has expired";
         }
+    }
+
+    private lotteryResultComplete(event:egret.Event){
+        var request = <egret.HttpRequest>event.currentTarget;
+        var jsonObject= JSON.parse(request.response);
+        this.isFinishSpin = true;
+        console.log(jsonObject.data)
+        var resultText = jsonObject.data.text2;
+        setLocalStorage(this.token,resultText,1);
+       
+        var tokenSet = getLocalStorage("tokenSet");
+        var _s:any;
+        if(tokenSet){
+            _s = tokenSet.value;
+            _s.push(this.token);
+        }else{
+            _s = [];
+           _s.push(this.token);
+        }
+        setLocalStorage("tokenSet",_s);
     }
 
     private randomLimitMoveBoxX(obj_width){

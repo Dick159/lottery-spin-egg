@@ -37,11 +37,34 @@ class Main extends egret.DisplayObjectContainer {
     static jp_onoff=false;
     static mask_onoff=false;
     static laohujiButOnoff=true;
+    static  baseUrl = "http://127.0.0.1:4503";
+    private getProbabilityData = "/services/h5game/property";
     static zpname = "请进行抽奖";//奖的名称
+
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
+
     }
+
+
+    private serverDataLoadCompelete(event:egret.Event){
+         var request = <egret.HttpRequest>event.currentTarget;
+
+         var jsonObject= JSON.parse(request.response);
+         if(jsonObject.code == '200'){
+         console.log(jsonObject);
+         console.log(jsonObject.data.PrizeProperty);
+         setLocalStorage("prizeList",jsonObject.data.PrizeProperty,1);
+            //初始化Resource资源加载库
+            //initiate Resource loading library
+         RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
+         RES.loadConfig("resource/default.res.json", "resource/");
+         }
+    }
+
+
+
 
     private onAddToStage(event: egret.Event) {
         //设置加载进度界面
@@ -49,10 +72,10 @@ class Main extends egret.DisplayObjectContainer {
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
 
-        //初始化Resource资源加载库
-        //initiate Resource loading library
-        RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
-        RES.loadConfig("resource/default.res.json", "resource/");
+        var request = requestGet(Main.baseUrl + this.getProbabilityData,"");
+        request.send();
+        request.addEventListener(egret.Event.COMPLETE,this.serverDataLoadCompelete,this);
+
     }
 
     /**
