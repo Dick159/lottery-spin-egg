@@ -212,7 +212,7 @@ var Main = (function (_super) {
 Main.jp_onoff = false;
 Main.mask_onoff = false;
 Main.laohujiButOnoff = true;
-Main.baseUrl = "http://127.0.0.1:4503";
+Main.baseUrl = "http://150.109.32.241:4503";
 Main.zpname = "请进行抽奖"; //奖的名称
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

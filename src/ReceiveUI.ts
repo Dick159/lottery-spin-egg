@@ -206,39 +206,34 @@ class ReceiveUI extends egret.Sprite {
                }
         },this)
         //
-        var jptext = createTextFiled(Main.zpname, 195, 450, 50, 0xff0000);
+        var jptext = createTextFiled(this.getPrizeResult(), 195, 450, 50, 0xff0000);
         ljDisplay.addChild(jptext);
-        var text1 = createTextFiled("(优惠券or现金)", 269, 720, 35, 0xffffff);
-        ljDisplay.addChild(text1);
-        var text2 = createTextFiled("恭喜你获奖，请火速前来领取", 170, 778, 30, 0xffffff);
-        ljDisplay.addChild(text2);
-        var text4 = createTextFiled("领取方式：", 102, 850, 30, 0xffffff);
-        ljDisplay.addChild(text4);
-        var Rec = crawReactShape(null,253,830,360,80,0xffffff,0xfffff,2);
 
-        Rec.touchEnabled = true;
-        Rec.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                if(!this.isRegistPopUp){
-                    egret.Tween.get(loginRegist)
-                                    .to({ scaleX :1,scaleY : 1 }, 500);
+        var button = new eui.Button();
+        button.width = 200;
+        button.height = 80;
+        button.x = 253;
+        button.y = 850;
+        button.label = "确定";
+        button.skinName = "resource/skins/ButtonSkin.exml";
+
+        button.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                 if(!this.isRegistPopUp){
+                      egret.Tween.get(loginRegist)
+                                     .to({ scaleX :1,scaleY : 1 }, 500);
                     this.isRegistPopUp = true;
-                }
-        },this)
+                 }
+         },this)
 
-        ljDisplay.addChild(Rec);
-        var text6 = createTextFiled("登录/注册 领取", 253, 850, 30, 0x000, "center", 360, 80, "", false, 0x000000, true);
-        ljDisplay.addChild(text6);
-        text1.bold = true;
-        text2.bold = true;
-        text4.bold = true;
-        text6.bold = true;
+        ljDisplay.addChild(button);
+
         //可点击对象
         lq_btn.touchEnabled = true;
         ljDisplay.touchEnabled = true;
         //点击领取按钮事件
         var This = this;
         lq_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            jptext.text = Main.zpname;
+            jptext.text = this.getPrizeResult();
             egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
                 egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300)
             })
@@ -267,7 +262,7 @@ class ReceiveUI extends egret.Sprite {
                 title.touchEnabled=false;
                 lq_btn.touchEnabled=false;
                 Main.laohujiButOnoff = false;
-                this.isFinishSpin = true;
+                this.isFinishSpin = false;
                 this.rockeer_mp3.play(0, 1);
 
                     this.soundChannel = this.laohuji_mp3.play(0, 1);
@@ -314,7 +309,9 @@ class ReceiveUI extends egret.Sprite {
                                         },this);
                                         this.title.touchEnabled=true;
                                         this.lq_btn.touchEnabled=true;
-                                        Main.laohujiButOnoff = true;
+
+                                        //是否可玩多次开关
+                                        //Main.laohujiButOnoff = true;
                                 },this);
                             }
                         },this); 
@@ -326,11 +323,11 @@ class ReceiveUI extends egret.Sprite {
 
 
     private getPrizeResult(){
-        var result = getLocalStorage(this.token);
+        var result = getLocalStorage( egret.localStorage.getItem("token"));
         if(result){
             return result.value;
         }else{
-            return "The prize has expired";
+            return "Please Play the game.";
         }
     }
 
@@ -340,18 +337,9 @@ class ReceiveUI extends egret.Sprite {
         this.isFinishSpin = true;
         console.log(jsonObject.data)
         var resultText = jsonObject.data.text2;
+        egret.localStorage.setItem("token",this.token);
         setLocalStorage(this.token,resultText,1);
        
-        var tokenSet = getLocalStorage("tokenSet");
-        var _s:any;
-        if(tokenSet){
-            _s = tokenSet.value;
-            _s.push(this.token);
-        }else{
-            _s = [];
-           _s.push(this.token);
-        }
-        setLocalStorage("tokenSet",_s);
     }
 
     private randomLimitMoveBoxX(obj_width){
@@ -362,62 +350,10 @@ class ReceiveUI extends egret.Sprite {
         return this.random_num(this.yTopBorder + obj_width , this.yBottomBorder - obj_width );
     }
 
-    // private Mask(mask, time, j, num, x) {
-    //     egret.Tween.get(mask).to({ y: 290 }, time).call(function () {
-    //         mask.y = 695;
-    //         j++;
-    //         if (j < num) {
-    //             time *= .9;
-    //             time < 30 ? time = 30 : time = time;
-    //         } else {
-    //             time *= 1.1;
-    //             time > 1000 ? time = 1000 : time = time;
-    //         }
-    //         if (time >= 1000) {
-    //             egret.Tween.pauseTweens(mask);
-    //             if (x * 135 + 290 == 695) {
-    //                 egret.Tween.get(mask).to({ y: (x * 135 + 290) }, 100).call(function () {
-    //                     this.dd.play(0, 1);
-    //                     this.num++;
-    //                     if (this.num == 1) {
-    //                         egret.Tween.pauseTweens(this.laohuji);
-    //                         egret.Tween.pauseTweens(this.rocker);
-    //                         this.title.touchEnabled=true;
-    //                         this.lq_btn.touchEnabled=true;
-    //                     }
-    //                 }.bind(this));
-    //             } else {
-    //                 egret.Tween.get(mask).to({ y: (x * 135 + 290) }, 1500).call(function () {
-    //                     this.dd.play(0, 1);
-    //                     this.num++;
-    //                     if (this.num == 1) {
-    //                         egret.Tween.pauseTweens(this.laohuji);
-    //                         egret.Tween.pauseTweens(this.rocker);
-    //                         this.laohuji.x = 30;
-    //                         this.laohuji.y = 300;
-    //                         this.title.touchEnabled=true;
-    //                         this.lq_btn.touchEnabled=true;
-    //                     }
-    //                 }.bind(this));
-    //             }
-
-    //         } else {
-    //             this.Mask(mask, time, j, num, x);
-    //         }
-
-    //     }.bind(this));
-    // }
-
     private random_num(min:number,max:number){
         let Range = max - min;  
         let Rand = Math.random();  
         return (min + Math.round(Rand * Range));  
-    }
-
-    private done(){
-        for(var i=0;i<this.balls.length;i++){
-            console.log(i);
-        }
     }
 
 }

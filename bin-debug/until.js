@@ -252,7 +252,11 @@ function requestPost(postUrl, parameter) {
     return request;
 }
 function randomToken() {
-    return this.uuid2(32);
+    var token = egret.localStorage.getItem("token");
+    if (!token) {
+        return this.uuid2(32);
+    }
+    return token;
 }
 function removeExpiredToken(existsSet, target) {
     var n_s = [];

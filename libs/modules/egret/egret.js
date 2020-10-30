@@ -709,9 +709,9 @@ var egret;
          * @language zh_CN
          */
         Rectangle.prototype.containsPoint = function (point) {
-            if (this.x < point.x
+            if (this.x <= point.x
                 && this.x + this.width > point.x
-                && this.y < point.y
+                && this.y <= point.y
                 && this.y + this.height > point.y) {
                 return true;
             }
@@ -2879,12 +2879,12 @@ var egret;
                 if (this.$displayList) {
                     this.$displayList.$renderNode.moved = true;
                 }
-                var offset = this.$measureFiltersOffset();
+                var offset = this.$measureFiltersOffset(false);
                 if (offset) {
                     bounds.x += offset.minX;
                     bounds.y += offset.minY;
-                    bounds.width += offset.maxX;
-                    bounds.height += offset.maxY;
+                    bounds.width += -offset.minX + offset.maxX;
+                    bounds.height += -offset.minY + offset.maxY;
                 }
             }
             return bounds;
@@ -3009,7 +3009,7 @@ var egret;
                     self.$getConcatenatedMatrixAt(root, matrix);
                 }
                 region.updateRegion(renderBounds, matrix);
-                var offset = self.$measureFiltersOffset();
+                var offset = self.$measureFiltersOffset(true);
                 if (offset) {
                     region.minX += offset.minX;
                     region.minY += offset.minY;
@@ -3023,59 +3023,80 @@ var egret;
         /**
          * @private
          */
-        DisplayObject.prototype.$measureFiltersOffset = function () {
-            var filters = this.$DisplayObject[20 /* filters */];
-            if (filters && filters.length) {
-                var length_3 = filters.length;
-                var minX = 0;
-                var minY = 0;
-                var maxX = 0;
-                var maxY = 0;
-                for (var i = 0; i < length_3; i++) {
-                    var filter = filters[i];
-                    if (filter.type == "blur") {
-                        var offsetX = filter.blurX;
-                        var offsetY = filter.blurY;
-                        minX -= offsetX;
-                        minY -= offsetY;
-                        maxX += offsetX * 2;
-                        maxY += offsetY * 2;
-                    }
-                    else if (filter.type == "glow") {
-                        var offsetX = filter.blurX;
-                        var offsetY = filter.blurY;
-                        minX -= offsetX;
-                        minY -= offsetY;
-                        maxX += offsetX * 2;
-                        maxY += offsetY * 2;
-                        var distance = filter.distance || 0;
-                        var angle = filter.angle || 0;
-                        var distanceX = 0;
-                        var distanceY = 0;
-                        if (distance != 0) {
-                            //todo 缓存这个数据
-                            distanceX = Math.ceil(distance * egret.NumberUtils.cos(angle));
-                            distanceY = Math.ceil(distance * egret.NumberUtils.sin(angle));
-                            if (distanceX > 0) {
-                                maxX += distanceX;
-                            }
-                            else if (distanceX < 0) {
+        DisplayObject.prototype.$measureFiltersOffset = function (fromParent) {
+            var display = this;
+            var minX = 0;
+            var minY = 0;
+            var maxX = 0;
+            var maxY = 0;
+            while (display) {
+                var filters = display.$DisplayObject[20 /* filters */];
+                if (filters && filters.length) {
+                    var length_3 = filters.length;
+                    for (var i = 0; i < length_3; i++) {
+                        var filter = filters[i];
+                        //todo 缓存这个数据
+                        if (filter.type == "blur") {
+                            var offsetX = filter.blurX;
+                            var offsetY = filter.blurY;
+                            minX -= offsetX;
+                            minY -= offsetY;
+                            maxX += offsetX;
+                            maxY += offsetY;
+                        }
+                        else if (filter.type == "glow") {
+                            var offsetX = filter.blurX;
+                            var offsetY = filter.blurY;
+                            minX -= offsetX;
+                            minY -= offsetY;
+                            maxX += offsetX;
+                            maxY += offsetY;
+                            var distance = filter.distance || 0;
+                            var angle = filter.angle || 0;
+                            var distanceX = 0;
+                            var distanceY = 0;
+                            if (distance != 0) {
+                                distanceX = distance * egret.NumberUtils.cos(angle);
+                                if (distanceX > 0) {
+                                    distanceX = Math.ceil(distanceX);
+                                }
+                                else {
+                                    distanceX = Math.floor(distanceX);
+                                }
+                                distanceY = distance * egret.NumberUtils.sin(angle);
+                                if (distanceY > 0) {
+                                    distanceY = Math.ceil(distanceY);
+                                }
+                                else {
+                                    distanceY = Math.floor(distanceY);
+                                }
                                 minX += distanceX;
-                                maxX -= distanceX;
-                            }
-                            if (distanceY > 0) {
+                                maxX += distanceX;
+                                minY += distanceY;
                                 maxY += distanceY;
                             }
-                            else if (distanceY < 0) {
-                                minY += distanceY;
-                                maxY -= distanceY;
-                            }
+                        }
+                        else if (filter.type == "custom") {
+                            var padding = filter.padding;
+                            minX -= padding;
+                            minY -= padding;
+                            maxX += padding;
+                            maxY += padding;
                         }
                     }
                 }
-                return { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
+                if (fromParent) {
+                    display = display.$parent;
+                }
+                else {
+                    display = null;
+                }
             }
-            return null;
+            minX = Math.min(minX, 0);
+            minY = Math.min(minY, 0);
+            maxX = Math.max(maxX, 0);
+            maxY = Math.max(maxY, 0);
+            return { minX: minX, minY: minY, maxX: maxX, maxY: maxY };
         };
         /**
          * @private
@@ -4263,13 +4284,14 @@ var egret;
     var Filter = (function (_super) {
         __extends(Filter, _super);
         function Filter() {
-            var _this = _super !== null && _super.apply(this, arguments) || this;
+            var _this = _super.call(this) || this;
             /**
              * @version Egret 2.4
              * @platform Web,Native
              */
             _this.type = null;
             _this.$targets = [];
+            _this.$uniforms = {};
             return _this;
         }
         Filter.prototype.$addTarget = function (target) {
@@ -5844,6 +5866,14 @@ var egret;
             _this.$quality = quality;
             _this.$inner = inner;
             _this.$knockout = knockout;
+            _this.$uniforms.color = { x: _this.$red / 255, y: _this.$green / 255, z: _this.$blue / 255, w: 1 };
+            _this.$uniforms.alpha = alpha;
+            _this.$uniforms.blurX = blurX;
+            _this.$uniforms.blurY = blurY;
+            _this.$uniforms.strength = strength;
+            // this.$uniforms.quality = quality;
+            _this.$uniforms.inner = inner ? 1 : 0;
+            _this.$uniforms.knockout = knockout ? 0 : 1;
             return _this;
         }
         Object.defineProperty(GlowFilter.prototype, "color", {
@@ -5870,6 +5900,9 @@ var egret;
                 this.$blue = value & 0x0000FF;
                 this.$green = (value & 0x00ff00) >> 8;
                 this.$red = value >> 16;
+                this.$uniforms.color.x = this.$red / 255;
+                this.$uniforms.color.y = this.$green / 255;
+                this.$uniforms.color.z = this.$blue / 255;
                 this.invalidate();
             },
             enumerable: true,
@@ -5896,6 +5929,7 @@ var egret;
                     return;
                 }
                 this.$alpha = value;
+                this.$uniforms.alpha = value;
                 this.invalidate();
             },
             enumerable: true,
@@ -5922,6 +5956,7 @@ var egret;
                     return;
                 }
                 this.$blurX = value;
+                this.$uniforms.blurX = value;
                 this.invalidate();
             },
             enumerable: true,
@@ -5948,6 +5983,7 @@ var egret;
                     return;
                 }
                 this.$blurY = value;
+                this.$uniforms.blurY = value;
                 this.invalidate();
             },
             enumerable: true,
@@ -5974,6 +6010,7 @@ var egret;
                     return;
                 }
                 this.$strength = value;
+                this.$uniforms.strength = value;
                 this.invalidate();
             },
             enumerable: true,
@@ -6026,6 +6063,7 @@ var egret;
                     return;
                 }
                 this.$inner = value;
+                this.$uniforms.inner = value ? 1 : 0;
                 this.invalidate();
             },
             enumerable: true,
@@ -6052,6 +6090,7 @@ var egret;
                     return;
                 }
                 this.$knockout = value;
+                this.$uniforms.knockout = value ? 0 : 1;
                 this.invalidate();
             },
             enumerable: true,
@@ -8994,9 +9033,22 @@ var egret;
                 else {
                     base64 = data;
                 }
-                var image = new Image();
-                image.src = "data:image/png;base64," + base64;
-                return new BitmapData(image);
+                var imageType = "image/png"; //default value
+                if (base64.charAt(0) === '/') {
+                    imageType = "image/jpeg";
+                }
+                else if (base64.charAt(0) === 'R') {
+                    imageType = "image/gif";
+                }
+                else if (base64.charAt(0) === 'i') {
+                    imageType = "image/png";
+                }
+                var img_1 = new Image();
+                img_1.src = "data:" + imageType + ";base64," + base64;
+                img_1.crossOrigin = '*';
+                img_1.onload = function () {
+                    return new BitmapData(img_1);
+                };
             }
             else {
                 var buffer = null;
@@ -9621,6 +9673,8 @@ var egret;
             _this.$blurX = blurX;
             _this.$blurY = blurY;
             _this.$quality = quality;
+            _this.blurXFilter = new BlurXFilter(blurX);
+            _this.blurYFilter = new BlurYFilter(blurY);
             return _this;
         }
         Object.defineProperty(BlurFilter.prototype, "blurX", {
@@ -9644,6 +9698,7 @@ var egret;
                     return;
                 }
                 this.$blurX = value;
+                this.blurXFilter.blurX = value;
                 this.invalidate();
             },
             enumerable: true,
@@ -9670,6 +9725,7 @@ var egret;
                     return;
                 }
                 this.$blurY = value;
+                this.blurYFilter.blurY = value;
                 this.invalidate();
             },
             enumerable: true,
@@ -9685,6 +9741,50 @@ var egret;
     }(egret.Filter));
     egret.BlurFilter = BlurFilter;
     __reflect(BlurFilter.prototype, "egret.BlurFilter");
+    var BlurXFilter = (function (_super) {
+        __extends(BlurXFilter, _super);
+        function BlurXFilter(blurX) {
+            if (blurX === void 0) { blurX = 4; }
+            var _this = _super.call(this) || this;
+            _this.type = "blurX";
+            _this.$uniforms.blur = { x: blurX, y: 0 };
+            return _this;
+        }
+        Object.defineProperty(BlurXFilter.prototype, "blurX", {
+            get: function () {
+                return this.$uniforms.blur.x;
+            },
+            set: function (value) {
+                this.$uniforms.blur.x = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return BlurXFilter;
+    }(egret.Filter));
+    __reflect(BlurXFilter.prototype, "BlurXFilter", ["egret.IBlurXFilter"]);
+    var BlurYFilter = (function (_super) {
+        __extends(BlurYFilter, _super);
+        function BlurYFilter(blurY) {
+            if (blurY === void 0) { blurY = 4; }
+            var _this = _super.call(this) || this;
+            _this.type = "blurY";
+            _this.$uniforms.blur = { x: 0, y: blurY };
+            return _this;
+        }
+        Object.defineProperty(BlurYFilter.prototype, "blurY", {
+            get: function () {
+                return this.$uniforms.blur.y;
+            },
+            set: function (value) {
+                this.$uniforms.blur.y = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return BlurYFilter;
+    }(egret.Filter));
+    __reflect(BlurYFilter.prototype, "BlurYFilter", ["egret.IBlurYFilter"]);
 })(egret || (egret = {}));
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -9758,6 +9858,13 @@ var egret;
              */
             _this.matrix2 = [];
             _this.type = "colorTransform";
+            _this.$uniforms.matrix = [
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            ];
+            _this.$uniforms.colorAdd = { x: 0, y: 0, z: 0, w: 0 };
             _this.setMatrix(matrix);
             return _this;
         }
@@ -9805,6 +9912,27 @@ var egret;
                     this.$matrix[i] = (i == 0 || i == 6 || i == 12 || i == 18) ? 1 : 0;
                 }
             }
+            var $matrix = this.$matrix;
+            var matrix = this.$uniforms.matrix;
+            var colorAdd = this.$uniforms.colorAdd;
+            for (var i = 0, j = 0; i < $matrix.length; i++) {
+                if (i === 4) {
+                    colorAdd.x = $matrix[i] / 255;
+                }
+                else if (i === 9) {
+                    colorAdd.y = $matrix[i] / 255;
+                }
+                else if (i === 14) {
+                    colorAdd.z = $matrix[i] / 255;
+                }
+                else if (i === 19) {
+                    colorAdd.w = $matrix[i] / 255;
+                }
+                else {
+                    matrix[j] = $matrix[i];
+                    j++;
+                }
+            }
         };
         /**
          * @private
@@ -9816,6 +9944,120 @@ var egret;
     }(egret.Filter));
     egret.ColorMatrixFilter = ColorMatrixFilter;
     __reflect(ColorMatrixFilter.prototype, "egret.ColorMatrixFilter");
+})(egret || (egret = {}));
+//////////////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright (c) 2014-present, Egret Technology.
+//  All rights reserved.
+//  Redistribution and use in source and binary forms, with or without
+//  modification, are permitted provided that the following conditions are met:
+//
+//     * Redistributions of source code must retain the above copyright
+//       notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the Egret nor the
+//       names of its contributors may be used to endorse or promote products
+//       derived from this software without specific prior written permission.
+//
+//  THIS SOFTWARE IS PROVIDED BY EGRET AND CONTRIBUTORS "AS IS" AND ANY EXPRESS
+//  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+//  IN NO EVENT SHALL EGRET AND CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;LOSS OF USE, DATA,
+//  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+//  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+//  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+//////////////////////////////////////////////////////////////////////////////////////
+var egret;
+(function (egret) {
+    var SOURCE_KEY_MAP = {};
+    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+    var uuid = new Array(36);
+    var rnd = 0, r;
+    /**
+     * generate uuid
+     * http://www.broofa.com/Tools/Math.uuid.htm
+     */
+    var generateUUID = function () {
+        for (var i = 0; i < 36; i++) {
+            if (i === 8 || i === 13 || i === 18 || i === 23) {
+                uuid[i] = '-';
+            }
+            else if (i === 14) {
+                uuid[i] = '4';
+            }
+            else {
+                if (rnd <= 0x02)
+                    rnd = 0x2000000 + (Math.random() * 0x1000000) | 0;
+                r = rnd & 0xf;
+                rnd = rnd >> 4;
+                uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
+            }
+        }
+        return uuid.join('');
+    };
+    /**
+     * custom filter, now support WebGL mode only.
+     * @version Egret 4.1.0
+     * @platform Web
+     * @language en_US
+     */
+    /**
+     * 自定义滤镜，目前仅支持WebGL模式
+     * @version Egret 4.1.0
+     * @platform Web
+     * @language zh_CN
+     */
+    var CustomFilter = (function (_super) {
+        __extends(CustomFilter, _super);
+        /**
+         * 初始化 CustomFilter 对象
+         * @method egret.CustomFilter#constructor
+         * @param vertexSrc {string} 自定义的顶点着色器程序。
+         * @param fragmentSrc {string} 自定义的片段着色器程序。
+         * @param uniforms {any} 着色器中uniform的初始值（key，value一一对应），目前仅支持数字和数组。
+         * @version Egret 4.1.0
+         * @platform Web
+         * @language zh_CN
+         */
+        function CustomFilter(vertexSrc, fragmentSrc, uniforms) {
+            if (uniforms === void 0) { uniforms = {}; }
+            var _this = _super.call(this) || this;
+            /**
+             * 滤镜的内边距
+             * 如果自定义滤镜所需区域比原区域大（描边等），需要手动设置
+             * @version Egret 4.1.0
+             * @platform Web
+             * @language zh_CN
+             */
+            _this.padding = 0;
+            _this.$vertexSrc = vertexSrc;
+            _this.$fragmentSrc = fragmentSrc;
+            var tempKey = vertexSrc + fragmentSrc;
+            if (!SOURCE_KEY_MAP[tempKey]) {
+                SOURCE_KEY_MAP[tempKey] = generateUUID();
+            }
+            _this.$shaderKey = SOURCE_KEY_MAP[tempKey];
+            _this.$uniforms = uniforms;
+            _this.type = "custom";
+            return _this;
+        }
+        Object.defineProperty(CustomFilter.prototype, "uniforms", {
+            get: function () {
+                return this.$uniforms;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return CustomFilter;
+    }(egret.Filter));
+    egret.CustomFilter = CustomFilter;
+    __reflect(CustomFilter.prototype, "egret.CustomFilter");
 })(egret || (egret = {}));
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -9909,6 +10151,9 @@ var egret;
             _this.$distance = distance;
             _this.$angle = angle;
             _this.$hideObject = hideObject;
+            _this.$uniforms.dist = distance;
+            _this.$uniforms.angle = angle / 180 * Math.PI;
+            _this.$uniforms.hideObject = hideObject ? 1 : 0;
             return _this;
         }
         Object.defineProperty(DropShadowFilter.prototype, "distance", {
@@ -9932,6 +10177,7 @@ var egret;
                     return;
                 }
                 this.$distance = value;
+                this.$uniforms.dist = value;
                 this.invalidate();
             },
             enumerable: true,
@@ -9958,6 +10204,7 @@ var egret;
                     return;
                 }
                 this.$angle = value;
+                this.$uniforms.angle = value / 180 * Math.PI;
                 this.invalidate();
             },
             enumerable: true,
@@ -9984,6 +10231,7 @@ var egret;
                     return;
                 }
                 this.$hideObject = value;
+                this.$uniforms.hideObject = value ? 1 : 0;
                 this.invalidate();
             },
             enumerable: true,
@@ -12844,6 +13092,7 @@ var egret;
                 _this.dirtyRegion = new sys.DirtyRegion(root);
                 _this.isStage = (root instanceof egret.Stage);
                 _this.dirtyNodes = egret.createMap();
+                _this.offsetMatrix.a = _this.offsetMatrix.d = DisplayList.$pixelRatio;
                 return _this;
             }
             /**
@@ -12883,8 +13132,8 @@ var egret;
                 //这里不需要更新node.renderAlpha。因为alpha已经写入到缓存的内部
                 //必须在访问moved属性前调用以下两个方法，因为moved属性在以下两个方法内重置。
                 var concatenatedMatrix = target.$getConcatenatedMatrix();
+                var displayList = target.$parentDisplayList;
                 if (dirtyRegionPolicy == egret.DirtyRegionPolicy.OFF) {
-                    var displayList = target.$parentDisplayList;
                     if (this.needUpdateRegions) {
                         this.updateDirtyRegions();
                     }
@@ -12897,10 +13146,12 @@ var egret;
                     if (root !== target.$stage) {
                         target.$getConcatenatedMatrixAt(root, matrix);
                     }
+                    if (DisplayList.$pixelRatio != 1) {
+                        DisplayList.$preMultiplyInto(matrix);
+                    }
                 }
                 else {
                     var bounds = target.$getOriginalBounds();
-                    var displayList = target.$parentDisplayList;
                     var region = node.renderRegion;
                     if (this.needUpdateRegions) {
                         this.updateDirtyRegions();
@@ -12920,6 +13171,9 @@ var egret;
                     if (root !== target.$stage) {
                         target.$getConcatenatedMatrixAt(root, matrix);
                     }
+                    if (DisplayList.$pixelRatio != 1) {
+                        DisplayList.$preMultiplyInto(matrix);
+                    }
                     region.updateRegion(bounds, matrix);
                 }
                 return true;
@@ -12930,6 +13184,8 @@ var egret;
              */
             DisplayList.prototype.setClipRect = function (width, height) {
                 this.dirtyRegion.setClipRect(width, height);
+                width *= DisplayList.$pixelRatio;
+                height *= DisplayList.$pixelRatio;
                 this.renderBuffer.resize(width, height);
             };
             /**
@@ -13031,7 +13287,7 @@ var egret;
                         renderNode.image = this.bitmapData;
                         renderNode.imageWidth = width;
                         renderNode.imageHeight = height;
-                        renderNode.drawImage(0, 0, width, height, -this.offsetX, -this.offsetY, width, height);
+                        renderNode.drawImage(0, 0, width, height, -this.offsetX, -this.offsetY, width / DisplayList.$pixelRatio, height / DisplayList.$pixelRatio);
                     }
                 }
                 this.dirtyList = null;
@@ -13048,13 +13304,15 @@ var egret;
                 var oldOffsetX = this.offsetX;
                 var oldOffsetY = this.offsetY;
                 var bounds = this.root.$getOriginalBounds();
+                var scaleX = DisplayList.$pixelRatio;
+                var scaleY = DisplayList.$pixelRatio;
                 this.offsetX = -bounds.x;
                 this.offsetY = -bounds.y;
-                this.offsetMatrix.setTo(1, 0, 0, 1, this.offsetX, this.offsetY);
+                this.offsetMatrix.setTo(this.offsetMatrix.a, 0, 0, this.offsetMatrix.d, this.offsetX, this.offsetY);
                 var buffer = this.renderBuffer;
                 //在chrome里，小等于256*256的canvas会不启用GPU加速。
-                var width = Math.max(257, bounds.width);
-                var height = Math.max(257, bounds.height);
+                var width = Math.max(257, bounds.width * scaleX);
+                var height = Math.max(257, bounds.height * scaleY);
                 if (this.offsetX == oldOffsetX &&
                     this.offsetY == oldOffsetY &&
                     buffer.surface.width == width &&
@@ -13066,7 +13324,7 @@ var egret;
                     buffer.resize(width, height);
                 }
                 else {
-                    buffer.resizeTo(width, height, this.offsetX - oldOffsetX, this.offsetY - oldOffsetY);
+                    buffer.resizeTo(width, height, (this.offsetX - oldOffsetX) * scaleX, (this.offsetY - oldOffsetY) * scaleY);
                 }
             };
             DisplayList.prototype.setDirtyRegionPolicy = function (policy) {
@@ -13075,8 +13333,40 @@ var egret;
                 this.dirtyRegion.setDirtyRegionPolicy(policy);
                 this.renderBuffer.setDirtyRegionPolicy(policy);
             };
+            /**
+             * @private
+             */
+            DisplayList.$setDevicePixelRatio = function (ratio) {
+                if (DisplayList.$pixelRatio == ratio) {
+                    return;
+                }
+                DisplayList.$pixelRatio = ratio;
+            };
+            DisplayList.$preMultiplyInto = function (other) {
+                var pixelRatio = DisplayList.$pixelRatio;
+                var a = other.a * pixelRatio;
+                var b = 0.0;
+                var c = 0.0;
+                var d = other.d * pixelRatio;
+                var tx = other.tx * pixelRatio;
+                var ty = other.ty * pixelRatio;
+                if (other.b !== 0.0 || other.c !== 0.0) {
+                    b += other.b * pixelRatio;
+                    c += other.c * pixelRatio;
+                }
+                other.a = a;
+                other.b = b;
+                other.c = c;
+                other.d = d;
+                other.tx = tx;
+                other.ty = ty;
+            };
             return DisplayList;
         }(egret.HashObject));
+        /**
+         * @private
+         */
+        DisplayList.$pixelRatio = 1;
         sys.DisplayList = DisplayList;
         __reflect(DisplayList.prototype, "egret.sys.DisplayList", ["egret.sys.Renderable"]);
     })(sys = egret.sys || (egret.sys = {}));
@@ -13568,6 +13858,30 @@ var egret;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
+var egret;
+(function (egret) {
+    /**
+     * OrientationMode 类为舞台初始旋转模式提供值。
+     */
+    egret.OrientationMode = {
+        /**
+         * 适配屏幕
+         */
+        AUTO: "auto",
+        /**
+         * 默认竖屏
+         */
+        PORTRAIT: "portrait",
+        /**
+         * 默认横屏，舞台顺时针旋转90度
+         */
+        LANDSCAPE: "landscape",
+        /**
+         * 默认横屏，舞台逆时针旋转90度
+         */
+        LANDSCAPE_FLIPPED: "landscapeFlipped"
+    };
+})(egret || (egret = {}));
 //////////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2014-present, Egret Technology.
@@ -13598,27 +13912,255 @@ var egret;
 //////////////////////////////////////////////////////////////////////////////////////
 var egret;
 (function (egret) {
-    /**
-     * OrientationMode 类为舞台初始旋转模式提供值。
-     */
-    egret.OrientationMode = {
+    var sys;
+    (function (sys) {
+        var regionPool = [];
         /**
-         * 适配屏幕
+         * @private
          */
-        AUTO: "auto",
-        /**
-         * 默认竖屏
-         */
-        PORTRAIT: "portrait",
-        /**
-         * 默认横屏，舞台顺时针旋转90度
-         */
-        LANDSCAPE: "landscape",
-        /**
-         * 默认横屏，舞台逆时针旋转90度
-         */
-        LANDSCAPE_FLIPPED: "landscapeFlipped"
-    };
+        var Region = (function () {
+            function Region() {
+                /**
+                 * @private
+                 */
+                this.minX = 0;
+                /**
+                 * @private
+                 */
+                this.minY = 0;
+                /**
+                 * @private
+                 */
+                this.maxX = 0;
+                /**
+                 * @private
+                 */
+                this.maxY = 0;
+                /**
+                 * @private
+                 */
+                this.width = 0;
+                /**
+                 * @private
+                 */
+                this.height = 0;
+                /**
+                 * @private
+                 */
+                this.area = 0;
+                /**
+                 * @private
+                 * 是否发生移动
+                 */
+                this.moved = false;
+            }
+            /**
+             * @private
+             * 释放一个Region实例到对象池
+             */
+            Region.release = function (region) {
+                regionPool.push(region);
+            };
+            /**
+             * @private
+             * 从对象池中取出或创建一个新的Region对象。
+             * 建议对于一次性使用的对象，均使用此方法创建，而不是直接new一个。
+             * 使用完后调用对应的release()静态方法回收对象，能有效减少对象创建数量造成的性能开销。
+             */
+            Region.create = function () {
+                var region = regionPool.pop();
+                if (!region) {
+                    region = new Region();
+                }
+                return region;
+            };
+            /**
+             * @private
+             */
+            Region.prototype.setTo = function (minX, minY, maxX, maxY) {
+                this.minX = minX;
+                this.minY = minY;
+                this.maxX = maxX;
+                this.maxY = maxY;
+                this.updateArea();
+                return this;
+            };
+            /**
+             * @private
+             * 把所有值都取整
+             */
+            Region.prototype.intValues = function () {
+                this.minX = Math.floor(this.minX);
+                this.minY = Math.floor(this.minY);
+                this.maxX = Math.ceil(this.maxX);
+                this.maxY = Math.ceil(this.maxY);
+                this.updateArea();
+            };
+            /**
+             * @private
+             */
+            Region.prototype.updateArea = function () {
+                this.width = this.maxX - this.minX;
+                this.height = this.maxY - this.minY;
+                this.area = this.width * this.height;
+            };
+            /**
+             * @private
+             * 注意！由于性能优化，此方法不判断自身是否为空，必须在外部确认自身和目标区域都不为空再调用合并。否则结果始终从0，0点开始。
+             */
+            Region.prototype.union = function (target) {
+                if (this.minX > target.minX) {
+                    this.minX = target.minX;
+                }
+                if (this.minY > target.minY) {
+                    this.minY = target.minY;
+                }
+                if (this.maxX < target.maxX) {
+                    this.maxX = target.maxX;
+                }
+                if (this.maxY < target.maxY) {
+                    this.maxY = target.maxY;
+                }
+                this.updateArea();
+            };
+            /**
+             * @private
+             * 注意！由于性能优化，此方法不判断自身是否为空，必须在外部确认自身和目标区域都不为空再调用合并。否则结果始终从0，0点开始。
+             */
+            Region.prototype.intersect = function (target) {
+                if (this.minX < target.minX) {
+                    this.minX = target.minX;
+                }
+                if (this.maxX > target.maxX) {
+                    this.maxX = target.maxX;
+                }
+                if (this.minX >= this.maxX) {
+                    this.setEmpty();
+                    return;
+                }
+                if (this.minY < target.minY) {
+                    this.minY = target.minY;
+                }
+                if (this.maxY > target.maxY) {
+                    this.maxY = target.maxY;
+                }
+                if (this.minY >= this.maxY) {
+                    this.setEmpty();
+                    return;
+                }
+                this.updateArea();
+            };
+            /**
+             * @private
+             */
+            Region.prototype.setEmpty = function () {
+                this.minX = 0;
+                this.minY = 0;
+                this.maxX = 0;
+                this.maxY = 0;
+                this.width = 0;
+                this.height = 0;
+                this.area = 0;
+            };
+            /**
+             * @private
+             * 确定此 Region 对象是否为空。
+             */
+            Region.prototype.isEmpty = function () {
+                return this.width <= 0 || this.height <= 0;
+            };
+            /**
+             * @private
+             */
+            Region.prototype.intersects = function (target) {
+                if (this.isEmpty()) {
+                    return false;
+                }
+                var max = this.minX > target.minX ? this.minX : target.minX;
+                var min = this.maxX < target.maxX ? this.maxX : target.maxX;
+                if (max > min) {
+                    return false;
+                }
+                max = this.minY > target.minY ? this.minY : target.minY;
+                min = this.maxY < target.maxY ? this.maxY : target.maxY;
+                return max <= min;
+            };
+            /**
+             * @private
+             */
+            Region.prototype.updateRegion = function (bounds, matrix) {
+                if (bounds.width == 0 || bounds.height == 0) {
+                    //todo 理论上应该是空
+                    this.setEmpty();
+                    return;
+                }
+                var m = matrix;
+                var a = m.a;
+                var b = m.b;
+                var c = m.c;
+                var d = m.d;
+                var tx = m.tx;
+                var ty = m.ty;
+                var x = bounds.x;
+                var y = bounds.y;
+                var xMax = x + bounds.width;
+                var yMax = y + bounds.height;
+                var minX, minY, maxX, maxY;
+                //优化，通常情况下不缩放旋转的对象占多数，直接加上偏移量即可。
+                if (a == 1.0 && b == 0.0 && c == 0.0 && d == 1.0) {
+                    minX = x + tx - 1;
+                    minY = y + ty - 1;
+                    maxX = xMax + tx + 1;
+                    maxY = yMax + ty + 1;
+                }
+                else {
+                    var x0 = a * x + c * y + tx;
+                    var y0 = b * x + d * y + ty;
+                    var x1 = a * xMax + c * y + tx;
+                    var y1 = b * xMax + d * y + ty;
+                    var x2 = a * xMax + c * yMax + tx;
+                    var y2 = b * xMax + d * yMax + ty;
+                    var x3 = a * x + c * yMax + tx;
+                    var y3 = b * x + d * yMax + ty;
+                    var tmp = 0;
+                    if (x0 > x1) {
+                        tmp = x0;
+                        x0 = x1;
+                        x1 = tmp;
+                    }
+                    if (x2 > x3) {
+                        tmp = x2;
+                        x2 = x3;
+                        x3 = tmp;
+                    }
+                    minX = (x0 < x2 ? x0 : x2) - 1;
+                    maxX = (x1 > x3 ? x1 : x3) + 1;
+                    if (y0 > y1) {
+                        tmp = y0;
+                        y0 = y1;
+                        y1 = tmp;
+                    }
+                    if (y2 > y3) {
+                        tmp = y2;
+                        y2 = y3;
+                        y3 = tmp;
+                    }
+                    minY = (y0 < y2 ? y0 : y2) - 1;
+                    maxY = (y1 > y3 ? y1 : y3) + 1;
+                }
+                this.minX = minX;
+                this.minY = minY;
+                this.maxX = maxX;
+                this.maxY = maxY;
+                this.width = maxX - minX;
+                this.height = maxY - minY;
+                this.area = this.width * this.height;
+            };
+            return Region;
+        }());
+        sys.Region = Region;
+        __reflect(Region.prototype, "egret.sys.Region");
+    })(sys = egret.sys || (egret.sys = {}));
 })(egret || (egret = {}));
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -13817,6 +14359,12 @@ var egret;
                         break;
                 }
                 //宽高不是2的整数倍会导致图片绘制出现问题
+                if (stageWidth % 2 != 0) {
+                    stageWidth += 1;
+                }
+                if (stageHeight % 2 != 0) {
+                    stageHeight += 1;
+                }
                 if (displayWidth % 2 != 0) {
                     displayWidth += 1;
                 }
@@ -15740,15 +16288,14 @@ var egret;
                         renderAlpha = displayObject.$getConcatenatedAlphaAt(root, displayObject.$getConcatenatedAlpha());
                         m = egret.Matrix.create().copyFrom(displayObject.$getConcatenatedMatrix());
                         displayObject.$getConcatenatedMatrixAt(root, m);
-                        matrix.$preMultiplyInto(m, m);
-                        context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
-                        egret.Matrix.release(m);
                     }
                     else {
                         renderAlpha = node.renderAlpha;
-                        m = node.renderMatrix;
-                        context.setTransform(m.a, m.b, m.c, m.d, m.tx + matrix.tx, m.ty + matrix.ty);
+                        m = egret.Matrix.create().copyFrom(node.renderMatrix);
                     }
+                    matrix.$preMultiplyInto(m, m);
+                    context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
+                    egret.Matrix.release(m);
                     context.globalAlpha = renderAlpha;
                     drawCalls += this.renderNode(node, context);
                     node.needRedraw = false;
@@ -15894,10 +16441,10 @@ var egret;
             region.updateRegion(bounds, displayMatrix);
             // 为显示对象创建一个新的buffer
             // todo 这里应该计算 region.x region.y
-            var displayBuffer = this.createRenderBuffer(region.width, region.height, true);
+            var displayBuffer = this.createRenderBuffer(region.width * matrix.a, region.height * matrix.d, true);
             var displayContext = displayBuffer.context;
-            displayContext.setTransform(1, 0, 0, 1, -region.minX, -region.minY);
-            var offsetM = egret.Matrix.create().setTo(1, 0, 0, 1, -region.minX, -region.minY);
+            displayContext.setTransform(matrix.a, 0, 0, matrix.d, -region.minX * matrix.a, -region.minY * matrix.d);
+            var offsetM = egret.Matrix.create().setTo(matrix.a, 0, 0, matrix.d, -region.minX * matrix.a, -region.minY * matrix.d);
             //todo 可以优化减少draw次数
             if (displayObject.$mask && (displayObject.$mask.$parentDisplayList || root)) {
                 drawCalls += this.drawWithClip(displayObject, displayContext, dirtyList, offsetM, region, root);
@@ -15915,8 +16462,6 @@ var egret;
                     context.globalCompositeOperation = compositeOp;
                 }
                 drawCalls++;
-                context.globalAlpha = 1;
-                context.setTransform(1, 0, 0, 1, region.minX + matrix.tx, region.minY + matrix.ty);
                 // 应用滤镜
                 var imageData = displayContext.getImageData(0, 0, displayBuffer.surface.width, displayBuffer.surface.height);
                 for (var i = 0; i < filtersLen; i++) {
@@ -15937,11 +16482,15 @@ var egret;
                         }
                         else {
                             // 如果没有高级效果，使用性能比较高的方式
-                            dropShadowFilter(imageData.data, displayBuffer.surface.width, displayBuffer.surface.height, [r / 255, g / 255, b / 255, a / 255], filter.$blurX, filter.$blurY, filter.$angle ? (filter.$angle / 180 * Math.PI) : 0, filter.$distance || 0, filter.$strength);
+                            dropShadowFilter(imageData.data, displayBuffer.surface.width, displayBuffer.surface.height, [r / 255, g / 255, b / 255, a], filter.$blurX, filter.$blurY, filter.$angle ? (filter.$angle / 180 * Math.PI) : 0, filter.$distance || 0, filter.$strength);
                         }
+                    }
+                    else if (filter.type == "custom") {
                     }
                 }
                 displayContext.putImageData(imageData, 0, 0);
+                context.globalAlpha = 1;
+                context.setTransform(1, 0, 0, 1, (region.minX + matrix.tx) * matrix.a, (region.minY + matrix.ty) * matrix.d);
                 // 绘制结果的时候，应用滤镜
                 context.drawImage(displayBuffer.surface, 0, 0);
                 if (hasBlendMode) {
@@ -15986,7 +16535,10 @@ var egret;
             var maskRegion;
             var displayMatrix = egret.Matrix.create();
             displayMatrix.copyFrom(displayObject.$getConcatenatedMatrix());
-            if (displayObject.$parentDisplayList) {
+            if (root) {
+                displayObject.$getConcatenatedMatrixAt(root, displayMatrix);
+            }
+            else if (displayObject.$parentDisplayList) {
                 var displayRoot = displayObject.$parentDisplayList.root;
                 if (displayRoot !== displayObject.$stage) {
                     displayObject.$getConcatenatedMatrixAt(displayRoot, displayMatrix);
@@ -15998,6 +16550,9 @@ var egret;
                 maskRegion = egret.sys.Region.create();
                 var m = egret.Matrix.create();
                 m.copyFrom(mask.$getConcatenatedMatrix());
+                if (root) {
+                    mask.$getConcatenatedMatrixAt(root, m);
+                }
                 maskRegion.updateRegion(bounds, m);
                 egret.Matrix.release(m);
             }
@@ -16048,7 +16603,8 @@ var egret;
                 if (scrollRect) {
                     var m = displayMatrix;
                     context.save();
-                    context.setTransform(m.a, m.b, m.c, m.d, m.tx - region.minX, m.ty - region.minY);
+                    matrix.$preMultiplyInto(m, m);
+                    context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
                     context.beginPath();
                     context.rect(scrollRect.x, scrollRect.y, scrollRect.width, scrollRect.height);
                     context.clip();
@@ -16063,6 +16619,8 @@ var egret;
                 if (scrollRect) {
                     context.restore();
                 }
+                egret.sys.Region.release(region);
+                egret.Matrix.release(displayMatrix);
                 return drawCalls;
             }
             //遮罩是单纯的填充图形,且alpha为1,性能优化
@@ -16078,18 +16636,21 @@ var egret;
                 this.renderingMask = false;
                 if (scrollRect) {
                     var m = displayMatrix;
-                    context.setTransform(m.a, m.b, m.c, m.d, m.tx - region.minX, m.ty - region.minY);
+                    matrix.$preMultiplyInto(m, m);
+                    context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
                     context.beginPath();
                     context.rect(scrollRect.x, scrollRect.y, scrollRect.width, scrollRect.height);
                     context.clip();
                 }
                 calls += this.drawDisplayObject(displayObject, context, dirtyList, matrix, displayObject.$displayList, clipRegion, root);
                 context.restore();
+                egret.sys.Region.release(region);
+                egret.Matrix.release(displayMatrix);
                 return calls;
             }
             //todo 若显示对象是容器，同时子项有混合模式，则需要先绘制背景到displayBuffer并清除背景区域
             //绘制显示对象自身，若有scrollRect，应用clip
-            var displayBuffer = this.createRenderBuffer(region.width, region.height);
+            var displayBuffer = this.createRenderBuffer(region.width * matrix.a, region.height * matrix.d);
             var displayContext = displayBuffer.context;
             if (!displayContext) {
                 drawCalls += this.drawDisplayObject(displayObject, context, dirtyList, matrix, displayObject.$displayList, clipRegion, root);
@@ -16097,8 +16658,8 @@ var egret;
                 egret.Matrix.release(displayMatrix);
                 return drawCalls;
             }
-            displayContext.setTransform(1, 0, 0, 1, -region.minX, -region.minY);
-            var offsetM = egret.Matrix.create().setTo(1, 0, 0, 1, -region.minX, -region.minY);
+            displayContext.setTransform(matrix.a, 0, 0, matrix.d, -region.minX * matrix.a, -region.minY * matrix.d);
+            var offsetM = egret.Matrix.create().setTo(matrix.a, 0, 0, matrix.d, -region.minX * matrix.a, -region.minY * matrix.d);
             drawCalls += this.drawDisplayObject(displayObject, displayContext, dirtyList, offsetM, displayObject.$displayList, region, root);
             //绘制遮罩
             if (mask) {
@@ -16108,7 +16669,7 @@ var egret;
                     drawCalls += this.drawDisplayObject(mask, displayContext, dirtyList, offsetM, mask.$displayList, region, root);
                 }
                 else {
-                    var maskBuffer = this.createRenderBuffer(region.width, region.height);
+                    var maskBuffer = this.createRenderBuffer(region.width * matrix.a, region.height * matrix.d);
                     var maskContext = maskBuffer.context;
                     if (!maskContext) {
                         drawCalls += this.drawDisplayObject(displayObject, context, dirtyList, matrix, displayObject.$displayList, clipRegion, root);
@@ -16117,8 +16678,8 @@ var egret;
                         egret.Matrix.release(displayMatrix);
                         return drawCalls;
                     }
-                    maskContext.setTransform(1, 0, 0, 1, -region.minX, -region.minY);
-                    offsetM = egret.Matrix.create().setTo(1, 0, 0, 1, -region.minX, -region.minY);
+                    maskContext.setTransform(matrix.a, 0, 0, matrix.d, -region.minX * matrix.a, -region.minY * matrix.d);
+                    offsetM = egret.Matrix.create().setTo(matrix.a, 0, 0, matrix.d, -region.minX * matrix.a, -region.minY * matrix.d);
                     drawCalls += this.drawDisplayObject(mask, maskContext, dirtyList, offsetM, mask.$displayList, region, root);
                     displayContext.globalCompositeOperation = "destination-in";
                     displayContext.setTransform(1, 0, 0, 1, 0, 0);
@@ -16137,13 +16698,14 @@ var egret;
                 if (scrollRect) {
                     var m = displayMatrix;
                     context.save();
-                    context.setTransform(m.a, m.b, m.c, m.d, m.tx - region.minX, m.ty - region.minY);
+                    matrix.$preMultiplyInto(m, m);
+                    context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
                     context.beginPath();
                     context.rect(scrollRect.x, scrollRect.y, scrollRect.width, scrollRect.height);
                     context.clip();
                 }
                 context.globalAlpha = 1;
-                context.setTransform(1, 0, 0, 1, region.minX + matrix.tx, region.minY + matrix.ty);
+                context.setTransform(1, 0, 0, 1, (region.minX + matrix.tx) * matrix.a, (region.minY + matrix.ty) * matrix.d);
                 context.drawImage(displayBuffer.surface, 0, 0);
                 if (scrollRect) {
                     context.restore();
@@ -16204,7 +16766,8 @@ var egret;
             }
             //绘制显示对象自身
             context.save();
-            context.setTransform(m.a, m.b, m.c, m.d, m.tx + matrix.tx, m.ty + matrix.ty);
+            matrix.$preMultiplyInto(m, m);
+            context.setTransform(m.a, m.b, m.c, m.d, m.tx, m.ty);
             context.beginPath();
             context.rect(scrollRect.x, scrollRect.y, scrollRect.width, scrollRect.height);
             context.clip();
@@ -16795,11 +17358,16 @@ var egret;
             plane = new Array(buffer.length);
             setArray(plane, buffer);
         }
+        var colorR = color[0];
+        var colorG = color[1];
+        var colorB = color[2];
+        var colorA = color[3];
         for (var ptr = 0, end = plane.length; ptr < end; ptr += 4) {
             var alpha = plane[ptr + 3];
-            plane[ptr + 0] = color[0] * alpha;
-            plane[ptr + 1] = color[1] * alpha;
-            plane[ptr + 2] = color[2] * alpha;
+            plane[ptr + 0] = colorR * alpha;
+            plane[ptr + 1] = colorG * alpha;
+            plane[ptr + 2] = colorB * alpha;
+            plane[ptr + 3] = colorA * alpha;
         }
         return plane;
     }
@@ -17220,7 +17788,7 @@ var egret;
              * @language zh_CN
              */
             get: function () {
-                return "4.0.0";
+                return "4.1.0";
             },
             enumerable: true,
             configurable: true
@@ -17742,6 +18310,10 @@ var egret;
              * @private
              */
             _this.$textStartY = 0;
+            /**
+             * @private
+             */
+            _this.textLines = [];
             /**
              * @private
              */
@@ -18922,6 +19494,7 @@ var egret;
             this.$onFocus();
         };
         InputController.prototype.$onFocus = function () {
+            var _this = this;
             var self = this;
             if (!this._text.visible) {
                 return;
@@ -18929,7 +19502,10 @@ var egret;
             if (this._isFocus) {
                 return;
             }
-            this.tempStage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onStageDownHandler, this);
+            this.tempStage.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, this.onStageDownHandler, this);
+            egret.callLater(function () {
+                _this.tempStage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, _this.onStageDownHandler, _this);
+            }, this);
             //强制更新输入框位置
             this.stageText.$show();
         };
@@ -20416,7 +20992,7 @@ var egret;
             }
         };
         /**
-         * 不能重写$invalidateContentBounds，因为内部graphics调用clear时会触发$invalidateContentBounds这狗方法，从而导致死循环。
+         * 不能重写$invalidateContentBounds，因为内部graphics调用clear时会触发$invalidateContentBounds这个方法，从而导致死循环。
          */
         TextField.prototype.$invalidateTextField = function () {
             this.$invalidateContentBounds();
@@ -21563,10 +22139,10 @@ var egret;
 (function (egret) {
     /**
     * @language en_US
-    * The ByteArray class provides methods for encoding and decoding base64.
+    * The Base64Util class provides methods for encoding and decoding base64.
     * @version Egret 2.4
     * @platform Web,Native
-    * @includeExample egret/utils/ByteArray.ts
+    * @includeExample egret/utils/Base64Util.ts
     */
     /**
      * @language zh_CN
@@ -24951,255 +25527,3 @@ var egret;
 //  EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //////////////////////////////////////////////////////////////////////////////////////
-var egret;
-(function (egret) {
-    var sys;
-    (function (sys) {
-        var regionPool = [];
-        /**
-         * @private
-         */
-        var Region = (function () {
-            function Region() {
-                /**
-                 * @private
-                 */
-                this.minX = 0;
-                /**
-                 * @private
-                 */
-                this.minY = 0;
-                /**
-                 * @private
-                 */
-                this.maxX = 0;
-                /**
-                 * @private
-                 */
-                this.maxY = 0;
-                /**
-                 * @private
-                 */
-                this.width = 0;
-                /**
-                 * @private
-                 */
-                this.height = 0;
-                /**
-                 * @private
-                 */
-                this.area = 0;
-                /**
-                 * @private
-                 * 是否发生移动
-                 */
-                this.moved = false;
-            }
-            /**
-             * @private
-             * 释放一个Region实例到对象池
-             */
-            Region.release = function (region) {
-                regionPool.push(region);
-            };
-            /**
-             * @private
-             * 从对象池中取出或创建一个新的Region对象。
-             * 建议对于一次性使用的对象，均使用此方法创建，而不是直接new一个。
-             * 使用完后调用对应的release()静态方法回收对象，能有效减少对象创建数量造成的性能开销。
-             */
-            Region.create = function () {
-                var region = regionPool.pop();
-                if (!region) {
-                    region = new Region();
-                }
-                return region;
-            };
-            /**
-             * @private
-             */
-            Region.prototype.setTo = function (minX, minY, maxX, maxY) {
-                this.minX = minX;
-                this.minY = minY;
-                this.maxX = maxX;
-                this.maxY = maxY;
-                this.updateArea();
-                return this;
-            };
-            /**
-             * @private
-             * 把所有值都取整
-             */
-            Region.prototype.intValues = function () {
-                this.minX = Math.floor(this.minX);
-                this.minY = Math.floor(this.minY);
-                this.maxX = Math.ceil(this.maxX);
-                this.maxY = Math.ceil(this.maxY);
-                this.updateArea();
-            };
-            /**
-             * @private
-             */
-            Region.prototype.updateArea = function () {
-                this.width = this.maxX - this.minX;
-                this.height = this.maxY - this.minY;
-                this.area = this.width * this.height;
-            };
-            /**
-             * @private
-             * 注意！由于性能优化，此方法不判断自身是否为空，必须在外部确认自身和目标区域都不为空再调用合并。否则结果始终从0，0点开始。
-             */
-            Region.prototype.union = function (target) {
-                if (this.minX > target.minX) {
-                    this.minX = target.minX;
-                }
-                if (this.minY > target.minY) {
-                    this.minY = target.minY;
-                }
-                if (this.maxX < target.maxX) {
-                    this.maxX = target.maxX;
-                }
-                if (this.maxY < target.maxY) {
-                    this.maxY = target.maxY;
-                }
-                this.updateArea();
-            };
-            /**
-             * @private
-             * 注意！由于性能优化，此方法不判断自身是否为空，必须在外部确认自身和目标区域都不为空再调用合并。否则结果始终从0，0点开始。
-             */
-            Region.prototype.intersect = function (target) {
-                if (this.minX < target.minX) {
-                    this.minX = target.minX;
-                }
-                if (this.maxX > target.maxX) {
-                    this.maxX = target.maxX;
-                }
-                if (this.minX >= this.maxX) {
-                    this.setEmpty();
-                    return;
-                }
-                if (this.minY < target.minY) {
-                    this.minY = target.minY;
-                }
-                if (this.maxY > target.maxY) {
-                    this.maxY = target.maxY;
-                }
-                if (this.minY >= this.maxY) {
-                    this.setEmpty();
-                    return;
-                }
-                this.updateArea();
-            };
-            /**
-             * @private
-             */
-            Region.prototype.setEmpty = function () {
-                this.minX = 0;
-                this.minY = 0;
-                this.maxX = 0;
-                this.maxY = 0;
-                this.width = 0;
-                this.height = 0;
-                this.area = 0;
-            };
-            /**
-             * @private
-             * 确定此 Region 对象是否为空。
-             */
-            Region.prototype.isEmpty = function () {
-                return this.width <= 0 || this.height <= 0;
-            };
-            /**
-             * @private
-             */
-            Region.prototype.intersects = function (target) {
-                if (this.isEmpty()) {
-                    return false;
-                }
-                var max = this.minX > target.minX ? this.minX : target.minX;
-                var min = this.maxX < target.maxX ? this.maxX : target.maxX;
-                if (max > min) {
-                    return false;
-                }
-                max = this.minY > target.minY ? this.minY : target.minY;
-                min = this.maxY < target.maxY ? this.maxY : target.maxY;
-                return max <= min;
-            };
-            /**
-             * @private
-             */
-            Region.prototype.updateRegion = function (bounds, matrix) {
-                if (bounds.width == 0 || bounds.height == 0) {
-                    //todo 理论上应该是空
-                    this.setEmpty();
-                    return;
-                }
-                var m = matrix;
-                var a = m.a;
-                var b = m.b;
-                var c = m.c;
-                var d = m.d;
-                var tx = m.tx;
-                var ty = m.ty;
-                var x = bounds.x;
-                var y = bounds.y;
-                var xMax = x + bounds.width;
-                var yMax = y + bounds.height;
-                var minX, minY, maxX, maxY;
-                //优化，通常情况下不缩放旋转的对象占多数，直接加上偏移量即可。
-                if (a == 1.0 && b == 0.0 && c == 0.0 && d == 1.0) {
-                    minX = x + tx - 1;
-                    minY = y + ty - 1;
-                    maxX = xMax + tx + 1;
-                    maxY = yMax + ty + 1;
-                }
-                else {
-                    var x0 = a * x + c * y + tx;
-                    var y0 = b * x + d * y + ty;
-                    var x1 = a * xMax + c * y + tx;
-                    var y1 = b * xMax + d * y + ty;
-                    var x2 = a * xMax + c * yMax + tx;
-                    var y2 = b * xMax + d * yMax + ty;
-                    var x3 = a * x + c * yMax + tx;
-                    var y3 = b * x + d * yMax + ty;
-                    var tmp = 0;
-                    if (x0 > x1) {
-                        tmp = x0;
-                        x0 = x1;
-                        x1 = tmp;
-                    }
-                    if (x2 > x3) {
-                        tmp = x2;
-                        x2 = x3;
-                        x3 = tmp;
-                    }
-                    minX = (x0 < x2 ? x0 : x2) - 1;
-                    maxX = (x1 > x3 ? x1 : x3) + 1;
-                    if (y0 > y1) {
-                        tmp = y0;
-                        y0 = y1;
-                        y1 = tmp;
-                    }
-                    if (y2 > y3) {
-                        tmp = y2;
-                        y2 = y3;
-                        y3 = tmp;
-                    }
-                    minY = (y0 < y2 ? y0 : y2) - 1;
-                    maxY = (y1 > y3 ? y1 : y3) + 1;
-                }
-                this.minX = minX;
-                this.minY = minY;
-                this.maxX = maxX;
-                this.maxY = maxY;
-                this.width = maxX - minX;
-                this.height = maxY - minY;
-                this.area = this.width * this.height;
-            };
-            return Region;
-        }());
-        sys.Region = Region;
-        __reflect(Region.prototype, "egret.sys.Region");
-    })(sys = egret.sys || (egret.sys = {}));
-})(egret || (egret = {}));
