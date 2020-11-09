@@ -45,7 +45,8 @@ class ReceiveUI extends egret.Sprite {
         {src:"gift10_png",size:120,x:330,y:710},
         {src:"gift9_png",size:120,x:450,y:710},
         {src:"gift10_png",size:120,x:550,y:650}
-    ]
+    ];
+    private loginRegist;
     public constructor() {
         super();
         //this.createView();
@@ -154,6 +155,23 @@ class ReceiveUI extends egret.Sprite {
         //添加领奖容器
         var ljDisplay = new egret.DisplayObjectContainer();
         //ljDisplay.y=148;
+
+
+        // 添加注册登录也页面
+        this.loginRegist = createRegisterLoginPage();
+        this.loginRegist.scaleX = 0;
+        this.loginRegist.scaleY = 0;
+        this.loginRegist.visible = false;
+        this.addChildAt(this.loginRegist,999);
+        this.loginRegist.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+               if(this.loginRegist.visible){
+                 egret.Tween.get(this.loginRegist)
+                                .to({ scaleX :0,scaleY : 0 }, 500); 
+                 this.loginRegist.visible = false;
+                 Main.registLoginShow = false;
+               }
+        },this)
+
         if (Main.mask_onoff) {
             ljDisplay.y = 148;
             title.scaleX=0;
@@ -164,6 +182,14 @@ class ReceiveUI extends egret.Sprite {
             zj_title.scaleX=0;
             zj_title.scaleY=0;
             egret.Tween.get(title).to({ scaleX: 1, scaleY: 1 }, 300)
+        }
+
+        if(Main.registLoginShow){
+             if(!this.loginRegist.visible){
+                      egret.Tween.get(this.loginRegist)
+                                     .to({ scaleX :1,scaleY : 1 }, 500);
+                    this.loginRegist.visible = true;
+             }
         }
 
         ljDisplay.x = 15;
@@ -186,46 +212,21 @@ class ReceiveUI extends egret.Sprite {
         content.x = 95;
         ljDisplay.addChild(content);
 
-        // 添加注册登录也页面
-        var loginRegist = createBitmap("login_regist_jpg",375, 603);
-        loginRegist.width = this.$stage.width;
-        loginRegist.height = this.$stage.height * 0.5;
-        loginRegist.scaleX = 0;
-        loginRegist.scaleY = 0;
-        
-        loginRegist.anchorOffsetX = loginRegist.width * .5;
-        loginRegist.anchorOffsetY = loginRegist.height * .5;
-        this.addChildAt(loginRegist,999);
-        loginRegist.touchEnabled = true;
-
-        loginRegist.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-               if(this.isRegistPopUp){
-                 egret.Tween.get(loginRegist)
-                                .to({ scaleX :0,scaleY : 0 }, 500); 
-                 this.isRegistPopUp = false;
-               }
-        },this)
         //
-        var jptext = createTextFiled(this.getPrizeResult(), 195, 450, 50, 0xff0000);
+        var jptext = createTextFiled(getPrizeResult(), 195, 450, 50, 0xff0000);
         ljDisplay.addChild(jptext);
 
-        var button = new eui.Button();
-        button.width = 200;
-        button.height = 80;
-        button.x = 253;
-        button.y = 850;
-        button.label = "确定";
-        button.skinName = "resource/skins/ButtonSkin.exml";
+        var LoginRegisterbutton = createRegisterLoginButton(253,850);
 
-        button.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                 if(!this.isRegistPopUp){
-                      egret.Tween.get(loginRegist)
+        LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                 if(!this.loginRegist.visible){
+                      egret.Tween.get(this.loginRegist)
                                      .to({ scaleX :1,scaleY : 1 }, 500);
-                    this.isRegistPopUp = true;
+                    this.loginRegist.visible = true;
                  }
          },this)
 
-        ljDisplay.addChild(button);
+        ljDisplay.addChild(LoginRegisterbutton);
 
         //可点击对象
         lq_btn.touchEnabled = true;
@@ -233,7 +234,7 @@ class ReceiveUI extends egret.Sprite {
         //点击领取按钮事件
         var This = this;
         lq_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            jptext.text = this.getPrizeResult();
+            jptext.text = getPrizeResult();
             egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
                 egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300)
             })
@@ -300,7 +301,7 @@ class ReceiveUI extends egret.Sprite {
                                         egret.Tween.get(randomBall).to({y:960,scaleX:2.5,scaleY:2.5,rotation:360},1000).to({},500).call(function(){
                                                 //完毕
                                         randomBall.visible = false;
-                                        jptext.text = this.getPrizeResult();
+                                        jptext.text = getPrizeResult();
                                         egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
                                             egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300)
                                         })
@@ -321,15 +322,6 @@ class ReceiveUI extends egret.Sprite {
 
     }
 
-
-    private getPrizeResult(){
-        var result = getLocalStorage( egret.localStorage.getItem("token"));
-        if(result){
-            return result.value;
-        }else{
-            return "Please Play the game.";
-        }
-    }
 
     private lotteryResultComplete(event:egret.Event){
         var request = <egret.HttpRequest>event.currentTarget;

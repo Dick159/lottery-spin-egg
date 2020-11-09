@@ -10,6 +10,7 @@ var IndexUI = (function (_super) {
     __extends(IndexUI, _super);
     function IndexUI() {
         var _this = _super.call(this) || this;
+        _this.isRegistPopUp = false;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
         return _this;
     }
@@ -90,7 +91,7 @@ var IndexUI = (function (_super) {
         //开始游戏按钮
         // var start_btn = createButton(273, 1034, 210, 70, 0x299a0e, 0xffffff, "开始游戏", 0xbf0c21, 0xffffff);
         // this.addChild(start_btn);
-        var start_btn = createBitmap("start_btn_png", 230, 1095);
+        var start_btn = createBitmap("start_btn_png", 440, 1095);
         this.addChild(start_btn);
         start_btn.touchEnabled = true;
         start_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
@@ -98,17 +99,28 @@ var IndexUI = (function (_super) {
             var gameui = ScenceManage.create(this.stage);
             gameui.loadScence("ResultUI", this, ReceiveUI);
         }, this);
-        //游戏规则字体
-        // var scoreText = createTextFiled("游戏规则", 0, 1140, 30, 0x717171, "center", 750);
-        // this.addChild(scoreText);
-        // scoreText.touchEnabled = true;
+        //注册登录按钮
+        var LoginRegisterbutton = createRegisterLoginButton(110, 1095);
+        LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            Main.registLoginShow = true;
+            var loginregisterpage = ScenceManage.create(this.stage);
+            loginregisterpage.loadScence("ResultUI", this, ReceiveUI);
+        }, this);
+        this.addChild(LoginRegisterbutton);
         //游戏规则弹窗
         var mask = createBitmap("rule_jpg", 375, 603);
         mask.touchEnabled = true;
         mask.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             egret.Tween.get(mask).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
                 start_btn.touchEnabled = true;
+                LoginRegisterbutton.touchEnabled = true;
                 mask.visible = false;
+            }, this);
+            egret.Tween.get(tree).to({ x: 556 }, 300).call(function () {
+                tree.visible = true; //我的奖品复位
+            }, this);
+            egret.Tween.get(gameRule).to({ x: 556 }, 300).call(function () {
+                gameRule.visible = true; //游戏规则复位
             }, this);
         }, this);
         this.addChild(mask);
@@ -127,17 +139,18 @@ var IndexUI = (function (_super) {
             // scoreText. = 0xbf0c21;
             if (mask.visible == false) {
                 start_btn.touchEnabled = false;
+                LoginRegisterbutton.touchEnabled = false;
                 mask.visible = true; //显示游戏规则弹窗
                 egret.Tween.get(tree).to({ x: 750 }, 300).call(function () {
                     tree.visible = false; //将我的奖品移出页面可见
+                }, this);
+                egret.Tween.get(gameRule).to({ x: 750 }, 300).call(function () {
+                    gameRule.visible = false; //将我的奖品移出页面可见
                 }, this);
                 egret.Tween.get(mask).to({ scaleX: 1, scaleY: 1 }, 500).call(function () { }, this);
             }
             else {
                 start_btn.touchEnabled = true;
-                egret.Tween.get(mask).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
-                    mask.visible = false;
-                }, this);
             }
         }, this);
     };

@@ -257,3 +257,40 @@ function uuid2(len, radix) {
 
 	return uuid.join('');
 }
+
+
+function createRegisterLoginPage(){
+    // 添加注册登录也页面
+    var loginRegist = createBitmap("login_regist_jpg",375, 603);
+    loginRegist.width = 750;
+    loginRegist.height = 1206;
+    
+    
+    loginRegist.anchorOffsetX = loginRegist.width * .5;
+    loginRegist.anchorOffsetY = loginRegist.height * .5;
+    loginRegist.touchEnabled = true;
+    return loginRegist;
+}
+
+
+function createRegisterLoginButton(x,y){
+        var LoginRegisterbutton = new eui.Button();
+        LoginRegisterbutton.width = 200;
+        LoginRegisterbutton.height = 80;
+        //LoginRegisterbutton.x = 253;
+        //LoginRegisterbutton.y = 850;
+        LoginRegisterbutton.x = x;
+        LoginRegisterbutton.y = y;
+        LoginRegisterbutton.label = "登录/注册领取";
+        LoginRegisterbutton.skinName = "resource/skins/ButtonSkin.exml";
+        return LoginRegisterbutton;
+}
+
+function getPrizeResult(){
+        var result = getLocalStorage( egret.localStorage.getItem("token"));
+        if(result){
+            return result.value;
+        }else{
+            return "Please Play the game.";
+        }
+}
