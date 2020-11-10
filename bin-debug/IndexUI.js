@@ -103,6 +103,7 @@ var IndexUI = (function (_super) {
         var LoginRegisterbutton = createRegisterLoginButton(110, 1095);
         LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             Main.registLoginShow = true;
+            Main.mask_onoff = false;
             var loginregisterpage = ScenceManage.create(this.stage);
             loginregisterpage.loadScence("ResultUI", this, ReceiveUI);
         }, this);

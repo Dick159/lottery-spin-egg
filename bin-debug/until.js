@@ -300,15 +300,27 @@ function createRegisterLoginPage() {
 }
 function createRegisterLoginButton(x, y) {
     var LoginRegisterbutton = new eui.Button();
-    LoginRegisterbutton.width = 200;
-    LoginRegisterbutton.height = 80;
+    // LoginRegisterbutton.width = 200;
+    // LoginRegisterbutton.height = 80;
     //LoginRegisterbutton.x = 253;
     //LoginRegisterbutton.y = 850;
     LoginRegisterbutton.x = x;
     LoginRegisterbutton.y = y;
-    LoginRegisterbutton.label = "登录/注册领取";
+    LoginRegisterbutton.label = "";
     LoginRegisterbutton.skinName = "resource/skins/ButtonSkin.exml";
     return LoginRegisterbutton;
+}
+function createRedeemButton(x, y) {
+    var redeemBUtton = new eui.Button();
+    // LoginRegisterbutton.width = 200;
+    // LoginRegisterbutton.height = 80;
+    //LoginRegisterbutton.x = 253;
+    //LoginRegisterbutton.y = 850;
+    redeemBUtton.x = x;
+    redeemBUtton.y = y;
+    redeemBUtton.label = "";
+    redeemBUtton.skinName = "resource/skins/redeemButtonSkin.exml";
+    return redeemBUtton;
 }
 function getPrizeResult() {
     var result = getLocalStorage(egret.localStorage.getItem("token"));
@@ -316,7 +328,7 @@ function getPrizeResult() {
         return result.value;
     }
     else {
-        return "Please Play the game.";
+        return "请抽奖。";
     }
 }
 //# sourceMappingURL=until.js.map

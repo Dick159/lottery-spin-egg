@@ -153,7 +153,7 @@ class ReceiveUI extends egret.Sprite {
         this.addChild(lq_btn);
         this.lq_btn=lq_btn;
         //添加领奖容器
-        var ljDisplay = new egret.DisplayObjectContainer();
+        var ljDisplay = new eui.Group();
         //ljDisplay.y=148;
 
 
@@ -216,7 +216,7 @@ class ReceiveUI extends egret.Sprite {
         var jptext = createTextFiled(getPrizeResult(), 195, 450, 50, 0xff0000);
         ljDisplay.addChild(jptext);
 
-        var LoginRegisterbutton = createRegisterLoginButton(253,850);
+        var LoginRegisterbutton = createRegisterLoginButton(385,850);
 
         LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                  if(!this.loginRegist.visible){
@@ -226,7 +226,15 @@ class ReceiveUI extends egret.Sprite {
                  }
          },this)
 
+
+         var redeemButton = createRedeemButton(50,850);
+         redeemButton.addEventListener(egret.TouchEvent.TOUCH_TAP, (event) => {
+             event.stopImmediatePropagation();
+         },this);
+        
         ljDisplay.addChild(LoginRegisterbutton);
+        ljDisplay.addChild(redeemButton);
+
 
         //可点击对象
         lq_btn.touchEnabled = true;
@@ -242,7 +250,7 @@ class ReceiveUI extends egret.Sprite {
                 .to({ y: 148 }, 500);
         }, this)
 
-        ljDisplay.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        ljDisplay.addEventListener(egret.TouchEvent.TOUCH_TAP, function() {
             egret.Tween.get(zj_title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
                 egret.Tween.get(title).to({ scaleX: 1, scaleY: 1 }, 300)
             })
@@ -298,11 +306,11 @@ class ReceiveUI extends egret.Sprite {
                                 //出奖
                                 egret.Tween.get(randomBall,{loop:false}).to({x:210,y:900,width:50,height:50},1000).call(function(){
                                         this.addChild(randomBall);
-                                        egret.Tween.get(randomBall).to({y:960,scaleX:2.5,scaleY:2.5,rotation:360},1000).to({},500).call(function(){
+                                        egret.Tween.get(randomBall).to({y:960,scaleX:2.5,scaleY:2.5,rotation:360},1000,egret.Ease.quadOut).wait(500).call(function(){
                                                 //完毕
                                         randomBall.visible = false;
                                         jptext.text = getPrizeResult();
-                                        egret.Tween.get(title).to({ scaleX: 0, scaleY: 0 }, 200).call(function () {
+                                        egret.Tween.get(title).to({ scaleX: 0, scaleY: 0     }, 200).call(function () {
                                             egret.Tween.get(zj_title).to({ scaleX: 1, scaleY: 1 }, 300)
                                         })
                                         egret.Tween.get(ljDisplay)
@@ -327,7 +335,6 @@ class ReceiveUI extends egret.Sprite {
         var request = <egret.HttpRequest>event.currentTarget;
         var jsonObject= JSON.parse(request.response);
         this.isFinishSpin = true;
-        console.log(jsonObject.data)
         var resultText = jsonObject.data.text2;
         egret.localStorage.setItem("token",this.token);
         setLocalStorage(this.token,resultText,1);

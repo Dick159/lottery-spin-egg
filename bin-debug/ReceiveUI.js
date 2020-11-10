@@ -140,7 +140,7 @@ var ReceiveUI = (function (_super) {
         this.addChild(lq_btn);
         this.lq_btn = lq_btn;
         //添加领奖容器
-        var ljDisplay = new egret.DisplayObjectContainer();
+        var ljDisplay = new eui.Group();
         //ljDisplay.y=148;
         // 添加注册登录也页面
         this.loginRegist = createRegisterLoginPage();
@@ -197,7 +197,7 @@ var ReceiveUI = (function (_super) {
         //
         var jptext = createTextFiled(getPrizeResult(), 195, 450, 50, 0xff0000);
         ljDisplay.addChild(jptext);
-        var LoginRegisterbutton = createRegisterLoginButton(253, 850);
+        var LoginRegisterbutton = createRegisterLoginButton(385, 850);
         LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (!this.loginRegist.visible) {
                 egret.Tween.get(this.loginRegist)
@@ -205,7 +205,12 @@ var ReceiveUI = (function (_super) {
                 this.loginRegist.visible = true;
             }
         }, this);
+        var redeemButton = createRedeemButton(50, 850);
+        redeemButton.addEventListener(egret.TouchEvent.TOUCH_TAP, function (event) {
+            event.stopImmediatePropagation();
+        }, this);
         ljDisplay.addChild(LoginRegisterbutton);
+        ljDisplay.addChild(redeemButton);
         //可点击对象
         lq_btn.touchEnabled = true;
         ljDisplay.touchEnabled = true;
@@ -261,7 +266,7 @@ var ReceiveUI = (function (_super) {
                             //出奖
                             egret.Tween.get(randomBall, { loop: false }).to({ x: 210, y: 900, width: 50, height: 50 }, 1000).call(function () {
                                 this.addChild(randomBall);
-                                egret.Tween.get(randomBall).to({ y: 960, scaleX: 2.5, scaleY: 2.5, rotation: 360 }, 1000).to({}, 500).call(function () {
+                                egret.Tween.get(randomBall).to({ y: 960, scaleX: 2.5, scaleY: 2.5, rotation: 360 }, 1000, egret.Ease.quadOut).wait(500).call(function () {
                                     //完毕
                                     randomBall.visible = false;
                                     jptext.text = getPrizeResult();
@@ -286,7 +291,6 @@ var ReceiveUI = (function (_super) {
         var request = event.currentTarget;
         var jsonObject = JSON.parse(request.response);
         this.isFinishSpin = true;
-        console.log(jsonObject.data);
         var resultText = jsonObject.data.text2;
         egret.localStorage.setItem("token", this.token);
         setLocalStorage(this.token, resultText, 1);
