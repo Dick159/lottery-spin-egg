@@ -105,10 +105,8 @@ class IndexUI extends egret.Sprite {
         var LoginRegisterbutton = createRegisterLoginButton(110,1095);
 
         LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                Main.registLoginShow=true;
-                Main.mask_onoff=false;
-                var loginregisterpage = ScenceManage.create(this.stage);
-                loginregisterpage.loadScence("ResultUI",this,ReceiveUI); 
+                var info = ScenceManage.create(this.stage);
+                info.loadScence("info",this,Info1UI);
          },this)
 
         this.addChild(LoginRegisterbutton);

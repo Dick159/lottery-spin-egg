@@ -106,12 +106,6 @@ class ReceiveUI extends egret.Sprite {
         diban.y = 842;
         this.addChild(diban);
 
-        //添加老虎机的启动杆
-        // this.rocker = createBitmap("qidong_png", 320, 339);
-        // this.addChild(this.rocker);
-        // this.rocker.anchorOffsetX = 0;
-        // this.rocker.anchorOffsetY = this.rocker.height;
-        // this.rocker.touchEnabled = true;
         //添加老虎机
         this.laohuji = createBitmap("lottery_box2_png");
         this.laohuji.x = 30;
@@ -123,8 +117,6 @@ class ReceiveUI extends egret.Sprite {
         this.lotteryExit = createBitmap("asuzx-doomm_png");
         this.lotteryExit.x = 40;
         this.lotteryExit.y = 505;
-
-        //this.addChild(this.lotteryExit);
         
         //声音
         this.dd = new egret.Sound;
@@ -153,24 +145,11 @@ class ReceiveUI extends egret.Sprite {
         this.addChild(lq_btn);
         this.lq_btn=lq_btn;
         //添加领奖容器
-        var ljDisplay = new eui.Group();
+        var ljDisplay = new egret.DisplayObjectContainer();
         //ljDisplay.y=148;
 
 
         // 添加注册登录也页面
-        this.loginRegist = createRegisterLoginPage();
-        this.loginRegist.scaleX = 0;
-        this.loginRegist.scaleY = 0;
-        this.loginRegist.visible = false;
-        this.addChildAt(this.loginRegist,999);
-        this.loginRegist.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-               if(this.loginRegist.visible){
-                 egret.Tween.get(this.loginRegist)
-                                .to({ scaleX :0,scaleY : 0 }, 500); 
-                 this.loginRegist.visible = false;
-                 Main.registLoginShow = false;
-               }
-        },this)
 
         if (Main.mask_onoff) {
             ljDisplay.y = 148;
@@ -184,18 +163,12 @@ class ReceiveUI extends egret.Sprite {
             egret.Tween.get(title).to({ scaleX: 1, scaleY: 1 }, 300)
         }
 
-        if(Main.registLoginShow){
-             if(!this.loginRegist.visible){
-                      egret.Tween.get(this.loginRegist)
-                                     .to({ scaleX :1,scaleY : 1 }, 500);
-                    this.loginRegist.visible = true;
-             }
-        }
-
         ljDisplay.x = 15;
         ljDisplay.width = 720;
         ljDisplay.height = 1047;
         this.addChild(ljDisplay);
+
+
         //添加容器内容背景
         var ljDisplayBg = createBitmap("djy_wbk_png");
         ljDisplayBg.x = 0;
@@ -216,24 +189,19 @@ class ReceiveUI extends egret.Sprite {
         var jptext = createTextFiled(getPrizeResult(), 195, 450, 50, 0xff0000);
         ljDisplay.addChild(jptext);
 
-        var LoginRegisterbutton = createRegisterLoginButton(385,850);
-
-        LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-                 if(!this.loginRegist.visible){
-                      egret.Tween.get(this.loginRegist)
-                                     .to({ scaleX :1,scaleY : 1 }, 500);
-                    this.loginRegist.visible = true;
-                 }
-         },this)
-
 
          var redeemButton = createRedeemButton(50,850);
          redeemButton.addEventListener(egret.TouchEvent.TOUCH_TAP, (event) => {
              event.stopImmediatePropagation();
          },this);
         
-        ljDisplay.addChild(LoginRegisterbutton);
         ljDisplay.addChild(redeemButton);
+
+        this.loginRegist = createRegisterLoginButton(385,850);
+        this.loginRegist.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+             this.info();
+        },this)
+        ljDisplay.addChild(this.loginRegist);
 
 
         //可点击对象
@@ -355,4 +323,8 @@ class ReceiveUI extends egret.Sprite {
         return (min + Math.round(Rand * Range));  
     }
 
+    private info(){
+        var infoui = ScenceManage.create(this.stage);
+        infoui.loadScence("info",this,Info1UI);
+    }
 }

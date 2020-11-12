@@ -98,12 +98,6 @@ var ReceiveUI = (function (_super) {
         diban.x = 0;
         diban.y = 842;
         this.addChild(diban);
-        //添加老虎机的启动杆
-        // this.rocker = createBitmap("qidong_png", 320, 339);
-        // this.addChild(this.rocker);
-        // this.rocker.anchorOffsetX = 0;
-        // this.rocker.anchorOffsetY = this.rocker.height;
-        // this.rocker.touchEnabled = true;
         //添加老虎机
         this.laohuji = createBitmap("lottery_box2_png");
         this.laohuji.x = 30;
@@ -114,7 +108,6 @@ var ReceiveUI = (function (_super) {
         this.lotteryExit = createBitmap("asuzx-doomm_png");
         this.lotteryExit.x = 40;
         this.lotteryExit.y = 505;
-        //this.addChild(this.lotteryExit);
         //声音
         this.dd = new egret.Sound;
         this.dd.load("resource/assets/dd.mp3");
@@ -140,22 +133,9 @@ var ReceiveUI = (function (_super) {
         this.addChild(lq_btn);
         this.lq_btn = lq_btn;
         //添加领奖容器
-        var ljDisplay = new eui.Group();
+        var ljDisplay = new egret.DisplayObjectContainer();
         //ljDisplay.y=148;
         // 添加注册登录也页面
-        this.loginRegist = createRegisterLoginPage();
-        this.loginRegist.scaleX = 0;
-        this.loginRegist.scaleY = 0;
-        this.loginRegist.visible = false;
-        this.addChildAt(this.loginRegist, 999);
-        this.loginRegist.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (this.loginRegist.visible) {
-                egret.Tween.get(this.loginRegist)
-                    .to({ scaleX: 0, scaleY: 0 }, 500);
-                this.loginRegist.visible = false;
-                Main.registLoginShow = false;
-            }
-        }, this);
         if (Main.mask_onoff) {
             ljDisplay.y = 148;
             title.scaleX = 0;
@@ -167,13 +147,6 @@ var ReceiveUI = (function (_super) {
             zj_title.scaleX = 0;
             zj_title.scaleY = 0;
             egret.Tween.get(title).to({ scaleX: 1, scaleY: 1 }, 300);
-        }
-        if (Main.registLoginShow) {
-            if (!this.loginRegist.visible) {
-                egret.Tween.get(this.loginRegist)
-                    .to({ scaleX: 1, scaleY: 1 }, 500);
-                this.loginRegist.visible = true;
-            }
         }
         ljDisplay.x = 15;
         ljDisplay.width = 720;
@@ -197,20 +170,16 @@ var ReceiveUI = (function (_super) {
         //
         var jptext = createTextFiled(getPrizeResult(), 195, 450, 50, 0xff0000);
         ljDisplay.addChild(jptext);
-        var LoginRegisterbutton = createRegisterLoginButton(385, 850);
-        LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (!this.loginRegist.visible) {
-                egret.Tween.get(this.loginRegist)
-                    .to({ scaleX: 1, scaleY: 1 }, 500);
-                this.loginRegist.visible = true;
-            }
-        }, this);
         var redeemButton = createRedeemButton(50, 850);
         redeemButton.addEventListener(egret.TouchEvent.TOUCH_TAP, function (event) {
             event.stopImmediatePropagation();
         }, this);
-        ljDisplay.addChild(LoginRegisterbutton);
         ljDisplay.addChild(redeemButton);
+        this.loginRegist = createRegisterLoginButton(385, 850);
+        this.loginRegist.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            this.info();
+        }, this);
+        ljDisplay.addChild(this.loginRegist);
         //可点击对象
         lq_btn.touchEnabled = true;
         ljDisplay.touchEnabled = true;
@@ -305,6 +274,10 @@ var ReceiveUI = (function (_super) {
         var Range = max - min;
         var Rand = Math.random();
         return (min + Math.round(Rand * Range));
+    };
+    ReceiveUI.prototype.info = function () {
+        var infoui = ScenceManage.create(this.stage);
+        infoui.loadScence("info", this, Info1UI);
     };
     return ReceiveUI;
 }(egret.Sprite));

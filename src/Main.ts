@@ -148,8 +148,8 @@ class Main extends egret.DisplayObjectContainer {
         // var scence=new ScenceManage(this.stage);
 
 
-        // var scence=ScenceManage.create(this.stage);
-        // scence.loadScence("preload",null,GameUI,function(){});
+        //var scence=ScenceManage.create(this.stage);
+        //scence.loadScence("preload",null,GameUI,function(){});
         var bg= createBitmap("common_bg_png",0,0);
         this.addChild(bg);
 
