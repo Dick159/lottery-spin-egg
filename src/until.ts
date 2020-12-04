@@ -147,7 +147,7 @@ function createBitmap(img,x=0,y=0,name="",anchorOffsetX=0,anchorOffsetY=0,scaleX
  * @returns {egret.TextField}
  */
 function createTextFiled(text="",x=0,y=0,size=30,textColor=0x000000,textAlign="center",width=0,height=0,verticalAlign="middle",border=false,borderColor=0x000000,multiline=false,type=egret.TextFieldType.DYNAMIC){
-    var TextField = new egret.TextField();
+    var TextField = new eui.EditableText();
     TextField.textAlign = textAlign;
     TextField.verticalAlign = verticalAlign;
     TextField.size = size;

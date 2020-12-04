@@ -1,0 +1,22 @@
+{
+	"initial": [
+		"libs/modules/egret/egret.js",
+		"libs/modules/egret/egret.web.js",
+		"libs/modules/game/game.js",
+		"libs/modules/res/res.js",
+		"libs/modules/tween/tween.js",
+		"libs/modules/eui/eui.js"
+	],
+	"game": [
+		"bin-debug/GameUI.js",
+		"bin-debug/IndexUI.js",
+		"bin-debug/Info1UI.js",
+		"bin-debug/InfoUI.js",
+		"bin-debug/LoadingUI.js",
+		"bin-debug/Main.js",
+		"bin-debug/ReceiveUI.js",
+		"bin-debug/ResultUI.js",
+		"bin-debug/ScenceManage.js",
+		"bin-debug/until.js"
+	]
+}

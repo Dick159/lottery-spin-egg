@@ -24,5 +24,10 @@
     {
       "name": "eui"
     }
-  ]
+  ],
+  "eui": {
+    "exmlRoot": [
+      "resource/eui_skins"
+    ]
+  }
 }

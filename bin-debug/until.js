@@ -179,7 +179,7 @@ function createTextFiled(text, x, y, size, textColor, textAlign, width, height, 
     if (borderColor === void 0) { borderColor = 0x000000; }
     if (multiline === void 0) { multiline = false; }
     if (type === void 0) { type = egret.TextFieldType.DYNAMIC; }
-    var TextField = new egret.TextField();
+    var TextField = new eui.EditableText();
     TextField.textAlign = textAlign;
     TextField.verticalAlign = verticalAlign;
     TextField.size = size;

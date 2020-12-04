@@ -46,8 +46,6 @@ var Main = (function (_super) {
         var request = event.currentTarget;
         var jsonObject = JSON.parse(request.response);
         if (jsonObject.code == '200') {
-            console.log(jsonObject);
-            console.log(jsonObject.data.PrizeProperty);
             setLocalStorage("prizeList", jsonObject.data.PrizeProperty, 1);
             //初始化Resource资源加载库
             //initiate Resource loading library

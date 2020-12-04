@@ -45,7 +45,6 @@ class Main extends egret.DisplayObjectContainer {
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
-
     }
 
 
@@ -54,8 +53,6 @@ class Main extends egret.DisplayObjectContainer {
 
          var jsonObject= JSON.parse(request.response);
          if(jsonObject.code == '200'){
-         console.log(jsonObject);
-         console.log(jsonObject.data.PrizeProperty);
          setLocalStorage("prizeList",jsonObject.data.PrizeProperty,1);
             //初始化Resource资源加载库
             //initiate Resource loading library
