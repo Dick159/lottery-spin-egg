@@ -168,7 +168,7 @@ var ReceiveUI = (function (_super) {
         content.x = 95;
         ljDisplay.addChild(content);
         //
-        var jptext = createTextFiled(getPrizeResult(), 195, 450, 50, 0xff0000);
+        var jptext = createTextFiledNoEui(getPrizeResult(), 195, 450, 50, 0xff0000);
         ljDisplay.addChild(jptext);
         var redeemButton = createRedeemButton(50, 850);
         redeemButton.addEventListener(egret.TouchEvent.TOUCH_TAP, function (event) {

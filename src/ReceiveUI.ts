@@ -186,7 +186,7 @@ class ReceiveUI extends egret.Sprite {
         ljDisplay.addChild(content);
 
         //
-        var jptext = createTextFiled(getPrizeResult(), 195, 450, 50, 0xff0000);
+        var jptext = createTextFiledNoEui(getPrizeResult(), 195, 450, 50, 0xff0000);
         ljDisplay.addChild(jptext);
 
 

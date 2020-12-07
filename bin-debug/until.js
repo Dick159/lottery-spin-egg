@@ -201,6 +201,42 @@ function createTextFiled(text, x, y, size, textColor, textAlign, width, height, 
     TextField.type = type;
     return TextField;
 }
+function createTextFiledNoEui(text, x, y, size, textColor, textAlign, width, height, verticalAlign, border, borderColor, multiline, type) {
+    if (text === void 0) { text = ""; }
+    if (x === void 0) { x = 0; }
+    if (y === void 0) { y = 0; }
+    if (size === void 0) { size = 30; }
+    if (textColor === void 0) { textColor = 0x000000; }
+    if (textAlign === void 0) { textAlign = "center"; }
+    if (width === void 0) { width = 0; }
+    if (height === void 0) { height = 0; }
+    if (verticalAlign === void 0) { verticalAlign = "middle"; }
+    if (border === void 0) { border = false; }
+    if (borderColor === void 0) { borderColor = 0x000000; }
+    if (multiline === void 0) { multiline = false; }
+    if (type === void 0) { type = egret.TextFieldType.DYNAMIC; }
+    var TextField = new egret.TextField();
+    TextField.textAlign = textAlign;
+    TextField.verticalAlign = verticalAlign;
+    TextField.size = size;
+    TextField.x = x;
+    TextField.y = y;
+    TextField.text = text;
+    if (width) {
+        TextField.width = width;
+    }
+    if (height) {
+        TextField.height = height;
+    }
+    TextField.textColor = textColor;
+    if (border) {
+        TextField.border = border;
+        TextField.borderColor = borderColor;
+    }
+    TextField.multiline = multiline;
+    TextField.type = type;
+    return TextField;
+}
 function setLocalStorage(key, value, expiredDay) {
     if (expiredDay === void 0) { expiredDay = 0; }
     if (value) {

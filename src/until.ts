@@ -163,6 +163,26 @@ function createTextFiled(text="",x=0,y=0,size=30,textColor=0x000000,textAlign="c
     return TextField;
 }
 
+
+
+function createTextFiledNoEui(text="",x=0,y=0,size=30,textColor=0x000000,textAlign="center",width=0,height=0,verticalAlign="middle",border=false,borderColor=0x000000,multiline=false,type=egret.TextFieldType.DYNAMIC){
+    var TextField = new egret.TextField();
+    TextField.textAlign = textAlign;
+    TextField.verticalAlign = verticalAlign;
+    TextField.size = size;
+    TextField.x = x;
+    TextField.y = y;
+    TextField.text = text;
+    if(width){TextField.width = width}
+    if(height){TextField.height = height}
+    TextField.textColor = textColor;
+    if(border){TextField.border = border;TextField.borderColor=borderColor}
+    TextField.multiline = multiline;
+    TextField.type = type;
+    return TextField;
+}
+
+
 function setLocalStorage(key: string,value: any,expiredDay:number = 0){
   if (value) {
     let _value = {};

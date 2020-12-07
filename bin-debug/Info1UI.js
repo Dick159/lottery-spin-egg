@@ -147,16 +147,14 @@ var Info1UI = (function (_super) {
         var cj_btn = createBitmap("patronRegister_png", 270, 1024);
         this.addChild(cj_btn);
         cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (nameYN && telYN && yzmYN) {
-                var gameui = ScenceManage.create(this.stage);
-                gameui.loadScence("ResultUI", this, ReceiveUI);
-            }
-            else if (yzmNum == undefined) {
-                chucuo_title.text = "填写信息有误";
-            }
-            else {
-                chucuo_title.text = "填写信息有误";
-            }
+            //    if(nameYN&&telYN&&yzmYN){
+            //        var gameui = ScenceManage.create(this.stage);
+            //         gameui.loadScence("ResultUI",this,ReceiveUI);
+            //    }else if(yzmNum==undefined){
+            //        chucuo_title.text="填写信息有误";
+            //    }else{
+            //        chucuo_title.text="填写信息有误";
+            //    }
         }, this);
         cj_btn.touchEnabled = true; //开启点击侦听
     };
