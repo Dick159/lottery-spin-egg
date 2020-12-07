@@ -5,11 +5,11 @@
                         <e:HorizontalLayout verticalAlign="middle"/>
                     </e:layout>
                     <e:Image fillMode="scale" alpha="1" alpha.disabled="0.5" alpha.down="0.7"
-                             source="resource/assets/gift3.png"
-                             source.upAndSelected="resource/assets/gift3.png"
-                             source.downAndSelected="resource/assets/gift3.png"
+                             source="resource/assets/check-box-outline-blank.png"
+                             source.upAndSelected="resource/assets/check-box-outline.png"
+                             source.downAndSelected="resource/assets/check-box-outline-blank.png"
                              source.disabledAndSelected="resource/assets/gift3.png"/>
-                    <e:Label id="labelDisplay" size="20" textColor="0x707070"
+                    <e:Label id="labelDisplay" size="20" textColor="0x000000"
                              textAlign="center" verticalAlign="middle"
                              fontFamily="Tahoma"/>
                 </e:Group>
