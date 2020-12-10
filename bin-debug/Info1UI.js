@@ -22,7 +22,10 @@ var Info1UI = (function (_super) {
         return _this;
     }
     Info1UI.prototype.createView = function () {
-        //var content_bg=createBitmap("info1bg_png2",15,338);
+        //this.getCountryListData();
+        var dropDwonList = new euiextendsion.DropDwonList();
+        dropDwonList.x = this.registerInputX;
+        dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
         var img = new eui.Image("/resource/assets/djy_wbk.png");
         img.scaleY = 1.15;
         // img.x = 15;
@@ -30,8 +33,11 @@ var Info1UI = (function (_super) {
         // this.addChild(img);
         var zl_content = new eui.Group();
         this.addChild(zl_content);
-        //zl_content.addChild(img);
         zl_content.addChild(img);
+        var euiben = new eui.Button();
+        euiben.width = 100;
+        euiben.width = 50;
+        zl_content.addChild(euiben);
         var _scroller = new eui.Scroller();
         //    _scroller.width = 540;
         //    _scroller.height = 380;
@@ -66,27 +72,27 @@ var Info1UI = (function (_super) {
         mcCheckBox.label = "                 我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
         zl_content.addChild(mcCheckBox);
         //var yzm=createTextFiled("验证码：",0,207,35,0x54734a);
-        //var f_name_text=createTextFiled("请输入姓氏", 150, 0, 25, 0xb1b1b1, "left",390,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT); 
+        var f_name_text = createTextFiled("请输入姓氏", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 0, 25, 0xb1b1b1, "left", 390, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var f_name_border = new egret.Shape();
         f_name_border.graphics.lineStyle(2, 0xb1b1b1);
         f_name_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 0, 420, 61, 25, 25);
         f_name_border.graphics.endFill;
-        //var l_name_text=createTextFiled("请输入名字", 150, 96, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+        var l_name_text = createTextFiled("请输入名字", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var l_name_border = new egret.Shape();
         l_name_border.graphics.lineStyle(2, 0xb1b1b1);
         l_name_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 1, 420, 61, 25, 25);
         l_name_border.graphics.endFill;
-        //var dob_text=createTextFiled("生日年月日", 150, 96*2, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+        var dob_text = createTextFiled("生日年月日", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var dob_border = new egret.Shape();
         dob_border.graphics.lineStyle(2, 0xb1b1b1);
         dob_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 2, 420, 61, 25, 25);
         dob_border.graphics.endFill;
-        //var tel_text=createTextFiled("电话号码", 150, 96*3, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+        var tel_text = createTextFiled("电话号码", this.registerInputX + 5 + 100, this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left", 230, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var tel_border = new egret.Shape();
         tel_border.graphics.lineStyle(2, 0xb1b1b1);
-        tel_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 3, 420, 61, 25, 25);
+        tel_border.graphics.drawRoundRect(this.registerInputX + 100, this.registerInputYBias + this.registerInputY * 3, 320, 61, 25, 25);
         tel_border.graphics.endFill;
-        //var mail_text=createTextFiled("电邮", 150, 96*4, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+        var mail_text = createTextFiled("电邮", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 4, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var mail_border = new egret.Shape();
         mail_border.graphics.lineStyle(2, 0xb1b1b1);
         mail_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 4, 420, 61, 25, 25);
@@ -99,11 +105,11 @@ var Info1UI = (function (_super) {
         zl_content.addChild(bod_label);
         zl_content.addChild(tel_label);
         zl_content.addChild(email_label);
-        //    zl_content.addChild(f_name_text);
-        //    zl_content.addChild(l_name_text);
-        //    zl_content.addChild(tel_text);
-        //    zl_content.addChild(dob_text);
-        //    zl_content.addChild(mail_text);
+        zl_content.addChild(f_name_text);
+        zl_content.addChild(l_name_text);
+        zl_content.addChild(tel_text);
+        zl_content.addChild(dob_text);
+        zl_content.addChild(mail_text);
         zl_content.addChild(f_name_border);
         zl_content.addChild(tel_border);
         zl_content.addChild(l_name_border);
@@ -113,7 +119,7 @@ var Info1UI = (function (_super) {
         var telYN = false;
         var yzmYN = false;
         var yzmNum;
-        //    f_name_text.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){f_name_text.text=""},this)
+        f_name_text.addEventListener(egret.TouchEvent.TOUCH_TAP, function () { console.log("aaa"); }, this);
         //    f_name_text.addEventListener(egret.TouchEvent.FOCUS_OUT,function(){
         //     //    nameYN=false;
         //     //    if(/^[\u4E00-\u9FA5]{0,}$/.test(name_text.text)&&name_text.text!=""){
@@ -157,6 +163,7 @@ var Info1UI = (function (_super) {
             //    }
         }, this);
         cj_btn.touchEnabled = true; //开启点击侦听
+        zl_content.addChild(dropDwonList);
     };
     //指向动画
     Info1UI.prototype.share_lg = function () {

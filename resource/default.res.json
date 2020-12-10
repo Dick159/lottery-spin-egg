@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "zhadan2_png,zhadan1_png,yuanhu_bg_png,wazi3_png,wazi2_png,wazi1_png,start_btn_png,start_bg_jpg,start_2_jpg,maozi2_png,maozi1_png,logo9_png,logo8_png,logo7_png,logo6_png,logo5_png,logo4_png,logo3_png,logo2_png,logo10_png,logo1_png,loading_rec_png,loading_blue_png,loading_bg_png,liwu1_png,lingdan1_png,lindang2_png,gift9_png,gift8_png,gift7_png,gift6_png,gift5_png,gift4_png,gift3_png,gift2_png,gift10_png,gift1_png,gameEnd_2_jpg,gameEnd_1_jpg,fenxiang_03_jpg,end_jpg,egret_icon_png,continue_game_png,bottom_bg_png,bg_jpg,old_png,award_png,oi_png,tow_png,four_btnpink_png,seven_btnblue_png,four_stan_png,four_bgimg_png,btn_green_png,seven_gameover_png,jx_game_jpg,seven_bgmsg_png,seven_share_png,fun_title_png,music_mp3,dd_mp3,far_mp3,readyGo_mp3,defeated_mp3,win_mp3,click_mp3,bruise_mp3,laohuji_bak_png,title_bak_png,lottery_box2_png,asuzx-doomm2_png,bg_png,bg_old_jpg,common_bg_old_png,diban_old_png,gift9_old_png,index_bg_png,index_bg1_jpg,index_mine_png,index_title_2_png,index_title_22_png,music_logo_old_png,old_old_png,login_regist2_jpg,bg - 副本_png,asuzx-doomm1_png,lottery_box3_png,lottery_box4_png,niu_png,button_up_png,button_down_png,login_btn1_png,login_btn2_png,redeem_png,button_down2_png,button_up2_png,login_btn12_png,login_btn22_png,redeem2_png,check-box-outline_png,check-box-outline-blank_png",
+			"keys": "zhadan2_png,zhadan1_png,yuanhu_bg_png,wazi3_png,wazi2_png,wazi1_png,start_btn_png,start_bg_jpg,start_2_jpg,maozi2_png,maozi1_png,logo9_png,logo8_png,logo7_png,logo6_png,logo5_png,logo4_png,logo3_png,logo2_png,logo10_png,logo1_png,loading_rec_png,loading_blue_png,loading_bg_png,liwu1_png,lingdan1_png,lindang2_png,gift9_png,gift8_png,gift7_png,gift6_png,gift5_png,gift4_png,gift3_png,gift2_png,gift10_png,gift1_png,gameEnd_2_jpg,gameEnd_1_jpg,fenxiang_03_jpg,end_jpg,egret_icon_png,continue_game_png,bottom_bg_png,bg_jpg,old_png,award_png,oi_png,tow_png,four_btnpink_png,seven_btnblue_png,four_stan_png,four_bgimg_png,btn_green_png,seven_gameover_png,jx_game_jpg,seven_bgmsg_png,seven_share_png,fun_title_png,music_mp3,dd_mp3,far_mp3,readyGo_mp3,defeated_mp3,win_mp3,click_mp3,bruise_mp3,laohuji_bak_png,title_bak_png,lottery_box2_png,asuzx-doomm2_png,bg_png,bg_old_jpg,common_bg_old_png,diban_old_png,gift9_old_png,index_bg_png,index_bg1_jpg,index_mine_png,index_title_2_png,index_title_22_png,music_logo_old_png,old_old_png,login_regist2_jpg,bg - 副本_png,asuzx-doomm1_png,lottery_box3_png,lottery_box4_png,niu_png,button_up_png,button_down_png,login_btn1_png,login_btn2_png,redeem_png,button_down2_png,button_up2_png,login_btn12_png,login_btn22_png,redeem2_png,check-box-outline_png,check-box-outline-blank_png,border2_png,header2_png,thumb_pb2_png,track_pb2_png,radiobutton_select_disabled2_png,radiobutton_select_down2_png,radiobutton_select_up2_png,radiobutton_unselect2_png,roundthumb2_png,track_sb2_png,thumb2_png,track2_png,tracklight2_png,handle2_png,off2_png,on2_png,button_down3_png,button_up3_png,checkbox_select_disabled2_png,checkbox_select_down2_png,checkbox_select_up2_png,checkbox_unselect2_png,selected2_png",
 			"name": "preload"
 		},
 		{
@@ -13,7 +13,7 @@
 			"name": "ResultUI"
 		},
 		{
-			"keys": "fxy_jt_png,info1bg_png,six_dataLeave_png,choujiang_03_jpg,fun_title_png,lzy_aj_png,music_mp3,patronRegister_png",
+			"keys": "fxy_jt_png,info1bg_png,six_dataLeave_png,choujiang_03_jpg,fun_title_png,lzy_aj_png,music_mp3,patronRegister_png,egret_icon_png,check-box-outline_png,check-box-outline-blank_png,border2_png,header2_png,thumb_pb2_png,track_pb2_png,radiobutton_select_disabled2_png,radiobutton_select_down2_png,radiobutton_select_up2_png,radiobutton_unselect2_png,roundthumb2_png,track_sb2_png,thumb2_png,track2_png,tracklight2_png,handle2_png,off2_png,on2_png,button_down3_png,button_up3_png,checkbox_select_disabled2_png,checkbox_select_down2_png,checkbox_select_up2_png,checkbox_unselect2_png,selected2_png",
 			"name": "info"
 		}
 	],
@@ -1087,6 +1087,236 @@
 			"url": "assets/patronRegister.png",
 			"type": "image",
 			"name": "patronRegister_png"
+		},
+		{
+			"name": "checkbox_select_disabled_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_select_disabled.png"
+		},
+		{
+			"name": "checkbox_select_down_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_select_down.png"
+		},
+		{
+			"name": "checkbox_select_up_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_select_up.png"
+		},
+		{
+			"name": "checkbox_unselect_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_unselect.png"
+		},
+		{
+			"name": "selected_png",
+			"type": "image",
+			"url": "assets/ItemRenderer/selected.png"
+		},
+		{
+			"name": "border_png",
+			"type": "image",
+			"url": "assets/Panel/border.png"
+		},
+		{
+			"name": "header_png",
+			"type": "image",
+			"url": "assets/Panel/header.png"
+		},
+		{
+			"name": "radiobutton_select_disabled_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_disabled.png"
+		},
+		{
+			"name": "radiobutton_select_down_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_down.png"
+		},
+		{
+			"name": "radiobutton_select_up_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_up.png"
+		},
+		{
+			"name": "radiobutton_unselect_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_unselect.png"
+		},
+		{
+			"name": "roundthumb_png",
+			"type": "image",
+			"url": "assets/ScrollBar/roundthumb.png"
+		},
+		{
+			"name": "thumb_png",
+			"type": "image",
+			"url": "assets/Slider/thumb.png"
+		},
+		{
+			"name": "track_png",
+			"type": "image",
+			"url": "assets/Slider/track.png"
+		},
+		{
+			"name": "tracklight_png",
+			"type": "image",
+			"url": "assets/Slider/tracklight.png"
+		},
+		{
+			"name": "handle_png",
+			"type": "image",
+			"url": "assets/ToggleSwitch/handle.png"
+		},
+		{
+			"name": "off_png",
+			"type": "image",
+			"url": "assets/ToggleSwitch/off.png"
+		},
+		{
+			"name": "on_png",
+			"type": "image",
+			"url": "assets/ToggleSwitch/on.png"
+		},
+		{
+			"name": "button_down_png",
+			"type": "image",
+			"url": "assets/Button/button_down.png"
+		},
+		{
+			"name": "button_up_png",
+			"type": "image",
+			"url": "assets/Button/button_up.png"
+		},
+		{
+			"name": "thumb_pb_png",
+			"type": "image",
+			"url": "assets/ProgressBar/thumb_pb.png"
+		},
+		{
+			"name": "track_pb_png",
+			"type": "image",
+			"url": "assets/ProgressBar/track_pb.png"
+		},
+		{
+			"name": "track_sb_png",
+			"type": "image",
+			"url": "assets/ScrollBar/track_sb.png"
+		},
+		{
+			"name": "border2_png",
+			"type": "image",
+			"url": "assets/Panel/border.png"
+		},
+		{
+			"name": "header2_png",
+			"type": "image",
+			"url": "assets/Panel/header.png"
+		},
+		{
+			"name": "thumb_pb2_png",
+			"type": "image",
+			"url": "assets/ProgressBar/thumb_pb.png"
+		},
+		{
+			"name": "track_pb2_png",
+			"type": "image",
+			"url": "assets/ProgressBar/track_pb.png"
+		},
+		{
+			"name": "radiobutton_select_disabled2_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_disabled.png"
+		},
+		{
+			"name": "radiobutton_select_down2_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_down.png"
+		},
+		{
+			"name": "radiobutton_select_up2_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_up.png"
+		},
+		{
+			"name": "radiobutton_unselect2_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_unselect.png"
+		},
+		{
+			"name": "roundthumb2_png",
+			"type": "image",
+			"url": "assets/ScrollBar/roundthumb.png"
+		},
+		{
+			"name": "track_sb2_png",
+			"type": "image",
+			"url": "assets/ScrollBar/track_sb.png"
+		},
+		{
+			"name": "thumb2_png",
+			"type": "image",
+			"url": "assets/Slider/thumb.png"
+		},
+		{
+			"name": "track2_png",
+			"type": "image",
+			"url": "assets/Slider/track.png"
+		},
+		{
+			"name": "tracklight2_png",
+			"type": "image",
+			"url": "assets/Slider/tracklight.png"
+		},
+		{
+			"name": "handle2_png",
+			"type": "image",
+			"url": "assets/ToggleSwitch/handle.png"
+		},
+		{
+			"name": "off2_png",
+			"type": "image",
+			"url": "assets/ToggleSwitch/off.png"
+		},
+		{
+			"name": "on2_png",
+			"type": "image",
+			"url": "assets/ToggleSwitch/on.png"
+		},
+		{
+			"name": "button_down3_png",
+			"type": "image",
+			"url": "assets/Button/button_down.png"
+		},
+		{
+			"name": "button_up3_png",
+			"type": "image",
+			"url": "assets/Button/button_up.png"
+		},
+		{
+			"name": "checkbox_select_disabled2_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_select_disabled.png"
+		},
+		{
+			"name": "checkbox_select_down2_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_select_down.png"
+		},
+		{
+			"name": "checkbox_select_up2_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_select_up.png"
+		},
+		{
+			"name": "checkbox_unselect2_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_unselect.png"
+		},
+		{
+			"name": "selected2_png",
+			"type": "image",
+			"url": "assets/ItemRenderer/selected.png"
 		}
 	]
 }
