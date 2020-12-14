@@ -153,7 +153,8 @@ function createTextFiled(text="",x=0,y=0,size=30,textColor=0x000000,textAlign="c
     TextField.size = size;
     TextField.x = x;
     TextField.y = y;
-    TextField.text = text;
+    //TextField.text = text;
+    TextField.prompt = text;
     if(width){TextField.width = width}
     if(height){TextField.height = height}
     TextField.textColor = textColor;
@@ -224,13 +225,23 @@ function requestGet(postUrl:string,parameter:string){
     return request;
 }
 
-
-function requestPost(postUrl:string,parameter:string){
+function requestPost_Lottery(postUrl:string,parameter:string){
     var request:egret.HttpRequest;
     request = new egret.HttpRequest();
     request.responseType = egret.HttpResponseType.TEXT;
     request.open(postUrl + parameter,egret.HttpMethod.POST);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+    return request;
+}
+
+
+function requestPost(postUrl:string,parameter:string){
+    var request:egret.HttpRequest;
+    request = new egret.HttpRequest();
+    request.responseType = egret.HttpResponseType.TEXT;
+    request.open(postUrl,egret.HttpMethod.POST);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(parameter);
     //request.setRequestHeader("clientID","mbs-repo-client-001");
     return request;
 }
@@ -326,4 +337,21 @@ function getPrizeResult(){
         }else{
             return "请抽奖。";
         }
+}
+
+function checkDate(dateStr) {
+　　dateStr = dateStr.replace(/\//g, '-');
+　　var dateReg = /^(\d{4})-(\d{1,2})-(\d{1,2})$/;
+　　var rValue = dateStr.match(dateReg);
+　　if (rValue == null) {
+　　　　return false;
+　　}
+　　rValue[1] = parseInt(rValue[1], 10);
+　　rValue[2] = parseInt(rValue[2], 10) -1 ;
+　　rValue[3] = parseInt(rValue[3], 10);
+　　var dateObj = new Date(rValue[1], rValue[2], rValue[3]);
+　　if (dateObj.getFullYear() != rValue[1] || dateObj.getMonth() != rValue[2] || dateObj.getDate() != rValue[3]) {
+　　　　return false;
+　　}
+　　return true;
 }

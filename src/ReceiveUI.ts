@@ -248,7 +248,7 @@ class ReceiveUI extends egret.Sprite {
 
 
                     //开始抽奖，后台生成
-                    var request = requestPost(Main.baseUrl + this.lotteryApi,"?token=" + this.token + "&memberId=" + "");
+                    var request = requestPost_Lottery(Main.baseUrl + this.lotteryApi,"?token=" + this.token + "&memberId=" + "");
                     request.send();
                     request.addEventListener(egret.Event.COMPLETE,this.lotteryResultComplete,this);
 

@@ -214,7 +214,7 @@ var ReceiveUI = (function (_super) {
                 egret.Tween.get(this.laohuji, { loop: true }).to({ y: this.laohujiBasePos + this.shockRange[0] }, 100).to({ y: this.laohujiBasePos + this.shockRange[1] }, 100).to({ y: this.laohujiBasePos + this.shockRange[2], x: this.laohuji.x - 5 }, 100).to({ y: this.laohujiBasePos + this.shockRange[3] }, 100).to({ y: this.laohujiBasePos + this.shockRange[4], x: this.laohuji.x + 5 }, 100).to({ y: this.laohujiBasePos }, 100);
                 egret.Tween.get(this.lotteryExit, { loop: true }).to({ y: this.lotteryExitBasePos + this.shockRange[0] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[1] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[2] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[3] }, 100).to({ y: this.lotteryExitBasePos + this.shockRange[4] }, 100).to({ y: this.lotteryExitBasePos }, 100);
                 //开始抽奖，后台生成
-                var request = requestPost(Main.baseUrl + this.lotteryApi, "?token=" + this.token + "&memberId=" + "");
+                var request = requestPost_Lottery(Main.baseUrl + this.lotteryApi, "?token=" + this.token + "&memberId=" + "");
                 request.send();
                 request.addEventListener(egret.Event.COMPLETE, this.lotteryResultComplete, this);
                 //抽奖动画

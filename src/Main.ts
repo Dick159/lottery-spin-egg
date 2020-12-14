@@ -40,6 +40,7 @@ class Main extends egret.DisplayObjectContainer {
     static registLoginShow = false;
     static  baseUrl = "http://150.109.32.241:4503";
     private getProbabilityData = "/services/h5game/property";
+    static patronRegisterUrl = "/services/members_card_register"
     static zpname = "请进行抽奖";//奖的名称
 
     public constructor() {
@@ -69,6 +70,12 @@ class Main extends egret.DisplayObjectContainer {
         //Config to load process interface
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
+        
+        if(egret.Capabilities.isMobile){
+            this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT;
+        }else{
+            this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
+        }
 
         var request = requestGet(Main.baseUrl + this.getProbabilityData,"");
         request.send();

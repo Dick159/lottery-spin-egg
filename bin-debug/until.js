@@ -185,7 +185,8 @@ function createTextFiled(text, x, y, size, textColor, textAlign, width, height, 
     TextField.size = size;
     TextField.x = x;
     TextField.y = y;
-    TextField.text = text;
+    //TextField.text = text;
+    TextField.prompt = text;
     if (width) {
         TextField.width = width;
     }
@@ -278,12 +279,21 @@ function requestGet(postUrl, parameter) {
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     return request;
 }
-function requestPost(postUrl, parameter) {
+function requestPost_Lottery(postUrl, parameter) {
     var request;
     request = new egret.HttpRequest();
     request.responseType = egret.HttpResponseType.TEXT;
     request.open(postUrl + parameter, egret.HttpMethod.POST);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+    return request;
+}
+function requestPost(postUrl, parameter) {
+    var request;
+    request = new egret.HttpRequest();
+    request.responseType = egret.HttpResponseType.TEXT;
+    request.open(postUrl, egret.HttpMethod.POST);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.send(parameter);
     //request.setRequestHeader("clientID","mbs-repo-client-001");
     return request;
 }
@@ -366,5 +376,21 @@ function getPrizeResult() {
     else {
         return "请抽奖。";
     }
+}
+function checkDate(dateStr) {
+    dateStr = dateStr.replace(/\//g, '-');
+    var dateReg = /^(\d{4})-(\d{1,2})-(\d{1,2})$/;
+    var rValue = dateStr.match(dateReg);
+    if (rValue == null) {
+        return false;
+    }
+    rValue[1] = parseInt(rValue[1], 10);
+    rValue[2] = parseInt(rValue[2], 10) - 1;
+    rValue[3] = parseInt(rValue[3], 10);
+    var dateObj = new Date(rValue[1], rValue[2], rValue[3]);
+    if (dateObj.getFullYear() != rValue[1] || dateObj.getMonth() != rValue[2] || dateObj.getDate() != rValue[3]) {
+        return false;
+    }
+    return true;
 }
 //# sourceMappingURL=until.js.map

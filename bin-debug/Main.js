@@ -58,6 +58,12 @@ var Main = (function (_super) {
         //Config to load process interface
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
+        if (egret.Capabilities.isMobile) {
+            this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT;
+        }
+        else {
+            this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
+        }
         var request = requestGet(Main.baseUrl + this.getProbabilityData, "");
         request.send();
         request.addEventListener(egret.Event.COMPLETE, this.serverDataLoadCompelete, this);
@@ -212,6 +218,7 @@ Main.mask_onoff = false;
 Main.laohujiButOnoff = true;
 Main.registLoginShow = false;
 Main.baseUrl = "http://150.109.32.241:4503";
+Main.patronRegisterUrl = "/services/members_card_register";
 Main.zpname = "请进行抽奖"; //奖的名称
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

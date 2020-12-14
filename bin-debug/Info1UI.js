@@ -17,6 +17,10 @@ var Info1UI = (function (_super) {
         _this.registerInputX = 200;
         _this.registerInputY = 96;
         _this.registerInputYBias = 110;
+        _this.marketingConsent = "N";
+        _this.dateY = "";
+        _this.dateM = "";
+        _this.dateD = "";
         //this.createView();
         _this.once(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
         return _this;
@@ -72,54 +76,69 @@ var Info1UI = (function (_super) {
         mcCheckBox.label = "                 我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
         zl_content.addChild(mcCheckBox);
         //var yzm=createTextFiled("验证码：",0,207,35,0x54734a);
-        var f_name_text = createTextFiled("请输入姓氏", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 0, 25, 0xb1b1b1, "left", 390, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.firstNameText = createTextFiled("请输入姓氏", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 0, 25, 0xb1b1b1, "left", 390, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var f_name_border = new egret.Shape();
         f_name_border.graphics.lineStyle(2, 0xb1b1b1);
         f_name_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 0, 420, 61, 25, 25);
         f_name_border.graphics.endFill;
-        var l_name_text = createTextFiled("请输入名字", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.lastNameText = createTextFiled("请输入名字", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var l_name_border = new egret.Shape();
         l_name_border.graphics.lineStyle(2, 0xb1b1b1);
         l_name_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 1, 420, 61, 25, 25);
         l_name_border.graphics.endFill;
-        var dob_text = createTextFiled("生日年月日", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
-        var dob_border = new egret.Shape();
-        dob_border.graphics.lineStyle(2, 0xb1b1b1);
-        dob_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 2, 420, 61, 25, 25);
-        dob_border.graphics.endFill;
-        var tel_text = createTextFiled("电话号码", this.registerInputX + 5 + 100, this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left", 230, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        var dob_y_text = createTextFiled("年", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 200, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        var dob_y_border = new egret.Shape();
+        dob_y_border.graphics.lineStyle(2, 0xb1b1b1);
+        dob_y_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 2, 200, 61, 25, 25);
+        dob_y_border.graphics.endFill;
+        var dob_m_text = createTextFiled("月", this.registerInputX + 5 + 210, this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        var dob_m_border = new egret.Shape();
+        dob_m_border.graphics.lineStyle(2, 0xb1b1b1);
+        dob_m_border.graphics.drawRoundRect(this.registerInputX + 210, this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
+        dob_m_border.graphics.endFill;
+        var dob_d_text = createTextFiled("日", this.registerInputX + 5 + 320, this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        var dob_d_border = new egret.Shape();
+        dob_d_border.graphics.lineStyle(2, 0xb1b1b1);
+        dob_d_border.graphics.drawRoundRect(this.registerInputX + 320, this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
+        dob_d_border.graphics.endFill;
+        this.mobilePhone = createTextFiled("电话号码", this.registerInputX + 5 + 100, this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left", 230, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var tel_border = new egret.Shape();
         tel_border.graphics.lineStyle(2, 0xb1b1b1);
         tel_border.graphics.drawRoundRect(this.registerInputX + 100, this.registerInputYBias + this.registerInputY * 3, 320, 61, 25, 25);
         tel_border.graphics.endFill;
-        var mail_text = createTextFiled("电邮", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 4, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.emailText = createTextFiled("电邮", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 4, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var mail_border = new egret.Shape();
         mail_border.graphics.lineStyle(2, 0xb1b1b1);
         mail_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 4, 420, 61, 25, 25);
         mail_border.graphics.endFill;
         //出错显示
-        var chucuo_title = createTextFiled("", 0, 270, 30, 0xff0000, "center", 545, 30);
+        var chucuo_title = createTextFiled("", this.registerInputX - 50, this.registerInputYBias + this.registerInputY * 6, 25, 0xff0000, "center", 545, 30);
+        this.errorText = chucuo_title;
         zl_content.addChild(chucuo_title);
         zl_content.addChild(first_name_label);
         zl_content.addChild(last_name_label);
         zl_content.addChild(bod_label);
         zl_content.addChild(tel_label);
         zl_content.addChild(email_label);
-        zl_content.addChild(f_name_text);
-        zl_content.addChild(l_name_text);
-        zl_content.addChild(tel_text);
-        zl_content.addChild(dob_text);
-        zl_content.addChild(mail_text);
+        zl_content.addChild(this.firstNameText);
+        zl_content.addChild(this.lastNameText);
+        zl_content.addChild(this.mobilePhone);
+        zl_content.addChild(dob_y_text);
+        zl_content.addChild(dob_m_text);
+        zl_content.addChild(dob_d_text);
+        zl_content.addChild(this.emailText);
         zl_content.addChild(f_name_border);
         zl_content.addChild(tel_border);
         zl_content.addChild(l_name_border);
         zl_content.addChild(mail_border);
-        zl_content.addChild(dob_border);
+        zl_content.addChild(dob_y_border);
+        zl_content.addChild(dob_m_border);
+        zl_content.addChild(dob_d_border);
         var nameYN = false;
         var telYN = false;
         var yzmYN = false;
         var yzmNum;
-        f_name_text.addEventListener(egret.TouchEvent.TOUCH_TAP, function () { console.log("aaa"); }, this);
+        this.firstNameText.addEventListener(egret.TouchEvent.TOUCH_TAP, function () { console.log("aaa"); }, this);
         //    f_name_text.addEventListener(egret.TouchEvent.FOCUS_OUT,function(){
         //     //    nameYN=false;
         //     //    if(/^[\u4E00-\u9FA5]{0,}$/.test(name_text.text)&&name_text.text!=""){
@@ -149,21 +168,61 @@ var Info1UI = (function (_super) {
         //    },this)
         //    var top_title=createTextFiled("输入资料进行注册",263,446,30,0xffffff);
         //    this.addChild(top_title);
+        dob_y_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
+            var v = dob_y_text.text;
+            var pattern = /^(19\d{2}|20[01][0-9]|2020)$/;
+            if (pattern.test(v)) {
+                this.dateY = v;
+            }
+            else {
+                this.showErrorText("Invalid Date Format.");
+            }
+        }, this);
+        dob_m_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
+            var v = dob_m_text.text;
+            var pattern = /^(0[0-9]|1[0-2])$/;
+            if (pattern.test(v)) {
+                this.dateY = v;
+            }
+            else {
+                this.showErrorText("Invalid Date Format.");
+            }
+        }, this);
+        dob_d_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
+            var v = dob_d_text.text;
+            if (checkDate(this.dateY + "-" + this.dateM + "-" + v)) {
+                this.dateD = v;
+            }
+            else {
+                this.showErrorText("Invalid Date Format.");
+            }
+        }, this);
         //添加按钮
         var cj_btn = createBitmap("patronRegister_png", 270, 1024);
         this.addChild(cj_btn);
+        //注册按钮点击
         cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            //    if(nameYN&&telYN&&yzmYN){
-            //        var gameui = ScenceManage.create(this.stage);
-            //         gameui.loadScence("ResultUI",this,ReceiveUI);
-            //    }else if(yzmNum==undefined){
-            //        chucuo_title.text="填写信息有误";
-            //    }else{
-            //        chucuo_title.text="填写信息有误";
-            //    }
+            var request = requestPost(Main.baseUrl + Main.patronRegisterUrl, this.getPatronPostData());
+            request.send();
+            request.addEventListener(egret.Event.COMPLETE, this.registerCompelete, this);
         }, this);
         cj_btn.touchEnabled = true; //开启点击侦听
         zl_content.addChild(dropDwonList);
+    };
+    Info1UI.prototype.registerCompelete = function (event) {
+        var request = event.currentTarget;
+        var jsonObject = JSON.parse(request.response);
+        if (jsonObject.code == '200') {
+        }
+    };
+    Info1UI.prototype.getPatronPostData = function () {
+        var firstName = "firstName=" + this.firstNameText.text;
+        var lastName = "lastName=" + this.lastNameText.text;
+        var mobilePhone = "mobilePhone=" + this.mobilePhone.text;
+        var parimaryEmail = "primaryEmail=" + this.emailText.text;
+        var DOB = "DOB=" + this.dateY + "-" + this.dateM + "-" + this.dateD;
+        var marketConsent = "marketingConsent=" + "Y";
+        return firstName + "&" + lastName + "&" + mobilePhone + "&" + parimaryEmail + "&" + DOB + "&" + marketConsent;
     };
     //指向动画
     Info1UI.prototype.share_lg = function () {
@@ -171,6 +230,11 @@ var Info1UI = (function (_super) {
             this.shareLg.alpha = 1;
             this.share_lg();
         }.bind(this));
+    };
+    Info1UI.prototype.showErrorText = function (text) {
+        this.errorText.text = text;
+        this.errorText.alpha = 1;
+        egret.Tween.get(this.errorText, { loop: false }).to({ alpha: 0 }, 2500);
     };
     return Info1UI;
 }(eui.UILayer));
