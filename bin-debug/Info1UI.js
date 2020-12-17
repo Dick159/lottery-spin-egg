@@ -32,9 +32,6 @@ var Info1UI = (function (_super) {
         dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
         var img = new eui.Image("/resource/assets/djy_wbk.png");
         img.scaleY = 1.15;
-        // img.x = 15;
-        // img.y = 338;
-        // this.addChild(img);
         var zl_content = new eui.Group();
         this.addChild(zl_content);
         zl_content.addChild(img);
@@ -70,7 +67,7 @@ var Info1UI = (function (_super) {
         var email_label = createTextFiled("电邮：", this.registerLabelX, this.registerLabelYBias + this.registerLabelY * 4, 24, 0x000000);
         //0,17+92*4
         var mcCheckBox = new eui.CheckBox();
-        mcCheckBox.skinName = "resource/skins/CheckBoxSkin.exml";
+        mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
         mcCheckBox.x = this.registerLabelX;
         mcCheckBox.y = this.registerLabelYBias + this.registerLabelY * 5;
         mcCheckBox.label = "                 我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
@@ -182,7 +179,7 @@ var Info1UI = (function (_super) {
             var v = dob_m_text.text;
             var pattern = /^(0[0-9]|1[0-2])$/;
             if (pattern.test(v)) {
-                this.dateY = v;
+                this.dateM = v;
             }
             else {
                 this.showErrorText("Invalid Date Format.");
@@ -190,19 +187,14 @@ var Info1UI = (function (_super) {
         }, this);
         dob_d_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
             var v = dob_d_text.text;
-            if (checkDate(this.dateY + "-" + this.dateM + "-" + v)) {
-                this.dateD = v;
-            }
-            else {
-                this.showErrorText("Invalid Date Format.");
-            }
+            this.dateD = v;
         }, this);
         //添加按钮
         var cj_btn = createBitmap("patronRegister_png", 270, 1024);
         this.addChild(cj_btn);
         //注册按钮点击
         cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            var request = requestPost(Main.baseUrl + Main.patronRegisterUrl, this.getPatronPostData());
+            var request = requestPost(Main.baseUrl + Main.patronRegisterUrl, "?" + this.getPatronPostData());
             request.send();
             request.addEventListener(egret.Event.COMPLETE, this.registerCompelete, this);
         }, this);
@@ -212,8 +204,9 @@ var Info1UI = (function (_super) {
     Info1UI.prototype.registerCompelete = function (event) {
         var request = event.currentTarget;
         var jsonObject = JSON.parse(request.response);
-        if (jsonObject.code == '200') {
-        }
+        var patronId = jsonObject.data.PatronId;
+        setLocalStorage("pId", patronId);
+        alert(patronId);
     };
     Info1UI.prototype.getPatronPostData = function () {
         var firstName = "firstName=" + this.firstNameText.text;

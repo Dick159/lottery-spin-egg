@@ -291,10 +291,9 @@ function requestPost(postUrl, parameter) {
     var request;
     request = new egret.HttpRequest();
     request.responseType = egret.HttpResponseType.TEXT;
-    request.open(postUrl, egret.HttpMethod.POST);
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.send(parameter);
-    //request.setRequestHeader("clientID","mbs-repo-client-001");
+    request.open(postUrl + parameter, egret.HttpMethod.POST);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", "Basic emxlbzpyMypAbSMuYXhuQnpIRVo6");
     return request;
 }
 function randomToken() {
@@ -334,6 +333,9 @@ function uuid2(len, radix) {
     }
     return uuid.join('');
 }
+function generateSessionToken() {
+    return this.uuid2(16);
+}
 function createRegisterLoginPage() {
     // 添加注册登录也页面
     var loginRegist = createBitmap("login_regist_jpg", 375, 603);
@@ -353,7 +355,7 @@ function createRegisterLoginButton(x, y) {
     LoginRegisterbutton.x = x;
     LoginRegisterbutton.y = y;
     LoginRegisterbutton.label = "";
-    LoginRegisterbutton.skinName = "resource/skins/ButtonSkin.exml";
+    LoginRegisterbutton.skinName = "resource/eui_skins/ButtonSkin.exml";
     return LoginRegisterbutton;
 }
 function createRedeemButton(x, y) {
@@ -365,7 +367,7 @@ function createRedeemButton(x, y) {
     redeemBUtton.x = x;
     redeemBUtton.y = y;
     redeemBUtton.label = "";
-    redeemBUtton.skinName = "resource/skins/redeemButtonSkin.exml";
+    redeemBUtton.skinName = "resource/eui_skins/redeemButtonSkin.exml";
     return redeemBUtton;
 }
 function getPrizeResult() {
@@ -393,4 +395,20 @@ function checkDate(dateStr) {
     }
     return true;
 }
+function setCookie(key, value, expiredDay) {
+    if (key && value) {
+        var _key = "MBS_" + key;
+        var cookieParams = _key + "=" + value;
+        if (expiredDay) {
+            var d = new Date();
+            d.setTime(d.getTime() + (expiredDay * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            cookieParams = cookieParams + "; " + expires;
+        }
+        document.cookie = cookieParams;
+    }
+}
+// function getCookie(key){
+//     document.cookie.g
+// }
 //# sourceMappingURL=until.js.map

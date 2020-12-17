@@ -40,15 +40,11 @@ class Info1UI extends eui.UILayer {
     private shareLg;
     private createView(): void {
         //this.getCountryListData();
-         var dropDwonList = new euiextendsion.DropDwonList();
-         dropDwonList.x = this.registerInputX;
-         dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
+        var dropDwonList = new euiextendsion.DropDwonList();
+        dropDwonList.x = this.registerInputX;
+        dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
         var img = new eui.Image("/resource/assets/djy_wbk.png");
         img.scaleY = 1.15;
-        // img.x = 15;
-        // img.y = 338;
-        // this.addChild(img);
-       
        
        var zl_content=new eui.Group();
 
@@ -67,9 +63,9 @@ class Info1UI extends eui.UILayer {
        _scroller.x = 15;
        _scroller.y = 200;
        _scroller.width = 750;
-        _scroller.height = 1080;
-        _scroller.scrollPolicyH = eui.ScrollPolicy.OFF;
-        _scroller.scrollPolicyV = eui.ScrollPolicy.ON;
+       _scroller.height = 1080;
+       _scroller.scrollPolicyH = eui.ScrollPolicy.OFF;
+       _scroller.scrollPolicyV = eui.ScrollPolicy.ON;
        _scroller.viewport = zl_content;
        this.addChild(_scroller);
        //_scroller.verticalScrollBar.autoVisibility = false;
@@ -84,7 +80,7 @@ class Info1UI extends eui.UILayer {
         }, this);
         title.touchEnabled = true;
 
-        var distanct = 92;
+       var distanct = 92;
        //容器信息
        var first_name_label=createTextFiled("姓氏：",this.registerLabelX,this.registerLabelYBias,24,0x000000);
        var last_name_label=createTextFiled("名字：",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*1,24,0x000000);
@@ -94,7 +90,7 @@ class Info1UI extends eui.UILayer {
 
       //0,17+92*4
       var mcCheckBox = new eui.CheckBox();
-      mcCheckBox.skinName = "resource/skins/CheckBoxSkin.exml";
+      mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
       mcCheckBox.x = this.registerLabelX;
       mcCheckBox.y = this.registerLabelYBias+this.registerLabelY*5;
       mcCheckBox.label = "                 我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
@@ -223,7 +219,7 @@ class Info1UI extends eui.UILayer {
            var v = dob_m_text.text;
            var pattern = /^(0[0-9]|1[0-2])$/
            if(pattern.test(v)){
-               this.dateY = v;
+               this.dateM = v;
            }else{
                this.showErrorText("Invalid Date Format.")
            }
@@ -232,13 +228,8 @@ class Info1UI extends eui.UILayer {
 
        dob_d_text.addEventListener(egret.TouchEvent.FOCUS_OUT,function(){
            var v = dob_d_text.text;
-           if(checkDate(this.dateY + "-" + this.dateM + "-" + v)){
-               this.dateD = v;
-           }else{
-               this.showErrorText("Invalid Date Format.")
-           }
+           this.dateD = v;
         },this)
-
 
        //添加按钮
        var cj_btn=createBitmap("patronRegister_png",270,1024);
@@ -247,10 +238,9 @@ class Info1UI extends eui.UILayer {
        //注册按钮点击
        cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
             
-         var request = requestPost(Main.baseUrl+Main.patronRegisterUrl,this.getPatronPostData());
+         var request = requestPost(Main.baseUrl+Main.patronRegisterUrl,"?" + this.getPatronPostData());
          request.send();
          request.addEventListener(egret.Event.COMPLETE,this.registerCompelete,this);
-
 
        },this);
        cj_btn.touchEnabled = true;    //开启点击侦听
@@ -261,14 +251,11 @@ class Info1UI extends eui.UILayer {
 
      private registerCompelete(event:egret.Event){
          var request = <egret.HttpRequest>event.currentTarget;
-         
          var jsonObject= JSON.parse(request.response);
-         if(jsonObject.code == '200'){
-           //save patronId in local
-           
-         }
+         var patronId = jsonObject.data.PatronId;
+         setLocalStorage("pId",patronId);
+         alert(patronId);
     }
-
 
     private getPatronPostData():string{
         var firstName = "firstName=" + this.firstNameText.text;

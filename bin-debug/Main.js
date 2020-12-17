@@ -217,7 +217,7 @@ Main.jp_onoff = false;
 Main.mask_onoff = false;
 Main.laohujiButOnoff = true;
 Main.registLoginShow = false;
-Main.baseUrl = "http://150.109.32.241:4503";
+Main.baseUrl = window.location.protocol + "//" + window.location.host;
 Main.patronRegisterUrl = "/services/members_card_register";
 Main.zpname = "请进行抽奖"; //奖的名称
 __reflect(Main.prototype, "Main");

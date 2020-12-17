@@ -63,7 +63,6 @@ var InfoUI = (function (_super) {
         zl_content.addChild(tel_text);
         zl_content.addChild(yzm_text);
         zl_content.addChild(name_border);
-        3;
         zl_content.addChild(tel_border);
         zl_content.addChild(yzm_border);
         zl_content.addChild(btn_border);

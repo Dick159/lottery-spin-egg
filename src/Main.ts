@@ -38,7 +38,7 @@ class Main extends egret.DisplayObjectContainer {
     static mask_onoff=false;
     static laohujiButOnoff=true;
     static registLoginShow = false;
-    static  baseUrl = "http://150.109.32.241:4503";
+    static  baseUrl = window.location.protocol +"//" +window.location.host;
     private getProbabilityData = "/services/h5game/property";
     static patronRegisterUrl = "/services/members_card_register"
     static zpname = "请进行抽奖";//奖的名称
@@ -151,7 +151,6 @@ class Main extends egret.DisplayObjectContainer {
 
         // var scence=new ScenceManage(this.stage);
 
-
         //var scence=ScenceManage.create(this.stage);
         //scence.loadScence("preload",null,GameUI,function(){});
         var bg= createBitmap("common_bg_png",0,0);
@@ -168,10 +167,6 @@ class Main extends egret.DisplayObjectContainer {
         egret.Tween.get(snowflake_1,{loop:true}).to({y:1206},10000);
         egret.Tween.get(snowflake_2,{loop:true}).to({y:0},10000);
        
-
-
-
-
         var index=new IndexUI();
         this.stage.addChild(index);
         //音乐图标__可做点击播放/暂停

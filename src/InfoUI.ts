@@ -53,7 +53,7 @@ class InfoUI extends egret.Sprite {
        zl_content.addChild(name_text);
        zl_content.addChild(tel_text);
        zl_content.addChild(yzm_text);
-       zl_content.addChild(name_border);3
+       zl_content.addChild(name_border);
        zl_content.addChild(tel_border);
        zl_content.addChild(yzm_border);
        zl_content.addChild(btn_border);

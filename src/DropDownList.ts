@@ -51,7 +51,7 @@ module euiextendsion {
 
             var btn = new eui.Button();
             btn.width = 100;
-            btn.skinName = "resource/eui_skins/ButtonSkin.exml"
+            btn.skinName = "resource/eui_skins/ButtonSkin_System.exml"
             btn.label = "+86";
 
             this.addChild(btn);
