@@ -21,12 +21,51 @@ var Info1UI = (function (_super) {
         _this.dateY = "";
         _this.dateM = "";
         _this.dateD = "";
+        _this._registerScollerView = new eui.Scroller();
+        _this._loginView = new eui.Group();
         //this.createView();
         _this.once(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
         return _this;
     }
     Info1UI.prototype.createView = function () {
         //this.getCountryListData();
+        this.createLoginView();
+        this.createRegisterView();
+    };
+    Info1UI.prototype.createLoginView = function () {
+        var img = new eui.Image("/resource/assets/djy_wbk.png");
+        img.scaleY = 1.15;
+        this._loginView.x = 15;
+        this._loginView.y = 200;
+        this._loginView.width = 750;
+        this._loginView.height = 1080;
+        this._loginView.addChild(img);
+        var last_name_label = createTextFiled("会员ID:", this.registerLabelX, this.registerLabelYBias + this.registerLabelY * 1, 24, 0x000000);
+        this.memerIdInput = createTextFiled("请输入ID", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        var memberIdInput_border = new egret.Shape();
+        memberIdInput_border.graphics.lineStyle(2, 0xb1b1b1);
+        memberIdInput_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 1, 420, 61, 25, 25);
+        memberIdInput_border.graphics.endFill;
+        this._loginView.addChild(last_name_label);
+        this._loginView.addChild(this.memerIdInput);
+        this._loginView.addChild(memberIdInput_border);
+        var login_btn = createBitmap("patronRegister_png", 270, 824);
+        this._loginView.addChild(login_btn);
+        //登录 //pattern /^\d\d{8}$/
+        login_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            var v = this.memerIdInput.text;
+            console.log(v);
+            var pattern = /^\d\d{8}$/;
+            if (pattern.test(v)) {
+                this.addChild(ConfirmUtil.popUpTips("登录成功", false, 150, 300, 400, 250));
+            }
+            else {
+                this.addChild(ConfirmUtil.popUpTips("格式错误", false, 150, 300, 400, 250));
+            }
+        }, this);
+        login_btn.touchEnabled = true; //开启点击侦听
+    };
+    Info1UI.prototype.createRegisterView = function () {
         var dropDwonList = new euiextendsion.DropDwonList();
         dropDwonList.x = this.registerInputX;
         dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
@@ -39,18 +78,17 @@ var Info1UI = (function (_super) {
         euiben.width = 100;
         euiben.width = 50;
         zl_content.addChild(euiben);
-        var _scroller = new eui.Scroller();
-        //    _scroller.width = 540;
-        //    _scroller.height = 380;
-        _scroller.x = 15;
-        _scroller.y = 200;
-        _scroller.width = 750;
-        _scroller.height = 1080;
-        _scroller.scrollPolicyH = eui.ScrollPolicy.OFF;
-        _scroller.scrollPolicyV = eui.ScrollPolicy.ON;
-        _scroller.viewport = zl_content;
-        this.addChild(_scroller);
-        //_scroller.verticalScrollBar.autoVisibility = false;
+        //    _registerScollerView.width = 540;
+        //    _registerScollerView.height = 380;
+        this._registerScollerView.x = 15;
+        this._registerScollerView.y = 200;
+        this._registerScollerView.width = 750;
+        this._registerScollerView.height = 1080;
+        this._registerScollerView.scrollPolicyH = eui.ScrollPolicy.OFF;
+        this._registerScollerView.scrollPolicyV = eui.ScrollPolicy.ON;
+        this._registerScollerView.viewport = zl_content;
+        this.addChild(this._registerScollerView);
+        //_registerScollerView.verticalScrollBar.autoVisibility = false;
         var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
         title.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
@@ -190,8 +228,8 @@ var Info1UI = (function (_super) {
             this.dateD = v;
         }, this);
         //添加按钮
-        var cj_btn = createBitmap("patronRegister_png", 270, 1024);
-        this.addChild(cj_btn);
+        var cj_btn = createBitmap("patronRegister_png", 100, 824);
+        zl_content.addChild(cj_btn);
         //注册按钮点击
         cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             var request = requestPost(Main.baseUrl + Main.patronRegisterUrl, "?" + this.getPatronPostData());
@@ -199,6 +237,14 @@ var Info1UI = (function (_super) {
             request.addEventListener(egret.Event.COMPLETE, this.registerCompelete, this);
         }, this);
         cj_btn.touchEnabled = true; //开启点击侦听
+        var toLogin_btn = createBitmap("patronRegister_png", 370, 824);
+        zl_content.addChild(toLogin_btn);
+        //转到登录页
+        toLogin_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            this.removeChild(this._registerScollerView);
+            this.addChild(this._loginView);
+        }, this);
+        toLogin_btn.touchEnabled = true; //开启点击侦听
         zl_content.addChild(dropDwonList);
     };
     Info1UI.prototype.registerCompelete = function (event) {
@@ -206,7 +252,7 @@ var Info1UI = (function (_super) {
         var jsonObject = JSON.parse(request.response);
         var patronId = jsonObject.data.PatronId;
         setLocalStorage("pId", patronId);
-        alert(patronId);
+        this.addChild(ConfirmUtil.popUpTips("注册成功,patron ID:" + patronId, false, 150, 300, 450, 350));
     };
     Info1UI.prototype.getPatronPostData = function () {
         var firstName = "firstName=" + this.firstNameText.text;

@@ -38,7 +38,8 @@ class Main extends egret.DisplayObjectContainer {
     static mask_onoff=false;
     static laohujiButOnoff=true;
     static registLoginShow = false;
-    static  baseUrl = window.location.protocol +"//" +window.location.host;
+    //static  baseUrl = window.location.protocol +"//" +window.location.host;
+    static  baseUrl = "http://150.109.32.241:4503";
     private getProbabilityData = "/services/h5game/property";
     static patronRegisterUrl = "/services/members_card_register"
     static zpname = "请进行抽奖";//奖的名称
