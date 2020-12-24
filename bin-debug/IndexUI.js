@@ -20,9 +20,10 @@ var IndexUI = (function (_super) {
         this.addChild(bg);
         //添加底部地板
         var diban = createBitmap("diban_png");
-        diban.x = 0;
-        diban.y = 842;
+        diban.x = 250;
+        diban.y = 1000;
         this.addChild(diban);
+        egret.Tween.get(diban, { loop: true }).to({ y: diban.y + 30 }, 900, egret.Ease.quadOut).to({ y: diban.y }, 900, egret.Ease.quadOut);
         //标题
         var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
@@ -60,15 +61,10 @@ var IndexUI = (function (_super) {
         // hand.rotation=-15;
         // egret.Tween.get(hand,{loop:true}).to({rotation:0},250).to({rotation:-15},500).to({rotation:-15},750).to({rotation:-15},1000)
         //人物
-        var man = createBitmap("index_man_png", 70, 180);
+        var man = createBitmap("index_man_png", 0, 500);
         this.addChild(man);
-        //手上的礼物
-        var handgift = createBitmap("index_handgift_png", 350, 610);
-        this.addChild(handgift);
-        handgift.anchorOffsetX = handgift.width * .5;
-        handgift.anchorOffsetY = handgift.height * .5;
-        egret.Tween.get(handgift, { loop: true }).to({ y: 560 }, 200).to({ y: 480 }, 800).to({ y: 520 }, 150).to({ y: 600 }, 350).to({ y: 600 }, 1000);
-        egret.Tween.get(handgift, { loop: true }).to({ rotation: -90 }, 200).to({ rotation: -720 }, 800).to({ rotation: -720 }, 500).to({ rotation: -720 }, 1000);
+        var Machine_Glass = createBitmap("Machine_Glass", 120, 440);
+        this.addChild(Machine_Glass);
         //鹿
         //声音
         // var dog = new egret.Sound;
@@ -91,7 +87,7 @@ var IndexUI = (function (_super) {
         //开始游戏按钮
         // var start_btn = createButton(273, 1034, 210, 70, 0x299a0e, 0xffffff, "开始游戏", 0xbf0c21, 0xffffff);
         // this.addChild(start_btn);
-        var start_btn = createBitmap("start_btn_png", 440, 1095);
+        var start_btn = createBitmap("start_btn_png", 440, 1295);
         this.addChild(start_btn);
         start_btn.touchEnabled = true;
         start_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
@@ -100,7 +96,7 @@ var IndexUI = (function (_super) {
             gameui.loadScence("ResultUI", this, ReceiveUI);
         }, this);
         //注册登录按钮
-        var LoginRegisterbutton = createRegisterLoginButton(110, 1095);
+        var LoginRegisterbutton = createRegisterLoginButton(0, 1295);
         LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             var info = ScenceManage.create(this.stage);
             info.loadScence("info", this, Info1UI);

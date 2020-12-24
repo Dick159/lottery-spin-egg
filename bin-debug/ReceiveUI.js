@@ -95,8 +95,8 @@ var ReceiveUI = (function (_super) {
         this.addChild(zj_title);
         //添加底部地板
         var diban = createBitmap("diban_png");
-        diban.x = 0;
-        diban.y = 842;
+        diban.x = 250;
+        diban.y = 1000;
         this.addChild(diban);
         //添加老虎机
         this.laohuji = createBitmap("lottery_box2_png");
