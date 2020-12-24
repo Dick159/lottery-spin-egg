@@ -75,5 +75,6 @@ var LoadingUI = (function (_super) {
     };
     return LoadingUI;
 }(egret.Sprite));
+LoadingUI.bg = new egret.Bitmap();
 __reflect(LoadingUI.prototype, "LoadingUI");
 //# sourceMappingURL=LoadingUI.js.map

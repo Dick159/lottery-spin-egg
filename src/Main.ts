@@ -42,8 +42,9 @@ class Main extends egret.DisplayObjectContainer {
     static  baseUrl = "http://150.109.32.241:4503";
     private getProbabilityData = "/services/h5game/property";
     static patronRegisterUrl = "/services/members_card_register"
+    static lotteryApi = "/services/h5game/lottery";
     static zpname = "请进行抽奖";//奖的名称
-
+    static bg;
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -154,8 +155,8 @@ class Main extends egret.DisplayObjectContainer {
 
         //var scence=ScenceManage.create(this.stage);
         //scence.loadScence("preload",null,GameUI,function(){});
-        var bg= createBitmap("common_bg_png",0,0);
-        this.addChild(bg);
+        Main.bg= createBitmap("common_bg_png",0,0);
+        this.addChild(Main.bg);
 
         // 雪花飘落效果
         // 雪花飘落效果
@@ -187,8 +188,8 @@ class Main extends egret.DisplayObjectContainer {
             soundChannel = sound.play(curTime,0);
             totalLength = sound.length;//获取音乐的总时长
         },this);
-        sound.load("resource/assets/music.mp3");
-
+        //sound.load("resource/assets/music.mp3");
+        
         //实现点击music_logo图标播放/暂停功能
         music_logo.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
             if(soundChannel===null){

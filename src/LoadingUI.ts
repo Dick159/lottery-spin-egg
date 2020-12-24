@@ -37,7 +37,7 @@ class LoadingUI extends egret.Sprite {
     private textField: egret.TextField;
     private barBg;
     private bar;
-
+    public static bg = new egret.Bitmap();
     private createView(): void {
         //添加背景
         RES.getResByUrl("resource/assets/common_bg.png", function (texture) {

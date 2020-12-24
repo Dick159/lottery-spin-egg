@@ -373,6 +373,33 @@ function setCookie(key,value,expiredDay){
     }
 }
 
+function random_num(min:number,max:number){
+        let Range = max - min;  
+        let Rand = Math.random();  
+        return (min + Math.round(Rand * Range));  
+}
+
+function glowFilter(_color,_alpha,_blurX,_blurY,_strength,_inner,_knockout){
+        const color: number = _color;                             /// 光晕的颜色，十六进制，不包含透明度
+        const alpha: number = _alpha;                                  /// 光晕的颜色透明度，是对 color 参数的透明度设定。有效值为 0.0 到 1.0。例如，0.8 设置透明度值为 80%。
+        const blurX: number = _blurX;                                   /// 水平模糊量。有效值为 0 到 255.0（浮点）
+        const blurY: number = _blurY;                                   /// 垂直模糊量。有效值为 0 到 255.0（浮点）
+        const strength: number = _strength;                                 /// 压印的强度，值越大，压印的颜色越深，而且发光与背景之间的对比度也越强。有效值为 0 到 255。暂未实现
+        const quality: number = egret.BitmapFilterQuality.HIGH;     /// 应用滤镜的次数，建议用 BitmapFilterQuality 类的常量来体现
+        const inner: boolean = _inner;                               /// 指定发光是否为内侧发光，
+        const knockout: boolean = _knockout;                            /// 指定对象是否具有挖空效果
+        const glowFilter: egret.GlowFilter = new egret.GlowFilter(color, alpha, blurX, blurY, strength, quality, inner, knockout);
+        return glowFilter;
+}
+
+function createShaderMask(width,height,color,alpha){
+    var  shape = new egret.Shape();//形状对象
+    shape.graphics.beginFill(color,alpha);     //填充的颜色
+
+    shape.graphics.drawRect(0,0,width,height);//定义好形状
+    shape.graphics.endFill();
+    return shape;
+}
 
 // function getCookie(key){
 //     document.cookie.g
