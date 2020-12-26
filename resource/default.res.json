@@ -1,11 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "zhadan2_png,zhadan1_png,yuanhu_bg_png,start_bg_jpg,start_2_jpg,loading_rec_png,loading_blue_png,loading_bg_png,gift9_png,gift10_png,fenxiang_03_jpg,end_jpg,egret_icon_png,continue_game_png,four_btnpink_png,seven_btnblue_png,btn_green_png,jx_game_jpg,seven_bgmsg_png,seven_share_png,music_mp3,dd_mp3,far_mp3,readyGo_mp3,defeated_mp3,win_mp3,click_mp3,bruise_mp3,lottery_box2_png,asuzx-doomm2_png,common_bg_old_png,diban_old_png,gift9_old_png,music_logo_old_png,old_old_png,lottery_box3_png,lottery_box4_png,niu_png,button_up_png,button_down_png,login_btn1_png,login_btn2_png,redeem_png,button_down2_png,button_up2_png,login_btn12_png,login_btn22_png,redeem2_png,check-box-outline_png,check-box-outline-blank_png,border2_png,header2_png,thumb_pb2_png,track_pb2_png,radiobutton_select_disabled2_png,radiobutton_select_down2_png,radiobutton_select_up2_png,radiobutton_unselect2_png,roundthumb2_png,track_sb2_png,thumb2_png,track2_png,tracklight2_png,handle2_png,off2_png,on2_png,button_down3_png,button_up3_png,checkbox_select_disabled2_png,checkbox_select_down2_png,checkbox_select_up2_png,checkbox_unselect2_png,selected2_png,Machine_Glass_png,Background2_png,Background3_png,Big Capsule(Glow)_png,Big Capsule_png,Capsule1_png,Capsule2_png,Capsule3_png,Capsule4_png,Capsule5_png,Capsule6_png,Capsule7_png,Capsule8_png,Capsule9_png,Congratulations Text box_png,Dollar Symbol_png,Glow1 (Screen effect)_png,How to redeem button_png,How to redeem info_png,Location  info_png,Login ID_png,Login_ text_png,Machine_Glass2_png,OpenCapsule- Just Dollar_png,OpenCapsule- Just Ox_png,OpenCapsule_png,Ox symbol_png,Platform Prize Symbol- Dollar_png,Platform Prize Symbol- Ox_png,Platform_png,Playagaintomorrow Button_png,Prizes_png,Rules_png,SRL_Cards_png,SandsRewardsLifestyle_Logo_png,Soundbutton_png,Startup Text_png,TEXT_png,TextBG_png,signup_text_png,game_rule_png,PrizesRulesButton_png,gameStartBtn_png,lotteryMachine_png,Glow2_png",
+			"keys": "zhadan2_png,zhadan1_png,yuanhu_bg_png,start_bg_jpg,start_2_jpg,loading_rec_png,loading_blue_png,loading_bg_png,gift9_png,gift10_png,fenxiang_03_jpg,end_jpg,egret_icon_png,continue_game_png,four_btnpink_png,seven_btnblue_png,btn_green_png,jx_game_jpg,seven_bgmsg_png,seven_share_png,music_mp3,dd_mp3,far_mp3,readyGo_mp3,defeated_mp3,win_mp3,click_mp3,bruise_mp3,lottery_box2_png,asuzx-doomm2_png,common_bg_old_png,diban_old_png,gift9_old_png,music_logo_old_png,old_old_png,lottery_box3_png,lottery_box4_png,niu_png,button_up_png,button_down_png,login_btn1_png,login_btn2_png,redeem_png,button_down2_png,button_up2_png,login_btn12_png,login_btn22_png,redeem2_png,check-box-outline_png,check-box-outline-blank_png,border2_png,header2_png,thumb_pb2_png,track_pb2_png,radiobutton_select_disabled2_png,radiobutton_select_down2_png,radiobutton_select_up2_png,radiobutton_unselect2_png,roundthumb2_png,track_sb2_png,thumb2_png,track2_png,tracklight2_png,handle2_png,off2_png,on2_png,button_down3_png,button_up3_png,checkbox_select_disabled2_png,checkbox_select_down2_png,checkbox_select_up2_png,checkbox_unselect2_png,selected2_png,Machine_Glass_png,Background2_png,Background3_png,Big Capsule(Glow)_png,Big Capsule_png,Capsule1_png,Capsule2_png,Capsule3_png,Capsule4_png,Capsule5_png,Capsule6_png,Capsule7_png,Capsule8_png,Capsule9_png,Congratulations Text box_png,Dollar Symbol_png,Glow1 (Screen effect)_png,How to redeem button_png,How to redeem info_png,Location  info_png,Login ID_png,Login_ text_png,Machine_Glass2_png,OpenCapsule- Just Dollar_png,OpenCapsule- Just Ox_png,OpenCapsule_png,Ox symbol_png,Platform Prize Symbol- Dollar_png,Platform Prize Symbol- Ox_png,Platform_png,Playagaintomorrow Button_png,Prizes_png,Rules_png,SRL_Cards_png,SandsRewardsLifestyle_Logo_png,Soundbutton_png,Startup Text_png,TEXT_png,TextBG_png,signup_text_png,game_rule_png,PrizesRulesButton_png,gameStartBtn_png,lotteryMachine_png,Glow2_png,Background22_png,Background32_png,Big Capsule(Glow)2_png,Big Capsule2_png,button_down4_png,button_up4_png,Capsule12_png,Capsule22_png,Capsule32_png,Capsule42_png,Capsule52_png,Capsule62_png,Capsule72_png,Capsule82_png,Capsule92_png,checkbox_select_disabled3_png,checkbox_select_down3_png,checkbox_select_up3_png,checkbox_unselect3_png,Congratulations Text box2_png,Dollar Symbol2_png,Glow1 (Screen effect)2_png,Glow22_png,How to redeem button2_png,How to redeem info2_png,selected3_png,Location  info2_png,Login ID2_png,Login_ text2_png,Machine_Glass3_png,OpenCapsule- Just Dollar2_png,OpenCapsule- Just Ox2_png,OpenCapsule2_png,Ox symbol2_png,border3_png,header3_png,Platform Prize Symbol- Dollar2_png,Platform Prize Symbol- Ox2_png,Platform2_png,Playagaintomorrow Button2_png,Prizes2_png,PrizesRulesButton2_png,thumb_pb3_png,track_pb3_png,radiobutton_select_disabled3_png,radiobutton_select_down3_png,radiobutton_select_up3_png,radiobutton_unselect3_png,Rules2_png,SRL_Cards2_png,SandsRewardsLifestyle_Logo2_png,roundthumb3_png,track_sb3_png,thumb3_png,track3_png,tracklight3_png,Soundbutton2_png,Startup Text2_png,TEXT2_png,TextBG2_png,handle3_png,off3_png,on3_png,check-box-outline-blank2_png,check-box-outline2_png,gameStartBtn2_png,game_rule2_png,login_btn13_png,login_btn23_png,lotteryMachine2_png,patronRegister2_png,redeem3_png,signup_text2_png,black_mask_png",
 			"name": "preload"
 		},
 		{
-			"keys": "Machine_Glass,ingdex_Prize_jpg,music_logo_png,old_man_png,rule_jpg,index_gift_png,music_mp3,common_bg_png,dd_mp3,PrizesRulesButton_png,game_rule_png,Rules_png,gameStartBtn_png,lotteryMachine_png,Capsule1_png,Capsule2_png,Capsule3_png,Capsule4_png,Capsule5_png,Capsule6_png,Capsule7,Capsule8_png,Capsule9_png,Big Capsule(Glow)_png,Glow2_png,OpenCapsule_png",
+			"keys": "Machine_Glass,ingdex_Prize_jpg,music_logo_png,old_man_png,rule_jpg,index_gift_png,music_mp3,common_bg_png,dd_mp3,PrizesRulesButton_png,game_rule_png,Rules_png,gameStartBtn_png,lotteryMachine_png,Capsule1_png,Capsule2_png,Capsule3_png,Capsule4_png,Capsule5_png,Capsule6_png,Capsule7,Capsule8_png,Capsule9_png,Big Capsule(Glow)_png,Glow2_png,OpenCapsule_png,Dollar Symbol_png,OpenCapsule- Just Dollar_png,Platform_png,Platform Prize Symbol- Dollar_png,black_mask_png,Background2_png,Congratulations Text box_png,How to redeem button_png,How to redeem info_png,Playagaintomorrow Button_png",
 			"name": "index"
 		},
 		{
@@ -1157,6 +1157,376 @@
 			"name": "Glow2_png",
 			"type": "image",
 			"url": "assets/Glow2.png"
+		},
+		{
+			"name": "Background22_png",
+			"type": "image",
+			"url": "assets/Background2.png"
+		},
+		{
+			"name": "Background32_png",
+			"type": "image",
+			"url": "assets/Background3.png"
+		},
+		{
+			"name": "Big Capsule(Glow)2_png",
+			"type": "image",
+			"url": "assets/Big Capsule(Glow).png"
+		},
+		{
+			"name": "Big Capsule2_png",
+			"type": "image",
+			"url": "assets/Big Capsule.png"
+		},
+		{
+			"name": "button_down4_png",
+			"type": "image",
+			"url": "assets/Button/button_down.png"
+		},
+		{
+			"name": "button_up4_png",
+			"type": "image",
+			"url": "assets/Button/button_up.png"
+		},
+		{
+			"name": "Capsule12_png",
+			"type": "image",
+			"url": "assets/Capsule1.png"
+		},
+		{
+			"name": "Capsule22_png",
+			"type": "image",
+			"url": "assets/Capsule2.png"
+		},
+		{
+			"name": "Capsule32_png",
+			"type": "image",
+			"url": "assets/Capsule3.png"
+		},
+		{
+			"name": "Capsule42_png",
+			"type": "image",
+			"url": "assets/Capsule4.png"
+		},
+		{
+			"name": "Capsule52_png",
+			"type": "image",
+			"url": "assets/Capsule5.png"
+		},
+		{
+			"name": "Capsule62_png",
+			"type": "image",
+			"url": "assets/Capsule6.png"
+		},
+		{
+			"name": "Capsule72_png",
+			"type": "image",
+			"url": "assets/Capsule7.png"
+		},
+		{
+			"name": "Capsule82_png",
+			"type": "image",
+			"url": "assets/Capsule8.png"
+		},
+		{
+			"name": "Capsule92_png",
+			"type": "image",
+			"url": "assets/Capsule9.png"
+		},
+		{
+			"name": "checkbox_select_disabled3_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_select_disabled.png"
+		},
+		{
+			"name": "checkbox_select_down3_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_select_down.png"
+		},
+		{
+			"name": "checkbox_select_up3_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_select_up.png"
+		},
+		{
+			"name": "checkbox_unselect3_png",
+			"type": "image",
+			"url": "assets/CheckBox/checkbox_unselect.png"
+		},
+		{
+			"name": "Congratulations Text box2_png",
+			"type": "image",
+			"url": "assets/Congratulations Text box.png"
+		},
+		{
+			"name": "Dollar Symbol2_png",
+			"type": "image",
+			"url": "assets/Dollar Symbol.png"
+		},
+		{
+			"name": "Glow1 (Screen effect)2_png",
+			"type": "image",
+			"url": "assets/Glow1 (Screen effect).png"
+		},
+		{
+			"name": "Glow22_png",
+			"type": "image",
+			"url": "assets/Glow2.png"
+		},
+		{
+			"name": "How to redeem button2_png",
+			"type": "image",
+			"url": "assets/How to redeem button.png"
+		},
+		{
+			"name": "How to redeem info2_png",
+			"type": "image",
+			"url": "assets/How to redeem info.png"
+		},
+		{
+			"name": "selected3_png",
+			"type": "image",
+			"url": "assets/ItemRenderer/selected.png"
+		},
+		{
+			"name": "Location  info2_png",
+			"type": "image",
+			"url": "assets/Location  info.png"
+		},
+		{
+			"name": "Login ID2_png",
+			"type": "image",
+			"url": "assets/Login ID.png"
+		},
+		{
+			"name": "Login_ text2_png",
+			"type": "image",
+			"url": "assets/Login_ text.png"
+		},
+		{
+			"name": "Machine_Glass3_png",
+			"type": "image",
+			"url": "assets/Machine_Glass.png"
+		},
+		{
+			"name": "OpenCapsule- Just Dollar2_png",
+			"type": "image",
+			"url": "assets/OpenCapsule- Just Dollar.png"
+		},
+		{
+			"name": "OpenCapsule- Just Ox2_png",
+			"type": "image",
+			"url": "assets/OpenCapsule- Just Ox.png"
+		},
+		{
+			"name": "OpenCapsule2_png",
+			"type": "image",
+			"url": "assets/OpenCapsule.png"
+		},
+		{
+			"name": "Ox symbol2_png",
+			"type": "image",
+			"url": "assets/Ox symbol.png"
+		},
+		{
+			"name": "border3_png",
+			"type": "image",
+			"url": "assets/Panel/border.png"
+		},
+		{
+			"name": "header3_png",
+			"type": "image",
+			"url": "assets/Panel/header.png"
+		},
+		{
+			"name": "Platform Prize Symbol- Dollar2_png",
+			"type": "image",
+			"url": "assets/Platform Prize Symbol- Dollar.png"
+		},
+		{
+			"name": "Platform Prize Symbol- Ox2_png",
+			"type": "image",
+			"url": "assets/Platform Prize Symbol- Ox.png"
+		},
+		{
+			"name": "Platform2_png",
+			"type": "image",
+			"url": "assets/Platform.png"
+		},
+		{
+			"name": "Playagaintomorrow Button2_png",
+			"type": "image",
+			"url": "assets/Playagaintomorrow Button.png"
+		},
+		{
+			"name": "Prizes2_png",
+			"type": "image",
+			"url": "assets/Prizes.png"
+		},
+		{
+			"name": "PrizesRulesButton2_png",
+			"type": "image",
+			"url": "assets/PrizesRulesButton.png"
+		},
+		{
+			"name": "thumb_pb3_png",
+			"type": "image",
+			"url": "assets/ProgressBar/thumb_pb.png"
+		},
+		{
+			"name": "track_pb3_png",
+			"type": "image",
+			"url": "assets/ProgressBar/track_pb.png"
+		},
+		{
+			"name": "radiobutton_select_disabled3_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_disabled.png"
+		},
+		{
+			"name": "radiobutton_select_down3_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_down.png"
+		},
+		{
+			"name": "radiobutton_select_up3_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_select_up.png"
+		},
+		{
+			"name": "radiobutton_unselect3_png",
+			"type": "image",
+			"url": "assets/RadioButton/radiobutton_unselect.png"
+		},
+		{
+			"name": "Rules2_png",
+			"type": "image",
+			"url": "assets/Rules.png"
+		},
+		{
+			"name": "SRL_Cards2_png",
+			"type": "image",
+			"url": "assets/SRL_Cards.png"
+		},
+		{
+			"name": "SandsRewardsLifestyle_Logo2_png",
+			"type": "image",
+			"url": "assets/SandsRewardsLifestyle_Logo.png"
+		},
+		{
+			"name": "roundthumb3_png",
+			"type": "image",
+			"url": "assets/ScrollBar/roundthumb.png"
+		},
+		{
+			"name": "track_sb3_png",
+			"type": "image",
+			"url": "assets/ScrollBar/track_sb.png"
+		},
+		{
+			"name": "thumb3_png",
+			"type": "image",
+			"url": "assets/Slider/thumb.png"
+		},
+		{
+			"name": "track3_png",
+			"type": "image",
+			"url": "assets/Slider/track.png"
+		},
+		{
+			"name": "tracklight3_png",
+			"type": "image",
+			"url": "assets/Slider/tracklight.png"
+		},
+		{
+			"name": "Soundbutton2_png",
+			"type": "image",
+			"url": "assets/Soundbutton.png"
+		},
+		{
+			"name": "Startup Text2_png",
+			"type": "image",
+			"url": "assets/Startup Text.png"
+		},
+		{
+			"name": "TEXT2_png",
+			"type": "image",
+			"url": "assets/TEXT.png"
+		},
+		{
+			"name": "TextBG2_png",
+			"type": "image",
+			"url": "assets/TextBG.png"
+		},
+		{
+			"name": "handle3_png",
+			"type": "image",
+			"url": "assets/ToggleSwitch/handle.png"
+		},
+		{
+			"name": "off3_png",
+			"type": "image",
+			"url": "assets/ToggleSwitch/off.png"
+		},
+		{
+			"name": "on3_png",
+			"type": "image",
+			"url": "assets/ToggleSwitch/on.png"
+		},
+		{
+			"name": "check-box-outline-blank2_png",
+			"type": "image",
+			"url": "assets/check-box-outline-blank.png"
+		},
+		{
+			"name": "check-box-outline2_png",
+			"type": "image",
+			"url": "assets/check-box-outline.png"
+		},
+		{
+			"name": "gameStartBtn2_png",
+			"type": "image",
+			"url": "assets/gameStartBtn.png"
+		},
+		{
+			"name": "game_rule2_png",
+			"type": "image",
+			"url": "assets/game_rule.png"
+		},
+		{
+			"name": "login_btn13_png",
+			"type": "image",
+			"url": "assets/login_btn1.png"
+		},
+		{
+			"name": "login_btn23_png",
+			"type": "image",
+			"url": "assets/login_btn2.png"
+		},
+		{
+			"name": "lotteryMachine2_png",
+			"type": "image",
+			"url": "assets/lotteryMachine.png"
+		},
+		{
+			"name": "patronRegister2_png",
+			"type": "image",
+			"url": "assets/patronRegister.png"
+		},
+		{
+			"name": "redeem3_png",
+			"type": "image",
+			"url": "assets/redeem.png"
+		},
+		{
+			"name": "signup_text2_png",
+			"type": "image",
+			"url": "assets/signup_text.png"
+		},
+		{
+			"name": "black_mask_png",
+			"type": "image",
+			"url": "assets/black_mask.png"
 		}
 	]
 }

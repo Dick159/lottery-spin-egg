@@ -14,6 +14,7 @@ var IndexUI = (function (_super) {
         _this.balls = [];
         _this.isFinishSpin = false;
         _this.isFirstLoop = false;
+        _this.machine_group = new egret.DisplayObjectContainer();
         _this.ballMove = [
             //[x,y,t]
             // x in [225,455]
@@ -31,9 +32,9 @@ var IndexUI = (function (_super) {
         return _this;
     }
     IndexUI.prototype.createView = function () {
-        var machine_group = new egret.DisplayObjectContainer();
+        var that = this;
         //添加背景
-        var _bg = Main.bg;
+        this._bg = Main.bg;
         //标题
         var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
@@ -65,11 +66,11 @@ var IndexUI = (function (_super) {
         //this.addChild(myPrizeButton);
         //人物
         var machineMain = createBitmap("lotteryMachine_png", 0, 500);
-        machine_group.addChild(machineMain);
-        this.addCapsuleToGroup(machine_group);
+        this.machine_group.addChild(machineMain);
+        this.addCapsuleToGroup(this.machine_group);
         var Machine_Glass = createBitmap("Machine_Glass", 120, 440);
-        machine_group.addChild(Machine_Glass);
-        this.addChild(machine_group);
+        this.machine_group.addChild(Machine_Glass);
+        this.addChild(this.machine_group);
         //我的奖品
         // var Prize = createBitmap("index_mine_png", 543, 1011);
         // if(Main.jp_onoff){
@@ -100,16 +101,13 @@ var IndexUI = (function (_super) {
             egret.Tween.get(gameRule).to({ alpha: 0 }, 300);
             //-----alpha 
             //----scale start-----
-            _bg.anchorOffsetX = _bg.width * 0.48;
-            _bg.anchorOffsetY = _bg.height * 0.3;
-            _bg.x = _bg.x + _bg.anchorOffsetX;
-            _bg.y = _bg.y + _bg.anchorOffsetY;
-            egret.Tween.get(_bg).to({ scaleX: 1.4, scaleY: 1.35, y: _bg.y + 80 }, 1000);
-            machine_group.anchorOffsetX = machine_group.width * 0.57;
-            machine_group.anchorOffsetY = machine_group.height;
-            machine_group.x = machine_group.x + machine_group.anchorOffsetX;
-            machine_group.y = machine_group.y + machine_group.anchorOffsetY;
-            egret.Tween.get(machine_group).to({ scaleX: 1.35, scaleY: 1.35 }, 1000).wait(500).call(function () {
+            this.setBgAnchor(true);
+            egret.Tween.get(this._bg).to({ scaleX: 1.4, scaleY: 1.35, y: this._bg.y + 80 }, 1000);
+            this.machine_group.anchorOffsetX = this.machine_group.width * 0.57;
+            this.machine_group.anchorOffsetY = this.machine_group.height;
+            this.machine_group.x = this.machine_group.x + this.machine_group.anchorOffsetX;
+            this.machine_group.y = this.machine_group.y + this.machine_group.anchorOffsetY;
+            egret.Tween.get(this.machine_group).to({ scaleX: 1.35, scaleY: 1.35 }, 1000).wait(500).call(function () {
                 for (var i = 0; i < this.balls.length; i++) {
                     var b1 = this.balls[i];
                     egret.Tween.get(b1, { loop: true }).to({ x: this.ballMove[i][0][0] + b1.anchorOffsetX, y: this.ballMove[i][0][1] + +b1.anchorOffsetY }, this.ballMove[i][0][2], egret.Ease.sineIn).to({ x: this.ballMove[i][1][0] + b1.anchorOffsetX, y: this.ballMove[i][1][1] + b1.anchorOffsetY }, this.ballMove[i][1][2], egret.Ease.sineOut).to({ x: this.ballMove[i][2][0] + b1.anchorOffsetX, y: this.ballMove[i][2][1] + b1.anchorOffsetY }, this.ballMove[i][2][2], egret.Ease.sineIn).to({ x: b1.x, y: b1.y }, 500, egret.Ease.sineIn).call(function () {
@@ -118,7 +116,7 @@ var IndexUI = (function (_super) {
                         }
                         if (this.isFinishSpin) {
                             this.pauseAllBalls(this.balls);
-                            this.popUpResult();
+                            this.popUpResult(that);
                         }
                     }, this);
                     egret.Tween.get(b1, { loop: true }).to({ rotation: 360 }, 2500);
@@ -235,7 +233,7 @@ var IndexUI = (function (_super) {
         request.addEventListener(egret.Event.COMPLETE, this.lotteryResultComplete, this);
         this.isFirstLoop = true;
     };
-    IndexUI.prototype.popUpResult = function () {
+    IndexUI.prototype.popUpResult = function (that, callBack) {
         var shader = createShaderMask(this.stage.width, this.stage.height, 0x000000, 0.6);
         var popupPrizeContainer = new egret.DisplayObjectContainer();
         popupPrizeContainer.x = 160;
@@ -255,9 +253,14 @@ var IndexUI = (function (_super) {
         // glow.x = capsule.x-5;
         // glow.y = capsule.y-70;
         this.addChild(shader);
+        var black_mask = createBitmap("black_mask_png");
+        black_mask.alpha = 0;
+        black_mask.width = this.stage.width;
+        black_mask.height = this.stage.height;
         // popupPrizeContainer.addChild(glow);
         popupPrizeContainer.addChild(capsule);
         this.addChild(popupPrizeContainer);
+        this.addChildAt(black_mask, 99999);
         popupPrizeContainer.anchorOffsetX = popupPrizeContainer.width * 0.5;
         popupPrizeContainer.anchorOffsetY = popupPrizeContainer.height * 0.5;
         popupPrizeContainer.x = popupPrizeContainer.anchorOffsetX + popupPrizeContainer.x;
@@ -268,14 +271,75 @@ var IndexUI = (function (_super) {
             var _whiteShader = createShaderMask(this.stage.width, this.stage.height, 0xFFFFFF, 1);
             this.addChild(_whiteShader);
             popupPrizeContainer.removeChild(capsule);
-            var openCapsule = createBitmap("OpenCapsule_png", capsule.x - 100);
+            var openCapsule = createBitmap("OpenCapsule_png", capsule.x - 120, capsule.y + 50);
+            var prizeSymbol = createBitmap("OpenCapsule- Just Dollar_png", capsule.x + 115, capsule.y - 40);
+            var glodenGlow = glowFilter(0xFFC951, 0.8, 50, 50, 2, false, false);
+            prizeSymbol.filters = [glodenGlow];
             popupPrizeContainer.addChild(openCapsule);
-            egret.Tween.get(_whiteShader).to({ alpha: 0 }, 2500, egret.Ease.sineIn).call(function () {
-                //    popupPrizeContainer.removeChild(capsule);
-                //    var openCapsule = createBitmap("OpenCapsule_png");
-                //    popupPrizeContainer.addChild(openCapsule);
+            popupPrizeContainer.addChild(prizeSymbol);
+            egret.Tween.get(glodenGlow, { loop: true }).to({ alpha: 0.3 }, 1000).to({ alpha: 0.8 }, 500);
+            egret.Tween.get(_whiteShader).to({ alpha: 0 }, 2500, egret.Ease.sineIn).wait(500).call(function () {
+                egret.Tween.get(black_mask).to({ alpha: 1 }, 300, egret.Ease.quartInOut).call(function () {
+                    popupPrizeContainer.removeChild(openCapsule);
+                    popupPrizeContainer.removeChild(prizeSymbol);
+                    that.removeChild(shader);
+                    that.removeMachine();
+                    that.showPrizePlatform();
+                    egret.Tween.get(black_mask).to({ alpha: 0 }, 100, egret.Ease.quartInOut).call(function () {
+                    }, this);
+                }, this);
             }, this);
         }, this);
+    };
+    IndexUI.prototype.showPrizePlatform = function () {
+        var _container = new egret.DisplayObjectContainer();
+        var platform = createBitmap("Platform_png");
+        var prizeSymbol = createBitmap("Platform Prize Symbol- Dollar_png");
+        var congText = createBitmap("Congratulations Text box_png");
+        var valueText = createTextFiledNoEui("$888 \n REWARD DOLLARS");
+        valueText.size = 34;
+        valueText.textColor = 0xFFFFFF;
+        var glodenGlow = glowFilter(0xFFC951, 0.8, 50, 50, 2, false, false);
+        prizeSymbol.filters = [glodenGlow];
+        egret.Tween.get(glodenGlow, { loop: true }).to({ alpha: 0.3 }, 1000).to({ alpha: 0.8 }, 500);
+        prizeSymbol.x = (platform.x + platform.width * 0.5) - prizeSymbol.width * 0.5;
+        prizeSymbol.y = platform.y - platform.height - 40;
+        congText.x = (platform.x + platform.width * 0.5) - congText.width * 0.5;
+        congText.y = platform.y + platform.height + 10;
+        valueText.x = (congText.x + congText.width * 0.5) - valueText.width * 0.5;
+        valueText.y = congText.y + congText.height * 0.5;
+        _container.addChild(platform);
+        _container.addChild(prizeSymbol);
+        _container.addChild(congText);
+        _container.addChild(valueText);
+        _container.x = this.stage.width * 0.5 - platform.width;
+        _container.y = 670;
+        this.addChild(_container);
+        var inf_rdmp_pa_btn_cnt = new egret.DisplayObjectContainer();
+        var rdm_btn = createBitmap("How to redeem button_png");
+        var my_prize = createBitmap("PrizesRulesButton_png");
+    };
+    IndexUI.prototype.removeMachine = function () {
+        this.removeChild(this.machine_group);
+        this._bg.texture = RES.getRes("Background2_png");
+        this.setBgAnchor(false);
+        this._bg.scaleX = 1;
+        this._bg.scaleY = 1;
+    };
+    IndexUI.prototype.setBgAnchor = function (isBigScale) {
+        if (isBigScale === void 0) { isBigScale = true; }
+        if (isBigScale) {
+            this._bg.anchorOffsetX = this._bg.width * 0.48;
+            this._bg.anchorOffsetY = this._bg.height * 0.3;
+            this._bg.x = this._bg.x + this._bg.anchorOffsetX;
+            this._bg.y = this._bg.y + this._bg.anchorOffsetY;
+        }
+        else {
+            this._bg.anchorOffsetX = 0;
+            this._bg.anchorOffsetY = 0;
+            this._bg.x = 0;
+            this._bg.y = 0;
+        }
     };
     return IndexUI;
 }(egret.Sprite));

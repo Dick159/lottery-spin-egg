@@ -74,7 +74,7 @@ class Main extends egret.DisplayObjectContainer {
         this.stage.addChild(this.loadingView);
         
         if(egret.Capabilities.isMobile){
-            this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH;
+            this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT;
         }else{
             this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
         }
