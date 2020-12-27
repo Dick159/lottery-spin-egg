@@ -5,7 +5,7 @@
 			"name": "preload"
 		},
 		{
-			"keys": "Machine_Glass,ingdex_Prize_jpg,music_logo_png,old_man_png,rule_jpg,index_gift_png,music_mp3,common_bg_png,dd_mp3,PrizesRulesButton_png,game_rule_png,Rules_png,gameStartBtn_png,lotteryMachine_png,Capsule1_png,Capsule2_png,Capsule3_png,Capsule4_png,Capsule5_png,Capsule6_png,Capsule7,Capsule8_png,Capsule9_png,Big Capsule(Glow)_png,Glow2_png,OpenCapsule_png,Dollar Symbol_png,OpenCapsule- Just Dollar_png,Platform_png,Platform Prize Symbol- Dollar_png,black_mask_png,Background2_png,Congratulations Text box_png,How to redeem button_png,How to redeem info_png,Playagaintomorrow Button_png",
+			"keys": "Machine_Glass,ingdex_Prize_jpg,music_logo_png,old_man_png,rule_jpg,index_gift_png,music_mp3,common_bg_png,dd_mp3,PrizesRulesButton_png,game_rule_png,Rules_png,gameStartBtn_png,lotteryMachine_png,Capsule1_png,Capsule2_png,Capsule3_png,Capsule4_png,Capsule5_png,Capsule6_png,Capsule8_png,Capsule9_png,Big Capsule(Glow)_png,Glow2_png,OpenCapsule_png,Dollar Symbol_png,OpenCapsule- Just Dollar_png,Platform_png,Platform Prize Symbol- Dollar_png,black_mask_png,Background2_png,Congratulations Text box_png,How to redeem button_png,How to redeem info_png,Playagaintomorrow Button_png",
 			"name": "index"
 		},
 		{
@@ -1154,379 +1154,379 @@
 			"name": "lotteryMachine_png"
 		},
 		{
-			"name": "Glow2_png",
+			"url": "assets/Glow2.png",
 			"type": "image",
-			"url": "assets/Glow2.png"
+			"name": "Glow2_png"
 		},
 		{
-			"name": "Background22_png",
+			"url": "assets/Background2.png",
 			"type": "image",
-			"url": "assets/Background2.png"
+			"name": "Background22_png"
 		},
 		{
-			"name": "Background32_png",
+			"url": "assets/Background3.png",
 			"type": "image",
-			"url": "assets/Background3.png"
+			"name": "Background32_png"
 		},
 		{
-			"name": "Big Capsule(Glow)2_png",
+			"url": "assets/Big Capsule(Glow).png",
 			"type": "image",
-			"url": "assets/Big Capsule(Glow).png"
+			"name": "Big Capsule(Glow)2_png"
 		},
 		{
-			"name": "Big Capsule2_png",
+			"url": "assets/Big Capsule.png",
 			"type": "image",
-			"url": "assets/Big Capsule.png"
+			"name": "Big Capsule2_png"
 		},
 		{
-			"name": "button_down4_png",
+			"url": "assets/Button/button_down.png",
 			"type": "image",
-			"url": "assets/Button/button_down.png"
+			"name": "button_down4_png"
 		},
 		{
-			"name": "button_up4_png",
+			"url": "assets/Button/button_up.png",
 			"type": "image",
-			"url": "assets/Button/button_up.png"
+			"name": "button_up4_png"
 		},
 		{
-			"name": "Capsule12_png",
+			"url": "assets/Capsule1.png",
 			"type": "image",
-			"url": "assets/Capsule1.png"
+			"name": "Capsule12_png"
 		},
 		{
-			"name": "Capsule22_png",
+			"url": "assets/Capsule2.png",
 			"type": "image",
-			"url": "assets/Capsule2.png"
+			"name": "Capsule22_png"
 		},
 		{
-			"name": "Capsule32_png",
+			"url": "assets/Capsule3.png",
 			"type": "image",
-			"url": "assets/Capsule3.png"
+			"name": "Capsule32_png"
 		},
 		{
-			"name": "Capsule42_png",
+			"url": "assets/Capsule4.png",
 			"type": "image",
-			"url": "assets/Capsule4.png"
+			"name": "Capsule42_png"
 		},
 		{
-			"name": "Capsule52_png",
+			"url": "assets/Capsule5.png",
 			"type": "image",
-			"url": "assets/Capsule5.png"
+			"name": "Capsule52_png"
 		},
 		{
-			"name": "Capsule62_png",
+			"url": "assets/Capsule6.png",
 			"type": "image",
-			"url": "assets/Capsule6.png"
+			"name": "Capsule62_png"
 		},
 		{
-			"name": "Capsule72_png",
+			"url": "assets/Capsule7.png",
 			"type": "image",
-			"url": "assets/Capsule7.png"
+			"name": "Capsule72_png"
 		},
 		{
-			"name": "Capsule82_png",
+			"url": "assets/Capsule8.png",
 			"type": "image",
-			"url": "assets/Capsule8.png"
+			"name": "Capsule82_png"
 		},
 		{
-			"name": "Capsule92_png",
+			"url": "assets/Capsule9.png",
 			"type": "image",
-			"url": "assets/Capsule9.png"
+			"name": "Capsule92_png"
 		},
 		{
-			"name": "checkbox_select_disabled3_png",
+			"url": "assets/CheckBox/checkbox_select_disabled.png",
 			"type": "image",
-			"url": "assets/CheckBox/checkbox_select_disabled.png"
+			"name": "checkbox_select_disabled3_png"
 		},
 		{
-			"name": "checkbox_select_down3_png",
+			"url": "assets/CheckBox/checkbox_select_down.png",
 			"type": "image",
-			"url": "assets/CheckBox/checkbox_select_down.png"
+			"name": "checkbox_select_down3_png"
 		},
 		{
-			"name": "checkbox_select_up3_png",
+			"url": "assets/CheckBox/checkbox_select_up.png",
 			"type": "image",
-			"url": "assets/CheckBox/checkbox_select_up.png"
+			"name": "checkbox_select_up3_png"
 		},
 		{
-			"name": "checkbox_unselect3_png",
+			"url": "assets/CheckBox/checkbox_unselect.png",
 			"type": "image",
-			"url": "assets/CheckBox/checkbox_unselect.png"
+			"name": "checkbox_unselect3_png"
 		},
 		{
-			"name": "Congratulations Text box2_png",
+			"url": "assets/Congratulations Text box.png",
 			"type": "image",
-			"url": "assets/Congratulations Text box.png"
+			"name": "Congratulations Text box2_png"
 		},
 		{
-			"name": "Dollar Symbol2_png",
+			"url": "assets/Dollar Symbol.png",
 			"type": "image",
-			"url": "assets/Dollar Symbol.png"
+			"name": "Dollar Symbol2_png"
 		},
 		{
-			"name": "Glow1 (Screen effect)2_png",
+			"url": "assets/Glow1 (Screen effect).png",
 			"type": "image",
-			"url": "assets/Glow1 (Screen effect).png"
+			"name": "Glow1 (Screen effect)2_png"
 		},
 		{
-			"name": "Glow22_png",
+			"url": "assets/Glow2.png",
 			"type": "image",
-			"url": "assets/Glow2.png"
+			"name": "Glow22_png"
 		},
 		{
-			"name": "How to redeem button2_png",
+			"url": "assets/How to redeem button.png",
 			"type": "image",
-			"url": "assets/How to redeem button.png"
+			"name": "How to redeem button2_png"
 		},
 		{
-			"name": "How to redeem info2_png",
+			"url": "assets/How to redeem info.png",
 			"type": "image",
-			"url": "assets/How to redeem info.png"
+			"name": "How to redeem info2_png"
 		},
 		{
-			"name": "selected3_png",
+			"url": "assets/ItemRenderer/selected.png",
 			"type": "image",
-			"url": "assets/ItemRenderer/selected.png"
+			"name": "selected3_png"
 		},
 		{
-			"name": "Location  info2_png",
+			"url": "assets/Location  info.png",
 			"type": "image",
-			"url": "assets/Location  info.png"
+			"name": "Location  info2_png"
 		},
 		{
-			"name": "Login ID2_png",
+			"url": "assets/Login ID.png",
 			"type": "image",
-			"url": "assets/Login ID.png"
+			"name": "Login ID2_png"
 		},
 		{
-			"name": "Login_ text2_png",
+			"url": "assets/Login_ text.png",
 			"type": "image",
-			"url": "assets/Login_ text.png"
+			"name": "Login_ text2_png"
 		},
 		{
-			"name": "Machine_Glass3_png",
+			"url": "assets/Machine_Glass.png",
 			"type": "image",
-			"url": "assets/Machine_Glass.png"
+			"name": "Machine_Glass3_png"
 		},
 		{
-			"name": "OpenCapsule- Just Dollar2_png",
+			"url": "assets/OpenCapsule- Just Dollar.png",
 			"type": "image",
-			"url": "assets/OpenCapsule- Just Dollar.png"
+			"name": "OpenCapsule- Just Dollar2_png"
 		},
 		{
-			"name": "OpenCapsule- Just Ox2_png",
+			"url": "assets/OpenCapsule- Just Ox.png",
 			"type": "image",
-			"url": "assets/OpenCapsule- Just Ox.png"
+			"name": "OpenCapsule- Just Ox2_png"
 		},
 		{
-			"name": "OpenCapsule2_png",
+			"url": "assets/OpenCapsule.png",
 			"type": "image",
-			"url": "assets/OpenCapsule.png"
+			"name": "OpenCapsule2_png"
 		},
 		{
-			"name": "Ox symbol2_png",
+			"url": "assets/Ox symbol.png",
 			"type": "image",
-			"url": "assets/Ox symbol.png"
+			"name": "Ox symbol2_png"
 		},
 		{
-			"name": "border3_png",
+			"url": "assets/Panel/border.png",
 			"type": "image",
-			"url": "assets/Panel/border.png"
+			"name": "border3_png"
 		},
 		{
-			"name": "header3_png",
+			"url": "assets/Panel/header.png",
 			"type": "image",
-			"url": "assets/Panel/header.png"
+			"name": "header3_png"
 		},
 		{
-			"name": "Platform Prize Symbol- Dollar2_png",
+			"url": "assets/Platform Prize Symbol- Dollar.png",
 			"type": "image",
-			"url": "assets/Platform Prize Symbol- Dollar.png"
+			"name": "Platform Prize Symbol- Dollar2_png"
 		},
 		{
-			"name": "Platform Prize Symbol- Ox2_png",
+			"url": "assets/Platform Prize Symbol- Ox.png",
 			"type": "image",
-			"url": "assets/Platform Prize Symbol- Ox.png"
+			"name": "Platform Prize Symbol- Ox2_png"
 		},
 		{
-			"name": "Platform2_png",
+			"url": "assets/Platform.png",
 			"type": "image",
-			"url": "assets/Platform.png"
+			"name": "Platform2_png"
 		},
 		{
-			"name": "Playagaintomorrow Button2_png",
+			"url": "assets/Playagaintomorrow Button.png",
 			"type": "image",
-			"url": "assets/Playagaintomorrow Button.png"
+			"name": "Playagaintomorrow Button2_png"
 		},
 		{
-			"name": "Prizes2_png",
+			"url": "assets/Prizes.png",
 			"type": "image",
-			"url": "assets/Prizes.png"
+			"name": "Prizes2_png"
 		},
 		{
-			"name": "PrizesRulesButton2_png",
+			"url": "assets/PrizesRulesButton.png",
 			"type": "image",
-			"url": "assets/PrizesRulesButton.png"
+			"name": "PrizesRulesButton2_png"
 		},
 		{
-			"name": "thumb_pb3_png",
+			"url": "assets/ProgressBar/thumb_pb.png",
 			"type": "image",
-			"url": "assets/ProgressBar/thumb_pb.png"
+			"name": "thumb_pb3_png"
 		},
 		{
-			"name": "track_pb3_png",
+			"url": "assets/ProgressBar/track_pb.png",
 			"type": "image",
-			"url": "assets/ProgressBar/track_pb.png"
+			"name": "track_pb3_png"
 		},
 		{
-			"name": "radiobutton_select_disabled3_png",
+			"url": "assets/RadioButton/radiobutton_select_disabled.png",
 			"type": "image",
-			"url": "assets/RadioButton/radiobutton_select_disabled.png"
+			"name": "radiobutton_select_disabled3_png"
 		},
 		{
-			"name": "radiobutton_select_down3_png",
+			"url": "assets/RadioButton/radiobutton_select_down.png",
 			"type": "image",
-			"url": "assets/RadioButton/radiobutton_select_down.png"
+			"name": "radiobutton_select_down3_png"
 		},
 		{
-			"name": "radiobutton_select_up3_png",
+			"url": "assets/RadioButton/radiobutton_select_up.png",
 			"type": "image",
-			"url": "assets/RadioButton/radiobutton_select_up.png"
+			"name": "radiobutton_select_up3_png"
 		},
 		{
-			"name": "radiobutton_unselect3_png",
+			"url": "assets/RadioButton/radiobutton_unselect.png",
 			"type": "image",
-			"url": "assets/RadioButton/radiobutton_unselect.png"
+			"name": "radiobutton_unselect3_png"
 		},
 		{
-			"name": "Rules2_png",
+			"url": "assets/Rules.png",
 			"type": "image",
-			"url": "assets/Rules.png"
+			"name": "Rules2_png"
 		},
 		{
-			"name": "SRL_Cards2_png",
+			"url": "assets/SRL_Cards.png",
 			"type": "image",
-			"url": "assets/SRL_Cards.png"
+			"name": "SRL_Cards2_png"
 		},
 		{
-			"name": "SandsRewardsLifestyle_Logo2_png",
+			"url": "assets/SandsRewardsLifestyle_Logo.png",
 			"type": "image",
-			"url": "assets/SandsRewardsLifestyle_Logo.png"
+			"name": "SandsRewardsLifestyle_Logo2_png"
 		},
 		{
-			"name": "roundthumb3_png",
+			"url": "assets/ScrollBar/roundthumb.png",
 			"type": "image",
-			"url": "assets/ScrollBar/roundthumb.png"
+			"name": "roundthumb3_png"
 		},
 		{
-			"name": "track_sb3_png",
+			"url": "assets/ScrollBar/track_sb.png",
 			"type": "image",
-			"url": "assets/ScrollBar/track_sb.png"
+			"name": "track_sb3_png"
 		},
 		{
-			"name": "thumb3_png",
+			"url": "assets/Slider/thumb.png",
 			"type": "image",
-			"url": "assets/Slider/thumb.png"
+			"name": "thumb3_png"
 		},
 		{
-			"name": "track3_png",
+			"url": "assets/Slider/track.png",
 			"type": "image",
-			"url": "assets/Slider/track.png"
+			"name": "track3_png"
 		},
 		{
-			"name": "tracklight3_png",
+			"url": "assets/Slider/tracklight.png",
 			"type": "image",
-			"url": "assets/Slider/tracklight.png"
+			"name": "tracklight3_png"
 		},
 		{
-			"name": "Soundbutton2_png",
+			"url": "assets/Soundbutton.png",
 			"type": "image",
-			"url": "assets/Soundbutton.png"
+			"name": "Soundbutton2_png"
 		},
 		{
-			"name": "Startup Text2_png",
+			"url": "assets/Startup Text.png",
 			"type": "image",
-			"url": "assets/Startup Text.png"
+			"name": "Startup Text2_png"
 		},
 		{
-			"name": "TEXT2_png",
+			"url": "assets/TEXT.png",
 			"type": "image",
-			"url": "assets/TEXT.png"
+			"name": "TEXT2_png"
 		},
 		{
-			"name": "TextBG2_png",
+			"url": "assets/TextBG.png",
 			"type": "image",
-			"url": "assets/TextBG.png"
+			"name": "TextBG2_png"
 		},
 		{
-			"name": "handle3_png",
+			"url": "assets/ToggleSwitch/handle.png",
 			"type": "image",
-			"url": "assets/ToggleSwitch/handle.png"
+			"name": "handle3_png"
 		},
 		{
-			"name": "off3_png",
+			"url": "assets/ToggleSwitch/off.png",
 			"type": "image",
-			"url": "assets/ToggleSwitch/off.png"
+			"name": "off3_png"
 		},
 		{
-			"name": "on3_png",
+			"url": "assets/ToggleSwitch/on.png",
 			"type": "image",
-			"url": "assets/ToggleSwitch/on.png"
+			"name": "on3_png"
 		},
 		{
-			"name": "check-box-outline-blank2_png",
+			"url": "assets/check-box-outline-blank.png",
 			"type": "image",
-			"url": "assets/check-box-outline-blank.png"
+			"name": "check-box-outline-blank2_png"
 		},
 		{
-			"name": "check-box-outline2_png",
+			"url": "assets/check-box-outline.png",
 			"type": "image",
-			"url": "assets/check-box-outline.png"
+			"name": "check-box-outline2_png"
 		},
 		{
-			"name": "gameStartBtn2_png",
+			"url": "assets/gameStartBtn.png",
 			"type": "image",
-			"url": "assets/gameStartBtn.png"
+			"name": "gameStartBtn2_png"
 		},
 		{
-			"name": "game_rule2_png",
+			"url": "assets/game_rule.png",
 			"type": "image",
-			"url": "assets/game_rule.png"
+			"name": "game_rule2_png"
 		},
 		{
-			"name": "login_btn13_png",
+			"url": "assets/login_btn1.png",
 			"type": "image",
-			"url": "assets/login_btn1.png"
+			"name": "login_btn13_png"
 		},
 		{
-			"name": "login_btn23_png",
+			"url": "assets/login_btn2.png",
 			"type": "image",
-			"url": "assets/login_btn2.png"
+			"name": "login_btn23_png"
 		},
 		{
-			"name": "lotteryMachine2_png",
+			"url": "assets/lotteryMachine.png",
 			"type": "image",
-			"url": "assets/lotteryMachine.png"
+			"name": "lotteryMachine2_png"
 		},
 		{
-			"name": "patronRegister2_png",
+			"url": "assets/patronRegister.png",
 			"type": "image",
-			"url": "assets/patronRegister.png"
+			"name": "patronRegister2_png"
 		},
 		{
-			"name": "redeem3_png",
+			"url": "assets/redeem.png",
 			"type": "image",
-			"url": "assets/redeem.png"
+			"name": "redeem3_png"
 		},
 		{
-			"name": "signup_text2_png",
+			"url": "assets/signup_text.png",
 			"type": "image",
-			"url": "assets/signup_text.png"
+			"name": "signup_text2_png"
 		},
 		{
-			"name": "black_mask_png",
+			"url": "assets/black_mask.png",
 			"type": "image",
-			"url": "assets/black_mask.png"
+			"name": "black_mask_png"
 		}
 	]
 }

@@ -149,7 +149,7 @@ var IndexUI = (function (_super) {
                 gameRule.visible = true; //游戏规则复位
             }, this);
             egret.Tween.get(LoginRegisterbutton).to({ x: 0 }, 300).call(function () {
-                gameRule.visible = false; //login
+                gameRule.visible = true; //login
             }, this);
         }, this);
         this.addChild(mask);
@@ -177,7 +177,7 @@ var IndexUI = (function (_super) {
                     gameRule.visible = false; //将我的奖品移出页面可见
                 }, this);
                 egret.Tween.get(LoginRegisterbutton).to({ x: -300 }, 300).call(function () {
-                    gameRule.visible = false; //将我的奖品移出页面可见
+                    //gameRule.visible = false;      //登录出页面可见
                 }, this);
                 egret.Tween.get(mask).to({ scaleX: 1, scaleY: 1 }, 500).call(function () { }, this);
             }
@@ -316,8 +316,52 @@ var IndexUI = (function (_super) {
         _container.y = 670;
         this.addChild(_container);
         var inf_rdmp_pa_btn_cnt = new egret.DisplayObjectContainer();
+        inf_rdmp_pa_btn_cnt.alpha = 0;
         var rdm_btn = createBitmap("How to redeem button_png");
         var my_prize = createBitmap("PrizesRulesButton_png");
+        var playAgain = createBitmap("Playagaintomorrow Button_png");
+        rdm_btn.x = (platform.x + platform.width * 0.5) - rdm_btn.width * 0.5;
+        rdm_btn.y = congText.y + congText.height + 200;
+        my_prize.x = (platform.x + platform.width * 0.5) - my_prize.width * 0.5;
+        my_prize.y = rdm_btn.y + rdm_btn.height;
+        playAgain.x = (platform.x + platform.width * 0.5) - playAgain.width * 0.5;
+        playAgain.y = my_prize.y + my_prize.height + 100;
+        inf_rdmp_pa_btn_cnt.addChild(rdm_btn);
+        inf_rdmp_pa_btn_cnt.addChild(my_prize);
+        inf_rdmp_pa_btn_cnt.addChild(playAgain);
+        inf_rdmp_pa_btn_cnt.x = this.stage.width * 0.5 - platform.width;
+        inf_rdmp_pa_btn_cnt.y = 520;
+        this.addChild(inf_rdmp_pa_btn_cnt);
+        egret.Tween.get(inf_rdmp_pa_btn_cnt).wait(500).to({ alpha: 1 }, 700);
+        var rdmpInfo = createBitmap("How to redeem info_png");
+        rdmpInfo.scaleX = 0;
+        rdmpInfo.scaleY = 0;
+        rdmpInfo.anchorOffsetX = rdmpInfo.width * 0.5;
+        rdmpInfo.anchorOffsetY = rdmpInfo.height * 0.5;
+        rdmpInfo.x = 375;
+        rdmpInfo.y = 653;
+        rdmpInfo.visible = false;
+        this.addChild(rdmpInfo);
+        rdm_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (!rdmpInfo.visible) {
+                rdmpInfo.visible = true;
+                egret.Tween.get(rdmpInfo).to({ scaleX: 1, scaleY: 1 }, 500);
+            }
+            else {
+                egret.Tween.get(rdmpInfo).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
+                    rdmpInfo.visible = false;
+                }, this);
+            }
+        }, this);
+        rdmpInfo.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (rdm_btn.visible) {
+                egret.Tween.get(rdmpInfo).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
+                    rdmpInfo.visible = false;
+                }, this);
+            }
+        }, this);
+        rdmpInfo.touchEnabled = true;
+        rdm_btn.touchEnabled = true;
     };
     IndexUI.prototype.removeMachine = function () {
         this.removeChild(this.machine_group);
