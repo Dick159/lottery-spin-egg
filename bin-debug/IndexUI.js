@@ -77,10 +77,11 @@ var IndexUI = (function (_super) {
         this.machine_group.addChild(Machine_Glass);
         this.addChild(this.machine_group);
         //我的奖品
-        // var Prize = createBitmap("index_mine_png", 543, 1011);
-        // if(Main.jp_onoff){
-        //     this.addChild(Prize);
-        // }
+        var MyPrizeBtn = createBitmap("MyPrizes_png");
+        MyPrizeBtn.x = this.stage.stageWidth - MyPrizeBtn.width;
+        MyPrizeBtn.y = this.stage.stageHeight * 0.12;
+        this.addChild(MyPrizeBtn);
+        MyPrizeBtn.touchEnabled = true;
         myPrizeButton.touchEnabled = true;
         myPrizeButton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             Main.mask_onoff = true;
@@ -95,6 +96,9 @@ var IndexUI = (function (_super) {
         egret.Tween.get(_gFilter, { loop: true }).to({ alpha: 0.3 }, 1000).to({ alpha: 0.8 }, 1000);
         start_btn.touchEnabled = true;
         start_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (Main.jp_onoff) {
+                return;
+            }
             Main.jp_onoff = true;
             //-----alpha to 0-------
             //disable button;
@@ -168,6 +172,12 @@ var IndexUI = (function (_super) {
         mask.scaleY = 0;
         mask.anchorOffsetX = mask.width * .5;
         mask.anchorOffsetY = mask.height * .5;
+        //我的奖品点击逻辑;
+        MyPrizeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (!Main.jp_onoff && !mask.visible) {
+                this.popUpMyPrizeList(this);
+            }
+        }, this);
         //游戏规则弹窗里面的圣诞老头
         var old_man = createBitmap("old_man_png", 750, 1000);
         // this.addChild(old_man);
@@ -176,7 +186,7 @@ var IndexUI = (function (_super) {
         gameRule.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             //this.textColor = 0x000000;
             // scoreText. = 0xbf0c21;
-            if (mask.visible == false) {
+            if (mask.visible == false && !Main.jp_onoff) {
                 start_btn.touchEnabled = false;
                 LoginRegisterbutton.touchEnabled = false;
                 mask.visible = true; //显示游戏规则弹窗
@@ -270,7 +280,7 @@ var IndexUI = (function (_super) {
                 var token = jsonObject.data.token;
                 var params = "?tmp=" + tmp + "&" + "token=" + token;
                 var memberId = getLocalStorage("memberId");
-                var tokenId = getLocalStorage("MBS_TOKENID");
+                var tokenId = getLocalStorage(Main.TOKENID_SYB);
                 var _f = false;
                 if (memberId) {
                     params += "&memberId=" + memberId;
@@ -452,22 +462,27 @@ var IndexUI = (function (_super) {
         }
     };
     IndexUI.prototype.popUpMyPrizeList = function (_that) {
+        var tokenId = getLocalStorage(Main.TOKENID_SYB);
+        var memberId = getLocalStorage("memberId");
+        Main.jp_onoff = true;
         var myPrizeInfo_cnt = new egret.DisplayObjectContainer();
         myPrizeInfo_cnt.visible = false;
         myPrizeInfo_cnt.alpha = 0;
         var my_prize_info_bg = createBitmap("TextBG_png");
         var coins_png = createBitmap("Ox symbol_png");
-        var ac_content = createTextFiledNoEui("500 AUSPICIOUS OX\r\n COLLECTIBLE");
+        var ac_content = createTextFiledNoEui(" AUSPICIOUS OX\r\n COLLECTIBLE");
         ac_content.size = 36;
         ac_content.x = 200;
         ac_content.textColor = 0x7E1E08;
         ac_content.y = 695;
+        ac_content.text = this.currentAc + ac_content.text;
         var dd_png = createBitmap("Dollar Symbol_png");
-        var ad_content = createTextFiledNoEui("$888 REWARD DOLLARS");
+        var ad_content = createTextFiledNoEui(" REWARD DOLLARS");
         ad_content.size = 36;
         ad_content.x = 200;
         ad_content.textColor = 0x7E1E08;
         ad_content.y = 607;
+        ad_content.text = this.currentAd + ad_content.text;
         var title = createTextFiledNoEui("MY PRIZE");
         title.textColor = 0x7E1E08;
         title.size = 36;
@@ -493,6 +508,7 @@ var IndexUI = (function (_super) {
             if (myPrizeInfo_cnt.visible) {
                 egret.Tween.get(myPrizeInfo_cnt).to({ alpha: 0 }, 500).call(function () {
                     myPrizeInfo_cnt.visible = false;
+                    Main.jp_onoff = false;
                 });
             }
         }, this);

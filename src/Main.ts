@@ -58,6 +58,8 @@ class Main extends egret.DisplayObjectContainer {
 
     static PostBindingMember = "/services/h5game/putData";
 
+    static TOKENID_SYB = "MBS_TOKENID";
+
 
     static zpname = "请进行抽奖";//奖的名称
     static bg;
