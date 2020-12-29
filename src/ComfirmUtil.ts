@@ -11,7 +11,7 @@ class ConfirmUtil{
 		var tip:egret.TextField = new egret.TextField();
 		tip.text = tips;
 		tip.bold = true;
-		tip.size = 24;
+		tip.size = 36;
 		tip.textColor = flag? 0xE0C83C : 0xff0000 ;
 		var tipBg:egret.Bitmap = new egret.Bitmap(RES.getRes("seven_gameover_png"));
 		tipBg.width = width;

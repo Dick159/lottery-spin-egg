@@ -37,6 +37,8 @@ class Info1UI extends eui.UILayer {
 
     private memerIdInput;
 
+    private register_view;
+
     public constructor() {
         super();    
         //this.createView();
@@ -68,7 +70,7 @@ class Info1UI extends eui.UILayer {
        this._loginView.addChild(this.memerIdInput);
        this._loginView.addChild(memberIdInput_border);
 
-       var login_btn=createBitmap("patronRegister_png",270,824);
+       var login_btn=createBitmap("login_btn2_png",350,824);
        this._loginView.addChild(login_btn);
 
        //登录 //pattern /^\d\d{8}$/
@@ -83,6 +85,21 @@ class Info1UI extends eui.UILayer {
                 }
        },this);
        login_btn.touchEnabled = true;    //开启点击侦听
+
+
+
+
+       var toRegisterBtn=createBitmap("patronRegister_png",130,824);
+       this._loginView.addChild(toRegisterBtn);
+
+       //登录 //pattern /^\d\d{8}$/
+       toRegisterBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+               this.removeChild(this._loginView);
+               this.addChild(this._registerScollerView);
+       },this);
+       toRegisterBtn.touchEnabled = true;    //开启点击侦听
+
+       this.addChild(this._loginView);
     }
 
     private createRegisterView(){
@@ -92,15 +109,15 @@ class Info1UI extends eui.UILayer {
         var img = new eui.Image("/resource/assets/djy_wbk.png");
         img.scaleY = 1.15;
        
-       var zl_content=new eui.Group();
+       this.register_view=new eui.Group();
 
-       this.addChild(zl_content);
-       zl_content.addChild(img);
+       //this.addChild(this.register_view);
+       this.register_view.addChild(img);
 
        var euiben = new eui.Button();
        euiben.width = 100;
        euiben.width = 50;
-       zl_content.addChild(euiben);
+       this.register_view.addChild(euiben);
        
     //    _registerScollerView.width = 540;
     //    _registerScollerView.height = 380;
@@ -110,8 +127,8 @@ class Info1UI extends eui.UILayer {
        this._registerScollerView.height = 1080;
        this._registerScollerView.scrollPolicyH = eui.ScrollPolicy.OFF;
        this._registerScollerView.scrollPolicyV = eui.ScrollPolicy.ON;
-       this._registerScollerView.viewport = zl_content;
-       this.addChild(this._registerScollerView);
+       this._registerScollerView.viewport = this.register_view;
+       //this.addChild(this._registerScollerView);
        //_registerScollerView.verticalScrollBar.autoVisibility = false;
 
 
@@ -138,7 +155,7 @@ class Info1UI extends eui.UILayer {
       mcCheckBox.x = this.registerLabelX;
       mcCheckBox.y = this.registerLabelYBias+this.registerLabelY*5;
       mcCheckBox.label = "                 我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
-      zl_content.addChild(mcCheckBox);
+      this.register_view.addChild(mcCheckBox);
 
 
        //var yzm=createTextFiled("验证码：",0,207,35,0x54734a);
@@ -187,30 +204,30 @@ class Info1UI extends eui.UILayer {
        //出错显示
        var chucuo_title=createTextFiled("", this.registerInputX-50,  this.registerInputYBias + this.registerInputY * 6,25 , 0xff0000, "center",545,30);
        this.errorText = chucuo_title;
-       zl_content.addChild(chucuo_title);
-       zl_content.addChild(first_name_label);
-       zl_content.addChild(last_name_label);
-       zl_content.addChild(bod_label);
-       zl_content.addChild(tel_label);
-       zl_content.addChild(email_label);
+       this.register_view.addChild(chucuo_title);
+       this.register_view.addChild(first_name_label);
+       this.register_view.addChild(last_name_label);
+       this.register_view.addChild(bod_label);
+       this.register_view.addChild(tel_label);
+       this.register_view.addChild(email_label);
 
-       zl_content.addChild(this.firstNameText);
-       zl_content.addChild(this.lastNameText);
-       zl_content.addChild(this.mobilePhone);
-       zl_content.addChild(dob_y_text);
-       zl_content.addChild(dob_m_text);
-       zl_content.addChild(dob_d_text);
-       zl_content.addChild(this.emailText);
+       this.register_view.addChild(this.firstNameText);
+       this.register_view.addChild(this.lastNameText);
+       this.register_view.addChild(this.mobilePhone);
+       this.register_view.addChild(dob_y_text);
+       this.register_view.addChild(dob_m_text);
+       this.register_view.addChild(dob_d_text);
+       this.register_view.addChild(this.emailText);
 
-       zl_content.addChild(f_name_border);
-       zl_content.addChild(tel_border);
+       this.register_view.addChild(f_name_border);
+       this.register_view.addChild(tel_border);
 
-       zl_content.addChild(l_name_border);
+       this.register_view.addChild(l_name_border);
        
-       zl_content.addChild(mail_border);
-       zl_content.addChild(dob_y_border);
-       zl_content.addChild(dob_m_border);
-       zl_content.addChild(dob_d_border);
+       this.register_view.addChild(mail_border);
+       this.register_view.addChild(dob_y_border);
+       this.register_view.addChild(dob_m_border);
+       this.register_view.addChild(dob_d_border);
 
        var nameYN=false;
        var telYN=false;
@@ -277,7 +294,7 @@ class Info1UI extends eui.UILayer {
 
        //添加按钮
        var cj_btn=createBitmap("patronRegister_png",100,824);
-       zl_content.addChild(cj_btn);
+       this.register_view.addChild(cj_btn);
 
        //注册按钮点击
        cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
@@ -290,8 +307,8 @@ class Info1UI extends eui.UILayer {
        cj_btn.touchEnabled = true;    //开启点击侦听
 
 
-       var toLogin_btn=createBitmap("patronRegister_png",370,824);
-       zl_content.addChild(toLogin_btn);
+       var toLogin_btn=createBitmap("login_btn2_png",370,824);
+       this.register_view.addChild(toLogin_btn);
 
        //转到登录页
        toLogin_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
@@ -302,7 +319,7 @@ class Info1UI extends eui.UILayer {
        },this);
        toLogin_btn.touchEnabled = true;    //开启点击侦听
 
-       zl_content.addChild(dropDwonList)
+       this.register_view.addChild(dropDwonList)
     }
 
      private registerCompelete(event:egret.Event){

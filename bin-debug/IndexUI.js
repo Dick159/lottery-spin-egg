@@ -14,6 +14,11 @@ var IndexUI = (function (_super) {
         _this.balls = [];
         _this.isFinishSpin = false;
         _this.isFirstLoop = false;
+        _this.isErrorRequest = false;
+        _this.currentPrizeValue = null;
+        _this.currentPrizeType = null;
+        _this.currentAc = 0;
+        _this.currentAd = 0;
         _this.machine_group = new egret.DisplayObjectContainer();
         _this.ballMove = [
             //[x,y,t]
@@ -118,6 +123,11 @@ var IndexUI = (function (_super) {
                             this.pauseAllBalls(this.balls);
                             this.popUpResult(that);
                         }
+                        if (this.isErrorRequest) {
+                            this.pauseAllBalls(this.balls);
+                            this.popUpMyPrizeList(that);
+                            this.pupUpErrorTips("Network Error", that);
+                        }
                     }, this);
                     egret.Tween.get(b1, { loop: true }).to({ rotation: 360 }, 2500);
                 }
@@ -218,8 +228,23 @@ var IndexUI = (function (_super) {
     IndexUI.prototype.lotteryResultComplete = function (event) {
         var request = event.currentTarget;
         var jsonObject = JSON.parse(request.response);
-        this.isFinishSpin = true;
-        var resultText = jsonObject.data.text2;
+        if (jsonObject.status) {
+            this.currentAc = jsonObject.ac ? jsonObject.ac : "0";
+            this.currentAd = jsonObject.ad ? jsonObject.ad : "0";
+        }
+        else {
+            this.isErrorRequest = true;
+            return;
+        }
+        if (jsonObject.status == "00") {
+            this.currentPrizeValue = jsonObject.value;
+            this.currentPrizeType = jsonObject.type;
+            this.isFinishSpin = true;
+        }
+        else {
+            this.isErrorRequest = true;
+        }
+        //key for valuel text1 for prob. text2 for type.
     };
     IndexUI.prototype.pauseAllBalls = function (balls) {
         for (var i = 0; i < balls.length; i++) {
@@ -228,10 +253,47 @@ var IndexUI = (function (_super) {
     };
     IndexUI.prototype.doLotteryRequest = function () {
         // var request = requestPost_Lottery(Main.baseUrl + Main.lotteryApi,"?token=" + this.token + "&memberId=" + "");
-        var request = requestPost_Lottery(Main.baseUrl + Main.lotteryApi, "");
-        request.send();
-        request.addEventListener(egret.Event.COMPLETE, this.lotteryResultComplete, this);
-        this.isFirstLoop = true;
+        var tmpRequest = requestPost(Main.baseUrl + Main.PostTokenizerApi, "");
+        tmpRequest.send();
+        tmpRequest.addEventListener(egret.Event.COMPLETE, this.tokenizerRequestCompelete, this);
+        tmpRequest.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onPostIOError, this);
+    };
+    IndexUI.prototype.onPostIOError = function (event) {
+        this.isErrorRequest = true;
+    };
+    IndexUI.prototype.tokenizerRequestCompelete = function (event) {
+        var request = event.currentTarget;
+        var jsonObject = JSON.parse(request.response);
+        if (jsonObject.code && jsonObject.code == "200") {
+            if (jsonObject.data && jsonObject.data.status == "01") {
+                var tmp = jsonObject.data.tmp;
+                var token = jsonObject.data.token;
+                var params = "?tmp=" + tmp + "&" + "token=" + token;
+                var memberId = getLocalStorage("memberId");
+                var tokenId = getLocalStorage("MBS_TOKENID");
+                var _f = false;
+                if (memberId) {
+                    params += "&memberId=" + memberId;
+                    _f = true;
+                }
+                else if (tokenId) {
+                    params += "&tokenId=" + tokenId;
+                    _f = true;
+                }
+                if (_f) {
+                    var lottery_request = requestPost_Lottery(Main.baseUrl + Main.lotteryApi, params);
+                    lottery_request.send();
+                    lottery_request.addEventListener(egret.Event.COMPLETE, this.lotteryResultComplete, this);
+                    lottery_request.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onPostIOError, this);
+                }
+                else {
+                    this.isErrorRequest = true;
+                }
+            }
+        }
+        else {
+            this.isErrorRequest = true;
+        }
     };
     IndexUI.prototype.popUpResult = function (that, callBack) {
         var shader = createShaderMask(this.stage.width, this.stage.height, 0x000000, 0.6);
@@ -267,12 +329,16 @@ var IndexUI = (function (_super) {
         popupPrizeContainer.y = popupPrizeContainer.anchorOffsetY + popupPrizeContainer.y;
         popupPrizeContainer.scaleX = 0.3;
         popupPrizeContainer.scaleY = 0.3;
+        var prizeTypePng = "OpenCapsule- Just Ox_png";
+        if (this.currentPrizeType && this.currentPrizeType == 'C') {
+            prizeTypePng = "OpenCapsule- Just Dollar_png";
+        }
         egret.Tween.get(popupPrizeContainer).to({ scaleX: 1, scaleY: 1 }, 2000, egret.Ease.quadInOut).wait(100).call(function () {
             var _whiteShader = createShaderMask(this.stage.width, this.stage.height, 0xFFFFFF, 1);
             this.addChild(_whiteShader);
             popupPrizeContainer.removeChild(capsule);
             var openCapsule = createBitmap("OpenCapsule_png", capsule.x - 120, capsule.y + 50);
-            var prizeSymbol = createBitmap("OpenCapsule- Just Dollar_png", capsule.x + 115, capsule.y - 40);
+            var prizeSymbol = createBitmap(prizeTypePng, capsule.x + 115, capsule.y - 40);
             var glodenGlow = glowFilter(0xFFC951, 0.8, 50, 50, 2, false, false);
             prizeSymbol.filters = [glodenGlow];
             popupPrizeContainer.addChild(openCapsule);
@@ -384,6 +450,57 @@ var IndexUI = (function (_super) {
             this._bg.x = 0;
             this._bg.y = 0;
         }
+    };
+    IndexUI.prototype.popUpMyPrizeList = function (_that) {
+        var myPrizeInfo_cnt = new egret.DisplayObjectContainer();
+        myPrizeInfo_cnt.visible = false;
+        myPrizeInfo_cnt.alpha = 0;
+        var my_prize_info_bg = createBitmap("TextBG_png");
+        var coins_png = createBitmap("Ox symbol_png");
+        var ac_content = createTextFiledNoEui("500 AUSPICIOUS OX\r\n COLLECTIBLE");
+        ac_content.size = 36;
+        ac_content.x = 200;
+        ac_content.textColor = 0x7E1E08;
+        ac_content.y = 695;
+        var dd_png = createBitmap("Dollar Symbol_png");
+        var ad_content = createTextFiledNoEui("$888 REWARD DOLLARS");
+        ad_content.size = 36;
+        ad_content.x = 200;
+        ad_content.textColor = 0x7E1E08;
+        ad_content.y = 607;
+        var title = createTextFiledNoEui("MY PRIZE");
+        title.textColor = 0x7E1E08;
+        title.size = 36;
+        my_prize_info_bg.x = _that.stage.stageWidth * 0.5 - my_prize_info_bg.width * 0.5;
+        my_prize_info_bg.y = _that.stage.stageHeight * 0.3;
+        title.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - title.width * 0.5;
+        title.y = (my_prize_info_bg.y + my_prize_info_bg.height * 0.16) - title.height;
+        coins_png.x = 150 - coins_png.width * 0.5;
+        coins_png.y = 710;
+        dd_png.x = 150 - dd_png.width * 0.5;
+        dd_png.y = 595;
+        myPrizeInfo_cnt.addChild(my_prize_info_bg);
+        myPrizeInfo_cnt.addChild(title);
+        myPrizeInfo_cnt.addChild(coins_png);
+        myPrizeInfo_cnt.addChild(dd_png);
+        myPrizeInfo_cnt.addChild(ac_content);
+        myPrizeInfo_cnt.addChild(ad_content);
+        _that.addChild(myPrizeInfo_cnt);
+        myPrizeInfo_cnt.visible = true;
+        egret.Tween.get(myPrizeInfo_cnt).to({ alpha: 1 }, 800);
+        myPrizeInfo_cnt.touchEnabled = true;
+        myPrizeInfo_cnt.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (myPrizeInfo_cnt.visible) {
+                egret.Tween.get(myPrizeInfo_cnt).to({ alpha: 0 }, 500).call(function () {
+                    myPrizeInfo_cnt.visible = false;
+                });
+            }
+        }, this);
+    };
+    IndexUI.prototype.pupUpErrorTips = function (str, _that) {
+        var width = 300;
+        var height = 500;
+        _that.addChild(ConfirmUtil.popUpTips(str, true, _that.stage.stageWidth * 0.5 - width * 0.5, _that.stage.stageHeight * 0.3, width, height));
     };
     return IndexUI;
 }(egret.Sprite));

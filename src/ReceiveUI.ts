@@ -321,6 +321,7 @@ class ReceiveUI extends egret.Sprite {
         let Rand = Math.random();  
         return (min + Math.round(Rand * Range));  
     }
+    
 
     private info(){
         var infoui = ScenceManage.create(this.stage);

@@ -286,7 +286,6 @@ function requestPost(postUrl, parameter) {
     request.responseType = egret.HttpResponseType.TEXT;
     request.open(postUrl + parameter, egret.HttpMethod.POST);
     request.setRequestHeader("Content-Type", "application/json");
-    request.setRequestHeader("Authorization", "Basic emxlbzpyMypAbSMuYXhuQnpIRVo6");
     return request;
 }
 function randomToken() {
