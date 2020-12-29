@@ -46,11 +46,18 @@ var Main = (function (_super) {
         var request = event.currentTarget;
         var jsonObject = JSON.parse(request.response);
         if (jsonObject.code == '200') {
-            setLocalStorage("prizeList", jsonObject.data.PrizeProperty, 1);
+            setLocalStorage("prizeList", jsonObject.data.PrizeProperty);
+            this.initPlayerData();
             //初始化Resource资源加载库
             //initiate Resource loading library
             RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
             RES.loadConfig("resource/default.res.json", "resource/");
+        }
+    };
+    Main.prototype.initPlayerData = function () {
+        var tokenId = getLocalStorage("MBS_TOKENID");
+        if (!tokenId) {
+            setLocalStorage("MBS_TOKENID", uuid2(16, null));
         }
     };
     Main.prototype.onAddToStage = function (event) {
@@ -221,6 +228,13 @@ Main.registLoginShow = false;
 Main.baseUrl = "http://150.109.32.241:4503";
 Main.patronRegisterUrl = "/services/members_card_register";
 Main.lotteryApi = "/services/h5game/lottery";
+Main.PostTokenizerApi = "/services/h5game/token";
+Main.GetContentApi = "/services/h5game/content";
+Main.GetMemberUserDetail = "/services/h5game/getMemberGameData";
+Main.GetTokenUserDetail = "/services/h5game/getTokenGameData";
+Main.PostMemberDetail = "/services/h5game/postMemberData";
+Main.PostTokenUserDetail = "/services/h5game/postTokenData";
+Main.PostBindingMember = "/services/h5game/putData";
 Main.zpname = "请进行抽奖"; //奖的名称
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

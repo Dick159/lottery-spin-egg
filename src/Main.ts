@@ -43,6 +43,22 @@ class Main extends egret.DisplayObjectContainer {
     private getProbabilityData = "/services/h5game/property";
     static patronRegisterUrl = "/services/members_card_register"
     static lotteryApi = "/services/h5game/lottery";
+
+    static PostTokenizerApi = "/services/h5game/token"
+
+    static GetContentApi = "/services/h5game/content";
+
+    static GetMemberUserDetail = "/services/h5game/getMemberGameData";
+
+    static GetTokenUserDetail = "/services/h5game/getTokenGameData";
+
+    static PostMemberDetail = "/services/h5game/postMemberData";
+
+    static PostTokenUserDetail = "/services/h5game/postTokenData";
+
+    static PostBindingMember = "/services/h5game/putData";
+
+
     static zpname = "请进行抽奖";//奖的名称
     static bg;
     public constructor() {
@@ -56,7 +72,9 @@ class Main extends egret.DisplayObjectContainer {
 
          var jsonObject= JSON.parse(request.response);
          if(jsonObject.code == '200'){
-         setLocalStorage("prizeList",jsonObject.data.PrizeProperty,1);
+         setLocalStorage("prizeList",jsonObject.data.PrizeProperty);
+
+         this.initPlayerData();
             //初始化Resource资源加载库
             //initiate Resource loading library
          RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
@@ -65,7 +83,12 @@ class Main extends egret.DisplayObjectContainer {
     }
 
 
-
+    private initPlayerData(){
+        var tokenId = getLocalStorage("MBS_TOKENID");
+        if(!tokenId){
+            setLocalStorage("MBS_TOKENID",uuid2(16,null));
+        }
+    }
 
     private onAddToStage(event: egret.Event) {
         //设置加载进度界面

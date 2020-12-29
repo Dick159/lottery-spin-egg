@@ -7,6 +7,11 @@ class IndexUI extends egret.Sprite {
     private balls = [];
     private isFinishSpin = false;
     private isFirstLoop = false;
+    private isErrorRequest = false;
+    private currentPrizeValue = null;
+    private currentPrizeType = null;
+    private currentAc = 0;
+    private currentAd = 0;
     private _bg:egret.Bitmap;
     private machine_group = new egret.DisplayObjectContainer(); 
     private ballMove = [
@@ -133,6 +138,10 @@ class IndexUI extends egret.Sprite {
                             this.pauseAllBalls(this.balls);
                             this.popUpResult(that);
                         }
+                        if(this.isErrorRequest){
+                            this.pauseAllBalls(this.balls);
+                            this.popUpMyPrizeList(that);
+                        }
                           
                     },this)
                     egret.Tween.get(b1,{ loop: true }).to({rotation : 360},2500);
@@ -255,9 +264,27 @@ class IndexUI extends egret.Sprite {
     private lotteryResultComplete(event:egret.Event){
         var request = <egret.HttpRequest>event.currentTarget;
         var jsonObject= JSON.parse(request.response);
-        this.isFinishSpin = true;
-        var resultText = jsonObject.data.text2;
 
+        if(jsonObject.status){
+             this.currentAc = jsonObject.ac ? jsonObject.ac :"0";
+             this.currentAd = jsonObject.ad ? jsonObject.ad: "0";
+        }else{
+            this.isErrorRequest = true;
+            return;
+        }
+
+        if(jsonObject.status == "00"){
+             this.currentPrizeValue = jsonObject.value;
+             this.currentPrizeType = jsonObject.type;
+             this.isFinishSpin = true;
+        }
+        else{
+            this.isErrorRequest = true;
+        }
+        //key for valuel text1 for prob. text2 for type.
+
+        
+        
     }
 
     private pauseAllBalls(balls){
@@ -268,10 +295,49 @@ class IndexUI extends egret.Sprite {
 
     private doLotteryRequest(){
            // var request = requestPost_Lottery(Main.baseUrl + Main.lotteryApi,"?token=" + this.token + "&memberId=" + "");
-            var request = requestPost_Lottery(Main.baseUrl + Main.lotteryApi,"");
-            request.send();
-            request.addEventListener(egret.Event.COMPLETE,this.lotteryResultComplete,this);
-            this.isFirstLoop = true;
+
+           var tmpRequest = requestPost(Main.baseUrl + Main.PostTokenizerApi,"");
+           tmpRequest.send();
+           tmpRequest.addEventListener(egret.Event.COMPLETE,this.tokenizerRequestCompelete,this);
+
+
+
+    }
+
+    private tokenizerRequestCompelete(event:egret.Event){
+
+        var request = <egret.HttpRequest>event.currentTarget;
+        var jsonObject= JSON.parse(request.response);
+
+        if(jsonObject.code && jsonObject.code == "200"){
+            if(jsonObject.data && jsonObject.data.status == "01"){
+                var tmp = jsonObject.data.tmp;
+                var token = jsonObject.data.token;
+
+                var params = "?tmp=" + tmp + "&" + "token=" + token;
+
+                var memberId = getLocalStorage("memberId");
+                var tokenId = getLocalStorage("MBS_TOKENID");
+                var _f = false;
+                if(memberId){
+                    params += "&memberId=" + memberId;
+                    _f = true;
+                }
+                else if(tokenId){
+                    params += "&tokenId=" + tokenId;
+                    _f = true;
+                }
+                if(_f){
+                    var lottery_request = requestPost_Lottery(Main.baseUrl + Main.lotteryApi,params);
+                    lottery_request.send();
+                    lottery_request.addEventListener(egret.Event.COMPLETE,this.lotteryResultComplete,this);
+                }else{
+                    this.isErrorRequest = true;
+                }
+            }
+        }else{
+            this.isErrorRequest = true;
+        }
     }
 
     private popUpResult(that,callBack){
@@ -281,6 +347,7 @@ class IndexUI extends egret.Sprite {
         popupPrizeContainer.x = 160;
         popupPrizeContainer.y = 630;
         //Big Capsule(Glow)_png,Glow2_png
+
         var capsule = createBitmap("Big Capsule(Glow)_png");
 
         // capsule.anchorOffsetX = capsule.width * 0.5;
@@ -325,13 +392,20 @@ class IndexUI extends egret.Sprite {
         popupPrizeContainer.scaleX = 0.3;
         popupPrizeContainer.scaleY = 0.3;
 
+
+        var prizeTypePng = "OpenCapsule- Just Ox_png";
+
+        if(this.currentPrizeType && this.currentPrizeType == 'C'){
+            prizeTypePng = "OpenCapsule- Just Dollar_png";
+        }
+
         egret.Tween.get(popupPrizeContainer).to({scaleX : 1,scaleY : 1},2000,egret.Ease.quadInOut).wait(100).call(function(){
               var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,1);
               this.addChild(_whiteShader);
               popupPrizeContainer.removeChild(capsule);
 
               var openCapsule = createBitmap("OpenCapsule_png",capsule.x - 120,capsule.y + 50);
-              var prizeSymbol = createBitmap("OpenCapsule- Just Dollar_png",capsule.x+115,capsule.y -40 );
+              var prizeSymbol = createBitmap(prizeTypePng,capsule.x+115,capsule.y -40 );
 
               var glodenGlow = glowFilter(0xFFC951,0.8,50,50,2,false,false)
               prizeSymbol.filters = [glodenGlow];
@@ -474,5 +548,10 @@ class IndexUI extends egret.Sprite {
             this._bg.x = 0;
             this._bg.y = 0;
         }
+    }
+
+    private popUpMyPrizeList(_that){
+        var myPrizeInfo_cnt = new egret.DisplayObjectContainer();
+        
     }
 }

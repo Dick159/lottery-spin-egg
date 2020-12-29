@@ -305,7 +305,7 @@ class ReceiveUI extends egret.Sprite {
         this.isFinishSpin = true;
         var resultText = jsonObject.data.text2;
         egret.localStorage.setItem("token",this.token);
-        setLocalStorage(this.token,resultText,1);
+        // setLocalStorage(this.token,resultText,1);
     }
 
     private randomLimitMoveBoxX(obj_width){

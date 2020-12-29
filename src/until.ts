@@ -184,36 +184,34 @@ function createTextFiledNoEui(text="",x=0,y=0,size=30,textColor=0x000000,textAli
 }
 
 
-function setLocalStorage(key: string,value: any,expiredDay:number = 0){
-  if (value) {
-    let _value = {};
-    _value = {
-        "value" : value,
-        "expired" : expiredDay,
-        "startTime" : new Date().getTime()
-    };
-    egret.localStorage.setItem(key, JSON.stringify(_value));
-  }
+function setLocalStorage(key: string,value: any){
+    egret.localStorage.setItem(key, value);
 }
 
 function getLocalStorage (key : string) {
-     let value : string = localStorage.getItem(key);
-     if (value && value != "undefined" && value != "null") {
-        var data = JSON.parse(value);
-        if(data.expired){
-            var period = data.expired * 86400;
-            var distance = (new Date().getTime() - data.startTime)/1000;
-            if( distance - period >= 0){
-                egret.localStorage.removeItem(key);
-                return null;
-            }else{
-                return data;
-            }
-        }else{
-            return data;
-        }
-     }
-     return null;
+    //  let value : string = localStorage.getItem(key);
+    //  if (value && value != "undefined" && value != "null") {
+    //     var data = JSON.parse(value);
+    //     if(data.expired){
+    //         var period = data.expired * 86400;
+    //         var distance = (new Date().getTime() - data.startTime)/1000;
+    //         if( distance - period >= 0){
+    //             egret.localStorage.removeItem(key);
+    //             return null;
+    //         }else{
+    //             return data;
+    //         }
+    //     }else{
+    //         return data;
+    //     }
+    //  }
+    //  return null;
+    return localStorage.getItem(key);
+}
+
+
+function removeLocalStorage(key : string){
+    egret.localStorage.removeItem(key);
 }
 
 function requestGet(postUrl:string,parameter:string){
@@ -241,7 +239,6 @@ function requestPost(postUrl:string,parameter:string){
     request.responseType = egret.HttpResponseType.TEXT;
     request.open(postUrl + parameter,egret.HttpMethod.POST);
     request.setRequestHeader("Content-Type", "application/json");
-    request.setRequestHeader("Authorization", "Basic emxlbzpyMypAbSMuYXhuQnpIRVo6")
     return request;
 }
 
@@ -336,7 +333,7 @@ function createRedeemButton(x,y){
 function getPrizeResult(){
         var result = getLocalStorage( egret.localStorage.getItem("token"));
         if(result){
-            return result.value;
+            return result;
         }else{
             return "请抽奖。";
         }
@@ -359,19 +356,6 @@ function checkDate(dateStr) {
 　　return true;
 }
 
-function setCookie(key,value,expiredDay){
-    if(key && value){
-        let _key = "MBS_" + key;
-        var cookieParams = _key+"=" + value;
-       if(expiredDay){
-             var d = new Date();
-             d.setTime(d.getTime() + (expiredDay*24*60*60*1000));  
-             var expires = "expires="+d.toUTCString();  
-             cookieParams = cookieParams + "; " + expires;
-       }
-       document.cookie = cookieParams;
-    }
-}
 
 function random_num(min:number,max:number){
         let Range = max - min;  
@@ -401,6 +385,3 @@ function createShaderMask(width,height,color,alpha){
     return shape;
 }
 
-// function getCookie(key){
-//     document.cookie.g
-// }

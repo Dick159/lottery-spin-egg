@@ -262,7 +262,7 @@ var ReceiveUI = (function (_super) {
         this.isFinishSpin = true;
         var resultText = jsonObject.data.text2;
         egret.localStorage.setItem("token", this.token);
-        setLocalStorage(this.token, resultText, 1);
+        // setLocalStorage(this.token,resultText,1);
     };
     ReceiveUI.prototype.randomLimitMoveBoxX = function (obj_width) {
         return this.random_num(this.xLeftBorder + obj_width, this.xRightBorder - obj_width);
