@@ -220,6 +220,7 @@ function requestGet(postUrl:string,parameter:string){
     request.responseType = egret.HttpResponseType.TEXT;
     request.open(postUrl + parameter,egret.HttpMethod.GET);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+
     return request;
 }
 
@@ -229,6 +230,7 @@ function requestPost_Lottery(postUrl:string,parameter:string){
     request.responseType = egret.HttpResponseType.TEXT;
     request.open(postUrl + parameter,egret.HttpMethod.POST);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+    
     return request;
 }
 
@@ -385,3 +387,10 @@ function createShaderMask(width,height,color,alpha){
     return shape;
 }
 
+function loading(flag){
+    if(flag){
+        document.getElementById("preloading").style.display = "block";
+    }else{
+        document.getElementById("preloading").style.display = "none";
+    }
+}

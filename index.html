@@ -18,7 +18,17 @@
             margin: 0;
             height: 100%;
         }
+        #preloading{
+            z-index: 99999;
+            position: absolute;
+            text-align: center;
+            top: 40%;
+            left: 40%;
+            width: 20%;
+            height: 20%;
+        }
     </style>
+    <div id="preloading"><img src="resource/assets/preloading.gif" /></div>
 
     <!--这个标签为通过egret提供的第三方库的方式生成的 javascript 文件。删除 modules_files 标签后，库文件加载列表将不会变化，请谨慎操作！-->
     <!--modules_files_start-->
@@ -73,6 +83,8 @@
          * }
          **/
         egret.runEgret({renderMode:"webgl", audioType:0});
+        document.getElementById("preloading").style.display = "none";
     </script>
+    
 </body>
 </html>

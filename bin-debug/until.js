@@ -411,4 +411,12 @@ function createShaderMask(width, height, color, alpha) {
     shape.graphics.endFill();
     return shape;
 }
+function loading(flag) {
+    if (flag) {
+        document.getElementById("preloading").style.display = "block";
+    }
+    else {
+        document.getElementById("preloading").style.display = "none";
+    }
+}
 //# sourceMappingURL=until.js.map

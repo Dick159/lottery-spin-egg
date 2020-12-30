@@ -60,6 +60,8 @@ class Main extends egret.DisplayObjectContainer {
 
     static TOKENID_SYB = "MBS_TOKENID";
 
+    static MEMBERID_SYB = "memberId";
+
 
     static zpname = "请进行抽奖";//奖的名称
     static bg;

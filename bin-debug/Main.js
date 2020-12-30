@@ -236,6 +236,7 @@ Main.PostMemberDetail = "/services/h5game/postMemberData";
 Main.PostTokenUserDetail = "/services/h5game/postTokenData";
 Main.PostBindingMember = "/services/h5game/putData";
 Main.TOKENID_SYB = "MBS_TOKENID";
+Main.MEMBERID_SYB = "memberId";
 Main.zpname = "请进行抽奖"; //奖的名称
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

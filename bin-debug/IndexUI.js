@@ -83,11 +83,6 @@ var IndexUI = (function (_super) {
         this.addChild(MyPrizeBtn);
         MyPrizeBtn.touchEnabled = true;
         myPrizeButton.touchEnabled = true;
-        myPrizeButton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            Main.mask_onoff = true;
-            var receiveui = ScenceManage.create(this.stage);
-            receiveui.loadScence("ResultUI", this, ReceiveUI);
-        }, this);
         var start_btn = createBitmap("gameStartBtn_png", 250, 1000);
         this.addChild(start_btn);
         var _gFilter = glowFilter(0xFFFFFF, 0.8, 25, 25, 2, true, false);
@@ -105,7 +100,9 @@ var IndexUI = (function (_super) {
             start_btn.touchEnabled = false;
             LoginRegisterbutton.touchEnabled = false;
             gameRule.touchEnabled = false;
+            sign_out_btn.touchEnabled = false;
             egret.Tween.get(start_btn).to({ alpha: 0 }, 300);
+            egret.Tween.get(sign_out_btn).to({ alpha: 0 }, 300);
             egret.Tween.get(LoginRegisterbutton).to({ alpha: 0 }, 300);
             egret.Tween.get(gameRule).to({ alpha: 0 }, 300);
             //-----alpha 
@@ -146,7 +143,28 @@ var IndexUI = (function (_super) {
             var info = ScenceManage.create(this.stage);
             info.loadScence("info", this, Info1UI);
         }, this);
+        var sign_out_btn = createBitmap("sign_out_png", 375, 603);
+        sign_out_btn.x = 0;
+        sign_out_btn.y = 1295;
+        sign_out_btn.touchEnabled = true;
         this.addChild(LoginRegisterbutton);
+        this.addChild(sign_out_btn);
+        sign_out_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            removeLocalStorage(Main.MEMBERID_SYB);
+            if (!getLocalStorage(Main.MEMBERID_SYB)) {
+                this.pupUpErrorTips("Sign out success", this);
+                sign_out_btn.visible = false;
+                LoginRegisterbutton.visible = true;
+            }
+        }, this);
+        if (getLocalStorage(Main.MEMBERID_SYB)) {
+            sign_out_btn.visible = true;
+            LoginRegisterbutton.visible = false;
+        }
+        else {
+            sign_out_btn.visible = false;
+            LoginRegisterbutton.visible = true;
+        }
         //游戏规则弹窗
         var mask = createBitmap("Rules_png", 375, 603);
         mask.touchEnabled = true;
@@ -165,6 +183,9 @@ var IndexUI = (function (_super) {
             egret.Tween.get(LoginRegisterbutton).to({ x: 0 }, 300).call(function () {
                 gameRule.visible = true; //login
             }, this);
+            egret.Tween.get(sign_out_btn).to({ x: 0 }, 300).call(function () {
+                gameRule.visible = true; //login
+            }, this);
         }, this);
         this.addChild(mask);
         mask.visible = false; //隐藏对象
@@ -174,6 +195,7 @@ var IndexUI = (function (_super) {
         mask.anchorOffsetY = mask.height * .5;
         //我的奖品点击逻辑;
         MyPrizeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            loading(true);
             if (!Main.jp_onoff && !mask.visible) {
                 this.popUpMyPrizeList(this);
             }
@@ -197,6 +219,9 @@ var IndexUI = (function (_super) {
                     gameRule.visible = false; //将我的奖品移出页面可见
                 }, this);
                 egret.Tween.get(LoginRegisterbutton).to({ x: -300 }, 300).call(function () {
+                    //gameRule.visible = false;      //登录出页面可见
+                }, this);
+                egret.Tween.get(sign_out_btn).to({ x: -300 }, 300).call(function () {
                     //gameRule.visible = false;      //登录出页面可见
                 }, this);
                 egret.Tween.get(mask).to({ scaleX: 1, scaleY: 1 }, 500).call(function () { }, this);
@@ -279,7 +304,7 @@ var IndexUI = (function (_super) {
                 var tmp = jsonObject.data.tmp;
                 var token = jsonObject.data.token;
                 var params = "?tmp=" + tmp + "&" + "token=" + token;
-                var memberId = getLocalStorage("memberId");
+                var memberId = getLocalStorage(Main.MEMBERID_SYB);
                 var tokenId = getLocalStorage(Main.TOKENID_SYB);
                 var _f = false;
                 if (memberId) {
@@ -463,7 +488,7 @@ var IndexUI = (function (_super) {
     };
     IndexUI.prototype.popUpMyPrizeList = function (_that) {
         var tokenId = getLocalStorage(Main.TOKENID_SYB);
-        var memberId = getLocalStorage("memberId");
+        var memberId = getLocalStorage(Main.MEMBERID_SYB);
         Main.jp_onoff = true;
         var myPrizeInfo_cnt = new egret.DisplayObjectContainer();
         myPrizeInfo_cnt.visible = false;

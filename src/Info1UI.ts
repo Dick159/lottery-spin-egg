@@ -54,50 +54,76 @@ class Info1UI extends eui.UILayer {
 
     private createLoginView(){
        var img = new eui.Image("/resource/assets/djy_wbk.png"); 
+       var srlCard = new eui.Image("/resource/assets/SRL_Cards.png");
+       var loginPanel = new eui.Image("/resource/assets/login_input.png");
+       var loginBtn = new eui.Image("/resource/assets/login_btn.png");
+       var sigUpText = new eui.Image("/resource/assets/signup_text.png");
        img.scaleY = 1.15;
-       this._loginView.x = 15;
        this._loginView.y = 200;
-       this._loginView.width = 750;
+       this._loginView.width =this.stage.stageWidth;
        this._loginView.height = 1080;
-       this._loginView.addChild(img);
        var last_name_label=createTextFiled("会员ID:",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*1,24,0x000000);
-       this.memerIdInput=createTextFiled("请输入ID", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
-       var memberIdInput_border=new egret.Shape();
-       memberIdInput_border.graphics.lineStyle(2, 0xb1b1b1);
-       memberIdInput_border.graphics.drawRoundRect(this.registerInputX ,  this.registerInputYBias + this.registerInputY * 1, 420, 61, 25, 25);
-       memberIdInput_border.graphics.endFill;
-       this._loginView.addChild(last_name_label);
-       this._loginView.addChild(this.memerIdInput);
-       this._loginView.addChild(memberIdInput_border);
+       this.memerIdInput=createTextFiled("请输入ID", 149 + 62 , 433, 25,  0xa1a1a1, "left",320,72, "middle", false,  0x000000, false,egret.TextFieldType.INPUT);
+    //   var memberIdInput_border=new egret.Shape();
+    //    memberIdInput_border.graphics.lineStyle(2, 0x000000);
+    //    memberIdInput_border.graphics.drawRect(149 + 62 , 433 , 320, 72);
+    //    memberIdInput_border.graphics.endFill;
+    //    this._loginView.addChild(last_name_label);
+    //    this._loginView.addChild(this.memerIdInput);
+       
 
-       var login_btn=createBitmap("login_btn2_png",350,824);
-       this._loginView.addChild(login_btn);
+       srlCard.x = 115;
+       srlCard.y = 220;
+
+       loginPanel.x = 149;
+       loginPanel.y = 400;
+
+       loginBtn.x = 149;
+       loginBtn.y = 530;
+
+       sigUpText.x = 226;
+       sigUpText.y = 630;
+
+       this._loginView.addChild(srlCard);
+       this._loginView.addChild(loginPanel);
+       this._loginView.addChild(sigUpText);
+
+       this._loginView.addChild(loginBtn);
+
+       this._loginView.addChild(this.memerIdInput);
+
+
+    //    var login_btn=createBitmap("login_btn2_png",350,824);
+    //    this._loginView.addChild(login_btn);
 
        //登录 //pattern /^\d\d{8}$/
-       login_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+       loginBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
                 var v = this.memerIdInput.text
                 console.log(v);
                 var pattern = /^\d\d{8}$/
                 if(pattern.test(v)){
-                    this.addChild(ConfirmUtil.popUpTips("登录成功",false,150,300,400,250));
+                    this.addChild(ConfirmUtil.popUpTips("登录成功",false,150,150,400,250));
+                    setLocalStorage("memberId",v);
+                     var gameui = ScenceManage.create(this.stage);
+                     gameui.loadScence("index", this, IndexUI);
                 }else{
                     this.addChild(ConfirmUtil.popUpTips("格式错误",false,150,300,400,250));
                 }
        },this);
-       login_btn.touchEnabled = true;    //开启点击侦听
+       loginBtn.touchEnabled = true;    //开启点击侦听
 
 
 
 
-       var toRegisterBtn=createBitmap("patronRegister_png",130,824);
-       this._loginView.addChild(toRegisterBtn);
+    //    var toRegisterBtn=createBitmap("patronRegister_png",130,824);
+    //    this._loginView.addChild(toRegisterBtn);
 
        //登录 //pattern /^\d\d{8}$/
-       toRegisterBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+       sigUpText.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
                this.removeChild(this._loginView);
                this.addChild(this._registerScollerView);
        },this);
-       toRegisterBtn.touchEnabled = true;    //开启点击侦听
+       sigUpText.touchEnabled = true;    //开启点击侦听
 
        this.addChild(this._loginView);
     }
