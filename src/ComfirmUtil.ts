@@ -10,9 +10,9 @@ class ConfirmUtil{
 	public static popUpTips(tips:string, flag:boolean=false,x,y,width,height){
 		var tip:egret.TextField = new egret.TextField();
 		tip.text = tips;
-		tip.bold = true;
-		tip.size = 36;
-		tip.textColor = flag? 0xE0C83C : 0xff0000 ;
+		tip.bold = false;
+		tip.size = 48;
+		tip.textColor = 0xEEEE00 ;
 		var tipBg:egret.Bitmap = new egret.Bitmap(RES.getRes("seven_gameover_png"));
 		tipBg.width = width;
 		tipBg.height = height;
@@ -21,7 +21,7 @@ class ConfirmUtil{
 						{
 							bgImg:tipBg,
 							txtTips:tip
-						},1000,0,30,{x:0,y:-10});
+						},3000,0,30,{x:0,y:-10});
 		return animation;
 	}
 

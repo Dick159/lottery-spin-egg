@@ -7,13 +7,16 @@ class IndexUI extends egret.Sprite {
     private balls = [];
     private isFinishSpin = false;
     private isFirstLoop = false;
+    private isNormalError = false;
     private isErrorRequest = false;
     private currentPrizeValue = null;
     private currentPrizeType = null;
     private currentAc = 0;
     private currentAd = 0;
     private _bg:egret.Bitmap;
+    private ERROR_MESSAGE = "Network Error."
     private machine_group = new egret.DisplayObjectContainer(); 
+    private getTokenFirst = true;
     private ballMove = [
         //[x,y,t]
         // x in [225,455]
@@ -143,10 +146,13 @@ class IndexUI extends egret.Sprite {
                         }
                         if(this.isErrorRequest){
                             this.pauseAllBalls(this.balls);
-                            this.popUpMyPrizeList(that);
-                            this.pupUpErrorTips("Network Error",that);
+                            //this.popUpMyPrizeList(that);
+                            this.pupUpErrorTips(that);
                         }
-                          
+                        if(this.isNormalError){
+                            this.pauseAllBalls(this.balls);
+                            this.popUpMessageTip("You had played today.\r\nPlease try again tomorrow",that);
+                        }
                     },this)
                     egret.Tween.get(b1,{ loop: true }).to({rotation : 360},2500);
                   }
@@ -178,7 +184,7 @@ class IndexUI extends egret.Sprite {
         sign_out_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                 removeLocalStorage(Main.MEMBERID_SYB);
                 if(!getLocalStorage(Main.MEMBERID_SYB)){
-                    this.pupUpErrorTips("Sign out success",this);
+                    this.popUpMessageTip("Sign out success",this);
                     sign_out_btn.visible = false;
                     LoginRegisterbutton.visible = true;
                 }
@@ -229,9 +235,24 @@ class IndexUI extends egret.Sprite {
 
         //我的奖品点击逻辑;
         MyPrizeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-            loading(true);
             if(!Main.jp_onoff && !mask.visible){
-                this.popUpMyPrizeList(this);
+                
+                var mId = getLocalStorage(Main.MEMBERID_SYB);
+                var tId = getLocalStorage(Main.TOKENID_SYB);
+                var _url = Main.GetTokenUserDetail;
+                var params = "?"
+                if(mId){
+                    _url = Main.GetMemberUserDetail;
+                    params += "memberId=" + mId;
+                }
+                else if(tId){
+                    params += "tokenId=" + tId;
+                }
+                loading(true);
+                var request = requestPost(Main.baseUrl + _url,params);
+                request.send();
+                request.addEventListener(egret.Event.COMPLETE,this.getPrizeDetailFinish,this);
+                request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.getPrizeDetailError,this);
             }
         },this)
 
@@ -305,23 +326,32 @@ class IndexUI extends egret.Sprite {
 
     private lotteryResultComplete(event:egret.Event){
         var request = <egret.HttpRequest>event.currentTarget;
-        var jsonObject= JSON.parse(request.response);
+        //激活奖品按钮;
+        Main.jp_onoff = false;
+        if(!request.response){
+            this.isErrorRequest = true;
+            return ;
+        }
 
-        if(jsonObject.status){
-             this.currentAc = jsonObject.ac ? jsonObject.ac :"0";
-             this.currentAd = jsonObject.ad ? jsonObject.ad: "0";
+        var jsonObject= JSON.parse(request.response);
+        console.log(jsonObject);
+        if(jsonObject.data.status){
+             this.currentAc = jsonObject.data.ac ? jsonObject.data.ac :"0";
+             this.currentAd = jsonObject.data.ad ? jsonObject.data.ad: "0";
         }else{
             this.isErrorRequest = true;
             return;
         }
-
-        if(jsonObject.status == "00"){
-             this.currentPrizeValue = jsonObject.value;
-             this.currentPrizeType = jsonObject.type;
+        if(jsonObject.data.status == "00"){ 
+             this.currentPrizeValue = jsonObject.data.value;
+             this.currentPrizeType = jsonObject.data.type;
              this.isFinishSpin = true;
         }
-        else{
+        else if(jsonObject.data.status == "01"){
             this.isErrorRequest = true;
+        }
+        else if(jsonObject.data.status == "02"){
+            this.isNormalError = true;
         }
         //key for valuel text1 for prob. text2 for type.
 
@@ -337,11 +367,13 @@ class IndexUI extends egret.Sprite {
 
     private doLotteryRequest(){
            // var request = requestPost_Lottery(Main.baseUrl + Main.lotteryApi,"?token=" + this.token + "&memberId=" + "");
-
-           var tmpRequest = requestPost(Main.baseUrl + Main.PostTokenizerApi,"");
-           tmpRequest.send();
-           tmpRequest.addEventListener(egret.Event.COMPLETE,this.tokenizerRequestCompelete,this);
-           tmpRequest.addEventListener(egret.IOErrorEvent.IO_ERROR,this.onPostIOError,this);
+           if(this.getTokenFirst){
+            this.getTokenFirst = false;
+            var tmpRequest = requestGet(Main.baseUrl + Main.PostTokenizerApi,"");
+            tmpRequest.send();
+            tmpRequest.addEventListener(egret.Event.COMPLETE,this.tokenizerRequestCompelete,this);
+            tmpRequest.addEventListener(egret.IOErrorEvent.IO_ERROR,this.onPostIOError,this);
+           }
 
     }
 
@@ -356,7 +388,7 @@ class IndexUI extends egret.Sprite {
         var jsonObject= JSON.parse(request.response);
 
         if(jsonObject.code && jsonObject.code == "200"){
-            if(jsonObject.data && jsonObject.data.status == "01"){
+            if(jsonObject.data && jsonObject.data.status == "00"){
                 var tmp = jsonObject.data.tmp;
                 var token = jsonObject.data.token;
 
@@ -373,8 +405,9 @@ class IndexUI extends egret.Sprite {
                     params += "&tokenId=" + tokenId;
                     _f = true;
                 }
+                console.log(params);
                 if(_f){
-                    var lottery_request = requestPost_Lottery(Main.baseUrl + Main.lotteryApi,params);
+                    var lottery_request = requestPost(Main.baseUrl + Main.lotteryApi,params);
                     lottery_request.send();
                     lottery_request.addEventListener(egret.Event.COMPLETE,this.lotteryResultComplete,this);
                     lottery_request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.onPostIOError,this);
@@ -440,10 +473,10 @@ class IndexUI extends egret.Sprite {
         popupPrizeContainer.scaleY = 0.3;
 
 
-        var prizeTypePng = "OpenCapsule- Just Ox_png";
+        var prizeTypePng = "OpenCapsule- Just Dollar_png";
 
         if(this.currentPrizeType && this.currentPrizeType == 'C'){
-            prizeTypePng = "OpenCapsule- Just Dollar_png";
+            prizeTypePng = "OpenCapsule- Just Ox_png";
         }
 
         egret.Tween.get(popupPrizeContainer).to({scaleX : 1,scaleY : 1},2000,egret.Ease.quadInOut).wait(100).call(function(){
@@ -483,13 +516,26 @@ class IndexUI extends egret.Sprite {
 
         var platform = createBitmap("Platform_png");
 
-        var prizeSymbol = createBitmap("Platform Prize Symbol- Dollar_png");
+        var prizeSymbolPng = "Platform Prize Symbol- Dollar_png"
 
-        var congText = createBitmap("Congratulations Text box_png");
+        var dvText = "\r\n REWARD DOLLARS";
+        var cvText = " AUSPICIOUS OX\r\nCOLLECTIBLE"
 
-        var valueText:egret.TextField = createTextFiledNoEui("$888 \n REWARD DOLLARS");
+        var valueText:egret.TextField = createTextFiledNoEui(" \n REWARD DOLLARS");
+
         valueText.size = 34;
         valueText.textColor = 0xFFFFFF;
+
+        if(this.currentPrizeType && this.currentPrizeType == 'C'){
+            prizeSymbolPng = "Platform Prize Symbol- Ox_png";
+            valueText.text =this.currentPrizeValue + cvText
+        }else if(this.currentPrizeType && this.currentPrizeType == 'D'){
+            valueText.text ="$" + this.currentPrizeValue + dvText;
+        }
+
+        var prizeSymbol = createBitmap(prizeSymbolPng);
+
+        var congText = createBitmap("Congratulations Text box_png");
 
         var glodenGlow = glowFilter(0xFFC951,0.8,50,50,2,false,false)
         prizeSymbol.filters = [glodenGlow];
@@ -670,11 +716,37 @@ class IndexUI extends egret.Sprite {
                 });
              }
         },this)
+        loading(false);
     }
 
-    private pupUpErrorTips(str:string,_that){
+    private pupUpErrorTips(_that){
         var width = 300;
         var height = 500;
-        _that.addChild(ConfirmUtil.popUpTips(str,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.3,width,height));
+        _that.addChild(ConfirmUtil.popUpTips(this.ERROR_MESSAGE,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
     }
+
+    private popUpMessageTip(str:string,_that){
+        var width = 300;
+        var height = 500;
+        _that.addChild(ConfirmUtil.popUpTips(str,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
+    }
+    private getPrizeDetailFinish(event:egret.Event){
+            var request = <egret.HttpRequest>event.currentTarget;
+           var jsonObject= JSON.parse(request.response);
+           
+           var _data = jsonObject.data;
+
+           if(_data.status && _data.status == "01"){
+               this.currentAc = _data.ac;
+               this.currentAd = _data.ad;
+           }
+
+           loading(false);
+          this.popUpMyPrizeList(this);
+    }   
+
+    private getPrizeDetailError(event:egret.Event){
+
+    }
+
 }

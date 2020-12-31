@@ -240,7 +240,7 @@ function requestPost(postUrl:string,parameter:string){
     request = new egret.HttpRequest();
     request.responseType = egret.HttpResponseType.TEXT;
     request.open(postUrl + parameter,egret.HttpMethod.POST);
-    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     return request;
 }
 

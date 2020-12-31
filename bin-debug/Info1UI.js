@@ -98,7 +98,7 @@ var Info1UI = (function (_super) {
         var img = new eui.Image("/resource/assets/djy_wbk.png");
         img.scaleY = 1.15;
         this.register_view = new eui.Group();
-        //this.addChild(this.register_view);
+        this.addChild(this.register_view);
         this.register_view.addChild(img);
         var euiben = new eui.Button();
         euiben.width = 100;

@@ -137,7 +137,7 @@ class Info1UI extends eui.UILayer {
        
        this.register_view=new eui.Group();
 
-       //this.addChild(this.register_view);
+       this.addChild(this.register_view);
        this.register_view.addChild(img);
 
        var euiben = new eui.Button();

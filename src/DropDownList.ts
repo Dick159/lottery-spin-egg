@@ -73,8 +73,6 @@ module euiextendsion {
         }
 
         private test(e: egret.TouchEvent): void{
-             console.log(e.target.parent.data.text);
-             console.log(e.target.parent.data.value);
              this.btn.label = e.target.parent.data.value;
              this.changeListType();
         }
