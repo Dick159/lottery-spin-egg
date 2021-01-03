@@ -62,7 +62,8 @@ class Main extends egret.DisplayObjectContainer {
 
     static MEMBERID_SYB = "memberId";
 
-
+    static isBindingAction = false;
+    
     static zpname = "请进行抽奖";//奖的名称
     static bg;
     public constructor() {
@@ -215,7 +216,7 @@ class Main extends egret.DisplayObjectContainer {
             soundChannel = sound.play(curTime,0);
             totalLength = sound.length;//获取音乐的总时长
         },this);
-        //sound.load("resource/assets/music.mp3");
+        sound.load("resource/assets/music.mp3");
         
         //实现点击music_logo图标播放/暂停功能
         music_logo.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){

@@ -39,6 +39,10 @@ class Info1UI extends eui.UILayer {
 
     private register_view;
 
+    private tempPatronId;
+
+    private cj_btn;
+
     public constructor() {
         super();    
         //this.createView();
@@ -102,10 +106,26 @@ class Info1UI extends eui.UILayer {
                 console.log(v);
                 var pattern = /^\d\d{8}$/
                 if(pattern.test(v)){
-                    this.addChild(ConfirmUtil.popUpTips("登录成功",false,150,150,400,250));
-                    setLocalStorage("memberId",v);
-                     var gameui = ScenceManage.create(this.stage);
-                     gameui.loadScence("index", this, IndexUI);
+                     if(Main.isBindingAction){
+                         this.tempPatronId = v;
+
+                         var tokenId = getLocalStorage(Main.TOKENID_SYB);
+                         var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId+"&remark=" + "binding";
+
+                         var request = requestPost(Main.baseUrl + Main.PostBindingMember,"?" + params);
+                         loading(true);
+                         request.send();
+                         
+                         request.addEventListener(egret.Event.COMPLETE,this.bindingResultSuccess,this);
+                         request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.bindingError,this);
+                         Main.isBindingAction=false;
+                     }
+                     else{
+                        this.addChild(ConfirmUtil.popUpTips("登录成功",false,150,150,400,250));
+                        setLocalStorage(Main.MEMBERID_SYB,v);
+                        var gameui = ScenceManage.create(this.stage);
+                        gameui.loadScence("index", this, IndexUI);
+                     }
                 }else{
                     this.addChild(ConfirmUtil.popUpTips("格式错误",false,150,300,400,250));
                 }
@@ -128,6 +148,36 @@ class Info1UI extends eui.UILayer {
        this.addChild(this._loginView);
     }
 
+    private bindingError(event:egret.Event){
+          this.tempPatronId = "";
+          this.pupUpErrorTips(this,"Network Error.\r\nTry Again Later.");
+    }
+
+    private bindingResultSuccess(event:egret.Event){
+         loading(false);
+         var request = <egret.HttpRequest>event.currentTarget;
+         var jsonObject= JSON.parse(request.response);
+
+         if(jsonObject.code == "200"){
+             if(jsonObject.data.Output.Response.StatusCode == "00"){
+                 setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
+                 this.pupUpErrorTips(this,"Login success.");
+                 this.toMainPage();
+             }else{
+                 this.pupUpErrorTips(this,"Login fail.\r\nTry Again Later.");
+                 this.tempPatronId = "";
+             }
+         } else{
+             this.tempPatronId = "";
+         }
+    }
+
+   private pupUpErrorTips(_that,message){
+        var width = 300;
+        var height = 500;
+        _that.addChild(ConfirmUtil.popUpTips(message,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
+    }
+
     private createRegisterView(){
         var dropDwonList = new euiextendsion.DropDwonList();
         dropDwonList.x = this.registerInputX;
@@ -147,17 +197,18 @@ class Info1UI extends eui.UILayer {
        
     //    _registerScollerView.width = 540;
     //    _registerScollerView.height = 380;
-       this._registerScollerView.x = 15;
        this._registerScollerView.y = 200;
-       this._registerScollerView.width = 750;
-       this._registerScollerView.height = 1080;
+       this._registerScollerView.width = this.stage.stageWidth;
+       this._registerScollerView.x = 15;
+       this._registerScollerView.height =  this.stage.stageHeight;
        this._registerScollerView.scrollPolicyH = eui.ScrollPolicy.OFF;
-       this._registerScollerView.scrollPolicyV = eui.ScrollPolicy.ON;
+       this._registerScollerView.scrollPolicyV = eui.ScrollPolicy.OFF;
        this._registerScollerView.viewport = this.register_view;
        //this.addChild(this._registerScollerView);
        //_registerScollerView.verticalScrollBar.autoVisibility = false;
 
-
+       
+       this._registerScollerView.addChild(dropDwonList)
 
         var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
@@ -319,18 +370,19 @@ class Info1UI extends eui.UILayer {
         },this)
 
        //添加按钮
-       var cj_btn=createBitmap("patronRegister_png",100,824);
-       this.register_view.addChild(cj_btn);
+       this.cj_btn=createBitmap("patronRegister_png",100,824);
+       this.register_view.addChild(this.cj_btn);
 
        //注册按钮点击
-       cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-            
-         var request = requestPost(Main.baseUrl+Main.patronRegisterUrl,"?" + this.getPatronPostData());
+       this.cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+         this.cj_btn.touchEnabled = false;
+         loading(true);
+         var request = requestRegisterPost(Main.baseUrl+Main.patronRegisterUrl,"?" + this.getPatronPostData());
          request.send();
          request.addEventListener(egret.Event.COMPLETE,this.registerCompelete,this);
-
+         
        },this);
-       cj_btn.touchEnabled = true;    //开启点击侦听
+       this.cj_btn.touchEnabled = true;    //开启点击侦听
 
 
        var toLogin_btn=createBitmap("login_btn2_png",370,824);
@@ -344,16 +396,23 @@ class Info1UI extends eui.UILayer {
              
        },this);
        toLogin_btn.touchEnabled = true;    //开启点击侦听
-
-       this.register_view.addChild(dropDwonList)
     }
 
      private registerCompelete(event:egret.Event){
+         loading(false);
          var request = <egret.HttpRequest>event.currentTarget;
          var jsonObject= JSON.parse(request.response);
-         var patronId = jsonObject.data.PatronId;
-         setLocalStorage("pId",patronId);
-         this.addChild(ConfirmUtil.popUpTips("注册成功,patron ID:" + patronId,false,150,300,450,350));
+            if(jsonObject.result == 'SUCCESS'){
+            var patronId = jsonObject.data.PatronId;
+            setLocalStorage(Main.MEMBERID_SYB,patronId);
+            this.addChild(ConfirmUtil.popUpTips("注册成功,patron ID:" + patronId,false,150,300,450,350));
+            var gameui = ScenceManage.create(this.stage);
+            gameui.loadScence("index", this, IndexUI);
+         }
+         else if(jsonObject.result == 'ERROR'){
+             this.addChild(ConfirmUtil.popUpTips("注册失败\r\n可能已存在会员信息。" + patronId,false,150,300,450,350));
+         }
+         this.cj_btn.touchEnabled = true; 
     }
 
     private getPatronPostData():string{
@@ -378,6 +437,11 @@ class Info1UI extends eui.UILayer {
         this.errorText.text = text;
         this.errorText.alpha = 1
          egret.Tween.get(this.errorText,{loop:false}).to({alpha:0},2500);
+    }
+
+    private toMainPage(){
+            var gameui = ScenceManage.create(this.stage);
+            gameui.loadScence("index", this, IndexUI);
     }
 
 }

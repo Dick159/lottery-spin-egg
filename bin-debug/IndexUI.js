@@ -20,9 +20,12 @@ var IndexUI = (function (_super) {
         _this.currentPrizeType = null;
         _this.currentAc = 0;
         _this.currentAd = 0;
+        _this.currentAe = 0;
         _this.ERROR_MESSAGE = "Network Error.";
         _this.machine_group = new egret.DisplayObjectContainer();
         _this.getTokenFirst = true;
+        _this.sign_out_btn = createBitmap("sign_out_png", 375, 603);
+        _this.LoginRegisterbutton = createRegisterLoginButton(0, 1295);
         _this.ballMove = [
             //[x,y,t]
             // x in [225,455]
@@ -37,8 +40,12 @@ var IndexUI = (function (_super) {
             [[400, 560, 600], [380, 700, 600], [230, 600, 500]]
         ];
         _this.once(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
+        _this.initData();
         return _this;
     }
+    IndexUI.prototype.initData = function () {
+        this.ifLoginJudge();
+    };
     IndexUI.prototype.createView = function () {
         var that = this;
         //添加背景
@@ -80,33 +87,33 @@ var IndexUI = (function (_super) {
         this.machine_group.addChild(Machine_Glass);
         this.addChild(this.machine_group);
         //我的奖品
-        var MyPrizeBtn = createBitmap("MyPrizes_png");
-        MyPrizeBtn.x = this.stage.stageWidth - MyPrizeBtn.width;
-        MyPrizeBtn.y = this.stage.stageHeight * 0.12;
-        this.addChild(MyPrizeBtn);
-        MyPrizeBtn.touchEnabled = true;
+        this.MyPrizeBtn = createBitmap("MyPrizes_png");
+        this.MyPrizeBtn.x = this.stage.stageWidth - this.MyPrizeBtn.width;
+        this.MyPrizeBtn.y = this.stage.stageHeight * 0.12;
+        this.addChild(this.MyPrizeBtn);
+        this.MyPrizeBtn.touchEnabled = true;
         myPrizeButton.touchEnabled = true;
-        var start_btn = createBitmap("gameStartBtn_png", 250, 1000);
-        this.addChild(start_btn);
+        this.start_btn = createBitmap("gameStartBtn_png", 250, 1000);
+        this.addChild(this.start_btn);
         var _gFilter = glowFilter(0xFFFFFF, 0.8, 25, 25, 2, true, false);
-        start_btn.filters = [_gFilter];
-        egret.Tween.get(start_btn, { loop: true }).to({ y: start_btn.y + 30 }, 900, egret.Ease.quadOut).to({ y: start_btn.y }, 900, egret.Ease.quadOut);
+        this.start_btn.filters = [_gFilter];
+        egret.Tween.get(this.start_btn, { loop: true }).to({ y: this.start_btn.y + 30 }, 900, egret.Ease.quadOut).to({ y: this.start_btn.y }, 900, egret.Ease.quadOut);
         egret.Tween.get(_gFilter, { loop: true }).to({ alpha: 0.3 }, 1000).to({ alpha: 0.8 }, 1000);
-        start_btn.touchEnabled = true;
-        start_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        this.start_btn.touchEnabled = true;
+        this.start_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (Main.jp_onoff) {
                 return;
             }
             Main.jp_onoff = true;
             //-----alpha to 0-------
             //disable button;
-            start_btn.touchEnabled = false;
-            LoginRegisterbutton.touchEnabled = false;
+            this.start_btn.touchEnabled = false;
+            this.LoginRegisterbutton.touchEnabled = false;
             gameRule.touchEnabled = false;
-            sign_out_btn.touchEnabled = false;
-            egret.Tween.get(start_btn).to({ alpha: 0 }, 300);
-            egret.Tween.get(sign_out_btn).to({ alpha: 0 }, 300);
-            egret.Tween.get(LoginRegisterbutton).to({ alpha: 0 }, 300);
+            this.sign_out_btn.touchEnabled = false;
+            egret.Tween.get(this.start_btn).to({ alpha: 0 }, 300);
+            egret.Tween.get(this.sign_out_btn).to({ alpha: 0 }, 300);
+            egret.Tween.get(this.LoginRegisterbutton).to({ alpha: 0 }, 300);
             egret.Tween.get(gameRule).to({ alpha: 0 }, 300);
             //-----alpha 
             //----scale start-----
@@ -145,40 +152,30 @@ var IndexUI = (function (_super) {
             //   gameui.loadScence("ResultUI",this,ReceiveUI);
         }, this);
         //注册登录按钮
-        var LoginRegisterbutton = createRegisterLoginButton(0, 1295);
-        LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        this.LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             var info = ScenceManage.create(this.stage);
             info.loadScence("info", this, Info1UI);
         }, this);
-        var sign_out_btn = createBitmap("sign_out_png", 375, 603);
-        sign_out_btn.x = 0;
-        sign_out_btn.y = 1295;
-        sign_out_btn.touchEnabled = true;
-        this.addChild(LoginRegisterbutton);
-        this.addChild(sign_out_btn);
-        sign_out_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        this.sign_out_btn.x = 0;
+        this.sign_out_btn.y = 1295;
+        this.sign_out_btn.touchEnabled = true;
+        this.addChild(this.LoginRegisterbutton);
+        this.addChild(this.sign_out_btn);
+        this.sign_out_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             removeLocalStorage(Main.MEMBERID_SYB);
             if (!getLocalStorage(Main.MEMBERID_SYB)) {
                 this.popUpMessageTip("Sign out success", this);
-                sign_out_btn.visible = false;
-                LoginRegisterbutton.visible = true;
+                this.sign_out_btn.visible = false;
+                this.LoginRegisterbutton.visible = true;
             }
         }, this);
-        if (getLocalStorage(Main.MEMBERID_SYB)) {
-            sign_out_btn.visible = true;
-            LoginRegisterbutton.visible = false;
-        }
-        else {
-            sign_out_btn.visible = false;
-            LoginRegisterbutton.visible = true;
-        }
         //游戏规则弹窗
         var mask = createBitmap("Rules_png", 375, 603);
         mask.touchEnabled = true;
         mask.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             egret.Tween.get(mask).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
-                start_btn.touchEnabled = true;
-                LoginRegisterbutton.touchEnabled = true;
+                this.start_btn.touchEnabled = true;
+                this.LoginRegisterbutton.touchEnabled = true;
                 mask.visible = false;
             }, this);
             egret.Tween.get(myPrizeButton).to({ x: 556 }, 300).call(function () {
@@ -187,10 +184,10 @@ var IndexUI = (function (_super) {
             egret.Tween.get(gameRule).to({ x: 440 }, 300).call(function () {
                 gameRule.visible = true; //游戏规则复位
             }, this);
-            egret.Tween.get(LoginRegisterbutton).to({ x: 0 }, 300).call(function () {
+            egret.Tween.get(this.LoginRegisterbutton).to({ x: 0 }, 300).call(function () {
                 gameRule.visible = true; //login
             }, this);
-            egret.Tween.get(sign_out_btn).to({ x: 0 }, 300).call(function () {
+            egret.Tween.get(this.sign_out_btn).to({ x: 0 }, 300).call(function () {
                 gameRule.visible = true; //login
             }, this);
         }, this);
@@ -201,7 +198,7 @@ var IndexUI = (function (_super) {
         mask.anchorOffsetX = mask.width * .5;
         mask.anchorOffsetY = mask.height * .5;
         //我的奖品点击逻辑;
-        MyPrizeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        this.MyPrizeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (!Main.jp_onoff && !mask.visible) {
                 var mId = getLocalStorage(Main.MEMBERID_SYB);
                 var tId = getLocalStorage(Main.TOKENID_SYB);
@@ -215,6 +212,7 @@ var IndexUI = (function (_super) {
                     params += "tokenId=" + tId;
                 }
                 loading(true);
+                this.MyPrizeBtn.touchEnabled = false;
                 var request = requestPost(Main.baseUrl + _url, params);
                 request.send();
                 request.addEventListener(egret.Event.COMPLETE, this.getPrizeDetailFinish, this);
@@ -230,8 +228,8 @@ var IndexUI = (function (_super) {
             //this.textColor = 0x000000;
             // scoreText. = 0xbf0c21;
             if (mask.visible == false && !Main.jp_onoff) {
-                start_btn.touchEnabled = false;
-                LoginRegisterbutton.touchEnabled = false;
+                this.start_btn.touchEnabled = false;
+                this.LoginRegisterbutton.touchEnabled = false;
                 mask.visible = true; //显示游戏规则弹窗
                 egret.Tween.get(myPrizeButton).to({ x: 750 }, 300).call(function () {
                     myPrizeButton.visible = false; //将我的奖品移出页面可见
@@ -239,16 +237,16 @@ var IndexUI = (function (_super) {
                 egret.Tween.get(gameRule).to({ x: 750 }, 300).call(function () {
                     gameRule.visible = false; //将我的奖品移出页面可见
                 }, this);
-                egret.Tween.get(LoginRegisterbutton).to({ x: -300 }, 300).call(function () {
+                egret.Tween.get(this.LoginRegisterbutton).to({ x: -300 }, 300).call(function () {
                     //gameRule.visible = false;      //登录出页面可见
                 }, this);
-                egret.Tween.get(sign_out_btn).to({ x: -300 }, 300).call(function () {
+                egret.Tween.get(this.sign_out_btn).to({ x: -300 }, 300).call(function () {
                     //gameRule.visible = false;      //登录出页面可见
                 }, this);
                 egret.Tween.get(mask).to({ scaleX: 1, scaleY: 1 }, 500).call(function () { }, this);
             }
             else {
-                start_btn.touchEnabled = true;
+                this.start_btn.touchEnabled = true;
             }
         }, this);
     };
@@ -294,6 +292,7 @@ var IndexUI = (function (_super) {
         if (jsonObject.data.status) {
             this.currentAc = jsonObject.data.ac ? jsonObject.data.ac : "0";
             this.currentAd = jsonObject.data.ad ? jsonObject.data.ad : "0";
+            this.currentAe = jsonObject.data.ae ? jsonObject.data.ae : "0";
         }
         else {
             this.isErrorRequest = true;
@@ -351,7 +350,7 @@ var IndexUI = (function (_super) {
                 }
                 console.log(params);
                 if (_f) {
-                    var lottery_request = requestPost_Lottery(Main.baseUrl + Main.lotteryApi, params);
+                    var lottery_request = requestPost(Main.baseUrl + Main.lotteryApi, params);
                     lottery_request.send();
                     lottery_request.addEventListener(egret.Event.COMPLETE, this.lotteryResultComplete, this);
                     lottery_request.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onPostIOError, this);
@@ -403,6 +402,9 @@ var IndexUI = (function (_super) {
         if (this.currentPrizeType && this.currentPrizeType == 'C') {
             prizeTypePng = "OpenCapsule- Just Ox_png";
         }
+        else if (this.currentPrizeType && this.currentPrizeType == 'E') {
+            prizeTypePng = "OpenCapsule- Just Red Packet_png";
+        }
         egret.Tween.get(popupPrizeContainer).to({ scaleX: 1, scaleY: 1 }, 2000, egret.Ease.quadInOut).wait(100).call(function () {
             var _whiteShader = createShaderMask(this.stage.width, this.stage.height, 0xFFFFFF, 1);
             this.addChild(_whiteShader);
@@ -433,19 +435,17 @@ var IndexUI = (function (_super) {
         var prizeSymbolPng = "Platform Prize Symbol- Dollar_png";
         var dvText = "\r\n REWARD DOLLARS";
         var cvText = " AUSPICIOUS OX\r\nCOLLECTIBLE";
+        var evText = " RED PACKET ENVELOP";
         var valueText = createTextFiledNoEui(" \n REWARD DOLLARS");
         valueText.size = 34;
         valueText.textColor = 0xFFFFFF;
         if (this.currentPrizeType && this.currentPrizeType == 'C') {
             prizeSymbolPng = "Platform Prize Symbol- Ox_png";
             valueText.text = this.currentPrizeValue + cvText;
-            console.log("CCCC");
-            console.log("$" + this.currentPrizeValue + cvText);
         }
-        else if (this.currentPrizeType && this.currentPrizeType == 'D') {
-            valueText.text = "$" + this.currentPrizeValue + dvText;
-            console.log("DDDDD");
-            console.log("$" + this.currentPrizeValue + dvText);
+        else if (this.currentPrizeType && this.currentPrizeType == 'E') {
+            prizeSymbolPng = "Platform Prize Symbol- Red Packet_png";
+            valueText.text = this.currentPrizeValue + evText;
         }
         var prizeSymbol = createBitmap(prizeSymbolPng);
         var congText = createBitmap("Congratulations Text box_png");
@@ -470,6 +470,11 @@ var IndexUI = (function (_super) {
         var rdm_btn = createBitmap("How to redeem button_png");
         var my_prize = createBitmap("PrizesRulesButton_png");
         var playAgain = createBitmap("Playagaintomorrow Button_png");
+        playAgain.touchEnabled = true;
+        playAgain.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            var gameui = ScenceManage.create(this.stage);
+            gameui.loadScence("index", this, IndexUI);
+        }, this);
         rdm_btn.x = (platform.x + platform.width * 0.5) - rdm_btn.width * 0.5;
         rdm_btn.y = congText.y + congText.height + 200;
         my_prize.x = (platform.x + platform.width * 0.5) - my_prize.width * 0.5;
@@ -557,9 +562,22 @@ var IndexUI = (function (_super) {
         ad_content.textColor = 0x7E1E08;
         ad_content.y = 607;
         ad_content.text = this.currentAd + ad_content.text;
+        var rp_png = createBitmap("Red Packet Symbol_png");
+        var ae_content = createTextFiledNoEui(" RED PACKET ENVELOP");
+        ae_content.size = 36;
+        ae_content.x = 200;
+        ae_content.textColor = 0x7E1E08;
+        ae_content.y = 815;
+        ae_content.text = this.currentAe + ae_content.text;
         var title = createTextFiledNoEui("MY PRIZE");
         title.textColor = 0x7E1E08;
         title.size = 36;
+        var bindingPatronBtn = createRegisterLoginButton(200, 950);
+        bindingPatronBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            Main.isBindingAction = true;
+            var info = ScenceManage.create(this.stage);
+            info.loadScence("info", this, Info1UI);
+        }, this);
         my_prize_info_bg.x = _that.stage.stageWidth * 0.5 - my_prize_info_bg.width * 0.5;
         my_prize_info_bg.y = _that.stage.stageHeight * 0.3;
         title.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - title.width * 0.5;
@@ -568,12 +586,19 @@ var IndexUI = (function (_super) {
         coins_png.y = 710;
         dd_png.x = 150 - dd_png.width * 0.5;
         dd_png.y = 595;
+        rp_png.x = 150 - rp_png.width * 0.5;
+        rp_png.y = 815;
         myPrizeInfo_cnt.addChild(my_prize_info_bg);
         myPrizeInfo_cnt.addChild(title);
         myPrizeInfo_cnt.addChild(coins_png);
         myPrizeInfo_cnt.addChild(dd_png);
+        myPrizeInfo_cnt.addChild(rp_png);
         myPrizeInfo_cnt.addChild(ac_content);
         myPrizeInfo_cnt.addChild(ad_content);
+        myPrizeInfo_cnt.addChild(ae_content);
+        if (!this.start_btn.touchEnabled && !getLocalStorage(Main.MEMBERID_SYB)) {
+            myPrizeInfo_cnt.addChild(bindingPatronBtn);
+        }
         _that.addChild(myPrizeInfo_cnt);
         myPrizeInfo_cnt.visible = true;
         egret.Tween.get(myPrizeInfo_cnt).to({ alpha: 1 }, 800);
@@ -602,14 +627,27 @@ var IndexUI = (function (_super) {
         var request = event.currentTarget;
         var jsonObject = JSON.parse(request.response);
         var _data = jsonObject.data;
-        if (_data.status && _data.status == "01") {
+        if (_data.status && _data.status == "00") {
             this.currentAc = _data.ac;
             this.currentAd = _data.ad;
+            this.currentAe = _data.ae;
         }
+        this.MyPrizeBtn.touchEnabled = true;
         loading(false);
         this.popUpMyPrizeList(this);
     };
     IndexUI.prototype.getPrizeDetailError = function (event) {
+        this.MyPrizeBtn.touchEnabled = true;
+    };
+    IndexUI.prototype.ifLoginJudge = function () {
+        if (getLocalStorage(Main.MEMBERID_SYB)) {
+            this.sign_out_btn.visible = true;
+            this.LoginRegisterbutton.visible = false;
+        }
+        else {
+            this.sign_out_btn.visible = false;
+            this.LoginRegisterbutton.visible = true;
+        }
     };
     return IndexUI;
 }(egret.Sprite));

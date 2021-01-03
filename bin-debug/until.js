@@ -280,6 +280,14 @@ function requestPost_Lottery(postUrl, parameter) {
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     return request;
 }
+function requestRegisterPost(postUrl, parameter) {
+    var request;
+    request = new egret.HttpRequest();
+    request.responseType = egret.HttpResponseType.TEXT;
+    request.open(postUrl + parameter, egret.HttpMethod.POST);
+    request.setRequestHeader("Content-Type", "application/json");
+    return request;
+}
 function requestPost(postUrl, parameter) {
     var request;
     request = new egret.HttpRequest();

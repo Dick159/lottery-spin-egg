@@ -235,6 +235,16 @@ function requestPost_Lottery(postUrl:string,parameter:string){
 }
 
 
+function requestRegisterPost(postUrl:string,parameter:string){
+    var request:egret.HttpRequest;
+    request = new egret.HttpRequest();
+    request.responseType = egret.HttpResponseType.TEXT;
+    request.open(postUrl + parameter,egret.HttpMethod.POST);
+    request.setRequestHeader("Content-Type", "application/json");
+    return request;
+}
+
+
 function requestPost(postUrl:string,parameter:string){
     var request:egret.HttpRequest;
     request = new egret.HttpRequest();
