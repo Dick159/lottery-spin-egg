@@ -7,11 +7,11 @@ class Info1UI extends eui.UILayer {
 
     private registerLabelYBias = 130;
 
-    private registerInputX = 200;
+    private registerInputX = 160;
 
-    private registerInputY = 96;
+    private registerInputY = 126;
 
-    private registerInputYBias = 110;
+    private registerInputYBias = 210;
 
     private firstNameText;
 
@@ -50,6 +50,7 @@ class Info1UI extends eui.UILayer {
     }
     private shareLg;
     private createView(): void {
+        this.touchThrough = true;
         //this.getCountryListData();
         this.createLoginView();
 
@@ -57,6 +58,7 @@ class Info1UI extends eui.UILayer {
     }
 
     private createLoginView(){
+        this._loginView.touchThrough = true;
        var img = new eui.Image("/resource/assets/djy_wbk.png"); 
        var srlCard = new eui.Image("/resource/assets/SRL_Cards.png");
        var loginPanel = new eui.Image("/resource/assets/login_input.png");
@@ -68,12 +70,7 @@ class Info1UI extends eui.UILayer {
        this._loginView.height = 1080;
        var last_name_label=createTextFiled("会员ID:",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*1,24,0x000000);
        this.memerIdInput=createTextFiled("请输入ID", 149 + 62 , 433, 25,  0xa1a1a1, "left",320,72, "middle", false,  0x000000, false,egret.TextFieldType.INPUT);
-    //   var memberIdInput_border=new egret.Shape();
-    //    memberIdInput_border.graphics.lineStyle(2, 0x000000);
-    //    memberIdInput_border.graphics.drawRect(149 + 62 , 433 , 320, 72);
-    //    memberIdInput_border.graphics.endFill;
-    //    this._loginView.addChild(last_name_label);
-    //    this._loginView.addChild(this.memerIdInput);
+  
        
 
        srlCard.x = 115;
@@ -161,7 +158,6 @@ class Info1UI extends eui.UILayer {
          if(jsonObject.code == "200"){
              if(jsonObject.data.Output.Response.StatusCode == "00"){
                  setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
-                 
                  this.pupUpErrorTips(this,"Login success.");
                  this.toMainPage();
              }else{
@@ -184,15 +180,17 @@ class Info1UI extends eui.UILayer {
         dropDwonList.x = this.registerInputX;
         dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
         var img = new eui.Image("/resource/assets/djy_wbk.png");
-        img.scaleY = 1.15;
+        img.scaleY = 1;
+        img.y = 140;
        
        this.register_view=new eui.Group();
+
 
        this.addChild(this.register_view);
        this.register_view.addChild(img);
 
        var euiben = new eui.Button();
-       euiben.width = 100;
+       euiben.width = 700;
        euiben.width = 50;
        this.register_view.addChild(euiben);
        
@@ -208,8 +206,7 @@ class Info1UI extends eui.UILayer {
        //this.addChild(this._registerScollerView);
        //_registerScollerView.verticalScrollBar.autoVisibility = false;
 
-       
-       this._registerScollerView.addChild(dropDwonList)
+       this._registerScollerView.addChild(dropDwonList);
 
         var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
@@ -231,8 +228,8 @@ class Info1UI extends eui.UILayer {
       var mcCheckBox = new eui.CheckBox();
       mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
       mcCheckBox.x = this.registerLabelX;
-      mcCheckBox.y = this.registerLabelYBias+this.registerLabelY*5;
-      mcCheckBox.label = "                 我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
+      mcCheckBox.y = this.registerLabelYBias+this.registerLabelY*8;
+      mcCheckBox.label = "          我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
       this.register_view.addChild(mcCheckBox);
 
 
@@ -243,37 +240,37 @@ class Info1UI extends eui.UILayer {
        f_name_border.graphics.drawRoundRect(this.registerInputX , this.registerInputYBias + this.registerInputY * 0, 420, 61, 25, 25);
        f_name_border.graphics.endFill;
        
-       this.lastNameText=createTextFiled("请输入名字", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       this.lastNameText=createTextFiled("请输入名字", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left",390,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var l_name_border=new egret.Shape();
        l_name_border.graphics.lineStyle(2, 0xb1b1b1);
        l_name_border.graphics.drawRoundRect(this.registerInputX ,  this.registerInputYBias + this.registerInputY * 1, 420, 61, 25, 25);
        l_name_border.graphics.endFill;
 
-       var dob_y_text=createTextFiled("年", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",200,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       var dob_y_text=createTextFiled("年", this.registerInputX + 5, 9+this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",130,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var dob_y_border=new egret.Shape();
        dob_y_border.graphics.lineStyle(2, 0xb1b1b1);
        dob_y_border.graphics.drawRoundRect(this.registerInputX ,  this.registerInputYBias + this.registerInputY * 2, 200, 61, 25, 25);
        dob_y_border.graphics.endFill;
 
-       var dob_m_text=createTextFiled("月", this.registerInputX + 5 + 210, this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",100,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       var dob_m_text=createTextFiled("月", this.registerInputX + 5 + 170, 9+this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",100,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var dob_m_border=new egret.Shape();
        dob_m_border.graphics.lineStyle(2, 0xb1b1b1);
        dob_m_border.graphics.drawRoundRect(this.registerInputX + 210 ,  this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
        dob_m_border.graphics.endFill;
 
-       var dob_d_text=createTextFiled("日", this.registerInputX + 5 + 320, this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",100,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       var dob_d_text=createTextFiled("日", this.registerInputX + 5 + 320, 9+this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",100,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var dob_d_border=new egret.Shape();
        dob_d_border.graphics.lineStyle(2, 0xb1b1b1);
-       dob_d_border.graphics.drawRoundRect(this.registerInputX + 320,  this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
+       dob_d_border.graphics.drawRoundRect(this.registerInputX + 320,  10+this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
        dob_d_border.graphics.endFill;
 
-       this.mobilePhone=createTextFiled("电话号码", this.registerInputX + 5 + 100, this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left",230,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       this.mobilePhone=createTextFiled("电话号码", this.registerInputX + 5 + 130, 10+this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left",280,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var tel_border=new egret.Shape();
        tel_border.graphics.lineStyle(2, 0xb1b1b1);
        tel_border.graphics.drawRoundRect(this.registerInputX + 100,  this.registerInputYBias + this.registerInputY * 3, 320, 61, 25, 25);
        tel_border.graphics.endFill;
 
-       this.emailText=createTextFiled("电邮", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 4, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       this.emailText=createTextFiled("电邮", this.registerInputX + 5, 12+this.registerInputYBias + this.registerInputY * 4, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var mail_border=new egret.Shape();
        mail_border.graphics.lineStyle(2, 0xb1b1b1);
        mail_border.graphics.drawRoundRect(this.registerInputX,  this.registerInputYBias + this.registerInputY * 4,420, 61, 25, 25);
@@ -282,12 +279,12 @@ class Info1UI extends eui.UILayer {
        //出错显示
        var chucuo_title=createTextFiled("", this.registerInputX-50,  this.registerInputYBias + this.registerInputY * 6,25 , 0xff0000, "center",545,30);
        this.errorText = chucuo_title;
-       this.register_view.addChild(chucuo_title);
-       this.register_view.addChild(first_name_label);
-       this.register_view.addChild(last_name_label);
-       this.register_view.addChild(bod_label);
-       this.register_view.addChild(tel_label);
-       this.register_view.addChild(email_label);
+    //    this.register_view.addChild(chucuo_title);
+    //    this.register_view.addChild(first_name_label);
+    //    this.register_view.addChild(last_name_label);
+    //    this.register_view.addChild(bod_label);
+    //    this.register_view.addChild(tel_label);
+    //    this.register_view.addChild(email_label);
 
        this.register_view.addChild(this.firstNameText);
        this.register_view.addChild(this.lastNameText);
@@ -297,15 +294,15 @@ class Info1UI extends eui.UILayer {
        this.register_view.addChild(dob_d_text);
        this.register_view.addChild(this.emailText);
 
-       this.register_view.addChild(f_name_border);
-       this.register_view.addChild(tel_border);
+    //    this.register_view.addChild(f_name_border);
+    //    this.register_view.addChild(tel_border);
 
-       this.register_view.addChild(l_name_border);
+    //    this.register_view.addChild(l_name_border);
        
-       this.register_view.addChild(mail_border);
-       this.register_view.addChild(dob_y_border);
-       this.register_view.addChild(dob_m_border);
-       this.register_view.addChild(dob_d_border);
+    //    this.register_view.addChild(mail_border);
+    //    this.register_view.addChild(dob_y_border);
+    //    this.register_view.addChild(dob_m_border);
+    //    this.register_view.addChild(dob_d_border);
 
        var nameYN=false;
        var telYN=false;
@@ -371,7 +368,7 @@ class Info1UI extends eui.UILayer {
         },this)
 
        //添加按钮
-       this.cj_btn=createBitmap("patronRegister_png",100,824);
+       this.cj_btn=createBitmap("patronRegister_png",140,1024);
        this.register_view.addChild(this.cj_btn);
 
        //注册按钮点击
@@ -386,17 +383,17 @@ class Info1UI extends eui.UILayer {
        this.cj_btn.touchEnabled = true;    //开启点击侦听
 
 
-       var toLogin_btn=createBitmap("login_btn2_png",370,824);
-       this.register_view.addChild(toLogin_btn);
+    //    var toLogin_btn=createBitmap("login_btn2_png",370,824);
+    //    this.register_view.addChild(toLogin_btn);
 
-       //转到登录页
-       toLogin_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+    //    //转到登录页
+    //    toLogin_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
             
-            this.removeChild(this._registerScollerView);
-            this.addChild(this._loginView);
+    //         this.removeChild(this._registerScollerView);
+    //         this.addChild(this._loginView);
              
-       },this);
-       toLogin_btn.touchEnabled = true;    //开启点击侦听
+    //    },this);
+    //    toLogin_btn.touchEnabled = true;    //开启点击侦听
     }
 
      private registerCompelete(event:egret.Event){

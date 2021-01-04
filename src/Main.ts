@@ -186,6 +186,17 @@ class Main extends egret.DisplayObjectContainer {
         Main.bg= createBitmap("common_bg_png",0,0);
         this.addChild(Main.bg);
 
+
+        var home_btn = createBitmap("seven_share_png",0,30);
+        this.addChild(home_btn);
+
+        home_btn.touchEnabled = true;
+
+        home_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                // var gameui = ScenceManage.create(this.stage);
+                // gameui.loadScence("index", this, IndexUI);
+        },this)
+
         // 雪花飘落效果
         // 雪花飘落效果
         var snowflake_1 = createBitmap("snowflake_png",0,0);
@@ -201,7 +212,7 @@ class Main extends egret.DisplayObjectContainer {
         this.stage.addChild(index);
         //音乐图标__可做点击播放/暂停
         var music_logo = createBitmap("music_logo_png",55, 350);
-        this.addChild(music_logo);
+        this.addChildAt(music_logo,999999);
         music_logo.anchorOffsetX = 65*.5;
         music_logo.anchorOffsetY = 65*.5;
         var tw = egret.Tween.get(music_logo,{loop:true}).to({rotation:360},2000);
