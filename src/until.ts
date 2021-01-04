@@ -404,3 +404,14 @@ function loading(flag){
         document.getElementById("preloading").style.display = "none";
     }
 }
+
+
+function startWith(str:string,t:string){
+    if(str && t){
+        var s_str = str.substr(0,t.length);
+        if(s_str == t){
+            return true;
+        }
+    }
+    return false;
+}

@@ -161,6 +161,7 @@ class Info1UI extends eui.UILayer {
          if(jsonObject.code == "200"){
              if(jsonObject.data.Output.Response.StatusCode == "00"){
                  setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
+                 
                  this.pupUpErrorTips(this,"Login success.");
                  this.toMainPage();
              }else{

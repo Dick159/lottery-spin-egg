@@ -399,10 +399,10 @@ var IndexUI = (function (_super) {
         popupPrizeContainer.scaleX = 0.3;
         popupPrizeContainer.scaleY = 0.3;
         var prizeTypePng = "OpenCapsule- Just Dollar_png";
-        if (this.currentPrizeType && this.currentPrizeType == 'C') {
+        if (this.currentPrizeType && startWith(this.currentPrizeType, "C")) {
             prizeTypePng = "OpenCapsule- Just Ox_png";
         }
-        else if (this.currentPrizeType && this.currentPrizeType == 'E') {
+        else if (this.currentPrizeType && startWith(this.currentPrizeType, "E")) {
             prizeTypePng = "OpenCapsule- Just Red Packet_png";
         }
         egret.Tween.get(popupPrizeContainer).to({ scaleX: 1, scaleY: 1 }, 2000, egret.Ease.quadInOut).wait(100).call(function () {
@@ -439,13 +439,17 @@ var IndexUI = (function (_super) {
         var valueText = createTextFiledNoEui(" \n REWARD DOLLARS");
         valueText.size = 34;
         valueText.textColor = 0xFFFFFF;
-        if (this.currentPrizeType && this.currentPrizeType == 'C') {
+        if (this.currentPrizeType && startWith(this.currentPrizeType, "C")) {
             prizeSymbolPng = "Platform Prize Symbol- Ox_png";
             valueText.text = this.currentPrizeValue + cvText;
         }
-        else if (this.currentPrizeType && this.currentPrizeType == 'E') {
+        else if (this.currentPrizeType && startWith(this.currentPrizeType, "E")) {
             prizeSymbolPng = "Platform Prize Symbol- Red Packet_png";
             valueText.text = this.currentPrizeValue + evText;
+        }
+        else if (this.currentPrizeType && startWith(this.currentPrizeType, "D")) {
+            console.log("DDDDDDD");
+            valueText.text = this.currentPrizeValue + dvText;
         }
         var prizeSymbol = createBitmap(prizeSymbolPng);
         var congText = createBitmap("Congratulations Text box_png");
