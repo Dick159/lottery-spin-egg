@@ -46,6 +46,7 @@ var Main = (function (_super) {
         var request = event.currentTarget;
         var jsonObject = JSON.parse(request.response);
         if (jsonObject.code == '200') {
+            console.log(jsonObject.data.PrizeProperty);
             setLocalStorage("prizeList", jsonObject.data.PrizeProperty);
             this.initPlayerData();
             //初始化Resource资源加载库
@@ -246,5 +247,6 @@ Main.TOKENID_SYB = "MBS_TOKENID";
 Main.MEMBERID_SYB = "memberId";
 Main.isBindingAction = false;
 Main.zpname = "请进行抽奖"; //奖的名称
+Main.staticPrizeList = [];
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

@@ -65,6 +65,8 @@ class Main extends egret.DisplayObjectContainer {
     static isBindingAction = false;
     
     static zpname = "请进行抽奖";//奖的名称
+
+    static staticPrizeList = [];
     static bg;
     public constructor() {
         super();
@@ -77,6 +79,7 @@ class Main extends egret.DisplayObjectContainer {
 
          var jsonObject= JSON.parse(request.response);
          if(jsonObject.code == '200'){
+         console.log(jsonObject.data.PrizeProperty);
          setLocalStorage("prizeList",jsonObject.data.PrizeProperty);
 
          this.initPlayerData();
@@ -85,6 +88,12 @@ class Main extends egret.DisplayObjectContainer {
          RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
          RES.loadConfig("resource/default.res.json", "resource/");
          }
+    }
+
+    private setUpPrize(prizeList:Array<{}>){
+        for(var p in prizeList){
+            
+        }
     }
 
 

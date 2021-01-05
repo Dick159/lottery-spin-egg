@@ -264,29 +264,31 @@ class IndexUI extends egret.Sprite {
         gameRule.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             //this.textColor = 0x000000;
             // scoreText. = 0xbf0c21;
-            if (mask.visible == false && !Main.jp_onoff) {
-                this.start_btn.touchEnabled = false;
-                this.LoginRegisterbutton.touchEnabled = false;
-                mask.visible = true;            //显示游戏规则弹窗
-                egret.Tween.get(myPrizeButton).to({ x: 750 }, 300).call(function () {
-                    myPrizeButton.visible = false;      //将我的奖品移出页面可见
-                }, this);
-                egret.Tween.get(gameRule).to({ x: 750 }, 300).call(function () {
-                    gameRule.visible = false;      //将我的奖品移出页面可见
-                }, this);
-                egret.Tween.get(this.LoginRegisterbutton).to({ x: -300 }, 300).call(function () {
-                    //gameRule.visible = false;      //登录出页面可见
-                }, this);
-                egret.Tween.get(this.sign_out_btn).to({ x: -300 }, 300).call(function () {
-                    //gameRule.visible = false;      //登录出页面可见
-                }, this);
-                egret.Tween.get(mask).to({ scaleX: 1, scaleY: 1 }, 500).call(function () {}, this);
-            } else {
-                this.start_btn.touchEnabled = true;
-                // egret.Tween.get(mask).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
-                //     mask.visible = false;
-                // }, this);
-            }
+            // if (mask.visible == false && !Main.jp_onoff) {
+            //     this.start_btn.touchEnabled = false;
+            //     this.LoginRegisterbutton.touchEnabled = false;
+            //     mask.visible = true;            //显示游戏规则弹窗
+            //     egret.Tween.get(myPrizeButton).to({ x: 750 }, 300).call(function () {
+            //         myPrizeButton.visible = false;      //将我的奖品移出页面可见
+            //     }, this);
+            //     egret.Tween.get(gameRule).to({ x: 750 }, 300).call(function () {
+            //         gameRule.visible = false;      //将我的奖品移出页面可见
+            //     }, this);
+            //     egret.Tween.get(this.LoginRegisterbutton).to({ x: -300 }, 300).call(function () {
+            //         //gameRule.visible = false;      //登录出页面可见
+            //     }, this);
+            //     egret.Tween.get(this.sign_out_btn).to({ x: -300 }, 300).call(function () {
+            //         //gameRule.visible = false;      //登录出页面可见
+            //     }, this);
+            //     egret.Tween.get(mask).to({ scaleX: 1, scaleY: 1 }, 500).call(function () {}, this);
+            // } else {
+            //     this.start_btn.touchEnabled = true;
+            //     // egret.Tween.get(mask).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
+            //     //     mask.visible = false;
+            //     // }, this);
+            // }
+             var gameui = ScenceManage.create(this.stage);
+             gameui.loadScence("index", this, MyPrizeAndRules);
         }, this);
 
     }
