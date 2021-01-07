@@ -38,6 +38,8 @@ class Main extends egret.DisplayObjectContainer {
     static mask_onoff=false;
     static laohujiButOnoff=true;
     static registLoginShow = false;
+    //http://150.109.32.241:4503/
+    //"https://staging.marinabaysands.com"
     //static  baseUrl = window.location.protocol +"//" +window.location.host;
     static  baseUrl = "https://staging.marinabaysands.com";
     private getProbabilityData = "/services/h5game/property";
@@ -63,10 +65,18 @@ class Main extends egret.DisplayObjectContainer {
     static MEMBERID_SYB = "memberId";
 
     static isBindingAction = false;
+
+    static NBD_TOKEN_SYB = "NBDTK";
     
     static zpname = "请进行抽奖";//奖的名称
 
-    static staticPrizeList = [];
+    static SRLID_SYB = "srlID"
+
+    static isFirstLoad = true;
+
+    static staticCoinsPrizeList = [];
+    static staticDDPrizeList = [];
+    static staticEnvPrizeList = [];
     static bg;
     public constructor() {
         super();
@@ -79,9 +89,7 @@ class Main extends egret.DisplayObjectContainer {
 
          var jsonObject= JSON.parse(request.response);
          if(jsonObject.code == '200'){
-         console.log(jsonObject.data.PrizeProperty);
-         setLocalStorage("prizeList",jsonObject.data.PrizeProperty);
-
+         this.setUpPrize(jsonObject.data.PrizeProperty)
          this.initPlayerData();
             //初始化Resource资源加载库
             //initiate Resource loading library
@@ -91,9 +99,30 @@ class Main extends egret.DisplayObjectContainer {
     }
 
     private setUpPrize(prizeList:Array<{}>){
+
+        var ddText = " REWARD DOLLARS";
+        var cText1 = "AUSPICIOUS OX";
+        var cText2 = "COLLECTIBLE";
+        var eText1 = "LIMITED EDITION";
+        var eText2 = "REDPACKET";
+        var eText3 = "ENVELOPES";
+        var eText = "LIMITED EDITION\r\nREDPACKET\nENVELOPES"
         for(var p in prizeList){
-            
+            var o = prizeList[p];
+            var type = o["text2"];
+            var value = o["key"];
+            if(startWith(type,"D")){
+                Main.staticDDPrizeList.push("$"+value+ddText);
+            }
         }
+
+
+
+        Main.staticCoinsPrizeList.push(cText1);
+         Main.staticCoinsPrizeList.push(cText2);
+        Main.staticEnvPrizeList.push(eText1);
+        Main.staticEnvPrizeList.push(eText2);
+        Main.staticEnvPrizeList.push(eText3);
     }
 
 
@@ -196,64 +225,54 @@ class Main extends egret.DisplayObjectContainer {
         this.addChild(Main.bg);
 
 
-        var home_btn = createBitmap("seven_share_png",0,30);
-        this.addChild(home_btn);
+        // var home_btn = createBitmap("seven_share_png",0,30);
+        // this.addChild(home_btn);
 
-        home_btn.touchEnabled = true;
+        // home_btn.touchEnabled = true;
 
-        home_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-                // var gameui = ScenceManage.create(this.stage);
-                // gameui.loadScence("index", this, IndexUI);
-        },this)
+        // home_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+        //         // var gameui = ScenceManage.create(this.stage);
+        //         // gameui.loadScence("index", this, IndexUI);
+        // },this)
 
-        // 雪花飘落效果
-        // 雪花飘落效果
-        var snowflake_1 = createBitmap("snowflake_png",0,0);
-        var snowflake_2 = createBitmap("snowflake_png",0,-1206);
-       
-        this.addChild(snowflake_1);
-        this.addChild(snowflake_2);        
-        
-        egret.Tween.get(snowflake_1,{loop:true}).to({y:1206},10000);
-        egret.Tween.get(snowflake_2,{loop:true}).to({y:0},10000);
        
         var index=new IndexUI();
         this.stage.addChild(index);
         //音乐图标__可做点击播放/暂停
-        var music_logo = createBitmap("music_logo_png",55, 350);
-        this.addChildAt(music_logo,999999);
-        music_logo.anchorOffsetX = 65*.5;
-        music_logo.anchorOffsetY = 65*.5;
-        var tw = egret.Tween.get(music_logo,{loop:true}).to({rotation:360},2000);
-        music_logo.touchEnabled = true;
+        // var music_logo = createBitmap("music_logo_png",55, 350);
+        // this.addChildAt(music_logo,999999);
+        // music_logo.anchorOffsetX = 65*.5;
+        // music_logo.anchorOffsetY = 65*.5;
+        // var tw = egret.Tween.get(music_logo,{loop:true}).to({rotation:360},2000);
+        // music_logo.touchEnabled = true;
         
-        //声音加载
-        var sound = new egret.Sound;
-        var soundChannel;
-        var totalLength = 0;
-        var curTime = 0;//当前播放进度的时间
-        sound.addEventListener(egret.Event.COMPLETE,function(){
-            soundChannel = sound.play(curTime,0);
-            totalLength = sound.length;//获取音乐的总时长
-        },this);
-        sound.load("resource/assets/music.mp3");
+        // //声音加载
+        // var sound = new egret.Sound;
+        // var soundChannel;
+        // var totalLength = 0;
+        // var curTime = 0;//当前播放进度的时间
+        // sound.addEventListener(egret.Event.COMPLETE,function(){
+        //     soundChannel = sound.play(curTime,0);
+        //     totalLength = sound.length;//获取音乐的总时长
+        // },this);
+        // sound.load("resource/assets/music.mp3");
         
-        //实现点击music_logo图标播放/暂停功能
-        music_logo.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-            if(soundChannel===null){
-                soundChannel = sound.play(curTime);
-                soundChannel.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+        // //实现点击music_logo图标播放/暂停功能
+        // music_logo.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+        //     if(soundChannel===null){
+        //         soundChannel = sound.play(curTime);
+        //         soundChannel.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
                         
-                })
-                egret.Tween.resumeTweens(music_logo);
-            }else{
-                curTime = soundChannel.position;//保存暂停前的最后播放时间
-                soundChannel.stop();//停止播放
-                soundChannel=null;//释放该变量的值
-                egret.Tween.pauseTweens(music_logo);
-            }
+        //         })
+        //         egret.Tween.resumeTweens(music_logo);
+        //     }else{
+        //         curTime = soundChannel.position;//保存暂停前的最后播放时间
+        //         soundChannel.stop();//停止播放
+        //         soundChannel=null;//释放该变量的值
+        //         egret.Tween.pauseTweens(music_logo);
+        //     }
             
-        },this);
+        // },this);
     }
 
     /**

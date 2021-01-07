@@ -43,6 +43,10 @@ class Info1UI extends eui.UILayer {
 
     private cj_btn;
 
+    private tipText1;
+
+    private tipText2;
+
     public constructor() {
         super();    
         //this.createView();
@@ -51,13 +55,60 @@ class Info1UI extends eui.UILayer {
     private shareLg;
     private createView(): void {
         this.touchThrough = true;
-        //this.getCountryListData();
+
+        this.changeBackGround();
+
+        this.createBannerAndTips();
+
         this.createLoginView();
 
         this.createRegisterView();
+
+        this.createHomebtn();
+    }
+
+
+
+    private createHomebtn(){
+        var homeBtn = createBitmap("homepageback_button_png");
+        homeBtn.touchEnabled = true;
+        homeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                this.toMainPage();
+        },this)
+
+        this.addChild(homeBtn);
+    }
+
+    private changeBackGround(){
+        Main.bg.texture = RES.getRes("Background3_png");
+    }
+
+    private createBannerAndTips(){
+       var tipsTextSize = 40;
+       var tipsTextColor = 0xFFFFFF;
+       this.tipText1 =  createTextFiledNoEui("Login/Sign up to Save");
+       this.tipText1.textColor = tipsTextColor;
+       this.tipText1.size = tipsTextSize;
+       middleObject(this.stage.stageWidth,this.tipText1);
+       this.tipText1.y = this.stage.stageHeight * 0.30;
+
+       this.addChild(this.tipText1);
+
+       this.tipText2 =  createTextFiledNoEui("your scores & prizes!");
+       this.tipText2.textColor = tipsTextColor;
+       this.tipText2.size = tipsTextSize;
+       middleObject(this.stage.stageWidth,this.tipText2);
+       this.tipText2.y = this.stage.stageHeight * 0.30 + tipsTextSize;
+       this.addChild(this.tipText2);
     }
 
     private createLoginView(){
+
+        var banner = createBitmap("SandsRewardsLifestyle_Logo_png");
+        banner.x =(this.stage.stageWidth - banner.width) * 0.5;
+        banner.y = this.stage.stageHeight * 0.15;
+        this.addChild(banner);
+
         this._loginView.touchThrough = true;
        var img = new eui.Image("/resource/assets/djy_wbk.png"); 
        var srlCard = new eui.Image("/resource/assets/SRL_Cards.png");
@@ -69,21 +120,19 @@ class Info1UI extends eui.UILayer {
        this._loginView.width =this.stage.stageWidth;
        this._loginView.height = 1080;
        var last_name_label=createTextFiled("会员ID:",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*1,24,0x000000);
-       this.memerIdInput=createTextFiled("请输入ID", 149 + 62 , 433, 25,  0xa1a1a1, "left",320,72, "middle", false,  0x000000, false,egret.TextFieldType.INPUT);
-  
-       
+       this.memerIdInput=createTextFiled("请输入ID", 149 + 62 , 633, 25,  0xa1a1a1, "left",320,72, "middle", false,  0x000000, false,egret.TextFieldType.INPUT);
 
        srlCard.x = 115;
-       srlCard.y = 220;
+       srlCard.y = 420;
 
        loginPanel.x = 149;
-       loginPanel.y = 400;
+       loginPanel.y = 600;
 
        loginBtn.x = 149;
-       loginBtn.y = 530;
+       loginBtn.y = 715;
 
        sigUpText.x = 226;
-       sigUpText.y = 630;
+       sigUpText.y = 900;
 
        this._loginView.addChild(srlCard);
        this._loginView.addChild(loginPanel);
@@ -94,16 +143,13 @@ class Info1UI extends eui.UILayer {
        this._loginView.addChild(this.memerIdInput);
 
 
-    //    var login_btn=createBitmap("login_btn2_png",350,824);
-    //    this._loginView.addChild(login_btn);
-
+ 
        //登录 //pattern /^\d\d{8}$/
        loginBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
                 var v = this.memerIdInput.text
-                console.log(v);
-                var pattern = /^\d\d{8}$/
+                var pattern = /^[1]\d{8}$/
                 if(pattern.test(v)){
-                     if(Main.isBindingAction){
+                     if(Main.isBindingAction || getLocalStorage(Main.NBD_TOKEN_SYB)){
                          this.tempPatronId = v;
 
                          var tokenId = getLocalStorage(Main.TOKENID_SYB);
@@ -129,16 +175,12 @@ class Info1UI extends eui.UILayer {
        },this);
        loginBtn.touchEnabled = true;    //开启点击侦听
 
-
-
-
-    //    var toRegisterBtn=createBitmap("patronRegister_png",130,824);
-    //    this._loginView.addChild(toRegisterBtn);
-
-       //登录 //pattern /^\d\d{8}$/
+ 
        sigUpText.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
                this.removeChild(this._loginView);
                this.addChild(this._registerScollerView);
+               this.removeChild(this.tipText1);
+               this.removeChild(this.tipText2);
        },this);
        sigUpText.touchEnabled = true;    //开启点击侦听
 
@@ -158,6 +200,7 @@ class Info1UI extends eui.UILayer {
          if(jsonObject.code == "200"){
              if(jsonObject.data.Output.Response.StatusCode == "00"){
                  setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
+                 removeNonBindTokenId();
                  this.pupUpErrorTips(this,"Login success.");
                  this.toMainPage();
              }else{
@@ -193,18 +236,15 @@ class Info1UI extends eui.UILayer {
        euiben.width = 700;
        euiben.width = 50;
        this.register_view.addChild(euiben);
-       
-    //    _registerScollerView.width = 540;
-    //    _registerScollerView.height = 380;
-       this._registerScollerView.y = 200;
+        
+       this._registerScollerView.y = 300;
        this._registerScollerView.width = this.stage.stageWidth;
        this._registerScollerView.x = 15;
        this._registerScollerView.height =  this.stage.stageHeight;
        this._registerScollerView.scrollPolicyH = eui.ScrollPolicy.OFF;
        this._registerScollerView.scrollPolicyV = eui.ScrollPolicy.OFF;
        this._registerScollerView.viewport = this.register_view;
-       //this.addChild(this._registerScollerView);
-       //_registerScollerView.verticalScrollBar.autoVisibility = false;
+ 
 
        this._registerScollerView.addChild(dropDwonList);
 
@@ -279,12 +319,7 @@ class Info1UI extends eui.UILayer {
        //出错显示
        var chucuo_title=createTextFiled("", this.registerInputX-50,  this.registerInputYBias + this.registerInputY * 6,25 , 0xff0000, "center",545,30);
        this.errorText = chucuo_title;
-    //    this.register_view.addChild(chucuo_title);
-    //    this.register_view.addChild(first_name_label);
-    //    this.register_view.addChild(last_name_label);
-    //    this.register_view.addChild(bod_label);
-    //    this.register_view.addChild(tel_label);
-    //    this.register_view.addChild(email_label);
+
 
        this.register_view.addChild(this.firstNameText);
        this.register_view.addChild(this.lastNameText);
@@ -294,51 +329,11 @@ class Info1UI extends eui.UILayer {
        this.register_view.addChild(dob_d_text);
        this.register_view.addChild(this.emailText);
 
-    //    this.register_view.addChild(f_name_border);
-    //    this.register_view.addChild(tel_border);
-
-    //    this.register_view.addChild(l_name_border);
-       
-    //    this.register_view.addChild(mail_border);
-    //    this.register_view.addChild(dob_y_border);
-    //    this.register_view.addChild(dob_m_border);
-    //    this.register_view.addChild(dob_d_border);
-
        var nameYN=false;
        var telYN=false;
        var yzmYN=false;
        var yzmNum;
        this.firstNameText.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){console.log("aaa")},this)
-    //    f_name_text.addEventListener(egret.TouchEvent.FOCUS_OUT,function(){
-    //     //    nameYN=false;
-    //     //    if(/^[\u4E00-\u9FA5]{0,}$/.test(name_text.text)&&name_text.text!=""){
-    //     //        nameYN=true;
-    //     //        chucuo_title.text="";
-    //     //    }else{
-    //     //        chucuo_title.text="请输入正确会员账号";
-    //     //    }
-    //     //    if(name_text.text==""){
-    //     //        name_text.text="请输入正确会员账号";
-    //     //    }
-    //    },this)
-    //    l_name_text.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-    //        l_name_text.text="";
-    //     },this)
-    //    l_name_text.addEventListener(egret.TouchEvent.FOCUS_OUT,function(){
-    //     //    telYN=false;
-    //     //    if(/1[3|5|7|8|]\d{9}/.test(tel_text.text)){
-    //     //        telYN=true;
-    //     //        chucuo_title.text="";
-    //     //    }else{
-    //     //        chucuo_title.text="请输入正确的联系方式"
-    //     //    }
-    //     //    if(tel_text.text==""){
-    //     //        tel_text.text="请输入真实联系方式";
-    //     //    }
-    //    },this)
-
-    //    var top_title=createTextFiled("输入资料进行注册",263,446,30,0xffffff);
-    //    this.addChild(top_title);
 
 
        dob_y_text.addEventListener(egret.TouchEvent.FOCUS_OUT,function(){
@@ -382,18 +377,7 @@ class Info1UI extends eui.UILayer {
        },this);
        this.cj_btn.touchEnabled = true;    //开启点击侦听
 
-
-    //    var toLogin_btn=createBitmap("login_btn2_png",370,824);
-    //    this.register_view.addChild(toLogin_btn);
-
-    //    //转到登录页
-    //    toLogin_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-            
-    //         this.removeChild(this._registerScollerView);
-    //         this.addChild(this._loginView);
-             
-    //    },this);
-    //    toLogin_btn.touchEnabled = true;    //开启点击侦听
+ 
     }
 
      private registerCompelete(event:egret.Event){
@@ -404,8 +388,27 @@ class Info1UI extends eui.UILayer {
             var patronId = jsonObject.data.PatronId;
             setLocalStorage(Main.MEMBERID_SYB,patronId);
             this.addChild(ConfirmUtil.popUpTips("注册成功,patron ID:" + patronId,false,150,300,450,350));
-            var gameui = ScenceManage.create(this.stage);
-            gameui.loadScence("index", this, IndexUI);
+
+            if(Main.isBindingAction || getLocalStorage(Main.NBD_TOKEN_SYB)){
+                this.tempPatronId = patronId;
+
+                var tokenId = getLocalStorage(Main.TOKENID_SYB);
+                var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId+"&remark=" + "binding";
+
+                var request = requestPost(Main.baseUrl + Main.PostBindingMember,"?" + params);
+
+                loading(true);
+                request.send();
+                
+                request.addEventListener(egret.Event.COMPLETE,this.bindingResultSuccess,this);
+                request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.bindingError,this);
+                Main.isBindingAction=false;
+            }
+            else{    
+                var gameui = ScenceManage.create(this.stage);
+                gameui.loadScence("index", this, IndexUI);
+            }
+
          }
          else if(jsonObject.result == 'ERROR'){
              this.addChild(ConfirmUtil.popUpTips("注册失败\r\n可能已存在会员信息。" + patronId,false,150,300,450,350));

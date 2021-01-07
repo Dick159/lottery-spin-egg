@@ -148,6 +148,26 @@ function createBitmap(img, x, y, name, anchorOffsetX, anchorOffsetY, scaleX, sca
     bitmap.alpha = alpha;
     return bitmap;
 }
+function createBitmapEui(img, x, y, name, anchorOffsetX, anchorOffsetY, scaleX, scaleY, alpha) {
+    if (x === void 0) { x = 0; }
+    if (y === void 0) { y = 0; }
+    if (name === void 0) { name = ""; }
+    if (anchorOffsetX === void 0) { anchorOffsetX = 0; }
+    if (anchorOffsetY === void 0) { anchorOffsetY = 0; }
+    if (scaleX === void 0) { scaleX = 1; }
+    if (scaleY === void 0) { scaleY = 1; }
+    if (alpha === void 0) { alpha = 1; }
+    var bitmap = new eui.Image(RES.getRes(img));
+    bitmap.name = name ? name : img;
+    bitmap.x = x;
+    bitmap.y = y;
+    bitmap.anchorOffsetX = anchorOffsetX;
+    bitmap.anchorOffsetY = anchorOffsetY;
+    bitmap.scaleX = scaleX;
+    bitmap.scaleY = scaleY;
+    bitmap.alpha = alpha;
+    return bitmap;
+}
 /**
  *
  * @param text
@@ -435,5 +455,71 @@ function startWith(str, t) {
         }
     }
     return false;
+}
+function createEuiLabelText(text, textColor, size) {
+    var label = new eui.Label;
+    label.text = text;
+    label.textColor = textColor;
+    label.size = size;
+    return label;
+}
+function middleObject(parentWidth, obj) {
+    obj.x = (parentWidth - obj.width) * 0.5;
+}
+function setLocalStorageList(key, value) {
+    if (!getLocalStorage(key)) {
+        var newlist = [value];
+        egret.localStorage.setItem(key, JSON.stringify(newlist));
+    }
+    else {
+        var list = JSON.parse(getLocalStorage(key));
+        list.push(value);
+        egret.localStorage.setItem(key, JSON.stringify(list));
+    }
+}
+function getLocalStorageList(key) {
+    if (!getLocalStorage(key)) {
+        return;
+    }
+    var list = JSON.parse(getLocalStorage(key));
+    return list;
+}
+function putNonBindingTokenId() {
+    setLocalStorage(Main.NBD_TOKEN_SYB, getLocalStorage(Main.TOKENID_SYB));
+}
+function removeNonBindTokenId() {
+    removeLocalStorage(Main.NBD_TOKEN_SYB);
+}
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+            return pair[1];
+        }
+    }
+    return (false);
+}
+function delParam(paramKey) {
+    var url = window.location.href; //页面url
+    var urlParam = window.location.search.substr(1); //页面参数
+    var beforeUrl = url.substr(0, url.indexOf("?")); //页面主地址（参数之前地址）
+    var nextUrl = "";
+    var arr = new Array();
+    if (urlParam != "") {
+        var urlParamArr = urlParam.split("&"); //将参数按照&符分成数组
+        for (var i = 0; i < urlParamArr.length; i++) {
+            var paramArr = urlParamArr[i].split("="); //将参数键，值拆开
+            if (paramArr[0] != paramKey) {
+                arr.push(urlParamArr[i]);
+            }
+        }
+    }
+    if (arr.length > 0) {
+        nextUrl = "?" + arr.join("&");
+    }
+    url = beforeUrl + nextUrl;
+    return url;
 }
 //# sourceMappingURL=until.js.map

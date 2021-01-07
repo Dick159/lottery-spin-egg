@@ -25,7 +25,8 @@ var IndexUI = (function (_super) {
         _this.machine_group = new egret.DisplayObjectContainer();
         _this.getTokenFirst = true;
         _this.sign_out_btn = createBitmap("sign_out_png", 375, 603);
-        _this.LoginRegisterbutton = createRegisterLoginButton(0, 1295);
+        _this.LoginRegisterbutton = createBitmap("Member Login Button_1_png", 0, 1295);
+        _this.isSelect = false;
         _this.ballMove = [
             //[x,y,t]
             // x in [225,455]
@@ -45,8 +46,68 @@ var IndexUI = (function (_super) {
     }
     IndexUI.prototype.initData = function () {
         this.ifLoginJudge();
+        Main.jp_onoff = false;
+        Main.isBindingAction = false;
+        this.LoginRegisterbutton.touchEnabled = true;
+        Main.bg.texture = RES.getRes("common_bg_png");
+    };
+    IndexUI.prototype.showWelcomePage = function () {
+        if (!Main.isFirstLoad) {
+            return;
+        }
+        var cont = new eui.Group();
+        var _whiteShader = createShaderMask(this.stage.stageWidth, this.stage.stageHeight, 0xFFFFFF, 0.5);
+        var _s = createBitmap("Startup Text_png");
+        var startUpText = createBitmapEui("Startup Text_png");
+        startUpText.x = (this.stage.stageWidth - _s.width) * 0.5;
+        startUpText.y = this.stage.stageHeight * 0.29;
+        startUpText.anchorOffsetX = _s.width * 0.5;
+        startUpText.anchorOffsetY = _s.width * 0.5;
+        startUpText.x = startUpText.anchorOffsetX + startUpText.x;
+        startUpText.y = startUpText.anchorOffsetY + startUpText.y;
+        startUpText.scaleX = 0.5;
+        startUpText.scaleY = 0.5;
+        egret.Tween.get(startUpText).to({ scaleX: 1.2, scaleY: 1.2 }, 300, egret.Ease.quadInOut).to({ scaleX: 0.8, scaleY: 0.8 }, 300, egret.Ease.quadInOut).to({ scaleX: 1, scaleY: 1 }, 300, egret.Ease.quadInOut).wait(1500).call(function () {
+            egret.Tween.get(cont).to({ alpha: 0 }, 400).call(function () {
+                Main.isFirstLoad = false;
+                cont.visible = false;
+            });
+            cont.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                cont.visible = false;
+                Main.isFirstLoad = false;
+            }, this);
+        }, this);
+        cont.addChild(_whiteShader);
+        cont.addChild(startUpText);
+        cont.touchThrough = false;
+        this.addChild(cont);
+    };
+    IndexUI.prototype.createSwitchLanguage = function () {
+        var _e = createBitmap("Langauge Selection_English_png");
+        var _c = createBitmap("Langauge Selection_Chinese_png");
+        _e.touchEnabled = true;
+        _c.touchEnabled = true;
+        _e.x = this.stage.stageWidth - _e.width;
+        _e.y = 20;
+        _c.x = this.stage.stageWidth - _c.width;
+        _c.y = 20;
+        _c.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        }, this);
+        _e.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (!this.isSelect) {
+                egret.Tween.get(_c).to({ y: _c.y + _c.height }, 200);
+                this.isSelect = true;
+            }
+            else {
+                egret.Tween.get(_c).to({ y: _e.y }, 200);
+                this.isSelect = false;
+            }
+        }, this);
+        this.addChild(_c);
+        this.addChild(_e);
     };
     IndexUI.prototype.createView = function () {
+        this.createSwitchLanguage();
         var that = this;
         //添加背景
         this._bg = Main.bg;
@@ -77,22 +138,22 @@ var IndexUI = (function (_super) {
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
-        var myPrizeButton = createBitmap("PrizesRulesButton_png", 300, 1495);
-        //this.addChild(myPrizeButton);
+        // var myPrizeButton = createBitmap("PrizesRulesButton_png",300,1495);
+        // //this.addChild(myPrizeButton);
         //人物
-        var machineMain = createBitmap("lotteryMachine_png", 0, 500);
+        var machineMain = createBitmap("Capsule Machine_png", 0, 500);
         this.machine_group.addChild(machineMain);
         this.addCapsuleToGroup(this.machine_group);
-        var Machine_Glass = createBitmap("Machine_Glass", 120, 440);
+        var Machine_Glass = createBitmap("Capsule Machine Glass_png", 120, 440);
         this.machine_group.addChild(Machine_Glass);
         this.addChild(this.machine_group);
         //我的奖品
         this.MyPrizeBtn = createBitmap("MyPrizes_png");
-        this.MyPrizeBtn.x = this.stage.stageWidth - this.MyPrizeBtn.width;
+        //this.MyPrizeBtn.x = this.stage.stageWidth - this.MyPrizeBtn.width;
         this.MyPrizeBtn.y = this.stage.stageHeight * 0.12;
         this.addChild(this.MyPrizeBtn);
         this.MyPrizeBtn.touchEnabled = true;
-        myPrizeButton.touchEnabled = true;
+        //myPrizeButton.touchEnabled=true;
         this.start_btn = createBitmap("gameStartBtn_png", 250, 1000);
         this.addChild(this.start_btn);
         var _gFilter = glowFilter(0xFFFFFF, 0.8, 25, 25, 2, true, false);
@@ -153,6 +214,9 @@ var IndexUI = (function (_super) {
         }, this);
         //注册登录按钮
         this.LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (Main.jp_onoff) {
+                return;
+            }
             var info = ScenceManage.create(this.stage);
             info.loadScence("info", this, Info1UI);
         }, this);
@@ -167,6 +231,11 @@ var IndexUI = (function (_super) {
                 this.popUpMessageTip("Sign out success", this);
                 this.sign_out_btn.visible = false;
                 this.LoginRegisterbutton.visible = true;
+                var srlId = getQueryVariable(Main.SRLID_SYB);
+                if (srlId) {
+                    var url = delParam(Main.SRLID_SYB);
+                    window.location.href = url;
+                }
             }
         }, this);
         //游戏规则弹窗
@@ -178,9 +247,9 @@ var IndexUI = (function (_super) {
                 this.LoginRegisterbutton.touchEnabled = true;
                 mask.visible = false;
             }, this);
-            egret.Tween.get(myPrizeButton).to({ x: 556 }, 300).call(function () {
-                myPrizeButton.visible = true; //我的奖品复位
-            }, this);
+            // egret.Tween.get(myPrizeButton).to({ x: 556 }, 300).call(function () {
+            //         myPrizeButton.visible = true;      //我的奖品复位
+            //     }, this);
             egret.Tween.get(gameRule).to({ x: 440 }, 300).call(function () {
                 gameRule.visible = true; //游戏规则复位
             }, this);
@@ -200,6 +269,7 @@ var IndexUI = (function (_super) {
         //我的奖品点击逻辑;
         this.MyPrizeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (!Main.jp_onoff && !mask.visible) {
+                Main.jp_onoff = true;
                 var mId = getLocalStorage(Main.MEMBERID_SYB);
                 var tId = getLocalStorage(Main.TOKENID_SYB);
                 var _url = Main.GetTokenUserDetail;
@@ -225,34 +295,13 @@ var IndexUI = (function (_super) {
         // old_man.visible = false;
         //点击显示/隐藏游戏规则弹出窗
         gameRule.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            //this.textColor = 0x000000;
-            // scoreText. = 0xbf0c21;
-            // if (mask.visible == false && !Main.jp_onoff) {
-            //     this.start_btn.touchEnabled = false;
-            //     this.LoginRegisterbutton.touchEnabled = false;
-            //     mask.visible = true;            //显示游戏规则弹窗
-            //     egret.Tween.get(myPrizeButton).to({ x: 750 }, 300).call(function () {
-            //         myPrizeButton.visible = false;      //将我的奖品移出页面可见
-            //     }, this);
-            //     egret.Tween.get(gameRule).to({ x: 750 }, 300).call(function () {
-            //         gameRule.visible = false;      //将我的奖品移出页面可见
-            //     }, this);
-            //     egret.Tween.get(this.LoginRegisterbutton).to({ x: -300 }, 300).call(function () {
-            //         //gameRule.visible = false;      //登录出页面可见
-            //     }, this);
-            //     egret.Tween.get(this.sign_out_btn).to({ x: -300 }, 300).call(function () {
-            //         //gameRule.visible = false;      //登录出页面可见
-            //     }, this);
-            //     egret.Tween.get(mask).to({ scaleX: 1, scaleY: 1 }, 500).call(function () {}, this);
-            // } else {
-            //     this.start_btn.touchEnabled = true;
-            //     // egret.Tween.get(mask).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
-            //     //     mask.visible = false;
-            //     // }, this);
-            // }
+            if (Main.jp_onoff) {
+                return;
+            }
             var gameui = ScenceManage.create(this.stage);
-            gameui.loadScence("index", this, MyPrizeAndRules);
+            gameui.loadScence("index", this, PrizeAndRules);
         }, this);
+        this.showWelcomePage();
     };
     IndexUI.prototype.addCapsuleToGroup = function (group) {
         // x in [225,455]
@@ -369,30 +418,19 @@ var IndexUI = (function (_super) {
         }
     };
     IndexUI.prototype.popUpResult = function (that, callBack) {
+        putNonBindingTokenId();
         var shader = createShaderMask(this.stage.width, this.stage.height, 0x000000, 0.6);
         var popupPrizeContainer = new egret.DisplayObjectContainer();
-        popupPrizeContainer.x = 160;
+        //popupPrizeContainer.x = 160;
         popupPrizeContainer.y = 630;
-        //Big Capsule(Glow)_png,Glow2_png
+        popupPrizeContainer.width = this.stage.stageWidth;
         var capsule = createBitmap("Big Capsule(Glow)_png");
-        // capsule.anchorOffsetX = capsule.width * 0.5;
-        // capsule.anchorOffsetY = capsule.height * 0.5;
-        // capsule.x = capsule.anchorOffsetX + capsule.x;
-        // capsule.y = capsule.anchorOffsetY + capsule.y;
-        // var glow = createBitmap("Glow2_png");
-        // glow.alpha = 0.5
-        // glow.anchorOffsetX = glow.width * 0.5;
-        // glow.anchorOffsetY = glow.height * 0.5;
-        // glow.x = glow.anchorOffsetX + glow.x;
-        // glow.y = glow.anchorOffsetY + glow.y;
-        // glow.x = capsule.x-5;
-        // glow.y = capsule.y-70;
+        middleObject(popupPrizeContainer.width, capsule);
         this.addChild(shader);
         var black_mask = createBitmap("black_mask_png");
         black_mask.alpha = 0;
         black_mask.width = this.stage.width;
         black_mask.height = this.stage.height;
-        // popupPrizeContainer.addChild(glow);
         popupPrizeContainer.addChild(capsule);
         this.addChild(popupPrizeContainer);
         this.addChildAt(black_mask, 99999);
@@ -413,8 +451,13 @@ var IndexUI = (function (_super) {
             var _whiteShader = createShaderMask(this.stage.width, this.stage.height, 0xFFFFFF, 1);
             this.addChild(_whiteShader);
             popupPrizeContainer.removeChild(capsule);
-            var openCapsule = createBitmap("OpenCapsule_png", capsule.x - 120, capsule.y + 50);
-            var prizeSymbol = createBitmap(prizeTypePng, capsule.x + 115, capsule.y - 40);
+            var openCapsule = createBitmap("OpenCapsule_png");
+            middleObject(that.stage.stageWidth, openCapsule);
+            openCapsule.y = capsule.y + 50;
+            var prizeSymbol = createBitmap(prizeTypePng);
+            prizeSymbol.x = popupPrizeContainer.width * 0.5 - prizeSymbol.width * 0.5;
+            prizeSymbol.y = capsule.y - 40;
+            //capsule.x+115,capsule.y -40
             var glodenGlow = glowFilter(0xFFC951, 0.8, 50, 50, 2, false, false);
             prizeSymbol.filters = [glodenGlow];
             popupPrizeContainer.addChild(openCapsule);
@@ -437,47 +480,108 @@ var IndexUI = (function (_super) {
         var _container = new egret.DisplayObjectContainer();
         var platform = createBitmap("Platform_png");
         var prizeSymbolPng = "Platform Prize Symbol- Dollar_png";
-        var dvText = "\r\n REWARD DOLLARS";
-        var cvText = " AUSPICIOUS OX\r\nCOLLECTIBLE";
-        var evText = " RED PACKET ENVELOP";
-        var valueText = createTextFiledNoEui(" \n REWARD DOLLARS");
-        valueText.size = 34;
-        valueText.textColor = 0xFFFFFF;
+        var dvText = "REWARD DOLLARS";
+        var cvText = "OX COIN";
+        var evText = "";
+        var congTextPng = "Congratulations Text box2_png";
+        var coinsCongTipsText1 = "Collect 888 Virtual Ox coins to redeem a";
+        var coinsCongTipsText2 = "Marina Bay Sands Capsule Machine Game.";
+        var envCongTipsText1 = "OF MARINA BAY SANDS";
+        var envCongTipsText2 = "LIMITED EDITION RED PACKET ENVELOPES";
+        var congTipsTextList = [];
+        var typeText = createTextFiledNoEui("");
+        var prizeValueText = createTextFiledNoEui("");
+        typeText.size = 34;
+        typeText.textColor = 0xFFFFFF;
+        prizeValueText.size = 34;
+        prizeValueText.textColor = 0xFFFFFF;
         if (this.currentPrizeType && startWith(this.currentPrizeType, "C")) {
             prizeSymbolPng = "Platform Prize Symbol- Ox_png";
-            valueText.text = this.currentPrizeValue + cvText;
+            typeText.text = cvText;
+            prizeValueText.text = this.currentAc + "";
+            congTipsTextList.push(coinsCongTipsText1);
+            congTipsTextList.push(coinsCongTipsText2);
         }
         else if (this.currentPrizeType && startWith(this.currentPrizeType, "E")) {
             prizeSymbolPng = "Platform Prize Symbol- Red Packet_png";
-            valueText.text = this.currentPrizeValue + evText;
+            typeText.text = evText;
+            prizeValueText.text = this.currentAe + " PACK";
+            congTipsTextList.push(envCongTipsText1);
+            congTipsTextList.push(envCongTipsText2);
         }
         else if (this.currentPrizeType && startWith(this.currentPrizeType, "D")) {
-            console.log("DDDDDDD");
-            valueText.text = this.currentPrizeValue + dvText;
+            prizeValueText.text = "$" + this.currentAd;
+            congTextPng = "Congratulations Text box 1_png";
         }
         var prizeSymbol = createBitmap(prizeSymbolPng);
-        var congText = createBitmap("Congratulations Text box_png");
+        var congText = createBitmap(congTextPng);
         var glodenGlow = glowFilter(0xFFC951, 0.8, 50, 50, 2, false, false);
         prizeSymbol.filters = [glodenGlow];
         egret.Tween.get(glodenGlow, { loop: true }).to({ alpha: 0.3 }, 1000).to({ alpha: 0.8 }, 500);
         prizeSymbol.x = (platform.x + platform.width * 0.5) - prizeSymbol.width * 0.5;
-        prizeSymbol.y = platform.y - platform.height - 40;
+        platform.y = prizeSymbol.y + prizeSymbol.height - 40;
         congText.x = (platform.x + platform.width * 0.5) - congText.width * 0.5;
         congText.y = platform.y + platform.height + 10;
-        valueText.x = (congText.x + congText.width * 0.5) - valueText.width * 0.5;
-        valueText.y = congText.y + congText.height * 0.5;
+        prizeValueText.x = (congText.x + congText.width * 0.5) - prizeValueText.width * 0.5;
+        prizeValueText.y = congText.y + congText.height * 0.37;
+        typeText.x = (congText.x + congText.width * 0.5) - typeText.width * 0.5;
+        typeText.y = prizeValueText.y + typeText.size;
+        var congTextSize = 25;
+        var congTextColor = 0xFFFFFF;
+        for (var i = 0; i < congTipsTextList.length; i++) {
+            var _t = createTextFiledNoEui("");
+            _t.text = congTipsTextList[i];
+            _t.textColor = congTextColor;
+            _t.size = congTextSize;
+            _t.x = (congText.x + congText.width * 0.5) - _t.width * 0.5;
+            _t.y = typeText.y + 72 + congTextSize * i;
+            _container.addChild(_t);
+        }
         _container.addChild(platform);
         _container.addChild(prizeSymbol);
         _container.addChild(congText);
-        _container.addChild(valueText);
+        _container.addChild(prizeValueText);
+        _container.addChild(typeText);
         _container.x = this.stage.width * 0.5 - platform.width;
-        _container.y = 670;
+        _container.y = 500;
         this.addChild(_container);
         var inf_rdmp_pa_btn_cnt = new egret.DisplayObjectContainer();
         inf_rdmp_pa_btn_cnt.alpha = 0;
         var rdm_btn = createBitmap("How to redeem button_png");
-        var my_prize = createBitmap("PrizesRulesButton_png");
-        var playAgain = createBitmap("Playagaintomorrow Button_png");
+        var myPrizeOrLoginPrizePng = "MY PRIZES Button_2_png";
+        if (!getLocalStorage(Main.MEMBERID_SYB)) {
+            myPrizeOrLoginPrizePng = "Member Login Button_2_png";
+        }
+        var my_prize = createBitmap(myPrizeOrLoginPrizePng);
+        my_prize.touchEnabled = true;
+        my_prize.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            //if member 
+            var m = getLocalStorage(Main.MEMBERID_SYB);
+            if (!m) {
+                Main.isBindingAction = true;
+                var info = ScenceManage.create(this.stage);
+                info.loadScence("info", this, Info1UI);
+            }
+            else {
+                var mId = getLocalStorage(Main.MEMBERID_SYB);
+                var tId = getLocalStorage(Main.TOKENID_SYB);
+                var _url = Main.GetTokenUserDetail;
+                var params = "?";
+                if (mId) {
+                    _url = Main.GetMemberUserDetail;
+                    params += "memberId=" + mId;
+                }
+                else if (tId) {
+                    params += "tokenId=" + tId;
+                }
+                loading(true);
+                var request = requestPost(Main.baseUrl + _url, params);
+                request.send();
+                request.addEventListener(egret.Event.COMPLETE, this.getPrizeDetailFinish, this);
+                request.addEventListener(egret.IOErrorEvent.IO_ERROR, this.getPrizeDetailError, this);
+            }
+        }, this);
+        var playAgain = createBitmap("Playagaintomorrow text_png");
         playAgain.touchEnabled = true;
         playAgain.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             var gameui = ScenceManage.create(this.stage);
@@ -488,33 +592,26 @@ var IndexUI = (function (_super) {
         my_prize.x = (platform.x + platform.width * 0.5) - my_prize.width * 0.5;
         my_prize.y = rdm_btn.y + rdm_btn.height;
         playAgain.x = (platform.x + platform.width * 0.5) - playAgain.width * 0.5;
-        playAgain.y = my_prize.y + my_prize.height + 100;
+        playAgain.y = my_prize.y + my_prize.height + 50;
         inf_rdmp_pa_btn_cnt.addChild(rdm_btn);
         inf_rdmp_pa_btn_cnt.addChild(my_prize);
         inf_rdmp_pa_btn_cnt.addChild(playAgain);
         inf_rdmp_pa_btn_cnt.x = this.stage.width * 0.5 - platform.width;
-        inf_rdmp_pa_btn_cnt.y = 520;
+        inf_rdmp_pa_btn_cnt.y = 350;
         this.addChild(inf_rdmp_pa_btn_cnt);
-        egret.Tween.get(inf_rdmp_pa_btn_cnt).wait(500).to({ alpha: 1 }, 700);
+        egret.Tween.get(inf_rdmp_pa_btn_cnt).wait(1500).to({ alpha: 1 }, 700);
         var rdmpInfo = createBitmap("How to redeem info_png");
         rdmpInfo.scaleX = 0;
         rdmpInfo.scaleY = 0;
         rdmpInfo.anchorOffsetX = rdmpInfo.width * 0.5;
         rdmpInfo.anchorOffsetY = rdmpInfo.height * 0.5;
         rdmpInfo.x = 375;
-        rdmpInfo.y = 653;
+        rdmpInfo.y = 483;
         rdmpInfo.visible = false;
         this.addChild(rdmpInfo);
         rdm_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-            if (!rdmpInfo.visible) {
-                rdmpInfo.visible = true;
-                egret.Tween.get(rdmpInfo).to({ scaleX: 1, scaleY: 1 }, 500);
-            }
-            else {
-                egret.Tween.get(rdmpInfo).to({ scaleX: 0, scaleY: 0 }, 500).call(function () {
-                    rdmpInfo.visible = false;
-                }, this);
-            }
+            var rdmPage = ScenceManage.create(this.stage);
+            rdmPage.loadScence("info", this, HowToRedeem);
         }, this);
         rdmpInfo.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (rdm_btn.visible) {
@@ -604,9 +701,9 @@ var IndexUI = (function (_super) {
         myPrizeInfo_cnt.addChild(ac_content);
         myPrizeInfo_cnt.addChild(ad_content);
         myPrizeInfo_cnt.addChild(ae_content);
-        if (!this.start_btn.touchEnabled && !getLocalStorage(Main.MEMBERID_SYB)) {
-            myPrizeInfo_cnt.addChild(bindingPatronBtn);
-        }
+        // if(!this.start_btn.touchEnabled && !getLocalStorage(Main.MEMBERID_SYB)){
+        //     myPrizeInfo_cnt.addChild(bindingPatronBtn);
+        // }
         _that.addChild(myPrizeInfo_cnt);
         myPrizeInfo_cnt.visible = true;
         egret.Tween.get(myPrizeInfo_cnt).to({ alpha: 1 }, 800);
@@ -636,18 +733,24 @@ var IndexUI = (function (_super) {
         var jsonObject = JSON.parse(request.response);
         var _data = jsonObject.data;
         if (_data.status && _data.status == "00") {
-            this.currentAc = _data.ac;
-            this.currentAd = _data.ad;
-            this.currentAe = _data.ae;
+            MyPrizes.currentAc = _data.ac;
+            MyPrizes.currentAd = _data.ad;
+            MyPrizes.currentAe = _data.ae;
         }
         this.MyPrizeBtn.touchEnabled = true;
         loading(false);
-        this.popUpMyPrizeList(this);
+        var prizeScene = ScenceManage.create(this.stage);
+        prizeScene.loadScence("IndexUI", this, MyPrizes);
     };
     IndexUI.prototype.getPrizeDetailError = function (event) {
         this.MyPrizeBtn.touchEnabled = true;
     };
     IndexUI.prototype.ifLoginJudge = function () {
+        var srlID = getQueryVariable(Main.SRLID_SYB);
+        //srl转跳
+        if (srlID) {
+            setLocalStorage(Main.MEMBERID_SYB, srlID);
+        }
         if (getLocalStorage(Main.MEMBERID_SYB)) {
             this.sign_out_btn.visible = true;
             this.LoginRegisterbutton.visible = false;

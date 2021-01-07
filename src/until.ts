@@ -129,6 +129,19 @@ function createBitmap(img,x=0,y=0,name="",anchorOffsetX=0,anchorOffsetY=0,scaleX
     bitmap.alpha=alpha;
     return bitmap;
 }
+
+function createBitmapEui(img,x=0,y=0,name="",anchorOffsetX=0,anchorOffsetY=0,scaleX=1,scaleY=1,alpha=1){
+    var bitmap=new eui.Image(RES.getRes(img));
+    bitmap.name=name?name:img;
+    bitmap.x=x;
+    bitmap.y=y;
+    bitmap.anchorOffsetX=anchorOffsetX;
+    bitmap.anchorOffsetY=anchorOffsetY;
+    bitmap.scaleX=scaleX;
+    bitmap.scaleY=scaleY;
+    bitmap.alpha=alpha;
+    return bitmap;
+}
 /**
  * 
  * @param text
@@ -415,3 +428,79 @@ function startWith(str:string,t:string){
     }
     return false;
 }
+
+
+function createEuiLabelText(text:string,textColor,size){
+    var label = new eui.Label;
+    label.text = text;
+    label.textColor = textColor;
+    label.size = size;
+    return label;
+}
+ 
+function middleObject(parentWidth,obj){
+    obj.x = (parentWidth - obj.width) * 0.5;
+}
+
+
+function setLocalStorageList(key,value){
+    if(!getLocalStorage(key)){
+        let newlist = [value]
+        egret.localStorage.setItem(key,  JSON.stringify(newlist));
+    }
+    else{
+        let list = JSON.parse(getLocalStorage(key));
+        list.push(value);
+        egret.localStorage.setItem(key,JSON.stringify(list));
+    }
+}
+
+function getLocalStorageList(key){
+    if(!getLocalStorage(key)){
+        return ;
+    }
+    let list = JSON.parse(getLocalStorage(key));
+    return list;
+}
+
+function putNonBindingTokenId(){
+      setLocalStorage(Main.NBD_TOKEN_SYB,getLocalStorage(Main.TOKENID_SYB));
+}
+
+function removeNonBindTokenId(){
+      removeLocalStorage(Main.NBD_TOKEN_SYB);
+}
+
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+
+function delParam(paramKey) {
+        var url = window.location.href;    //页面url
+        var urlParam = window.location.search.substr(1);   //页面参数
+        var beforeUrl = url.substr(0, url.indexOf("?"));   //页面主地址（参数之前地址）
+        var nextUrl = "";
+
+        var arr = new Array();
+        if (urlParam != "") {
+            var urlParamArr = urlParam.split("&"); //将参数按照&符分成数组
+            for (var i = 0; i < urlParamArr.length; i++) {
+                var paramArr = urlParamArr[i].split("="); //将参数键，值拆开
+                if (paramArr[0] != paramKey) {
+                    arr.push(urlParamArr[i]);
+                }
+            }
+        }
+        if (arr.length > 0) {
+            nextUrl = "?" + arr.join("&");
+        }
+        url = beforeUrl + nextUrl;
+        return url;
+    }
