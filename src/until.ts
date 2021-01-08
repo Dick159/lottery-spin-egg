@@ -503,4 +503,18 @@ function delParam(paramKey) {
         }
         url = beforeUrl + nextUrl;
         return url;
-    }
+}
+
+
+function checkExpiredDate(_date){
+        if(!getLocalStorage(Main.CURRENT_DATE)){
+                setLocalStorage(Main.CURRENT_DATE,_date);
+        }
+        else{
+            var cur_date = getLocalStorage(Main.CURRENT_DATE);
+            if(_date > Main.CURRENT_DATE){
+                removeLocalStorage(Main.PAYED_SYN);
+                setLocalStorage(Main.CURRENT_DATE,_date);
+            }
+        }
+}

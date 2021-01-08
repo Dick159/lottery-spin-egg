@@ -81,10 +81,16 @@ var Main = (function (_super) {
         if (!tokenId) {
             setLocalStorage("MBS_TOKENID", uuid2(16, null));
         }
+        this.loadlocalFileData();
     };
     Main.prototype.onAddToStage = function (event) {
         //设置加载进度界面
         //Config to load process interface
+        // var scence=new ScenceManage(this.stage);
+        //var scence=ScenceManage.create(this.stage);
+        //scence.loadScence("preload",null,GameUI,function(){});2
+        Main.bg = createBitmap("common_bg_png", 0, 0);
+        this.stage.addChild(Main.bg);
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
         if (egret.Capabilities.isMobile) {
@@ -155,11 +161,6 @@ var Main = (function (_super) {
      * Create a game scene
      */
     Main.prototype.createGameScene = function () {
-        // var scence=new ScenceManage(this.stage);
-        //var scence=ScenceManage.create(this.stage);
-        //scence.loadScence("preload",null,GameUI,function(){});
-        Main.bg = createBitmap("common_bg_png", 0, 0);
-        this.addChild(Main.bg);
         // var home_btn = createBitmap("seven_share_png",0,30);
         // this.addChild(home_btn);
         // home_btn.touchEnabled = true;
@@ -169,6 +170,7 @@ var Main = (function (_super) {
         // },this)
         var index = new IndexUI();
         this.stage.addChild(index);
+        //this.stage.removeChild(Main.bg); 
         //音乐图标__可做点击播放/暂停
         // var music_logo = createBitmap("music_logo_png",55, 350);
         // this.addChildAt(music_logo,999999);
@@ -238,6 +240,33 @@ var Main = (function (_super) {
         };
         change();
     };
+    Main.prototype.loadlocalFileData = function () {
+        var url = "resource/country/country-list.txt";
+        var request = new egret.HttpRequest();
+        var respHandler = function (evt) {
+            switch (evt.type) {
+                case egret.Event.COMPLETE:
+                    var request = evt.currentTarget;
+                    var ss = request.response.split("\n");
+                    for (var i = 0; i < ss.length; i++) {
+                        var _t = ss[i].trim();
+                        var _split = _t.split(":");
+                        var _temp = { "text": _split[0], "value": _split[1] };
+                        Main.countryList.push(_temp);
+                    }
+                    break;
+                case egret.IOErrorEvent.IO_ERROR:
+                    break;
+            }
+        };
+        var progressHandler = function (evt) {
+        };
+        request.once(egret.Event.COMPLETE, respHandler, null);
+        request.once(egret.IOErrorEvent.IO_ERROR, respHandler, null);
+        request.once(egret.ProgressEvent.PROGRESS, progressHandler, null);
+        request.open(url, egret.HttpMethod.GET);
+        request.send();
+    };
     return Main;
 }(egret.DisplayObjectContainer));
 Main.jp_onoff = false;
@@ -267,5 +296,6 @@ Main.isFirstLoad = true;
 Main.staticCoinsPrizeList = [];
 Main.staticDDPrizeList = [];
 Main.staticEnvPrizeList = [];
+Main.countryList = [];
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

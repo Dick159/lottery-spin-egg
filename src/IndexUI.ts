@@ -23,6 +23,10 @@ class IndexUI extends egret.Sprite {
     private sign_out_btn = createBitmap("sign_out_png", 375, 603);
     private LoginRegisterbutton = createBitmap("Member Login Button_1_png",0,1295);
 
+    private curLang = "e";
+
+    private languageCnt = new egret.DisplayObjectContainer();
+
     private isSelect =false;
     private ballMove = [
         //[x,y,t]
@@ -50,6 +54,12 @@ class IndexUI extends egret.Sprite {
        Main.isBindingAction = false;
        this.LoginRegisterbutton.touchEnabled = true;
        Main.bg.texture = RES.getRes("common_bg_png");
+       Main.bg.scaleX = 1;
+       Main.bg.scaleY = 1;
+       Main.bg.anchorOffsetX = 0;
+       Main.bg.anchorOffsetY = 0;
+       Main.bg.x= 0;
+       Main.bg.y= 0;
     }
 
     private showWelcomePage(){
@@ -104,8 +114,8 @@ class IndexUI extends egret.Sprite {
 
     private createSwitchLanguage(){
 
-        var _e= createBitmap("Langauge Selection_English_png");
-        var _c = createBitmap("Langauge Selection_Chinese_png");
+        var _e = createBitmap("Langauge Selection_English_png");
+        var _c = createBitmap("Langauge Selection_Chinese_child_png");
         _e.touchEnabled = true;
         _c.touchEnabled = true;
         _e.x = this.stage.stageWidth - _e.width;
@@ -117,25 +127,46 @@ class IndexUI extends egret.Sprite {
         _c.y = 20;
 
         _c.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-              
+
+            if(this.curLang == "e"){
+                _e.texture = RES.getRes("Langauge Selection_Chinese_png");
+                _c.texture = RES.getRes("Langauge Selection_English_child_png");
+                this.curLang = "c";
+            }else{
+                _e.texture = RES.getRes("Langauge Selection_English_child_png");
+                _c.texture = RES.getRes("Langauge Selection_Chinese_png");  
+                this.curLang = "e";
+            }
+
+            if(!this.isSelect){
+                egret.Tween.get(_c).to({y:_c.y + _c.height},200);
+                this.isSelect = true;
+                }else{
+                    egret.Tween.get(_c).to({y:_e.y},200);
+                    this.isSelect = false;
+                }
+
         },this)
 
         _e.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+
             if(!this.isSelect){
-              egret.Tween.get(_c).to({y:_c.y + _c.height},200);
-              this.isSelect = true;
-            }else{
-                egret.Tween.get(_c).to({y:_e.y},200);
-                this.isSelect = false;
-            }
+                    egret.Tween.get(_c).to({y:_c.y + _c.height},200);
+                    this.isSelect = true;
+                    }else{
+                        egret.Tween.get(_c).to({y:_e.y},200);
+                        this.isSelect = false;
+                }
         },this)
         
-        this.addChild(_c);
-        this.addChild(_e);
-        
+        this.languageCnt.addChild(_c);
+        this.languageCnt.addChild(_e);
+
+        this.addChild(this.languageCnt);  
     }
 
     private createView(): void {
+ 
         this.createSwitchLanguage();
 
         var that = this;
@@ -180,7 +211,7 @@ class IndexUI extends egret.Sprite {
 
         this.addCapsuleToGroup(this.machine_group);
 
-        var Machine_Glass = createBitmap("Capsule Machine Glass_png", 120, 440);
+        var Machine_Glass = createBitmap("Capsule Machine Glass_png", 130, 440);
 
         this.machine_group.addChild(Machine_Glass);  
 
@@ -210,6 +241,20 @@ class IndexUI extends egret.Sprite {
               if(Main.jp_onoff){
                   return ;
               }
+
+              var hpl = getLocalStorageList(Main.PAYED_SYN);
+              if(getLocalStorage(Main.MEMBERID_SYB)){
+                  if(hpl.indexOf(getLocalStorage(Main.MEMBERID_SYB)) >= 0){
+                        this.popUpMessageTip("You have played today.\r\nPlay again tomorrow." ,this)
+                  }
+              }
+              else if(getLocalStorage(Main.TOKENID_SYB)){
+                  if(hpl.indexOf(getLocalStorage(Main.TOKENID_SYB)) >= 0){
+                        this.popUpMessageTip("You have played today.\r\nPlay again tomorrow." ,this)
+                  }
+              }
+
+              this.removeChild(this.languageCnt);
               Main.jp_onoff=true;
               //-----alpha to 0-------
               //disable button;
@@ -415,9 +460,15 @@ class IndexUI extends egret.Sprite {
             this.isErrorRequest = true;
             return ;
         }
+        if(getLocalStorage(Main.MEMBERID_SYB)){
+            setLocalStorageList("PAYED_SYN",getLocalStorage(Main.MEMBERID_SYB))
+        }
+        if(getLocalStorage(Main.TOKENID_SYB)){
+            setLocalStorageList("PAYED_SYN",getLocalStorage(Main.TOKENID_SYB))
+        }
 
         var jsonObject= JSON.parse(request.response);
-        console.log(jsonObject);
+ 
         if(jsonObject.data.status){
              this.currentAc = jsonObject.data.ac ? jsonObject.data.ac :"0";
              this.currentAd = jsonObject.data.ad ? jsonObject.data.ad: "0";

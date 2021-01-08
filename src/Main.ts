@@ -72,12 +72,19 @@ class Main extends egret.DisplayObjectContainer {
 
     static SRLID_SYB = "srlID"
 
+    static PAYED_SYN = "cx1542"
+
+    static CURRENT_DATE = "cn284sjdj"
+
     static isFirstLoad = true;
 
     static staticCoinsPrizeList = [];
     static staticDDPrizeList = [];
     static staticEnvPrizeList = [];
     static bg;
+
+    static countryList = []
+
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
@@ -89,8 +96,11 @@ class Main extends egret.DisplayObjectContainer {
 
          var jsonObject= JSON.parse(request.response);
          if(jsonObject.code == '200'){
-         this.setUpPrize(jsonObject.data.PrizeProperty)
+         this.setUpPrize(jsonObject.data.PrizeProperty);
+         checkDate(jsonObject.data.date);
          this.initPlayerData();
+
+         
             //初始化Resource资源加载库
             //initiate Resource loading library
          RES.addEventListener(RES.ResourceEvent.CONFIG_COMPLETE, this.onConfigComplete, this);
@@ -131,11 +141,22 @@ class Main extends egret.DisplayObjectContainer {
         if(!tokenId){
             setLocalStorage("MBS_TOKENID",uuid2(16,null));
         }
+
+        this.loadlocalFileData();
+
+
     }
 
     private onAddToStage(event: egret.Event) {
         //设置加载进度界面
         //Config to load process interface
+                // var scence=new ScenceManage(this.stage);
+
+        //var scence=ScenceManage.create(this.stage);
+        //scence.loadScence("preload",null,GameUI,function(){});2
+        Main.bg= createBitmap("common_bg_png",0,0);
+        this.stage.addChild(Main.bg);
+
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
         
@@ -217,12 +238,6 @@ class Main extends egret.DisplayObjectContainer {
      */
     private createGameScene() {
 
-        // var scence=new ScenceManage(this.stage);
-
-        //var scence=ScenceManage.create(this.stage);
-        //scence.loadScence("preload",null,GameUI,function(){});
-        Main.bg= createBitmap("common_bg_png",0,0);
-        this.addChild(Main.bg);
 
 
         // var home_btn = createBitmap("seven_share_png",0,30);
@@ -238,6 +253,7 @@ class Main extends egret.DisplayObjectContainer {
        
         var index=new IndexUI();
         this.stage.addChild(index);
+        //this.stage.removeChild(Main.bg); 
         //音乐图标__可做点击播放/暂停
         // var music_logo = createBitmap("music_logo_png",55, 350);
         // this.addChildAt(music_logo,999999);
@@ -315,6 +331,44 @@ class Main extends egret.DisplayObjectContainer {
 
         change();
     }
-}
 
+
+
+        private loadlocalFileData(){
+                var url = "resource/country/country-list.txt";
+                var  request:egret.HttpRequest = new egret.HttpRequest();
+
+                var respHandler = function( evt:egret.Event ):void{
+                switch ( evt.type ){
+                    case egret.Event.COMPLETE:
+                        var request:egret.HttpRequest = evt.currentTarget;
+
+                         var ss = request.response.split("\n");
+
+                         for(var i=0;i<ss.length;i++){
+                             var _t = ss[i].trim();
+                             var _split = _t.split(":");
+                             var _temp = {"text":_split[0],"value":_split[1]};
+                             Main.countryList.push(_temp);
+                         }
+
+                        break;
+                    case egret.IOErrorEvent.IO_ERROR:
+
+                        break;
+                }
+                }
+
+                var progressHandler = function( evt:egret.ProgressEvent ):void{
+
+                }
+
+                request.once( egret.Event.COMPLETE, respHandler, null);
+                request.once( egret.IOErrorEvent.IO_ERROR, respHandler, null);
+                request.once( egret.ProgressEvent.PROGRESS, progressHandler, null);
+                request.open( url, egret.HttpMethod.GET ); 
+                request.send( );
+        }
+
+}
 

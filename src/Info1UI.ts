@@ -37,7 +37,7 @@ class Info1UI extends eui.UILayer {
 
     private memerIdInput;
 
-    private register_view;
+    private register_view=new eui.Group();
 
     private tempPatronId;
 
@@ -47,6 +47,11 @@ class Info1UI extends eui.UILayer {
 
     private tipText2;
 
+    private dropDwonList = new euiextendsion.DropDwonList(Main.countryList); 
+
+    private mcCheckBox = new eui.CheckBox();
+
+    private banner = createBitmap("SandsRewardsLifestyle_Logo_png");
     public constructor() {
         super();    
         //this.createView();
@@ -104,10 +109,10 @@ class Info1UI extends eui.UILayer {
 
     private createLoginView(){
 
-        var banner = createBitmap("SandsRewardsLifestyle_Logo_png");
-        banner.x =(this.stage.stageWidth - banner.width) * 0.5;
-        banner.y = this.stage.stageHeight * 0.15;
-        this.addChild(banner);
+        this.banner = createBitmap("SandsRewardsLifestyle_Logo_png");
+        this.banner.x =(this.stage.stageWidth - this.banner.width) * 0.5;
+        this.banner.y = this.stage.stageHeight * 0.15;
+        this.addChild(this.banner);
 
         this._loginView.touchThrough = true;
        var img = new eui.Image("/resource/assets/djy_wbk.png"); 
@@ -115,12 +120,38 @@ class Info1UI extends eui.UILayer {
        var loginPanel = new eui.Image("/resource/assets/login_input.png");
        var loginBtn = new eui.Image("/resource/assets/login_btn.png");
        var sigUpText = new eui.Image("/resource/assets/signup_text.png");
+
+       var inputTips = new eui.Image("/resource/assets/question_child.png");
+       
+       inputTips.x = 544;
+       inputTips.y = 651;
+       inputTips.touchEnabled = true;
+
+       inputTips.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){              
+             var cont = new egret.DisplayObjectContainer();
+             var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,0.5);
+             var myCard = createBitmap("SRL_png");
+             middleObject(this.stage.stageWidth,myCard);
+             myCard.y = this.stage.stageHeight * 0.2;
+             cont.addChild(_whiteShader);
+             cont.addChild(myCard);
+
+             cont.touchEnabled = true;
+
+             cont.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                     egret.Tween.get(cont).to({alpha : 0},500).call(function(){
+                            cont.visible = false;
+                     },this);
+             },this);
+             this.addChild(cont);
+       },this);
+
        img.scaleY = 1.15;
        this._loginView.y = 200;
        this._loginView.width =this.stage.stageWidth;
        this._loginView.height = 1080;
        var last_name_label=createTextFiled("会员ID:",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*1,24,0x000000);
-       this.memerIdInput=createTextFiled("请输入ID", 149 + 62 , 633, 25,  0xa1a1a1, "left",320,72, "middle", false,  0x000000, false,egret.TextFieldType.INPUT);
+       this.memerIdInput=createTextFiled("Input ID", 149 + 62 , 633, 25,  0xa1a1a1, "left",320,72, "middle", false,  0x000000, false,egret.TextFieldType.INPUT);
 
        srlCard.x = 115;
        srlCard.y = 420;
@@ -137,7 +168,7 @@ class Info1UI extends eui.UILayer {
        this._loginView.addChild(srlCard);
        this._loginView.addChild(loginPanel);
        this._loginView.addChild(sigUpText);
-
+       this._loginView.addChild(inputTips);
        this._loginView.addChild(loginBtn);
 
        this._loginView.addChild(this.memerIdInput);
@@ -164,13 +195,13 @@ class Info1UI extends eui.UILayer {
                          Main.isBindingAction=false;
                      }
                      else{
-                        this.addChild(ConfirmUtil.popUpTips("登录成功",false,150,150,400,250));
+                        this.addChild(ConfirmUtil.popUpTips("Login success",false,150,150,400,250));
                         setLocalStorage(Main.MEMBERID_SYB,v);
                         var gameui = ScenceManage.create(this.stage);
                         gameui.loadScence("index", this, IndexUI);
                      }
                 }else{
-                    this.addChild(ConfirmUtil.popUpTips("格式错误",false,150,300,400,250));
+                    this.addChild(ConfirmUtil.popUpTips("Format error",false,150,300,400,250));
                 }
        },this);
        loginBtn.touchEnabled = true;    //开启点击侦听
@@ -181,6 +212,7 @@ class Info1UI extends eui.UILayer {
                this.addChild(this._registerScollerView);
                this.removeChild(this.tipText1);
                this.removeChild(this.tipText2);
+               //this.removeChild(this.banner);
        },this);
        sigUpText.touchEnabled = true;    //开启点击侦听
 
@@ -201,14 +233,23 @@ class Info1UI extends eui.UILayer {
              if(jsonObject.data.Output.Response.StatusCode == "00"){
                  setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
                  removeNonBindTokenId();
-                 this.pupUpErrorTips(this,"Login success.");
-                 this.toMainPage();
-             }else{
-                 this.pupUpErrorTips(this,"Login fail.\r\nTry Again Later.");
+                 this.pupUpErrorTips(this,"Binding and Login success.");
+                 setTimeout(this.toMainPage(),2000);
+             }else if(jsonObject.data.Output.Response.StatusCode == "01"){
+                 var _message = jsonObject.data.Output.Response.StatusDescription;
+                 if(_message && _message.indexOf("already") >= 0 && _message.indexOf("TOKENID")){
+                     this.pupUpErrorTips(this,"Prizes had been bound by other member.");
+                     removeLocalStorage(Main.NBD_TOKEN_SYB);
+                 }else if(_message && _message.indexOf("already") >= 0 && _message.indexOf("MEMBERSHIPID")){
+                     this.pupUpErrorTips(this,"Your account had bound prizes before.\r\nTry to log in.");
+                 }else{
+                     this.pupUpErrorTips(this,"Network error.");
+                 }
                  this.tempPatronId = "";
              }
          } else{
              this.tempPatronId = "";
+             this.pupUpErrorTips(this,"Binding failed.\r\nTry Again Later.");
          }
     }
 
@@ -219,17 +260,14 @@ class Info1UI extends eui.UILayer {
     }
 
     private createRegisterView(){
-        var dropDwonList = new euiextendsion.DropDwonList();
-        dropDwonList.x = this.registerInputX;
-        dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
+
         var img = new eui.Image("/resource/assets/djy_wbk.png");
         img.scaleY = 1;
         img.y = 140;
        
-       this.register_view=new eui.Group();
+        this.register_view.touchThrough = true;
 
-
-       this.addChild(this.register_view);
+       // bthis.addChild(this.register_view);
        this.register_view.addChild(img);
 
        var euiben = new eui.Button();
@@ -245,9 +283,6 @@ class Info1UI extends eui.UILayer {
        this._registerScollerView.scrollPolicyV = eui.ScrollPolicy.OFF;
        this._registerScollerView.viewport = this.register_view;
  
-
-       this._registerScollerView.addChild(dropDwonList);
-
         var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
          title.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
@@ -258,59 +293,60 @@ class Info1UI extends eui.UILayer {
 
        var distanct = 92;
        //容器信息
-       var first_name_label=createTextFiled("姓氏：",this.registerLabelX,this.registerLabelYBias,24,0x000000);
-       var last_name_label=createTextFiled("名字：",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*1,24,0x000000);
-       var bod_label=createTextFiled("出生日期：",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*2,24,0x000000);
-       var tel_label=createTextFiled("电话：",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*3,24,0x000000);
-       var email_label=createTextFiled("电邮：",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*4,24,0x000000);
+       var first_name_label=createTextFiled("First Name:",this.registerLabelX,this.registerLabelYBias,24,0x000000);
+       var last_name_label=createTextFiled("Last Name:",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*1,24,0x000000);
+       var bod_label=createTextFiled("Birthday:",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*2,24,0x000000);
+       var tel_label=createTextFiled("Mobile Phone:",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*3,24,0x000000);
+       var email_label=createTextFiled("Email:",this.registerLabelX,this.registerLabelYBias+this.registerLabelY*4,24,0x000000);
 
       //0,17+92*4
-      var mcCheckBox = new eui.CheckBox();
-      mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
-      mcCheckBox.x = this.registerLabelX;
-      mcCheckBox.y = this.registerLabelYBias+this.registerLabelY*8;
-      mcCheckBox.label = "          我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
-      this.register_view.addChild(mcCheckBox);
+      this.mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
+      this.mcCheckBox.x = this.registerLabelX;
+      this.mcCheckBox.y = this.registerLabelYBias+this.registerLabelY*8;
+      this.mcCheckBox.label = "          我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
+      this.register_view.addChild(this.mcCheckBox);
+      this.mcCheckBox.addEventListener(egret.Event.CHANGE, function(){
 
+      }, this);
 
        //var yzm=createTextFiled("验证码：",0,207,35,0x54734a);
-       this.firstNameText=createTextFiled("请输入姓氏", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 0, 25, 0xb1b1b1, "left",390,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT); 
+       this.firstNameText=createTextFiled("First Name", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 0, 25, 0xb1b1b1, "left",390,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT); 
        var f_name_border=new egret.Shape();
        f_name_border.graphics.lineStyle(2, 0xb1b1b1);
        f_name_border.graphics.drawRoundRect(this.registerInputX , this.registerInputYBias + this.registerInputY * 0, 420, 61, 25, 25);
        f_name_border.graphics.endFill;
        
-       this.lastNameText=createTextFiled("请输入名字", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left",390,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       this.lastNameText=createTextFiled("Last Name", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left",390,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var l_name_border=new egret.Shape();
        l_name_border.graphics.lineStyle(2, 0xb1b1b1);
        l_name_border.graphics.drawRoundRect(this.registerInputX ,  this.registerInputYBias + this.registerInputY * 1, 420, 61, 25, 25);
        l_name_border.graphics.endFill;
 
-       var dob_y_text=createTextFiled("年", this.registerInputX + 5, 9+this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",130,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       var dob_y_text=createTextFiled("YYYY", this.registerInputX + 5, 9+this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",130,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var dob_y_border=new egret.Shape();
        dob_y_border.graphics.lineStyle(2, 0xb1b1b1);
        dob_y_border.graphics.drawRoundRect(this.registerInputX ,  this.registerInputYBias + this.registerInputY * 2, 200, 61, 25, 25);
        dob_y_border.graphics.endFill;
 
-       var dob_m_text=createTextFiled("月", this.registerInputX + 5 + 170, 9+this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",100,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       var dob_m_text=createTextFiled("MM", this.registerInputX + 5 + 170, 9+this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",100,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var dob_m_border=new egret.Shape();
        dob_m_border.graphics.lineStyle(2, 0xb1b1b1);
        dob_m_border.graphics.drawRoundRect(this.registerInputX + 210 ,  this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
        dob_m_border.graphics.endFill;
 
-       var dob_d_text=createTextFiled("日", this.registerInputX + 5 + 320, 9+this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",100,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       var dob_d_text=createTextFiled("DD", this.registerInputX + 5 + 320, 9+this.registerInputYBias + this.registerInputY * 2 , 25, 0xb1b1b1, "left",100,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var dob_d_border=new egret.Shape();
        dob_d_border.graphics.lineStyle(2, 0xb1b1b1);
        dob_d_border.graphics.drawRoundRect(this.registerInputX + 320,  10+this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
        dob_d_border.graphics.endFill;
 
-       this.mobilePhone=createTextFiled("电话号码", this.registerInputX + 5 + 130, 10+this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left",280,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       this.mobilePhone=createTextFiled("Mobile Phone", this.registerInputX + 5 + 130, 10+this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left",280,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var tel_border=new egret.Shape();
        tel_border.graphics.lineStyle(2, 0xb1b1b1);
        tel_border.graphics.drawRoundRect(this.registerInputX + 100,  this.registerInputYBias + this.registerInputY * 3, 320, 61, 25, 25);
        tel_border.graphics.endFill;
 
-       this.emailText=createTextFiled("电邮", this.registerInputX + 5, 12+this.registerInputYBias + this.registerInputY * 4, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
+       this.emailText=createTextFiled("Email", this.registerInputX + 5, 12+this.registerInputYBias + this.registerInputY * 4, 25, 0xb1b1b1, "left",250,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT);
        var mail_border=new egret.Shape();
        mail_border.graphics.lineStyle(2, 0xb1b1b1);
        mail_border.graphics.drawRoundRect(this.registerInputX,  this.registerInputYBias + this.registerInputY * 4,420, 61, 25, 25);
@@ -333,7 +369,9 @@ class Info1UI extends eui.UILayer {
        var telYN=false;
        var yzmYN=false;
        var yzmNum;
-       this.firstNameText.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){console.log("aaa")},this)
+       this.firstNameText.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+
+        },this)
 
 
        dob_y_text.addEventListener(egret.TouchEvent.FOCUS_OUT,function(){
@@ -377,17 +415,20 @@ class Info1UI extends eui.UILayer {
        },this);
        this.cj_btn.touchEnabled = true;    //开启点击侦听
 
- 
+        this.dropDwonList.x = this.registerInputX;
+        this.dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
+
+        this._registerScollerView.addChild(this.dropDwonList);
     }
 
-     private registerCompelete(event:egret.Event){
+     private  (event:egret.Event){
          loading(false);
          var request = <egret.HttpRequest>event.currentTarget;
          var jsonObject= JSON.parse(request.response);
             if(jsonObject.result == 'SUCCESS'){
             var patronId = jsonObject.data.PatronId;
             setLocalStorage(Main.MEMBERID_SYB,patronId);
-            this.addChild(ConfirmUtil.popUpTips("注册成功,patron ID:" + patronId,false,150,300,450,350));
+            this.addChild(ConfirmUtil.popUpTips("Sin up success,patron ID:" + patronId,false,150,300,450,350));
 
             if(Main.isBindingAction || getLocalStorage(Main.NBD_TOKEN_SYB)){
                 this.tempPatronId = patronId;
@@ -404,14 +445,16 @@ class Info1UI extends eui.UILayer {
                 request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.bindingError,this);
                 Main.isBindingAction=false;
             }
-            else{    
-                var gameui = ScenceManage.create(this.stage);
-                gameui.loadScence("index", this, IndexUI);
+            else{
+                setTimeout(function(){
+                    var gameui = ScenceManage.create(this.stage);
+                    gameui.loadScence("index", this, IndexUI);
+                },2000);
             }
 
          }
          else if(jsonObject.result == 'ERROR'){
-             this.addChild(ConfirmUtil.popUpTips("注册失败\r\n可能已存在会员信息。" + patronId,false,150,300,450,350));
+             this.addChild(ConfirmUtil.popUpTips("Sign up failed.\r\nPatron profile existed." + patronId,false,150,300,450,350));
          }
          this.cj_btn.touchEnabled = true; 
     }
@@ -419,10 +462,10 @@ class Info1UI extends eui.UILayer {
     private getPatronPostData():string{
         var firstName = "firstName=" + this.firstNameText.text;
         var lastName = "lastName=" + this.lastNameText.text;
-        var mobilePhone = "mobilePhone=" + this.mobilePhone.text;
+        var mobilePhone = "mobilePhone=" + this.dropDwonList.selectText + this.mobilePhone.text;
         var parimaryEmail = "primaryEmail=" + this.emailText.text;
         var DOB = "DOB=" + this.dateY + "-" + this.dateM + "-" + this.dateD;
-        var marketConsent = "marketingConsent=" + "Y"; 
+        var marketConsent = "marketingConsent=" + (this.mcCheckBox.selected?"Y":"N"); 
         return firstName+ "&" +lastName+"&" + mobilePhone + "&" + parimaryEmail + "&" + DOB + "&" + marketConsent;
      }
 
@@ -437,12 +480,12 @@ class Info1UI extends eui.UILayer {
     private showErrorText(text){
         this.errorText.text = text;
         this.errorText.alpha = 1
-         egret.Tween.get(this.errorText,{loop:false}).to({alpha:0},2500);
+        egret.Tween.get(this.errorText,{loop:false}).to({alpha:0},2500);
     }
 
     private toMainPage(){
-            var gameui = ScenceManage.create(this.stage);
-            gameui.loadScence("index", this, IndexUI);
+        var gameui = ScenceManage.create(this.stage);
+        gameui.loadScence("index", this, IndexUI);
     }
 
 }

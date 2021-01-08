@@ -26,6 +26,8 @@ var IndexUI = (function (_super) {
         _this.getTokenFirst = true;
         _this.sign_out_btn = createBitmap("sign_out_png", 375, 603);
         _this.LoginRegisterbutton = createBitmap("Member Login Button_1_png", 0, 1295);
+        _this.curLang = "e";
+        _this.languageCnt = new egret.DisplayObjectContainer();
         _this.isSelect = false;
         _this.ballMove = [
             //[x,y,t]
@@ -50,6 +52,12 @@ var IndexUI = (function (_super) {
         Main.isBindingAction = false;
         this.LoginRegisterbutton.touchEnabled = true;
         Main.bg.texture = RES.getRes("common_bg_png");
+        Main.bg.scaleX = 1;
+        Main.bg.scaleY = 1;
+        Main.bg.anchorOffsetX = 0;
+        Main.bg.anchorOffsetY = 0;
+        Main.bg.x = 0;
+        Main.bg.y = 0;
     };
     IndexUI.prototype.showWelcomePage = function () {
         if (!Main.isFirstLoad) {
@@ -84,7 +92,7 @@ var IndexUI = (function (_super) {
     };
     IndexUI.prototype.createSwitchLanguage = function () {
         var _e = createBitmap("Langauge Selection_English_png");
-        var _c = createBitmap("Langauge Selection_Chinese_png");
+        var _c = createBitmap("Langauge Selection_Chinese_child_png");
         _e.touchEnabled = true;
         _c.touchEnabled = true;
         _e.x = this.stage.stageWidth - _e.width;
@@ -92,6 +100,24 @@ var IndexUI = (function (_super) {
         _c.x = this.stage.stageWidth - _c.width;
         _c.y = 20;
         _c.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            if (this.curLang == "e") {
+                _e.texture = RES.getRes("Langauge Selection_Chinese_png");
+                _c.texture = RES.getRes("Langauge Selection_English_child_png");
+                this.curLang = "c";
+            }
+            else {
+                _e.texture = RES.getRes("Langauge Selection_English_child_png");
+                _c.texture = RES.getRes("Langauge Selection_Chinese_png");
+                this.curLang = "e";
+            }
+            if (!this.isSelect) {
+                egret.Tween.get(_c).to({ y: _c.y + _c.height }, 200);
+                this.isSelect = true;
+            }
+            else {
+                egret.Tween.get(_c).to({ y: _e.y }, 200);
+                this.isSelect = false;
+            }
         }, this);
         _e.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (!this.isSelect) {
@@ -103,8 +129,9 @@ var IndexUI = (function (_super) {
                 this.isSelect = false;
             }
         }, this);
-        this.addChild(_c);
-        this.addChild(_e);
+        this.languageCnt.addChild(_c);
+        this.languageCnt.addChild(_e);
+        this.addChild(this.languageCnt);
     };
     IndexUI.prototype.createView = function () {
         this.createSwitchLanguage();
@@ -144,7 +171,7 @@ var IndexUI = (function (_super) {
         var machineMain = createBitmap("Capsule Machine_png", 0, 500);
         this.machine_group.addChild(machineMain);
         this.addCapsuleToGroup(this.machine_group);
-        var Machine_Glass = createBitmap("Capsule Machine Glass_png", 120, 440);
+        var Machine_Glass = createBitmap("Capsule Machine Glass_png", 130, 440);
         this.machine_group.addChild(Machine_Glass);
         this.addChild(this.machine_group);
         //我的奖品
@@ -165,6 +192,7 @@ var IndexUI = (function (_super) {
             if (Main.jp_onoff) {
                 return;
             }
+            this.removeChild(this.languageCnt);
             Main.jp_onoff = true;
             //-----alpha to 0-------
             //disable button;
