@@ -618,17 +618,17 @@ class IndexUI extends egret.Sprite {
         if(this.currentPrizeType && startWith(this.currentPrizeType,"C")){
             prizeSymbolPng = "Platform Prize Symbol- Ox_png";
             typeText.text =cvText
-            prizeValueText.text = this.currentAc + "";
+            prizeValueText.text = this.currentPrizeValue + "";
             congTipsTextList.push(coinsCongTipsText1);
             congTipsTextList.push(coinsCongTipsText2);
         }else if(this.currentPrizeType && startWith(this.currentPrizeType,"E")){
             prizeSymbolPng = "Platform Prize Symbol- Red Packet_png";
             typeText.text =evText;
-            prizeValueText.text = this.currentAe + " PACK";
+            prizeValueText.text = this.currentPrizeValue + " PACK";
             congTipsTextList.push(envCongTipsText1);
             congTipsTextList.push(envCongTipsText2);
         }else if(this.currentPrizeType && startWith(this.currentPrizeType,"D")){
-            prizeValueText.text = "$" + this.currentAd;
+            prizeValueText.text = "$" + this.currentPrizeValue;
             congTextPng = "Congratulations Text box 1_png"
         }
 
