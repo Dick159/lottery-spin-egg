@@ -125,7 +125,7 @@ var Info1UI = (function (_super) {
                 if (Main.isBindingAction || getLocalStorage(Main.NBD_TOKEN_SYB)) {
                     this.tempPatronId = v;
                     var tokenId = getLocalStorage(Main.TOKENID_SYB);
-                    var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId + "&remark=" + "binding";
+                    var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId + "&remark=" + "binding" + "&cpt=" + getLocalStorage(Main.CPT);
                     setLocalStorage(Main.MEMBERID_SYB, v);
                     var request = requestPost(Main.baseUrl + Main.PostBindingMember, "?" + params);
                     loading(true);

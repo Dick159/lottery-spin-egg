@@ -184,7 +184,7 @@ class Info1UI extends eui.UILayer {
                          this.tempPatronId = v;
 
                          var tokenId = getLocalStorage(Main.TOKENID_SYB);
-                         var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId+"&remark=" + "binding";
+                         var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId+"&remark=" + "binding" + "&cpt=" + getLocalStorage(Main.CPT);
                          setLocalStorage(Main.MEMBERID_SYB,v);
                          var request = requestPost(Main.baseUrl + Main.PostBindingMember,"?" + params);
                          loading(true);
@@ -233,18 +233,26 @@ class Info1UI extends eui.UILayer {
                  setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
                  removeNonBindTokenId();
                  this.popUpErrorTips(this,mc_content.BinSuccess);
+                 removeLocalStorage(Main.TOKENID_SYB);
+                 setLocalStorage("MBS_TOKENID",uuid2(16,null));
                  setTimeout(this.toMainPage(),2000);
              }else if(jsonObject.data.Output.Response.StatusCode == "01"){
                  var _message = jsonObject.data.Output.Response.StatusDescription;
                  if(_message && _message.indexOf("already") >= 0 && _message.indexOf("TOKENID") >=0 ){
                      this.popUpErrorTips(this,mc_content.Binded);
                      removeLocalStorage(Main.NBD_TOKEN_SYB);
+                     removeLocalStorage(Main.TOKENID_SYB);
+                     setLocalStorage("MBS_TOKENID",uuid2(16,null));
                  }else if(_message && _message.indexOf("already") >= 0 && _message.indexOf("MEMBERSHIPID") >= 0){
                      this.popUpErrorTips(this,mc_content.BindedBefore);
                  }else{
                      this.popUpErrorTips(this,mc_content.ERROR_MESSAGE);
                  }
                  this.tempPatronId = "";
+             }
+             else{
+                this.tempPatronId = "";
+                this.popUpErrorTips(this,mc_content.Bindfail);
              }
          } else{
              this.tempPatronId = "";

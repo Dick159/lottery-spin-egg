@@ -479,10 +479,11 @@ class IndexUI extends egret.Sprite {
             this.isErrorRequest = true;
             return;
         }
-        if(jsonObject.data.status == "00"){ 
+        if(jsonObject.data.status == "00"){
              this.currentPrizeValue = jsonObject.data.value;
              this.currentPrizeType = jsonObject.data.type;
              this.isFinishSpin = true;
+             setLocalStorage(Main.CPT,jsonObject.data.cpt);
         }
         else if(jsonObject.data.status == "01"){
             this.isErrorRequest = true;

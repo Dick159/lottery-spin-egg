@@ -295,6 +295,7 @@ Main.zpname = mc_content.zpname; //奖的名称
 Main.SRLID_SYB = "srlID";
 Main.PAYED_SYN = "cx1542";
 Main.CURRENT_DATE = "cn284sjdj";
+Main.CPT = "fdjsf83283";
 Main.isFirstLoad = true;
 Main.staticCoinsPrizeList = [];
 Main.staticDDPrizeList = [];

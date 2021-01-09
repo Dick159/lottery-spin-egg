@@ -401,6 +401,7 @@ var IndexUI = (function (_super) {
             this.currentPrizeValue = jsonObject.data.value;
             this.currentPrizeType = jsonObject.data.type;
             this.isFinishSpin = true;
+            setLocalStorage(Main.CPT, jsonObject.data.cpt);
         }
         else if (jsonObject.data.status == "01") {
             this.isErrorRequest = true;

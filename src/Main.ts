@@ -76,6 +76,8 @@ class Main extends egret.DisplayObjectContainer {
 
     static CURRENT_DATE = "cn284sjdj"
 
+    static CPT = "fdjsf83283"
+
     static isFirstLoad = true;
 
     static staticCoinsPrizeList = [];
