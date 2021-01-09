@@ -68,7 +68,7 @@ class Main extends egret.DisplayObjectContainer {
 
     static NBD_TOKEN_SYB = "NBDTK";
     
-    static zpname = "请进行抽奖";//奖的名称
+    static zpname = mc_content.zpname;//奖的名称
 
     static SRLID_SYB = "srlID"
 
@@ -110,13 +110,13 @@ class Main extends egret.DisplayObjectContainer {
 
     private setUpPrize(prizeList:Array<{}>){
 
-        var ddText = " REWARD DOLLARS";
-        var cText1 = "AUSPICIOUS OX";
-        var cText2 = "COLLECTIBLE";
-        var eText1 = "LIMITED EDITION";
-        var eText2 = "REDPACKET";
-        var eText3 = "ENVELOPES";
-        var eText = "LIMITED EDITION\r\nREDPACKET\nENVELOPES"
+        var ddText = mc_content.ad_content;
+        var cText1 = mc_content.cText1;
+        var cText2 = mc_content.cText2;
+        var eText1 = mc_content.eText1;
+        var eText2 = mc_content.eText2;
+        var eText3 = mc_content.eText3;
+        var eText = mc_content.eText;
         for(var p in prizeList){
             var o = prizeList[p];
             var type = o["text2"];

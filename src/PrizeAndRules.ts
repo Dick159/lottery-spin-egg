@@ -47,7 +47,7 @@ class PrizeAndRules extends eui.UILayer {
         my_prize_info_bg.x = _that.stage.stageWidth * 0.5 - my_prize_info_bg.width*0.5;
         my_prize_info_bg.y = _that.stage.stageHeight * 0.15;
 
-        var title = createTextFiledNoEui("PRIZE");
+        var title = createTextFiledNoEui(mc_content.PRIZE);
         title.textColor = textColor;
         title.size = textSize;
 

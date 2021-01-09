@@ -15,7 +15,7 @@ class IndexUI extends egret.Sprite {
     private currentAd = 0;
     private currentAe = 0;
     private _bg:egret.Bitmap;
-    private ERROR_MESSAGE = "Network Error."
+    private ERROR_MESSAGE = mc_content.ERROR_MESSAGE;
     private machine_group = new egret.DisplayObjectContainer(); 
     private getTokenFirst = true;
     private MyPrizeBtn : egret.Bitmap;
@@ -32,14 +32,14 @@ class IndexUI extends egret.Sprite {
         //[x,y,t]
         // x in [225,455]
         // y in [525,725]
-        [[400,560,600],[380,700,600],[230,600,500]],
-        [[235,580,450],[360,666,600],[380,555,500]],
-        [[300,630,600],[240,580,600],[290,525,500]],
-        [[264,554,600],[380,700,600],[333,643,500]],
-        [[273,721,600],[425,636,600],[444,689,500]],
-        [[380,700,600],[400,560,600],[421,632,500]],
-        [[240,580,600],[300,630,600],[345,682,500]],
-        [[380,700,600],[264,554,600],[230,600,500]]
+        [[230,600,688],[380,700,600],[400,560,600]],
+        [[380,555,500],[360,666,450],[235,580,450]],
+        [[290,525,688],[240,680,600],[300,630,600]],
+        [[333,643,500],[380,700,450],[264,554,600]],
+        [[273,689,688],[425,636,600],[444,721,600]],
+        [[421,632,500],[400,660,600],[380,600,600]],
+        [[345,682,688],[300,630,450],[240,580,600]],
+        [[230,600,500],[264,714,600],[380,700,600]]
     ];
 
     public constructor() {
@@ -245,13 +245,13 @@ class IndexUI extends egret.Sprite {
               var hpl = getLocalStorageList(Main.PAYED_SYN);
               if(getLocalStorage(Main.MEMBERID_SYB)){
                   if(hpl.indexOf(getLocalStorage(Main.MEMBERID_SYB)) >= 0){
-                        this.popUpMessageTip("You have played today.\r\nPlay again tomorrow." ,this)
+                        this.popUpMessageTip(mc_content.PlayedMsg ,this)
                         return;
                   }
               }
               else if(getLocalStorage(Main.TOKENID_SYB)){
                   if(hpl.indexOf(getLocalStorage(Main.TOKENID_SYB)) >= 0){
-                        this.popUpMessageTip("You have played today.\r\nPlay again tomorrow." ,this)
+                        this.popUpMessageTip(mc_content.PlayedMsg ,this)
                         return;
                   }
               }
@@ -300,7 +300,7 @@ class IndexUI extends egret.Sprite {
                         }
                         if(this.isNormalError){
                             this.pauseAllBalls(this.balls);
-                            this.popUpMessageTip("You had played today.\r\nPlease try again tomorrow",that);
+                            this.popUpMessageTip(mc_content.PlayedMsg,that);
                         }
                     },this)
                     egret.Tween.get(b1,{ loop: true }).to({rotation : 360},2500);
@@ -334,7 +334,7 @@ class IndexUI extends egret.Sprite {
         this.sign_out_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                 removeLocalStorage(Main.MEMBERID_SYB);
                 if(!getLocalStorage(Main.MEMBERID_SYB)){
-                    this.popUpMessageTip("Sign out success",this);
+                    this.popUpMessageTip(mc_content.SignOut,this);
                     this.sign_out_btn.visible = false;
                     this.LoginRegisterbutton.visible = true;
                     
@@ -647,17 +647,17 @@ class IndexUI extends egret.Sprite {
 
         var prizeSymbolPng = "Platform Prize Symbol- Dollar_png"
 
-        var dvText = "REWARD DOLLARS";
+        var dvText = mc_content.DD;
         var cvText = "OX COIN"
         var evText = ""
 
         var congTextPng = "Congratulations Text box2_png";
 
-        var coinsCongTipsText1 = "Collect 888 Virtual Ox coins to redeem a";
-        var coinsCongTipsText2 = "Marina Bay Sands Capsule Machine Game.";
+        var coinsCongTipsText1 = mc_content.coinsCongTipsText1;
+        var coinsCongTipsText2 = mc_content.coinsCongTipsText2;
 
-        var envCongTipsText1 = "OF MARINA BAY SANDS"
-        var envCongTipsText2 = "LIMITED EDITION RED PACKET ENVELOPES"
+        var envCongTipsText1 = mc_content.envCongTipsText1;
+        var envCongTipsText2 = mc_content.envCongTipsText2;
 
         var congTipsTextList = [];
 
@@ -679,7 +679,7 @@ class IndexUI extends egret.Sprite {
         }else if(this.currentPrizeType && startWith(this.currentPrizeType,"E")){
             prizeSymbolPng = "Platform Prize Symbol- Red Packet_png";
             typeText.text =evText;
-            prizeValueText.text = this.currentPrizeValue + " PACK";
+            prizeValueText.text = this.currentPrizeValue + mc_content.PACK;
             congTipsTextList.push(envCongTipsText1);
             congTipsTextList.push(envCongTipsText2);
         }else if(this.currentPrizeType && startWith(this.currentPrizeType,"D")){
@@ -863,7 +863,7 @@ class IndexUI extends egret.Sprite {
         var my_prize_info_bg = createBitmap("TextBG_png");
 
         var coins_png = createBitmap("Ox symbol_png");
-        var ac_content = createTextFiledNoEui(" AUSPICIOUS OX\r\n COLLECTIBLE");
+        var ac_content = createTextFiledNoEui(mc_content.ac_content);
         ac_content.size = 36
         ac_content.x = 200;
         ac_content.textColor =  0x7E1E08;
@@ -871,7 +871,7 @@ class IndexUI extends egret.Sprite {
         ac_content.text = this.currentAc + ac_content.text;
 
         var dd_png = createBitmap("Dollar Symbol_png");
-        var ad_content = createTextFiledNoEui(" REWARD DOLLARS");
+        var ad_content = createTextFiledNoEui(mc_content.ad_content);
         ad_content.size = 36;
         ad_content.x = 200;
         ad_content.textColor =  0x7E1E08;
@@ -880,7 +880,7 @@ class IndexUI extends egret.Sprite {
 
 
         var rp_png = createBitmap("Red Packet Symbol_png");
-        var ae_content = createTextFiledNoEui(" RED PACKET ENVELOP");
+        var ae_content = createTextFiledNoEui(mc_content.ae_content);
         ae_content.size = 36;
         ae_content.x = 200;
         ae_content.textColor =  0x7E1E08;
@@ -888,7 +888,7 @@ class IndexUI extends egret.Sprite {
         ae_content.text = this.currentAe + ae_content.text;
 
 
-        var title = createTextFiledNoEui("MY PRIZE");
+        var title = createTextFiledNoEui(mc_content.MYPRIZE);
         title.textColor = 0x7E1E08;
         title.size = 36;
 

@@ -53,13 +53,13 @@ var Info1UI = (function (_super) {
     Info1UI.prototype.createBannerAndTips = function () {
         var tipsTextSize = 40;
         var tipsTextColor = 0xFFFFFF;
-        this.tipText1 = createTextFiledNoEui("Login/Sign up to Save");
+        this.tipText1 = createTextFiledNoEui(mc_content.tipText1);
         this.tipText1.textColor = tipsTextColor;
         this.tipText1.size = tipsTextSize;
         middleObject(this.stage.stageWidth, this.tipText1);
         this.tipText1.y = this.stage.stageHeight * 0.30;
         this.addChild(this.tipText1);
-        this.tipText2 = createTextFiledNoEui("your scores & prizes!");
+        this.tipText2 = createTextFiledNoEui(mc_content.tipText2);
         this.tipText2.textColor = tipsTextColor;
         this.tipText2.size = tipsTextSize;
         middleObject(this.stage.stageWidth, this.tipText2);
@@ -101,8 +101,8 @@ var Info1UI = (function (_super) {
         this._loginView.y = 200;
         this._loginView.width = this.stage.stageWidth;
         this._loginView.height = 1080;
-        var last_name_label = createTextFiled("会员ID:", this.registerLabelX, this.registerLabelYBias + this.registerLabelY * 1, 24, 0x000000);
-        this.memerIdInput = createTextFiled("Input ID", 149 + 62, 633, 25, 0xa1a1a1, "left", 320, 72, "middle", false, 0x000000, false, egret.TextFieldType.INPUT);
+        var last_name_label = createTextFiled(mc_content.MID, this.registerLabelX, this.registerLabelYBias + this.registerLabelY * 1, 24, 0x000000);
+        this.memerIdInput = createTextFiled(mc_content.InputID, 149 + 62, 633, 25, 0xa1a1a1, "left", 320, 72, "middle", false, 0x000000, false, egret.TextFieldType.INPUT);
         srlCard.x = 115;
         srlCard.y = 420;
         loginPanel.x = 149;
@@ -135,14 +135,14 @@ var Info1UI = (function (_super) {
                     Main.isBindingAction = false;
                 }
                 else {
-                    this.addChild(ConfirmUtil.popUpTips("Login success", false, 150, 150, 400, 250));
+                    this.addChild(ConfirmUtil.popUpTips(mc_content.LoginSuccess, false, 150, 150, 400, 250));
                     setLocalStorage(Main.MEMBERID_SYB, v);
                     var gameui = ScenceManage.create(this.stage);
                     gameui.loadScence("index", this, IndexUI);
                 }
             }
             else {
-                this.addChild(ConfirmUtil.popUpTips("Member ID\r\nFormat error", false, 150, 300, 400, 250));
+                this.addChild(ConfirmUtil.popUpTips(mc_content.FormatErr, false, 150, 300, 400, 250));
             }
         }, this);
         loginBtn.touchEnabled = true; //开启点击侦听
@@ -158,7 +158,7 @@ var Info1UI = (function (_super) {
     };
     Info1UI.prototype.bindingError = function (event) {
         this.tempPatronId = "";
-        this.popUpErrorTips(this, "Network Error.\r\nTry Again Later.");
+        this.popUpErrorTips(this, mc_content.NetworkErr);
     };
     Info1UI.prototype.bindingResultSuccess = function (event) {
         loading(false);
@@ -169,27 +169,27 @@ var Info1UI = (function (_super) {
             if (jsonObject.data.Output.Response.StatusCode == "00") {
                 setLocalStorage(Main.MEMBERID_SYB, this.tempPatronId);
                 removeNonBindTokenId();
-                this.popUpErrorTips(this, "Binding and Login success.");
+                this.popUpErrorTips(this, mc_content.BinSuccess);
                 setTimeout(this.toMainPage(), 2000);
             }
             else if (jsonObject.data.Output.Response.StatusCode == "01") {
                 var _message = jsonObject.data.Output.Response.StatusDescription;
                 if (_message && _message.indexOf("already") >= 0 && _message.indexOf("TOKENID") >= 0) {
-                    this.popUpErrorTips(this, "Prizes have been bound by other member.");
+                    this.popUpErrorTips(this, mc_content.Binded);
                     removeLocalStorage(Main.NBD_TOKEN_SYB);
                 }
                 else if (_message && _message.indexOf("already") >= 0 && _message.indexOf("MEMBERSHIPID") >= 0) {
-                    this.popUpErrorTips(this, "Your account have bound prizes before.");
+                    this.popUpErrorTips(this, mc_content.BindedBefore);
                 }
                 else {
-                    this.popUpErrorTips(this, "Network error.");
+                    this.popUpErrorTips(this, mc_content.ERROR_MESSAGE);
                 }
                 this.tempPatronId = "";
             }
         }
         else {
             this.tempPatronId = "";
-            this.popUpErrorTips(this, "Binding failed.\r\nTry Again Later.");
+            this.popUpErrorTips(this, mc_content.Bindfail);
         }
     };
     Info1UI.prototype.popUpErrorTips = function (_that, message) {
@@ -233,17 +233,17 @@ var Info1UI = (function (_super) {
         this.mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
         this.mcCheckBox.x = this.registerLabelX;
         this.mcCheckBox.y = this.registerLabelYBias + this.registerLabelY * 8;
-        this.mcCheckBox.label = "          我希望于通过邮件、电邮、简讯及/或电话搜集\r\n接收此处所述的最新营销动态。";
+        this.mcCheckBox.label = mc_content.terms1;
         this.register_view.addChild(this.mcCheckBox);
         this.mcCheckBox.addEventListener(egret.Event.CHANGE, function () {
         }, this);
         //var yzm=createTextFiled("验证码：",0,207,35,0x54734a);
-        this.firstNameText = createTextFiled("First Name", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 0, 25, 0xb1b1b1, "left", 390, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.firstNameText = createTextFiled(mc_content.firstName, this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 0, 25, 0xb1b1b1, "left", 390, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var f_name_border = new egret.Shape();
         f_name_border.graphics.lineStyle(2, 0xb1b1b1);
         f_name_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 0, 420, 61, 25, 25);
         f_name_border.graphics.endFill;
-        this.lastNameText = createTextFiled("Last Name", this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left", 390, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.lastNameText = createTextFiled(mc_content.lastName, this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 1, 25, 0xb1b1b1, "left", 390, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var l_name_border = new egret.Shape();
         l_name_border.graphics.lineStyle(2, 0xb1b1b1);
         l_name_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 1, 420, 61, 25, 25);
@@ -263,12 +263,12 @@ var Info1UI = (function (_super) {
         dob_d_border.graphics.lineStyle(2, 0xb1b1b1);
         dob_d_border.graphics.drawRoundRect(this.registerInputX + 320, 10 + this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
         dob_d_border.graphics.endFill;
-        this.mobilePhone = createTextFiled("Mobile Phone", this.registerInputX + 5 + 130, 10 + this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left", 280, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.mobilePhone = createTextFiled(mc_content.phone, this.registerInputX + 5 + 130, 10 + this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left", 280, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var tel_border = new egret.Shape();
         tel_border.graphics.lineStyle(2, 0xb1b1b1);
         tel_border.graphics.drawRoundRect(this.registerInputX + 100, this.registerInputYBias + this.registerInputY * 3, 320, 61, 25, 25);
         tel_border.graphics.endFill;
-        this.emailText = createTextFiled("Email", this.registerInputX + 5, 12 + this.registerInputYBias + this.registerInputY * 4, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.emailText = createTextFiled(mc_content.email, this.registerInputX + 5, 12 + this.registerInputYBias + this.registerInputY * 4, 25, 0xb1b1b1, "left", 250, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var mail_border = new egret.Shape();
         mail_border.graphics.lineStyle(2, 0xb1b1b1);
         mail_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 4, 420, 61, 25, 25);
@@ -296,7 +296,7 @@ var Info1UI = (function (_super) {
                 this.dateY = v;
             }
             else {
-                this.showErrorText("Invalid Date Format.");
+                this.showErrorText(mc_content.InvalidDate);
             }
         }, this);
         dob_m_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
@@ -306,7 +306,7 @@ var Info1UI = (function (_super) {
                 this.dateM = v;
             }
             else {
-                this.showErrorText("Invalid Date Format.");
+                this.showErrorText(mc_content.InvalidDate);
             }
         }, this);
         dob_d_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
@@ -336,7 +336,7 @@ var Info1UI = (function (_super) {
         if (jsonObject.result == 'SUCCESS') {
             var patronId = jsonObject.data.PatronId;
             setLocalStorage(Main.MEMBERID_SYB, patronId);
-            this.addChild(ConfirmUtil.popUpTips("Sin up success,patron ID:" + patronId, false, 150, 300, 450, 350));
+            this.addChild(ConfirmUtil.popUpTips(mc_content.MIDMsg + patronId, false, 150, 300, 450, 350));
             if (Main.isBindingAction || getLocalStorage(Main.NBD_TOKEN_SYB)) {
                 this.tempPatronId = patronId;
                 var tokenId = getLocalStorage(Main.TOKENID_SYB);
@@ -356,7 +356,7 @@ var Info1UI = (function (_super) {
             }
         }
         else if (jsonObject.result == 'ERROR') {
-            this.addChild(ConfirmUtil.popUpTips("Sign up failed.\r\nPatron profile existed." + patronId, false, 150, 300, 450, 350));
+            this.addChild(ConfirmUtil.popUpTips(mc_content.SUFailExist + patronId, false, 150, 300, 450, 350));
         }
         this.cj_btn.touchEnabled = true;
     };

@@ -396,7 +396,7 @@ function getPrizeResult() {
         return result;
     }
     else {
-        return "请抽奖。";
+        return mc_content.Play;
     }
 }
 function checkDate(dateStr) {

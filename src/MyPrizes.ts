@@ -46,7 +46,7 @@ class MyPrizes extends eui.UILayer {
         my_prize_info_bg.x = _that.stage.stageWidth * 0.5 - my_prize_info_bg.width*0.5;
         my_prize_info_bg.y = _that.stage.stageHeight * 0.15;
 
-        var title = createTextFiledNoEui("MY PRIZE");
+        var title = createTextFiledNoEui(mc_content.MYPRIZE);
         title.textColor = textColor;
         title.size = textSize;
 
@@ -54,7 +54,7 @@ class MyPrizes extends eui.UILayer {
         myPrizeInfo_cnt.addChild(title);
 
         var coins_png = createBitmap("Ox symbol_png");
-        var ac_content = createTextFiledNoEui(MyPrizes.currentAc + " OX COINS");
+        var ac_content = createTextFiledNoEui(MyPrizes.currentAc + " "+mc_content.OX);
         ac_content.bold = true;
         ac_content.size = textSize
         ac_content.x = 200;
@@ -63,7 +63,7 @@ class MyPrizes extends eui.UILayer {
         myPrizeInfo_cnt.addChild(ac_content);
 
         var rp_png = createBitmap("Red Packet Symbol_png");
-        var aeTextBold = createTextFiledNoEui(MyPrizes.currentAe + " RED PAKCET");
+        var aeTextBold = createTextFiledNoEui(MyPrizes.currentAe + mc_content.redPack);
         aeTextBold.x = 200;
         aeTextBold.bold = true;
         aeTextBold.textColor = textColor;
@@ -72,7 +72,7 @@ class MyPrizes extends eui.UILayer {
         myPrizeInfo_cnt.addChild(aeTextBold);
 
 
-        var aeTextBold2 = createTextFiledNoEui("ENVELOPES");
+        var aeTextBold2 = createTextFiledNoEui(mc_content.ENVELOPES);
         aeTextBold2.x = 200;
         aeTextBold2.bold = true;
         aeTextBold2.textColor = textColor;
@@ -83,7 +83,7 @@ class MyPrizes extends eui.UILayer {
 
 
         var dd_png = createBitmap("Dollar Symbol_png");
-        var ad_text = "$" + MyPrizes.currentAd + " REWARD DOLLARS";
+        var ad_text = "$" + MyPrizes.currentAd + mc_content.ad_content;
         var ad_content = createTextFiledNoEui(ad_text);
         ad_content.bold = true;
         ad_content.size = textSize;
@@ -122,7 +122,7 @@ class MyPrizes extends eui.UILayer {
         myPrizeInfo_cnt.addChild(dd_png);
         myPrizeInfo_cnt.addChild(rp_png);
 
-        var tipsContent = createTextFiledNoEui("Redeem your prizes by 11 March 2021");
+        var tipsContent = createTextFiledNoEui(mc_content.RedeemTime);
         tipsContent.textColor = 0xFFFFFF;
         tipsContent.size = 30;
         tipsContent.x = (this.stage.stageWidth - tipsContent.width)*0.5;

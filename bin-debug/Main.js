@@ -56,13 +56,13 @@ var Main = (function (_super) {
         }
     };
     Main.prototype.setUpPrize = function (prizeList) {
-        var ddText = " REWARD DOLLARS";
-        var cText1 = "AUSPICIOUS OX";
-        var cText2 = "COLLECTIBLE";
-        var eText1 = "LIMITED EDITION";
-        var eText2 = "REDPACKET";
-        var eText3 = "ENVELOPES";
-        var eText = "LIMITED EDITION\r\nREDPACKET\nENVELOPES";
+        var ddText = mc_content.ad_content;
+        var cText1 = mc_content.cText1;
+        var cText2 = mc_content.cText2;
+        var eText1 = mc_content.eText1;
+        var eText2 = mc_content.eText2;
+        var eText3 = mc_content.eText3;
+        var eText = mc_content.eText;
         for (var p in prizeList) {
             var o = prizeList[p];
             var type = o["text2"];
@@ -291,7 +291,7 @@ Main.TOKENID_SYB = "MBS_TOKENID";
 Main.MEMBERID_SYB = "memberId";
 Main.isBindingAction = false;
 Main.NBD_TOKEN_SYB = "NBDTK";
-Main.zpname = "请进行抽奖"; //奖的名称
+Main.zpname = mc_content.zpname; //奖的名称
 Main.SRLID_SYB = "srlID";
 Main.PAYED_SYN = "cx1542";
 Main.CURRENT_DATE = "cn284sjdj";
