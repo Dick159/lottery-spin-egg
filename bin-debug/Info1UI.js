@@ -26,6 +26,7 @@ var Info1UI = (function (_super) {
         _this.register_view = new eui.Group();
         _this.dropDwonList = new euiextendsion.DropDwonList(Main.countryList);
         _this.mcCheckBox = new eui.CheckBox();
+        _this.mcCheckBox2 = new eui.CheckBox();
         _this.banner = createBitmap("SandsRewardsLifestyle_Logo_png");
         //this.createView();
         _this.once(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
@@ -170,6 +171,8 @@ var Info1UI = (function (_super) {
                 setLocalStorage(Main.MEMBERID_SYB, this.tempPatronId);
                 removeNonBindTokenId();
                 this.popUpErrorTips(this, mc_content.BinSuccess);
+                removeLocalStorage(Main.TOKENID_SYB);
+                setLocalStorage("MBS_TOKENID", uuid2(16, null));
                 setTimeout(this.toMainPage(), 2000);
             }
             else if (jsonObject.data.Output.Response.StatusCode == "01") {
@@ -177,6 +180,8 @@ var Info1UI = (function (_super) {
                 if (_message && _message.indexOf("already") >= 0 && _message.indexOf("TOKENID") >= 0) {
                     this.popUpErrorTips(this, mc_content.Binded);
                     removeLocalStorage(Main.NBD_TOKEN_SYB);
+                    removeLocalStorage(Main.TOKENID_SYB);
+                    setLocalStorage("MBS_TOKENID", uuid2(16, null));
                 }
                 else if (_message && _message.indexOf("already") >= 0 && _message.indexOf("MEMBERSHIPID") >= 0) {
                     this.popUpErrorTips(this, mc_content.BindedBefore);
@@ -185,6 +190,10 @@ var Info1UI = (function (_super) {
                     this.popUpErrorTips(this, mc_content.ERROR_MESSAGE);
                 }
                 this.tempPatronId = "";
+            }
+            else {
+                this.tempPatronId = "";
+                this.popUpErrorTips(this, mc_content.Bindfail);
             }
         }
         else {
@@ -232,11 +241,114 @@ var Info1UI = (function (_super) {
         //0,17+92*4
         this.mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
         this.mcCheckBox.x = this.registerLabelX;
-        this.mcCheckBox.y = this.registerLabelYBias + this.registerLabelY * 8;
+        this.mcCheckBox.y = this.registerLabelYBias + this.registerLabelY * 7.5;
+        var terms1_LBoxTxt = createTextFiledNoEui(mc_content.terms1_LBox);
+        terms1_LBoxTxt.bold = true;
+        terms1_LBoxTxt.size = 23;
+        terms1_LBoxTxt.x = this.registerLabelX + 63;
+        terms1_LBoxTxt.y = this.registerLabelYBias + this.registerLabelY * 7.5 + 50;
         this.mcCheckBox.label = mc_content.terms1;
         this.register_view.addChild(this.mcCheckBox);
+        this.register_view.addChild(terms1_LBoxTxt);
         this.mcCheckBox.addEventListener(egret.Event.CHANGE, function () {
         }, this);
+        terms1_LBoxTxt.touchEnabled = true;
+        terms1_LBoxTxt.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+            var cont = new egret.DisplayObjectContainer();
+            var _whiteShader = createShaderMask(this.stage.width, this.stage.height, 0xFFFFFF, 0.8);
+            var myCard = createBitmap("terms2_png");
+            middleObject(this.stage.stageWidth, myCard);
+            myCard.y = this.stage.stageHeight * 0.2;
+            cont.addChild(_whiteShader);
+            cont.addChild(myCard);
+            cont.touchEnabled = true;
+            cont.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                egret.Tween.get(cont).to({ alpha: 0 }, 500).call(function () {
+                    cont.visible = false;
+                }, this);
+            }, this);
+            this.addChild(cont);
+        }, this);
+        //0,17+92*4
+        this.mcCheckBox2.skinName = "resource/eui_skins/CheckBoxSkin.exml";
+        this.mcCheckBox2.x = this.registerLabelX;
+        this.mcCheckBox2.y = this.registerLabelYBias + this.registerLabelY * 8.5;
+        var tx = new egret.TextField;
+        tx.textFlow = new Array({ text: "I understand and agree to both the" + "Sands Rewards \r\nLifeStyle programme terms and conditions" + " and the " + "\r\nprocessing of my personal data" + ", and warrant that \r\nthe declarations ", style: {} }, { text: mc_content.terms2_LBox, style: { "href": "event:text event triggered", "bold": true } }, { text: " are true.", style: {} });
+        tx.touchEnabled = true;
+        tx.addEventListener(egret.TextEvent.LINK, function (evt) {
+            console.log(evt.text);
+            var cont = new egret.DisplayObjectContainer();
+            var _whiteShader = createShaderMask(this.stage.width, this.stage.height, 0xFFFFFF, 0.8);
+            var myCard = createBitmap("terms1_png");
+            middleObject(this.stage.stageWidth, myCard);
+            myCard.y = this.stage.stageHeight * 0.2;
+            var tc = createTextFiledNoEui(mc_content.TC);
+            tc.size = 28;
+            tc.x = this.registerLabelX + 63;
+            tc.y = this.stage.stageHeight * 0.4 - 49;
+            tc.textColor = 0x851c1c;
+            tc.bold = true;
+            cont.addChild(_whiteShader);
+            cont.addChild(myCard);
+            cont.addChild(tc);
+            tc.touchEnabled = true;
+            tc.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                window.location.href = "https://www.marinabaysands.com/sands-rewards-lifestyle/terms-and-conditions.html";
+            }, this);
+            cont.touchEnabled = true;
+            cont.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                egret.Tween.get(cont).to({ alpha: 0 }, 500).call(function () {
+                    cont.visible = false;
+                }, this);
+            }, this);
+            this.addChild(cont);
+        }, this);
+        tx.x = 100;
+        tx.y = this.registerLabelYBias + this.registerLabelY * 8.5;
+        tx.size = 23;
+        tx.textColor = 0x000000;
+        tx.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            this.mcCheckBox2.selected = !this.mcCheckBox2.selected;
+        }, this);
+        //   var terms2_LBoxTxt = createTextFiledNoEui(mc_content.terms2_LBox);
+        //   terms2_LBoxTxt.bold = true;
+        //   terms2_LBoxTxt.size = 23;
+        //   terms2_LBoxTxt.x = this.registerLabelX+227;
+        //   terms2_LBoxTxt.y = this.registerLabelYBias+this.registerLabelY*8.5+70;
+        this.mcCheckBox2.label = "";
+        this.register_view.addChild(this.mcCheckBox2);
+        this.register_view.addChild(tx);
+        this.mcCheckBox2.addEventListener(egret.Event.CHANGE, function () {
+        }, this);
+        //   terms2_LBoxTxt.touchEnabled = true;
+        //   terms2_LBoxTxt.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+        //          var cont = new egret.DisplayObjectContainer();
+        //          var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,0.8);
+        //          var myCard = createBitmap("terms1_png");
+        //          middleObject(this.stage.stageWidth,myCard);
+        //          myCard.y = this.stage.stageHeight * 0.2;
+        //         var tc = createTextFiledNoEui(mc_content.TC);
+        //         tc.size = 28;
+        //         tc.x = this.registerLabelX+63;
+        //         tc.y = this.stage.stageHeight * 0.4-49;
+        //         tc.textColor = 0x851c1c;
+        //         tc.bold = true;
+        //          cont.addChild(_whiteShader);
+        //          cont.addChild(myCard);
+        //          cont.addChild(tc);
+        //          tc.touchEnabled = true;
+        //          tc.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+        //              window.location.href="https://www.marinabaysands.com/sands-rewards-lifestyle/terms-and-conditions.html";
+        //         },this);
+        //          cont.touchEnabled = true;
+        //          cont.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+        //                  egret.Tween.get(cont).to({alpha : 0},500).call(function(){
+        //                         cont.visible = false;
+        //                  },this);
+        //          },this);
+        //          this.addChild(cont);
+        //   },this)
         //var yzm=createTextFiled("验证码：",0,207,35,0x54734a);
         this.firstNameText = createTextFiled(mc_content.firstName, this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 0, 25, 0xb1b1b1, "left", 390, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var f_name_border = new egret.Shape();
@@ -314,7 +426,7 @@ var Info1UI = (function (_super) {
             this.dateD = v;
         }, this);
         //添加按钮
-        this.cj_btn = createBitmap("patronRegister_png", 140, 1024);
+        this.cj_btn = createBitmap("patronRegister_png", 140, 1050);
         this.register_view.addChild(this.cj_btn);
         //注册按钮点击
         this.cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
@@ -328,6 +440,7 @@ var Info1UI = (function (_super) {
         this.dropDwonList.x = this.registerInputX;
         this.dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
         this._registerScollerView.addChild(this.dropDwonList);
+        this.addChild(chucuo_title);
     };
     Info1UI.prototype.registerCompelete = function (event) {
         loading(false);

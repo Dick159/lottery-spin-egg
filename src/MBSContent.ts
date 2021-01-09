@@ -27,15 +27,10 @@ let mc_content={
     "Binded":"Prizes have been bound by other member.",
     "BindedBefore":"Your account have bound prizes before.",
     "Bindfail":"Binding failed.\r\nTry Again Later.",
-    "terms1":"          I wish to receive marketing updates via postal mail, email, text messaging and/or telephone as described ",
+    "terms1":"  I wish to receive marketing updates via postal mail,\r\n   email,text messaging and/or telephone as described ",
     "terms1_LBox":"here.",
-    "terms2_1":"          I understand and agree to both the",
-    "terms2_1_href":"Sands Rewards LifeStyle programme terms and conditions",
-    "terms2_2":" and the ",
-    "terms2_2_href":"processing of my personal data",
-    "terms2_3":", and warrant that the declarations ",
+    "terms2":"  I understand and agree to both the"+"Sands Rewards \r\n   LifeStyle programme terms and conditions"+" and the "+"\r\nprocessing of my personal data"+", and warrant that \r\nthe declarations "+"       "+" are true.",
     "terms2_LBox":"here",
-    "terms2_4":" are true.",
     "firstName":"First Name",
     "lastName":"Last Name",
     "phone":"Mobile Phone",
@@ -51,5 +46,6 @@ let mc_content={
     "eText3":"ENVELOPES",
     "eText":"LIMITED EDITION\r\nREDPACKET\nENVELOPES",
     "RedeemTime":"Redeem your prizes by 11 March 2021",
-    "Play":"Please play the game"
+    "Play":"Please play the game",
+    "TC":"Terms and Conditions."
 }

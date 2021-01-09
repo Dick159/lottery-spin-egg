@@ -51,6 +51,8 @@ class Info1UI extends eui.UILayer {
 
     private mcCheckBox = new eui.CheckBox();
 
+    private mcCheckBox2 = new eui.CheckBox();
+
     private banner = createBitmap("SandsRewardsLifestyle_Logo_png");
     public constructor() {
         super();    
@@ -309,12 +311,139 @@ class Info1UI extends eui.UILayer {
       //0,17+92*4
       this.mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
       this.mcCheckBox.x = this.registerLabelX;
-      this.mcCheckBox.y = this.registerLabelYBias+this.registerLabelY*8;
+      this.mcCheckBox.y = this.registerLabelYBias+this.registerLabelY*7.5;
+      var terms1_LBoxTxt = createTextFiledNoEui(mc_content.terms1_LBox);
+      terms1_LBoxTxt.bold = true;
+      terms1_LBoxTxt.size = 23;
+      terms1_LBoxTxt.x = this.registerLabelX+63;
+      terms1_LBoxTxt.y = this.registerLabelYBias+this.registerLabelY*7.5+50;
       this.mcCheckBox.label = mc_content.terms1;
       this.register_view.addChild(this.mcCheckBox);
+      this.register_view.addChild(terms1_LBoxTxt);
       this.mcCheckBox.addEventListener(egret.Event.CHANGE, function(){
 
       }, this);
+
+
+      terms1_LBoxTxt.touchEnabled = true;
+      terms1_LBoxTxt.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+             var cont = new egret.DisplayObjectContainer();
+             var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,0.8);
+             var myCard = createBitmap("terms2_png");
+             middleObject(this.stage.stageWidth,myCard);
+             myCard.y = this.stage.stageHeight * 0.2;
+
+             
+
+             cont.addChild(_whiteShader);
+             cont.addChild(myCard);
+             
+
+             cont.touchEnabled = true;
+
+             cont.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                     egret.Tween.get(cont).to({alpha : 0},500).call(function(){
+                            cont.visible = false;
+                     },this);
+             },this);
+             this.addChild(cont);
+      },this)
+
+      //0,17+92*4
+      this.mcCheckBox2.skinName = "resource/eui_skins/CheckBoxSkin.exml";
+      this.mcCheckBox2.x = this.registerLabelX;
+      this.mcCheckBox2.y = this.registerLabelYBias+this.registerLabelY*8.5;
+
+      var tx:egret.TextField = new egret.TextField;
+        tx.textFlow = new Array<egret.ITextElement>(
+            { text:"I understand and agree to both the"+"Sands Rewards \r\nLifeStyle programme terms and conditions"+" and the "+"\r\nprocessing of my personal data"+", and warrant that \r\nthe declarations ", style: {} },{ text:mc_content.terms2_LBox, style: { "href" : "event:text event triggered","bold":true} }
+            ,{ text:" are true.", style: {} }
+        );
+        tx.touchEnabled = true;
+        tx.addEventListener( egret.TextEvent.LINK, function( evt:egret.TextEvent){
+            console.log( evt.text );
+             var cont = new egret.DisplayObjectContainer();
+             var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,0.8);
+             var myCard = createBitmap("terms1_png");
+             middleObject(this.stage.stageWidth,myCard);
+             myCard.y = this.stage.stageHeight * 0.2;
+
+            var tc = createTextFiledNoEui(mc_content.TC);
+            tc.size = 28;
+            tc.x = this.registerLabelX+63;
+            tc.y = this.stage.stageHeight * 0.4-49;
+            tc.textColor = 0x851c1c;
+            tc.bold = true;
+             cont.addChild(_whiteShader);
+             cont.addChild(myCard);
+             cont.addChild(tc);
+
+             tc.touchEnabled = true;
+             tc.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                 window.location.href="https://www.marinabaysands.com/sands-rewards-lifestyle/terms-and-conditions.html";
+            },this);
+
+
+
+             cont.touchEnabled = true;
+             cont.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                     egret.Tween.get(cont).to({alpha : 0},500).call(function(){
+                            cont.visible = false;
+                     },this);
+             },this);
+             this.addChild(cont);
+        }, this );
+        tx.x = 100;
+        tx.y = this.registerLabelYBias+this.registerLabelY*8.5;
+        tx.size = 23;
+        tx.textColor=0x000000;
+
+        tx.addEventListener( egret.TouchEvent.TOUCH_TAP, function( evt:egret.TextEvent){
+            this.mcCheckBox2.selected =!this.mcCheckBox2.selected;
+        }, this );
+    //   var terms2_LBoxTxt = createTextFiledNoEui(mc_content.terms2_LBox);
+    //   terms2_LBoxTxt.bold = true;
+    //   terms2_LBoxTxt.size = 23;
+    //   terms2_LBoxTxt.x = this.registerLabelX+227;
+    //   terms2_LBoxTxt.y = this.registerLabelYBias+this.registerLabelY*8.5+70;
+      this.mcCheckBox2.label = "";
+      this.register_view.addChild(this.mcCheckBox2);
+       this.register_view.addChild(tx);
+      this.mcCheckBox2.addEventListener(egret.Event.CHANGE, function(){
+
+      }, this);
+
+    //   terms2_LBoxTxt.touchEnabled = true;
+    //   terms2_LBoxTxt.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+    //          var cont = new egret.DisplayObjectContainer();
+    //          var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,0.8);
+    //          var myCard = createBitmap("terms1_png");
+    //          middleObject(this.stage.stageWidth,myCard);
+    //          myCard.y = this.stage.stageHeight * 0.2;
+
+    //         var tc = createTextFiledNoEui(mc_content.TC);
+    //         tc.size = 28;
+    //         tc.x = this.registerLabelX+63;
+    //         tc.y = this.stage.stageHeight * 0.4-49;
+    //         tc.textColor = 0x851c1c;
+    //         tc.bold = true;
+    //          cont.addChild(_whiteShader);
+    //          cont.addChild(myCard);
+    //          cont.addChild(tc);
+
+    //          tc.touchEnabled = true;
+    //          tc.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+    //              window.location.href="https://www.marinabaysands.com/sands-rewards-lifestyle/terms-and-conditions.html";
+    //         },this);
+
+    //          cont.touchEnabled = true;
+    //          cont.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+    //                  egret.Tween.get(cont).to({alpha : 0},500).call(function(){
+    //                         cont.visible = false;
+    //                  },this);
+    //          },this);
+    //          this.addChild(cont);
+    //   },this)
 
        //var yzm=createTextFiled("验证码：",0,207,35,0x54734a);
        this.firstNameText=createTextFiled(mc_content.firstName, this.registerInputX + 5, this.registerInputYBias + this.registerInputY * 0, 25, 0xb1b1b1, "left",390,61, "middle", false,  0xa0a0a0, false,egret.TextFieldType.INPUT); 
@@ -408,7 +537,7 @@ class Info1UI extends eui.UILayer {
         },this)
 
        //添加按钮
-       this.cj_btn=createBitmap("patronRegister_png",140,1024);
+       this.cj_btn=createBitmap("patronRegister_png",140,1050);
        this.register_view.addChild(this.cj_btn);
 
        //注册按钮点击
@@ -426,6 +555,9 @@ class Info1UI extends eui.UILayer {
         this.dropDwonList.y = this.registerInputYBias + 5 + this.registerInputY * 3;
 
         this._registerScollerView.addChild(this.dropDwonList);
+
+        
+         this.addChild(chucuo_title);
     }
 
      private registerCompelete(event:egret.Event){

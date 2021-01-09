@@ -141,7 +141,7 @@ class PrizeAndRules extends eui.UILayer {
         rules_title_bg.y = _that.stage.stageHeight * 0.57;
         //var rules_title_eui_bg = createBitmapEui("Rules_title_png");
 
-
+        
         var rules_body_bg = createBitmap("Rules_body_png");
         var rules_body_eui_bg = createBitmapEui("rule_long_content_png");
         rules_body_eui_bg.width = rules_body_bg.width;
@@ -163,9 +163,20 @@ class PrizeAndRules extends eui.UILayer {
         _scroller.y = rules_title_bg.y + rules_title_bg.height - 5;
 
 
+        var tc = createTextFiledNoEui(mc_content.terms1_LBox);
+            tc.size = 35;
+            tc.x = 305;
+            tc.y = 995;
+            tc.textColor = 0x851c1c;
+            tc.bold = true;
 
+        
         myRulesInfo_cnt.addChild(rules_body_eui_bg);
-
+        myRulesInfo_cnt.addChild(tc);
+        tc.touchEnabled = true;
+             tc.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                 window.location.href="https://uat.marinabaysands.com/campaign/fortuneOx2021-terms-and-conditions.html";
+            },this);
 
         this.addChild(rules_title_bg);
         
