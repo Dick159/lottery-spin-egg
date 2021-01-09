@@ -54,9 +54,9 @@ class Main extends egret.DisplayObjectContainer {
 
     static GetTokenUserDetail = "/services/h5game/getTokenGameData";
 
-    static PostMemberDetail = "/services/h5game/postMemberData";
+    // static PostMemberDetail = "/services/h5game/postMemberData";
 
-    static PostTokenUserDetail = "/services/h5game/postTokenData";
+    // static PostTokenUserDetail = "/services/h5game/postTokenData";
 
     static PostBindingMember = "/services/h5game/putData";
 
@@ -97,7 +97,7 @@ class Main extends egret.DisplayObjectContainer {
          var jsonObject= JSON.parse(request.response);
          if(jsonObject.code == '200'){
          this.setUpPrize(jsonObject.data.PrizeProperty);
-         checkDate(jsonObject.data.date);
+         checkExpiredDate(jsonObject.data.date);
          this.initPlayerData();
 
          

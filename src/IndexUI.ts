@@ -246,11 +246,13 @@ class IndexUI extends egret.Sprite {
               if(getLocalStorage(Main.MEMBERID_SYB)){
                   if(hpl.indexOf(getLocalStorage(Main.MEMBERID_SYB)) >= 0){
                         this.popUpMessageTip("You have played today.\r\nPlay again tomorrow." ,this)
+                        return;
                   }
               }
               else if(getLocalStorage(Main.TOKENID_SYB)){
                   if(hpl.indexOf(getLocalStorage(Main.TOKENID_SYB)) >= 0){
                         this.popUpMessageTip("You have played today.\r\nPlay again tomorrow." ,this)
+                        return;
                   }
               }
 
@@ -461,10 +463,10 @@ class IndexUI extends egret.Sprite {
             return ;
         }
         if(getLocalStorage(Main.MEMBERID_SYB)){
-            setLocalStorageList("PAYED_SYN",getLocalStorage(Main.MEMBERID_SYB))
+            setLocalStorageList(Main.PAYED_SYN,getLocalStorage(Main.MEMBERID_SYB))
         }
         if(getLocalStorage(Main.TOKENID_SYB)){
-            setLocalStorageList("PAYED_SYN",getLocalStorage(Main.TOKENID_SYB))
+            setLocalStorageList(Main.PAYED_SYN,getLocalStorage(Main.TOKENID_SYB))
         }
 
         var jsonObject= JSON.parse(request.response);
@@ -540,7 +542,7 @@ class IndexUI extends egret.Sprite {
                     params += "&tokenId=" + tokenId;
                     _f = true;
                 }
-                console.log(params);
+
                 if(_f){
                     var lottery_request = requestPost(Main.baseUrl + Main.lotteryApi,params);
                     lottery_request.send();
@@ -556,7 +558,9 @@ class IndexUI extends egret.Sprite {
     }
 
     private popUpResult(that,callBack){
-        putNonBindingTokenId();
+        if(!getLocalStorage(Main.MEMBERID_SYB) && getLocalStorage(Main.TOKENID_SYB)){
+            putNonBindingTokenId();
+        }
         var shader = createShaderMask(this.stage.width,this.stage.height,0x000000,0.6);
 
         var popupPrizeContainer = new egret.DisplayObjectContainer();
@@ -955,8 +959,8 @@ class IndexUI extends egret.Sprite {
 
     private popUpMessageTip(str:string,_that){
         var width = 300;
-        var height = 500;
-        _that.addChild(ConfirmUtil.popUpTips(str,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
+        var height = 700;
+        _that.addChild(ConfirmUtil.popUpTips(str,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.7,width,height));
     }
     private getPrizeDetailFinish(event:egret.Event){
             var request = <egret.HttpRequest>event.currentTarget;

@@ -473,13 +473,15 @@ function setLocalStorageList(key, value) {
     }
     else {
         var list = JSON.parse(getLocalStorage(key));
-        list.push(value);
-        egret.localStorage.setItem(key, JSON.stringify(list));
+        if (list.indexOf(value) < 0) {
+            list.push(value);
+            egret.localStorage.setItem(key, JSON.stringify(list));
+        }
     }
 }
 function getLocalStorageList(key) {
     if (!getLocalStorage(key)) {
-        return;
+        return [];
     }
     var list = JSON.parse(getLocalStorage(key));
     return list;
@@ -521,5 +523,17 @@ function delParam(paramKey) {
     }
     url = beforeUrl + nextUrl;
     return url;
+}
+function checkExpiredDate(_date) {
+    if (!getLocalStorage(Main.CURRENT_DATE)) {
+        setLocalStorage(Main.CURRENT_DATE, _date);
+    }
+    else {
+        var cur_date = getLocalStorage(Main.CURRENT_DATE);
+        if (_date > Main.CURRENT_DATE) {
+            removeLocalStorage(Main.PAYED_SYN);
+            setLocalStorage(Main.CURRENT_DATE, _date);
+        }
+    }
 }
 //# sourceMappingURL=until.js.map

@@ -185,11 +185,10 @@ class Info1UI extends eui.UILayer {
 
                          var tokenId = getLocalStorage(Main.TOKENID_SYB);
                          var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId+"&remark=" + "binding";
-
+                         setLocalStorage(Main.MEMBERID_SYB,v);
                          var request = requestPost(Main.baseUrl + Main.PostBindingMember,"?" + params);
                          loading(true);
                          request.send();
-                         
                          request.addEventListener(egret.Event.COMPLETE,this.bindingResultSuccess,this);
                          request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.bindingError,this);
                          Main.isBindingAction=false;
@@ -201,7 +200,7 @@ class Info1UI extends eui.UILayer {
                         gameui.loadScence("index", this, IndexUI);
                      }
                 }else{
-                    this.addChild(ConfirmUtil.popUpTips("Format error",false,150,300,400,250));
+                    this.addChild(ConfirmUtil.popUpTips("Member ID\r\nFormat error",false,150,300,400,250));
                 }
        },this);
        loginBtn.touchEnabled = true;    //开启点击侦听
@@ -221,39 +220,39 @@ class Info1UI extends eui.UILayer {
 
     private bindingError(event:egret.Event){
           this.tempPatronId = "";
-          this.pupUpErrorTips(this,"Network Error.\r\nTry Again Later.");
+          this.popUpErrorTips(this,"Network Error.\r\nTry Again Later.");
     }
 
     private bindingResultSuccess(event:egret.Event){
          loading(false);
          var request = <egret.HttpRequest>event.currentTarget;
          var jsonObject= JSON.parse(request.response);
-
+         setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
          if(jsonObject.code == "200"){
              if(jsonObject.data.Output.Response.StatusCode == "00"){
                  setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
                  removeNonBindTokenId();
-                 this.pupUpErrorTips(this,"Binding and Login success.");
+                 this.popUpErrorTips(this,"Binding and Login success.");
                  setTimeout(this.toMainPage(),2000);
              }else if(jsonObject.data.Output.Response.StatusCode == "01"){
                  var _message = jsonObject.data.Output.Response.StatusDescription;
-                 if(_message && _message.indexOf("already") >= 0 && _message.indexOf("TOKENID")){
-                     this.pupUpErrorTips(this,"Prizes had been bound by other member.");
+                 if(_message && _message.indexOf("already") >= 0 && _message.indexOf("TOKENID") >=0 ){
+                     this.popUpErrorTips(this,"Prizes have been bound by other member.");
                      removeLocalStorage(Main.NBD_TOKEN_SYB);
-                 }else if(_message && _message.indexOf("already") >= 0 && _message.indexOf("MEMBERSHIPID")){
-                     this.pupUpErrorTips(this,"Your account had bound prizes before.\r\nTry to log in.");
+                 }else if(_message && _message.indexOf("already") >= 0 && _message.indexOf("MEMBERSHIPID") >= 0){
+                     this.popUpErrorTips(this,"Your account have bound prizes before.");
                  }else{
-                     this.pupUpErrorTips(this,"Network error.");
+                     this.popUpErrorTips(this,"Network error.");
                  }
                  this.tempPatronId = "";
              }
          } else{
              this.tempPatronId = "";
-             this.pupUpErrorTips(this,"Binding failed.\r\nTry Again Later.");
+             this.popUpErrorTips(this,"Binding failed.\r\nTry Again Later.");
          }
     }
 
-   private pupUpErrorTips(_that,message){
+   private popUpErrorTips(_that,message){
         var width = 300;
         var height = 500;
         _that.addChild(ConfirmUtil.popUpTips(message,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
@@ -421,7 +420,7 @@ class Info1UI extends eui.UILayer {
         this._registerScollerView.addChild(this.dropDwonList);
     }
 
-     private  (event:egret.Event){
+     private registerCompelete(event:egret.Event){
          loading(false);
          var request = <egret.HttpRequest>event.currentTarget;
          var jsonObject= JSON.parse(request.response);

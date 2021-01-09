@@ -47,6 +47,7 @@ var Main = (function (_super) {
         var jsonObject = JSON.parse(request.response);
         if (jsonObject.code == '200') {
             this.setUpPrize(jsonObject.data.PrizeProperty);
+            checkExpiredDate(jsonObject.data.date);
             this.initPlayerData();
             //初始化Resource资源加载库
             //initiate Resource loading library
@@ -283,8 +284,8 @@ Main.PostTokenizerApi = "/services/h5game/token";
 Main.GetContentApi = "/services/h5game/content";
 Main.GetMemberUserDetail = "/services/h5game/getMemberGameData";
 Main.GetTokenUserDetail = "/services/h5game/getTokenGameData";
-Main.PostMemberDetail = "/services/h5game/postMemberData";
-Main.PostTokenUserDetail = "/services/h5game/postTokenData";
+// static PostMemberDetail = "/services/h5game/postMemberData";
+// static PostTokenUserDetail = "/services/h5game/postTokenData";
 Main.PostBindingMember = "/services/h5game/putData";
 Main.TOKENID_SYB = "MBS_TOKENID";
 Main.MEMBERID_SYB = "memberId";
@@ -292,6 +293,8 @@ Main.isBindingAction = false;
 Main.NBD_TOKEN_SYB = "NBDTK";
 Main.zpname = "请进行抽奖"; //奖的名称
 Main.SRLID_SYB = "srlID";
+Main.PAYED_SYN = "cx1542";
+Main.CURRENT_DATE = "cn284sjdj";
 Main.isFirstLoad = true;
 Main.staticCoinsPrizeList = [];
 Main.staticDDPrizeList = [];

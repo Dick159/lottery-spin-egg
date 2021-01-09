@@ -450,14 +450,16 @@ function setLocalStorageList(key,value){
     }
     else{
         let list = JSON.parse(getLocalStorage(key));
-        list.push(value);
-        egret.localStorage.setItem(key,JSON.stringify(list));
+        if(list.indexOf(value) < 0){
+            list.push(value);
+            egret.localStorage.setItem(key,JSON.stringify(list));
+        }
     }
 }
 
 function getLocalStorageList(key){
     if(!getLocalStorage(key)){
-        return ;
+        return [];
     }
     let list = JSON.parse(getLocalStorage(key));
     return list;

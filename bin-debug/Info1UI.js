@@ -126,6 +126,7 @@ var Info1UI = (function (_super) {
                     this.tempPatronId = v;
                     var tokenId = getLocalStorage(Main.TOKENID_SYB);
                     var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId + "&remark=" + "binding";
+                    setLocalStorage(Main.MEMBERID_SYB, v);
                     var request = requestPost(Main.baseUrl + Main.PostBindingMember, "?" + params);
                     loading(true);
                     request.send();
@@ -134,14 +135,14 @@ var Info1UI = (function (_super) {
                     Main.isBindingAction = false;
                 }
                 else {
-                    this.addChild(ConfirmUtil.popUpTips("登录成功", false, 150, 150, 400, 250));
+                    this.addChild(ConfirmUtil.popUpTips("Login success", false, 150, 150, 400, 250));
                     setLocalStorage(Main.MEMBERID_SYB, v);
                     var gameui = ScenceManage.create(this.stage);
                     gameui.loadScence("index", this, IndexUI);
                 }
             }
             else {
-                this.addChild(ConfirmUtil.popUpTips("格式错误", false, 150, 300, 400, 250));
+                this.addChild(ConfirmUtil.popUpTips("Member ID\r\nFormat error", false, 150, 300, 400, 250));
             }
         }, this);
         loginBtn.touchEnabled = true; //开启点击侦听
@@ -157,34 +158,41 @@ var Info1UI = (function (_super) {
     };
     Info1UI.prototype.bindingError = function (event) {
         this.tempPatronId = "";
-        this.pupUpErrorTips(this, "Network Error.\r\nTry Again Later.");
+        this.popUpErrorTips(this, "Network Error.\r\nTry Again Later.");
     };
     Info1UI.prototype.bindingResultSuccess = function (event) {
         loading(false);
         var request = event.currentTarget;
         var jsonObject = JSON.parse(request.response);
+        setLocalStorage(Main.MEMBERID_SYB, this.tempPatronId);
         if (jsonObject.code == "200") {
             if (jsonObject.data.Output.Response.StatusCode == "00") {
                 setLocalStorage(Main.MEMBERID_SYB, this.tempPatronId);
                 removeNonBindTokenId();
-                this.pupUpErrorTips(this, "Binding and Login success.");
-                this.toMainPage();
+                this.popUpErrorTips(this, "Binding and Login success.");
+                setTimeout(this.toMainPage(), 2000);
             }
-            else {
+            else if (jsonObject.data.Output.Response.StatusCode == "01") {
                 var _message = jsonObject.data.Output.Response.StatusDescription;
-                if (_message && _message.indexOf("Record already Exists") >= 0) {
-                    this.pupUpErrorTips(this, ".\r\nTry Again Later.");
+                if (_message && _message.indexOf("already") >= 0 && _message.indexOf("TOKENID") >= 0) {
+                    this.popUpErrorTips(this, "Prizes have been bound by other member.");
                     removeLocalStorage(Main.NBD_TOKEN_SYB);
+                }
+                else if (_message && _message.indexOf("already") >= 0 && _message.indexOf("MEMBERSHIPID") >= 0) {
+                    this.popUpErrorTips(this, "Your account have bound prizes before.");
+                }
+                else {
+                    this.popUpErrorTips(this, "Network error.");
                 }
                 this.tempPatronId = "";
             }
         }
         else {
             this.tempPatronId = "";
-            this.pupUpErrorTips(this, "Binding failed.\r\nTry Again Later.");
+            this.popUpErrorTips(this, "Binding failed.\r\nTry Again Later.");
         }
     };
-    Info1UI.prototype.pupUpErrorTips = function (_that, message) {
+    Info1UI.prototype.popUpErrorTips = function (_that, message) {
         var width = 300;
         var height = 500;
         _that.addChild(ConfirmUtil.popUpTips(message, true, _that.stage.stageWidth * 0.5 - width * 0.5, _that.stage.stageHeight * 0.6, width, height));
@@ -341,8 +349,10 @@ var Info1UI = (function (_super) {
                 Main.isBindingAction = false;
             }
             else {
-                var gameui = ScenceManage.create(this.stage);
-                gameui.loadScence("index", this, IndexUI);
+                setTimeout(function () {
+                    var gameui = ScenceManage.create(this.stage);
+                    gameui.loadScence("index", this, IndexUI);
+                }, 2000);
             }
         }
         else if (jsonObject.result == 'ERROR') {
