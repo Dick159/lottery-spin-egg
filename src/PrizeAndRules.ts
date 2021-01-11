@@ -164,9 +164,9 @@ class PrizeAndRules extends eui.UILayer {
 
 
         var tc = createTextFiledNoEui(mc_content.terms1_LBox);
-            tc.size = 35;
-            tc.x = 305;
-            tc.y = 995;
+            tc.size = 32;
+            tc.x = 435;
+            tc.y = 790;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 

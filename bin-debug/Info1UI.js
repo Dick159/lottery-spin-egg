@@ -242,18 +242,15 @@ var Info1UI = (function (_super) {
         this.mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
         this.mcCheckBox.x = this.registerLabelX;
         this.mcCheckBox.y = this.registerLabelYBias + this.registerLabelY * 7.5;
-        var terms1_LBoxTxt = createTextFiledNoEui(mc_content.terms1_LBox);
-        terms1_LBoxTxt.bold = true;
+        //   var terms1_LBoxTxt = createTextFiledNoEui(mc_content.terms1_LBox);
+        var terms1_LBoxTxt = new egret.TextField;
+        terms1_LBoxTxt.textFlow = new Array({ text: "我希望通过信件、电邮、简讯及/或电话搜集接收", style: { "fontFamily": "Microsoft YaHei" } }, { text: mc_content.terms1_LBox, style: { "href": "event:text event triggered", "bold": true, "fontFamily": "Microsoft YaHei" } }, { text: "\r\n所述的最新营销动态。", style: { "fontFamily": "Microsoft YaHei" } });
         terms1_LBoxTxt.size = 23;
         terms1_LBoxTxt.x = this.registerLabelX + 63;
-        terms1_LBoxTxt.y = this.registerLabelYBias + this.registerLabelY * 7.5 + 50;
-        this.mcCheckBox.label = mc_content.terms1;
-        this.register_view.addChild(this.mcCheckBox);
-        this.register_view.addChild(terms1_LBoxTxt);
-        this.mcCheckBox.addEventListener(egret.Event.CHANGE, function () {
-        }, this);
+        terms1_LBoxTxt.y = 822;
+        terms1_LBoxTxt.textColor = 0x000000;
         terms1_LBoxTxt.touchEnabled = true;
-        terms1_LBoxTxt.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        terms1_LBoxTxt.addEventListener(egret.TextEvent.LINK, function (evt) {
             var cont = new egret.DisplayObjectContainer();
             var _whiteShader = createShaderMask(this.stage.width, this.stage.height, 0xFFFFFF, 0.8);
             var myCard = createBitmap("terms2_png");
@@ -269,12 +266,20 @@ var Info1UI = (function (_super) {
             }, this);
             this.addChild(cont);
         }, this);
+        terms1_LBoxTxt.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            this.mcCheckBox.selected = !this.mcCheckBox.selected;
+        }, this);
+        this.mcCheckBox.label = "";
+        this.register_view.addChild(this.mcCheckBox);
+        this.register_view.addChild(terms1_LBoxTxt);
+        this.mcCheckBox.addEventListener(egret.Event.CHANGE, function () {
+        }, this);
         //0,17+92*4
         this.mcCheckBox2.skinName = "resource/eui_skins/CheckBoxSkin.exml";
         this.mcCheckBox2.x = this.registerLabelX;
         this.mcCheckBox2.y = this.registerLabelYBias + this.registerLabelY * 8.5;
         var tx = new egret.TextField;
-        tx.textFlow = new Array({ text: "I understand and agree to both the" + "Sands Rewards \r\nLifeStyle programme terms and conditions" + " and the " + "\r\nprocessing of my personal data" + ", and warrant that \r\nthe declarations ", style: {} }, { text: mc_content.terms2_LBox, style: { "href": "event:text event triggered", "bold": true } }, { text: " are true.", style: {} });
+        tx.textFlow = new Array({ text: "我理解并同意金沙尊赏时尚会员计划的条款与条件以及\r\n对于本人资料的处理，同时保证声明内容", style: { "fontFamily": "Microsoft YaHei" } }, { text: mc_content.terms2_LBox, style: { "href": "event:text event triggered", "bold": true, "fontFamily": "Microsoft YaHei" } }, { text: "真实有效。", style: { "fontFamily": "Microsoft YaHei" } });
         tx.touchEnabled = true;
         tx.addEventListener(egret.TextEvent.LINK, function (evt) {
             console.log(evt.text);
@@ -284,9 +289,10 @@ var Info1UI = (function (_super) {
             middleObject(this.stage.stageWidth, myCard);
             myCard.y = this.stage.stageHeight * 0.2;
             var tc = createTextFiledNoEui(mc_content.TC);
-            tc.size = 28;
-            tc.x = this.registerLabelX + 63;
-            tc.y = this.stage.stageHeight * 0.4 - 49;
+            tc.fontFamily = "Microsoft YaHei";
+            tc.size = 30;
+            tc.x = this.registerLabelX + 246;
+            tc.y = this.stage.stageHeight * 0.4 - 102;
             tc.textColor = 0x851c1c;
             tc.bold = true;
             cont.addChild(_whiteShader);
