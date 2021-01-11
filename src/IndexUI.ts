@@ -190,25 +190,25 @@ class IndexUI extends egret.Sprite {
         this.addChild(title);
         //铃铛
         //声音
-        var dd = new egret.Sound;
-        dd.load("resource/assets/dd.mp3");
-        var bell = createBitmap("index_bell_png", 29, 233);
-        this.addChild(bell);
-        bell.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+    //     var dd = new egret.Sound;
+    //     dd.load("resource/assets/dd.mp3");
+    //     var bell = createBitmap("index_bell_png", 29, 233);
+    //     this.addChild(bell);
+    //     bell.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
            
-            egret.Tween.get(bell).to({ rotation: 30 }, 300).call(function () {
-                dd.play(0,1);
-                egret.Tween.get(bell).to({ rotation: -30 }, 300).call(function () {
-                    bell.rotation=0;
-                    //dog.play(0,1);
-                    // egret.Tween.get(fawn2).to({ alpha: 0 }, 300).to({alpha: 1},300).to({alpha: 0},300).call(function () {
-                    //     fawn2.alpha=1;
-                    //  }.bind(this));
+    //         egret.Tween.get(bell).to({ rotation: 30 }, 300).call(function () {
+    //             dd.play(0,1);
+    //             egret.Tween.get(bell).to({ rotation: -30 }, 300).call(function () {
+    //                 bell.rotation=0;
+    //                 //dog.play(0,1);
+    //                 // egret.Tween.get(fawn2).to({ alpha: 0 }, 300).to({alpha: 1},300).to({alpha: 0},300).call(function () {
+    //                 //     fawn2.alpha=1;
+    //                 //  }.bind(this));
                     
-                }.bind(this));
-            }.bind(this));
-        },this);
-       bell.touchEnabled = true; 
+    //             }.bind(this));
+    //         }.bind(this));
+    //     },this);
+    //    bell.touchEnabled = true; 
 
         //gameRule
         var gameRule = createBitmap("PrizesRulesButton_png",440,1295);
@@ -267,6 +267,12 @@ class IndexUI extends egret.Sprite {
                         this.popUpMessageTip(mc_content.PlayedMsg ,this)
                         return;
                   }
+              }
+
+              if(getLocalStorage(Main.IS_TOKEN_PLAYED)){
+                    this.popUpMessageTip(mc_content.PlayedMsg ,this)
+                    setLocalStorageList(Main.PAYED_SYN,getLocalStorage(Main.TOKENID_SYB));
+                    return;
               }
 
               this.removeChild(this.languageCnt);
@@ -553,6 +559,7 @@ class IndexUI extends egret.Sprite {
                     _f = true;
                 }
                 else if(tokenId){
+                    setLocalStorage(Main.IS_TOKEN_PLAYED,"HPFB");
                     params += "&tokenId=" + tokenId;
                     _f = true;
                 }
