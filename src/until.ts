@@ -514,7 +514,7 @@ function checkExpiredDate(_date){
         }
         else{
             var cur_date = getLocalStorage(Main.CURRENT_DATE);
-            if(_date > Main.CURRENT_DATE){
+            if(_date >cur_date){
                 removeLocalStorage(Main.PAYED_SYN);
                 setLocalStorage(Main.CURRENT_DATE,_date);
             }
