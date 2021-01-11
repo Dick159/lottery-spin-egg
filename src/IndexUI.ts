@@ -23,7 +23,7 @@ class IndexUI extends egret.Sprite {
     private sign_out_btn = createBitmap("sign_out_png", 375, 603);
     private LoginRegisterbutton = createBitmap("Member Login Button_1_png",0,1295);
 
-    private curLang = "e";
+    private curLang = "c";
 
     private languageCnt = new egret.DisplayObjectContainer();
 
@@ -114,8 +114,19 @@ class IndexUI extends egret.Sprite {
 
     private createSwitchLanguage(){
 
-        var _e = createBitmap("Langauge Selection_English_png");
-        var _c = createBitmap("Langauge Selection_Chinese_child_png");
+        var _e = null;
+
+        var _c;
+
+        if(this.curLang == 'e'){
+            _e = createBitmap("Langauge Selection_English_png");
+            _c = createBitmap("Langauge Selection_Chinese_child_png");
+        }
+        else if(this.curLang=='c'){
+            _e = createBitmap("Langauge Selection_Chinese_png");
+            _c = createBitmap("Langauge Selection_English_child_png");
+        }
+
         _e.touchEnabled = true;
         _c.touchEnabled = true;
         _e.x = this.stage.stageWidth - _e.width;
@@ -145,6 +156,8 @@ class IndexUI extends egret.Sprite {
                     egret.Tween.get(_c).to({y:_e.y},200);
                     this.isSelect = false;
                 }
+
+                window.location.href="https://uat.marinabaysands.com"+window.location.pathname;
 
         },this)
 

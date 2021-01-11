@@ -26,7 +26,7 @@ var IndexUI = (function (_super) {
         _this.getTokenFirst = true;
         _this.sign_out_btn = createBitmap("sign_out_png", 375, 603);
         _this.LoginRegisterbutton = createBitmap("Member Login Button_1_png", 0, 1295);
-        _this.curLang = "e";
+        _this.curLang = "c";
         _this.languageCnt = new egret.DisplayObjectContainer();
         _this.isSelect = false;
         _this.ballMove = [
@@ -91,8 +91,16 @@ var IndexUI = (function (_super) {
         this.addChild(cont);
     };
     IndexUI.prototype.createSwitchLanguage = function () {
-        var _e = createBitmap("Langauge Selection_English_png");
-        var _c = createBitmap("Langauge Selection_Chinese_child_png");
+        var _e = null;
+        var _c;
+        if (this.curLang == 'e') {
+            _e = createBitmap("Langauge Selection_English_png");
+            _c = createBitmap("Langauge Selection_Chinese_child_png");
+        }
+        else if (this.curLang == 'c') {
+            _e = createBitmap("Langauge Selection_Chinese_png");
+            _c = createBitmap("Langauge Selection_English_child_png");
+        }
         _e.touchEnabled = true;
         _c.touchEnabled = true;
         _e.x = this.stage.stageWidth - _e.width;
@@ -118,6 +126,7 @@ var IndexUI = (function (_super) {
                 egret.Tween.get(_c).to({ y: _e.y }, 200);
                 this.isSelect = false;
             }
+            console.log(123);
         }, this);
         _e.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (!this.isSelect) {
