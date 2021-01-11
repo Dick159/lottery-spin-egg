@@ -573,6 +573,8 @@ class IndexUI extends egret.Sprite {
                 }else{
                     this.isErrorRequest = true;
                 }
+            }else{
+                this.isErrorRequest = true;
             }
         }else{
             this.isErrorRequest = true;
