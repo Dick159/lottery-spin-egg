@@ -533,6 +533,7 @@ function checkExpiredDate(_date) {
         if (_date > cur_date) {
             removeLocalStorage(Main.PAYED_SYN);
             setLocalStorage(Main.CURRENT_DATE, _date);
+            removeLocalStorage(Main.IS_TOKEN_PLAYED);
         }
     }
 }
