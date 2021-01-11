@@ -269,6 +269,12 @@ class IndexUI extends egret.Sprite {
                   }
               }
 
+              if(getLocalStorage(Main.IS_TOKEN_PLAYED)){
+                    this.popUpMessageTip(mc_content.PlayedMsg ,this)
+                    setLocalStorageList(Main.PAYED_SYN,getLocalStorage(Main.TOKENID_SYB));
+                    return;
+              }
+
               this.removeChild(this.languageCnt);
               Main.jp_onoff=true;
               //-----alpha to 0-------
@@ -553,6 +559,7 @@ class IndexUI extends egret.Sprite {
                     _f = true;
                 }
                 else if(tokenId){
+                    setLocalStorage(Main.IS_TOKEN_PLAYED,"HPFB");
                     params += "&tokenId=" + tokenId;
                     _f = true;
                 }
@@ -722,7 +729,7 @@ class IndexUI extends egret.Sprite {
         typeText.x = (congText.x + congText.width * 0.5) - typeText.width*0.5;
         typeText.y = prizeValueText.y + typeText.size;
 
-        var congTextSize = 25;
+        var congTextSize = 22;
         var congTextColor = 0xFFFFFF;
         for(var i=0;i<congTipsTextList.length;i++){
              var _t = createTextFiledNoEui("");

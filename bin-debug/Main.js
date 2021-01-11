@@ -276,7 +276,7 @@ Main.laohujiButOnoff = true;
 Main.registLoginShow = false;
 //http://150.109.32.241:4503/
 //"https://staging.marinabaysands.com"
-//static  baseUrl = window.location.protocol +"//" +window.location.host;
+// static  baseUrl = window.location.protocol +"//" +window.location.host;
 Main.baseUrl = "https://staging.marinabaysands.com";
 Main.patronRegisterUrl = "/services/members_card_register";
 Main.lotteryApi = "/services/h5game/lottery";
@@ -297,6 +297,7 @@ Main.PAYED_SYN = "cx1542";
 Main.CURRENT_DATE = "cn284sjdj";
 Main.CPT = "fdjsf83283";
 Main.isFirstLoad = true;
+Main.IS_TOKEN_PLAYED = "djs8sjfnvnm";
 Main.staticCoinsPrizeList = [];
 Main.staticDDPrizeList = [];
 Main.staticEnvPrizeList = [];
