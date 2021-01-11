@@ -47,5 +47,6 @@ let mc_content={
     "eText":"LIMITED EDITION\r\nREDPACKET\nENVELOPES",
     "RedeemTime":"Redeem your prizes by 11 March 2021",
     "Play":"Please play the game",
-    "TC":"Terms and Conditions."
+    "TC":"Terms and Conditions.",
+    "haveBinded":"You have played today.\r\nNo new score is recorded"
 }
