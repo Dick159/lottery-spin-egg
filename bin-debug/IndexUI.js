@@ -91,8 +91,16 @@ var IndexUI = (function (_super) {
         this.addChild(cont);
     };
     IndexUI.prototype.createSwitchLanguage = function () {
-        var _e = createBitmap("Langauge Selection_English_png");
-        var _c = createBitmap("Langauge Selection_Chinese_child_png");
+        var _e = null;
+        var _c;
+        if (this.curLang == 'e') {
+            _e = createBitmap("Langauge Selection_English_png");
+            _c = createBitmap("Langauge Selection_Chinese_child_png");
+        }
+        else if (this.curLang == 'c') {
+            _e = createBitmap("Langauge Selection_Chinese_png");
+            _c = createBitmap("Langauge Selection_English_child_png");
+        }
         _e.touchEnabled = true;
         _c.touchEnabled = true;
         _e.x = this.stage.stageWidth - _e.width;
@@ -118,6 +126,7 @@ var IndexUI = (function (_super) {
                 egret.Tween.get(_c).to({ y: _e.y }, 200);
                 this.isSelect = false;
             }
+            window.location.href = "https://uat.marinabaysands.com" + window.location.pathname;
         }, this);
         _e.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if (!this.isSelect) {
