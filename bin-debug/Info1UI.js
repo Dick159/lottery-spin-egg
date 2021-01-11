@@ -242,18 +242,15 @@ var Info1UI = (function (_super) {
         this.mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
         this.mcCheckBox.x = this.registerLabelX;
         this.mcCheckBox.y = this.registerLabelYBias + this.registerLabelY * 7.5;
-        var terms1_LBoxTxt = createTextFiledNoEui(mc_content.terms1_LBox);
-        terms1_LBoxTxt.bold = true;
+        //   var terms1_LBoxTxt = createTextFiledNoEui(mc_content.terms1_LBox);
+        var terms1_LBoxTxt = new egret.TextField;
+        terms1_LBoxTxt.textFlow = new Array({ text: "I wish to receive marketing updates via postal mail,\r\nemail,text messaging and/or telephone as \r\ndescribed ", style: {} }, { text: mc_content.terms1_LBox, style: { "href": "event:text event triggered", "bold": true } });
         terms1_LBoxTxt.size = 23;
-        terms1_LBoxTxt.x = this.registerLabelX + 63;
-        terms1_LBoxTxt.y = this.registerLabelYBias + this.registerLabelY * 7.5 + 50;
-        this.mcCheckBox.label = mc_content.terms1;
-        this.register_view.addChild(this.mcCheckBox);
-        this.register_view.addChild(terms1_LBoxTxt);
-        this.mcCheckBox.addEventListener(egret.Event.CHANGE, function () {
-        }, this);
+        terms1_LBoxTxt.x = this.registerLabelX + 50;
+        terms1_LBoxTxt.y = 822;
+        terms1_LBoxTxt.textColor = 0x000000;
         terms1_LBoxTxt.touchEnabled = true;
-        terms1_LBoxTxt.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        terms1_LBoxTxt.addEventListener(egret.TextEvent.LINK, function (evt) {
             var cont = new egret.DisplayObjectContainer();
             var _whiteShader = createShaderMask(this.stage.width, this.stage.height, 0xFFFFFF, 0.8);
             var myCard = createBitmap("terms2_png");
@@ -268,6 +265,14 @@ var Info1UI = (function (_super) {
                 }, this);
             }, this);
             this.addChild(cont);
+        }, this);
+        terms1_LBoxTxt.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
+            this.mcCheckBox.selected = !this.mcCheckBox.selected;
+        }, this);
+        this.mcCheckBox.label = "";
+        this.register_view.addChild(this.mcCheckBox);
+        this.register_view.addChild(terms1_LBoxTxt);
+        this.mcCheckBox.addEventListener(egret.Event.CHANGE, function () {
         }, this);
         //0,17+92*4
         this.mcCheckBox2.skinName = "resource/eui_skins/CheckBoxSkin.exml";
