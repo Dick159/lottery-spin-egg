@@ -316,6 +316,7 @@ class IndexUI extends egret.Sprite {
                             this.pauseAllBalls(this.balls);
                             //this.popUpMyPrizeList(that);
                             this.pupUpErrorTips(that);
+                            removeLocalStorage(Main.IS_TOKEN_PLAYED);
                         }
                         if(this.isNormalError){
                             this.pauseAllBalls(this.balls);
