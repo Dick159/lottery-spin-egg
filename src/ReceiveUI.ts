@@ -118,15 +118,15 @@ class ReceiveUI extends egret.Sprite {
         this.lotteryExit.x = 40;
         this.lotteryExit.y = 505;
         
-        //声音
-        this.dd = new egret.Sound;
-        this.dd.load("resource/assets/dd.mp3");
-        //摇杆声音
-        this.rockeer_mp3 = new egret.Sound;
-        this.rockeer_mp3.load("resource/assets/rocker.mp3");
-        //老虎机声音
-        this.laohuji_mp3 = new egret.Sound;
-        this.laohuji_mp3.load("resource/assets/jiqi.mp3");
+        // //声音
+        // this.dd = new egret.Sound;
+        // this.dd.load("resource/assets/dd.mp3");
+        // //摇杆声音
+        // this.rockeer_mp3 = new egret.Sound;
+        // this.rockeer_mp3.load("resource/assets/rocker.mp3");
+        // //老虎机声音
+        // this.laohuji_mp3 = new egret.Sound;
+        // this.laohuji_mp3.load("resource/assets/jiqi.mp3");
 
         for(let ball of this.ballMap){
             var obj = this.createLotteryBall(ball.src,ball.size,ball.x,ball.y);

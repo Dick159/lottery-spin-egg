@@ -108,15 +108,15 @@ var ReceiveUI = (function (_super) {
         this.lotteryExit = createBitmap("asuzx-doomm_png");
         this.lotteryExit.x = 40;
         this.lotteryExit.y = 505;
-        //声音
-        this.dd = new egret.Sound;
-        this.dd.load("resource/assets/dd.mp3");
-        //摇杆声音
-        this.rockeer_mp3 = new egret.Sound;
-        this.rockeer_mp3.load("resource/assets/rocker.mp3");
-        //老虎机声音
-        this.laohuji_mp3 = new egret.Sound;
-        this.laohuji_mp3.load("resource/assets/jiqi.mp3");
+        // //声音
+        // this.dd = new egret.Sound;
+        // this.dd.load("resource/assets/dd.mp3");
+        // //摇杆声音
+        // this.rockeer_mp3 = new egret.Sound;
+        // this.rockeer_mp3.load("resource/assets/rocker.mp3");
+        // //老虎机声音
+        // this.laohuji_mp3 = new egret.Sound;
+        // this.laohuji_mp3.load("resource/assets/jiqi.mp3");
         for (var _i = 0, _a = this.ballMap; _i < _a.length; _i++) {
             var ball = _a[_i];
             var obj = this.createLotteryBall(ball.src, ball.size, ball.x, ball.y);
