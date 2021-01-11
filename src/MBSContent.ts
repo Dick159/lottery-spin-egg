@@ -23,7 +23,7 @@ let mc_content={
     "LoginSuccess":"登陆成功",
     "FormatErr":"会员 ID\r\n格式错误",
     "NetworkErr":"系统错误\r\n请稍后再试。",
-    "BinSuccess":"绑定且登陆成功",
+    "BinSuccess":"新记录已成功登记",
     "Binded":"奖品已经与其他会员绑定，请检查您的输入",
     "BindedBefore":"您的账号已经被绑定过了，请检查您的输入",
     "Bindfail":"绑定失败。\r\n请稍后再试。",
@@ -47,5 +47,6 @@ let mc_content={
     "eText":"MBS限量红包壳",
     "RedeemTime":"请在2021年3月11日之前兑换您的奖品",
     "Play":"请开始游戏",
-    "TC":"条款与条件。"
+    "TC":"条款与条件。",
+    "haveBinded":"你今天已经玩过了,\r\n此次游戏不会被记录"
 }

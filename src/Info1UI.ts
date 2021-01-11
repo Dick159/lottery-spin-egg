@@ -256,7 +256,9 @@ class Info1UI extends eui.UILayer {
                 this.tempPatronId = "";
                 this.popUpErrorTips(this,mc_content.Bindfail);
              }
-         } else{
+         }else if(jsonObject.code == "05"){
+             this.popUpErrorTips(this,mc_content.haveBinded);
+         }else{
              this.tempPatronId = "";
              this.popUpErrorTips(this,mc_content.Bindfail);
          }
