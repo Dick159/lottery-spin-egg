@@ -254,6 +254,7 @@ var IndexUI = (function (_super) {
                             this.pauseAllBalls(this.balls);
                             //this.popUpMyPrizeList(that);
                             this.pupUpErrorTips(that);
+                            removeLocalStorage(Main.IS_TOKEN_PLAYED);
                         }
                         if (this.isNormalError) {
                             this.pauseAllBalls(this.balls);
@@ -472,6 +473,9 @@ var IndexUI = (function (_super) {
                 else {
                     this.isErrorRequest = true;
                 }
+            }
+            else {
+                this.isErrorRequest = true;
             }
         }
         else {
@@ -792,21 +796,31 @@ var IndexUI = (function (_super) {
         _that.addChild(ConfirmUtil.popUpTips(str, true, _that.stage.stageWidth * 0.5 - width * 0.5, _that.stage.stageHeight * 0.7, width, height));
     };
     IndexUI.prototype.getPrizeDetailFinish = function (event) {
+        loading(false);
         var request = event.currentTarget;
-        var jsonObject = JSON.parse(request.response);
-        var _data = jsonObject.data;
-        if (_data.status && _data.status == "00") {
-            MyPrizes.currentAc = _data.ac;
-            MyPrizes.currentAd = _data.ad;
-            MyPrizes.currentAe = _data.ae;
+        if (request.response) {
+            var jsonObject = JSON.parse(request.response);
+            var _data = jsonObject.data;
+            if (_data.status && _data.status == "00") {
+                MyPrizes.currentAc = _data.ac;
+                MyPrizes.currentAd = _data.ad;
+                MyPrizes.currentAe = _data.ae;
+                var prizeScene = ScenceManage.create(this.stage);
+                prizeScene.loadScence("IndexUI", this, MyPrizes);
+            }
+            else {
+                this.pupUpErrorTips(this);
+            }
+        }
+        else {
+            this.pupUpErrorTips(this);
         }
         this.MyPrizeBtn.touchEnabled = true;
-        loading(false);
-        var prizeScene = ScenceManage.create(this.stage);
-        prizeScene.loadScence("IndexUI", this, MyPrizes);
     };
     IndexUI.prototype.getPrizeDetailError = function (event) {
         this.MyPrizeBtn.touchEnabled = true;
+        loading(false);
+        this.pupUpErrorTips(this);
     };
     IndexUI.prototype.ifLoginJudge = function () {
         var srlID = getQueryVariable(Main.SRLID_SYB);
