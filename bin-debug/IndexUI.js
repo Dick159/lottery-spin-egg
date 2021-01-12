@@ -474,6 +474,9 @@ var IndexUI = (function (_super) {
                     this.isErrorRequest = true;
                 }
             }
+            else {
+                this.isErrorRequest = true;
+            }
         }
         else {
             this.isErrorRequest = true;

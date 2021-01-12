@@ -196,6 +196,9 @@ var Info1UI = (function (_super) {
                 this.popUpErrorTips(this, mc_content.Bindfail);
             }
         }
+        else if (jsonObject.code == "05") {
+            this.popUpErrorTips(this, mc_content.haveBinded);
+        }
         else {
             this.tempPatronId = "";
             this.popUpErrorTips(this, mc_content.Bindfail);
