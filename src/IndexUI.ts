@@ -987,7 +987,9 @@ class IndexUI extends egret.Sprite {
         _that.addChild(ConfirmUtil.popUpTips(str,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.7,width,height));
     }
     private getPrizeDetailFinish(event:egret.Event){
+            loading(false);
             var request = <egret.HttpRequest>event.currentTarget;
+            if(request.response){
            var jsonObject= JSON.parse(request.response);
            
            var _data = jsonObject.data;
@@ -996,15 +998,22 @@ class IndexUI extends egret.Sprite {
                MyPrizes.currentAc = _data.ac;
                MyPrizes.currentAd = _data.ad;
                MyPrizes.currentAe = _data.ae;
+            var prizeScene = ScenceManage.create(this.stage);
+            prizeScene.loadScence("IndexUI",this,MyPrizes);
+           }else{
+                 this.pupUpErrorTips(this);
            }
-           this.MyPrizeBtn.touchEnabled = true;
-           loading(false);
-           var prizeScene = ScenceManage.create(this.stage);
-           prizeScene.loadScence("IndexUI",this,MyPrizes);
+            }
+            else{
+                this.pupUpErrorTips(this);
+            }
+        this.MyPrizeBtn.touchEnabled = true;
     }   
 
     private getPrizeDetailError(event:egret.Event){
         this.MyPrizeBtn.touchEnabled = true;
+        loading(false);
+        this.pupUpErrorTips(this);
     }
 
     public ifLoginJudge(){
