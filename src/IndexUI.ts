@@ -1003,10 +1003,12 @@ class IndexUI extends egret.Sprite {
             prizeScene.loadScence("IndexUI",this,MyPrizes);
            }else{
                  this.pupUpErrorTips(this);
+                 Main.jp_onoff = false;
            }
             }
             else{
                 this.pupUpErrorTips(this);
+                Main.jp_onoff = false;
             }
         this.MyPrizeBtn.touchEnabled = true;
     }   
@@ -1015,6 +1017,7 @@ class IndexUI extends egret.Sprite {
         this.MyPrizeBtn.touchEnabled = true;
         loading(false);
         this.pupUpErrorTips(this);
+        Main.jp_onoff = false;
     }
 
     public ifLoginJudge(){
