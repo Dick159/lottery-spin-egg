@@ -1,5 +1,5 @@
 let mc_content={
-    "ERROR_MESSAGE":"Network Error.",
+    "ERROR_MESSAGE":"System is busy,\r\nplease try again later.",
     "PlayedMsg":"You have played today.\r\nPlay again tomorrow.",
     "SignOut":"Sign out success.",
     "DD":"REWARD DOLLARS",
