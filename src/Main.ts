@@ -39,7 +39,7 @@ class Main extends egret.DisplayObjectContainer {
     static laohujiButOnoff=true;
     static registLoginShow = false;
     //http://150.109.32.241:4503/
-    //"https://staging.marinabaysands.com"
+    // "https://staging.marinabaysands.com"
     static  baseUrl = window.location.protocol +"//" +window.location.host;
     // static  baseUrl = "https://staging.marinabaysands.com";
     private getProbabilityData = "/services/h5game/property";

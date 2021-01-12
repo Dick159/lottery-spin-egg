@@ -211,7 +211,7 @@ class IndexUI extends egret.Sprite {
     //    bell.touchEnabled = true; 
 
         //gameRule
-        var gameRule = createBitmap("PrizesRulesButton_png",440,1295);
+        var gameRule = createBitmap("PrizesRulesButton_png",454,1295);
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
@@ -1002,10 +1002,12 @@ class IndexUI extends egret.Sprite {
             prizeScene.loadScence("IndexUI",this,MyPrizes);
            }else{
                  this.pupUpErrorTips(this);
+                 Main.jp_onoff = false;
            }
             }
             else{
                 this.pupUpErrorTips(this);
+                Main.jp_onoff = false;
             }
         this.MyPrizeBtn.touchEnabled = true;
     }   
@@ -1014,6 +1016,7 @@ class IndexUI extends egret.Sprite {
         this.MyPrizeBtn.touchEnabled = true;
         loading(false);
         this.pupUpErrorTips(this);
+        Main.jp_onoff = false;
     }
 
     public ifLoginJudge(){

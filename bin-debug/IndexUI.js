@@ -170,7 +170,7 @@ var IndexUI = (function (_super) {
         //     },this);
         //    bell.touchEnabled = true; 
         //gameRule
-        var gameRule = createBitmap("PrizesRulesButton_png", 440, 1295);
+        var gameRule = createBitmap("PrizesRulesButton_png", 454, 1295);
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
@@ -796,21 +796,34 @@ var IndexUI = (function (_super) {
         _that.addChild(ConfirmUtil.popUpTips(str, true, _that.stage.stageWidth * 0.5 - width * 0.5, _that.stage.stageHeight * 0.7, width, height));
     };
     IndexUI.prototype.getPrizeDetailFinish = function (event) {
+        loading(false);
         var request = event.currentTarget;
-        var jsonObject = JSON.parse(request.response);
-        var _data = jsonObject.data;
-        if (_data.status && _data.status == "00") {
-            MyPrizes.currentAc = _data.ac;
-            MyPrizes.currentAd = _data.ad;
-            MyPrizes.currentAe = _data.ae;
+        if (request.response) {
+            var jsonObject = JSON.parse(request.response);
+            var _data = jsonObject.data;
+            if (_data.status && _data.status == "00") {
+                MyPrizes.currentAc = _data.ac;
+                MyPrizes.currentAd = _data.ad;
+                MyPrizes.currentAe = _data.ae;
+                var prizeScene = ScenceManage.create(this.stage);
+                prizeScene.loadScence("IndexUI", this, MyPrizes);
+            }
+            else {
+                this.pupUpErrorTips(this);
+                Main.jp_onoff = false;
+            }
+        }
+        else {
+            this.pupUpErrorTips(this);
+            Main.jp_onoff = false;
         }
         this.MyPrizeBtn.touchEnabled = true;
-        loading(false);
-        var prizeScene = ScenceManage.create(this.stage);
-        prizeScene.loadScence("IndexUI", this, MyPrizes);
     };
     IndexUI.prototype.getPrizeDetailError = function (event) {
         this.MyPrizeBtn.touchEnabled = true;
+        loading(false);
+        this.pupUpErrorTips(this);
+        Main.jp_onoff = false;
     };
     IndexUI.prototype.ifLoginJudge = function () {
         var srlID = getQueryVariable(Main.SRLID_SYB);
