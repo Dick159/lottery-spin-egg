@@ -60,7 +60,7 @@ class PrizeAndRules extends eui.UILayer {
             ac_content.size = textSize
             ac_content.x = 200;
             ac_content.textColor = textColor;
-            ac_content.y = my_prize_info_bg.y + 310 + textSize*i;
+            ac_content.y = 570;
             myPrizeInfo_cnt.addChild(ac_content);
         }
 
@@ -70,7 +70,7 @@ class PrizeAndRules extends eui.UILayer {
             ae_content.size = textSize;
             ae_content.x = 200;
             ae_content.textColor = textColor;
-            ae_content.y = my_prize_info_bg.y + 480 + textSize*i;
+            ae_content.y = 753.6;
             myPrizeInfo_cnt.addChild(ae_content);
         }
 

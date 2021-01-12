@@ -198,6 +198,9 @@ var Info1UI = (function (_super) {
         }
         else if (jsonObject.code == "05") {
             this.popUpErrorTips(this, mc_content.haveBinded);
+            setTimeout(function () {
+                this.toMainPage();
+            }, 2000);
         }
         else {
             this.tempPatronId = "";
