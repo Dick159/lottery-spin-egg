@@ -172,7 +172,8 @@ var Info1UI = (function (_super) {
                         Main.isBindingAction = false;
                     }
                     else {
-                        this.addChild(ConfirmUtil.popUpTips(mc_content.LoginSuccess, false, 150, 150, 400, 250));
+                        //  this.addChild(ConfirmUtil.popUpTips(mc_content.LoginSuccess,false,150,150,400,250));
+                        ShowTipsBox(mc_content.LoginSuccess, this);
                         setLocalStorage(Main.MEMBERID_SYB, v);
                         var gameui = ScenceManage.create(this.stage);
                         gameui.loadScence("index", this, IndexUI);
@@ -180,7 +181,8 @@ var Info1UI = (function (_super) {
                 }, this);
             }
             else {
-                this.addChild(ConfirmUtil.popUpTips(mc_content.FormatErr, false, 150, 300, 400, 250));
+                //this.addChild(ConfirmUtil.popUpTips(mc_content.FormatErr,false,150,300,400,250));
+                ShowConfirmBox(mc_content.FormatErr, "Error", this, null);
             }
         }, this);
         loginBtn.touchEnabled = true; //开启点击侦听
@@ -245,9 +247,10 @@ var Info1UI = (function (_super) {
         }
     };
     Info1UI.prototype.popUpErrorTips = function (_that, message) {
-        var width = 300;
-        var height = 500;
-        _that.addChild(ConfirmUtil.popUpTips(message, true, _that.stage.stageWidth * 0.5 - width * 0.5, _that.stage.stageHeight * 0.6, width, height));
+        // var width = 300;
+        // var height = 500;
+        // _that.addChild(ConfirmUtil.popUpTips(message,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
+        ShowConfirmBox(message, "Error", _that, null);
     };
     Info1UI.prototype.createRegisterView = function () {
         var img = new eui.Image("/resource/assets/djy_wbk.png");
@@ -415,17 +418,17 @@ var Info1UI = (function (_super) {
         l_name_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 1, 420, 61, 25, 25);
         l_name_border.graphics.endFill;
         //---------------------------------------------------------------------
-        var dob_d_text = createTextFiled("DD", this.registerInputX + 5, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.dob_d_text = createTextFiled("DD", this.registerInputX + 5, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var dob_d_border = new egret.Shape();
         dob_d_border.graphics.lineStyle(2, 0xb1b1b1);
         dob_d_border.graphics.drawRoundRect(this.registerInputX, 10 + this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
         dob_d_border.graphics.endFill;
-        var dob_m_text = createTextFiled("MM", this.registerInputX + 170, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.dob_m_text = createTextFiled("MM", this.registerInputX + 170, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var dob_m_border = new egret.Shape();
         dob_m_border.graphics.lineStyle(2, 0xb1b1b1);
         dob_m_border.graphics.drawRoundRect(this.registerInputX + 140, this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
         dob_m_border.graphics.endFill;
-        var dob_y_text = createTextFiled("YYYY", this.registerInputX + 5 + 310, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 130, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        this.dob_y_text = createTextFiled("YYYY", this.registerInputX + 5 + 310, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 130, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var dob_y_border = new egret.Shape();
         dob_y_border.graphics.lineStyle(2, 0xb1b1b1);
         dob_y_border.graphics.drawRoundRect(this.registerInputX + 310, this.registerInputYBias + this.registerInputY * 2, 200, 61, 25, 25);
@@ -449,9 +452,9 @@ var Info1UI = (function (_super) {
         this.register_view.addChild(this.firstNameText);
         this.register_view.addChild(this.lastNameText);
         this.register_view.addChild(this.mobilePhone);
-        this.register_view.addChild(dob_y_text);
-        this.register_view.addChild(dob_m_text);
-        this.register_view.addChild(dob_d_text);
+        this.register_view.addChild(this.dob_y_text);
+        this.register_view.addChild(this.dob_m_text);
+        this.register_view.addChild(this.dob_d_text);
         this.register_view.addChild(this.emailText);
         var nameYN = false;
         var telYN = false;
@@ -466,37 +469,43 @@ var Info1UI = (function (_super) {
             }
         }, this);
         //--------------------------------------------------------------------
-        dob_y_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
-            var v = dob_y_text.text;
+        this.dob_y_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
+            var v = this.dob_y_text.text;
             var pattern = /^(19\d{2}|20[01][0-9]|2020)$/;
             if (pattern.test(v)) {
                 this.dateY = v;
             }
             else {
-                this.showErrorText(mc_content.InvalidDate);
-                dob_m_text.text = '';
+                if (this.dob_y_text.text) {
+                    ShowTipsBox(mc_content.InvalidDate, this);
+                    this.dob_y_text.text = '';
+                }
             }
         }, this);
-        dob_m_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
-            var v = dob_m_text.text;
+        this.dob_m_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
+            var v = this.dob_m_text.text;
             var pattern = /^(0[0-9]|1[0-2])$/;
             if (pattern.test(v)) {
                 this.dateM = v;
             }
             else {
-                this.showErrorText(mc_content.InvalidDate);
-                dob_m_text.text = '';
+                if (this.dob_m_text.text) {
+                    ShowTipsBox(mc_content.InvalidDate, this);
+                    this.dob_m_text.text = '';
+                }
             }
         }, this);
-        dob_d_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
-            var v = dob_d_text.text;
+        this.dob_d_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
+            var v = this.dob_d_text.text;
             var pattern = /^(0[0-9]|1[0-9]|2[0-9]|3[0-1])$/;
             if (pattern.test(v)) {
                 this.dateD = v;
             }
             else {
-                this.showErrorText(mc_content.InvalidDate);
-                dob_m_text.text = '';
+                if (this.dob_d_text.text) {
+                    ShowTipsBox(mc_content.InvalidDate, this);
+                    this.dob_d_text.text = '';
+                }
             }
         }, this);
         //--------------------------------------------------------------------
@@ -508,7 +517,9 @@ var Info1UI = (function (_super) {
             this.cj_btn.touchEnabled = false;
             loading(true);
             if (!this.checkParamasValidate()) {
-                this.showErrorText("Error Params.");
+                loading(false);
+                this.cj_btn.touchEnabled = true;
+                return;
             }
             var request = requestRegisterPost(Main.baseUrl + Main.patronRegisterUrl, "?" + this.getPatronPostData());
             request.send();
@@ -527,7 +538,8 @@ var Info1UI = (function (_super) {
         if (jsonObject.result == 'SUCCESS') {
             var patronId = jsonObject.data.PatronId;
             setLocalStorage(Main.MEMBERID_SYB, patronId);
-            this.addChild(ConfirmUtil.popUpTips(mc_content.MIDMsg + patronId, false, 150, 300, 450, 350));
+            //this.addChild(ConfirmUtil.popUpTips(mc_content.MIDMsg + patronId,false,150,300,450,350));
+            ShowTipsBox(mc_content.MIDMsg + patronId, this);
             if (Main.isBindingAction || getLocalStorage(Main.NBD_TOKEN_SYB)) {
                 this.tempPatronId = patronId;
                 var tokenId = getLocalStorage(Main.TOKENID_SYB);
@@ -548,7 +560,8 @@ var Info1UI = (function (_super) {
             }
         }
         else if (jsonObject.result == 'ERROR') {
-            this.addChild(ConfirmUtil.popUpTips(mc_content.SUFailExist + patronId, false, 150, 300, 450, 350));
+            // this.addChild(ConfirmUtil.popUpTips(mc_content.SUFailExist + patronId,false,150,300,450,350));
+            ShowConfirmBox(mc_content.SUFailExist + patronId, "Error", this, null);
         }
         this.cj_btn.touchEnabled = true;
     };
@@ -569,17 +582,45 @@ var Info1UI = (function (_super) {
         }.bind(this));
     };
     Info1UI.prototype.showErrorText = function (text) {
-        this.errorText.text = text;
-        this.errorText.alpha = 1;
-        egret.Tween.get(this.errorText, { loop: false }).to({ alpha: 0 }, 2500);
+        // this.errorText.text = text;
+        // this.errorText.alpha = 1
+        // egret.Tween.get(this.errorText,{loop:false}).to({alpha:0},2500);
+        ShowConfirmBox(text, "Error", this, null);
     };
     Info1UI.prototype.toMainPage = function () {
         var gameui = ScenceManage.create(this.stage);
         gameui.loadScence("index", this, IndexUI);
     };
     Info1UI.prototype.checkParamasValidate = function () {
-        if (this.mobilePhone) {
+        if (!this.firstNameText.text) {
+            this.showErrorText(mc_content.ParamError);
+            return false;
         }
+        if (!this.lastNameText.text) {
+            this.showErrorText(mc_content.ParamError);
+            return false;
+        }
+        var pattern = /^[0-9]*$/;
+        if (!pattern.test(this.mobilePhone.text)) {
+            this.showErrorText(mc_content.ParamError);
+            return false;
+        }
+        var pattern = /^(19\d{2}|20[01][0-9]|2020)$/;
+        if (!pattern.test(this.dob_y_text.text)) {
+            this.showErrorText(mc_content.ParamError);
+            return false;
+        }
+        var pattern = /^(0[0-9]|1[0-2])$/;
+        if (!pattern.test(this.dob_m_text.text)) {
+            this.showErrorText(mc_content.ParamError);
+            return false;
+        }
+        var pattern = /^(0[0-9]|1[0-9]|2[0-9]|3[0-1])$/;
+        if (!pattern.test(this.dob_d_text.text)) {
+            this.showErrorText(mc_content.ParamError);
+            return false;
+        }
+        return true;
     };
     return Info1UI;
 }(eui.UILayer));

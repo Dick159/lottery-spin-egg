@@ -52,26 +52,25 @@ function createButton(x, y, width, height, bgColor, textColor, text, hoverBgColo
     div.touchEnabled = true; //开启点击侦听
     return div;
 }
-function ShowMessage(text, headerText, that) {
+function ShowConfirmBox(text, headerText, that, callBack) {
     if (headerText === void 0) { headerText = "Tips"; }
+    if (callBack === void 0) { callBack = null; }
     var div = new eui.Group();
     var shader = new eui.Group();
     shader.width = that.stage.stageWidth;
     shader.height = that.stage.stageHeight;
     shader.touchThrough = false;
+    div.touchThrough = false;
     var msg_box_obj = createBitmap("msg_box_png");
     var msg_box = createBitmapEui("msg_box_png");
     var close_text = createBitmapEui("msg_box_close_png");
+    close_text.scaleX = 2;
+    close_text.scaleY = 2;
     close_text.touchEnabled = true;
-    close_text.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
-        egret.Tween.get(div).to({ alpha: 0 }, 500).call(function () {
-            that.removeChild(div);
-        }, this);
-    }, that);
     div.width = msg_box_obj.width;
     div.height = msg_box_obj.height;
-    close_text.x = div.x + div.width - 30;
-    close_text.y += 15;
+    close_text.x = div.x + div.width - 40;
+    close_text.y += 20;
     var _text = createTextFiledNoEui(text);
     _text.size = 36;
     _text.textColor = 0x851c1c;
@@ -91,7 +90,31 @@ function ShowMessage(text, headerText, that) {
     div.alpha = 0.9;
     middleObject(that.stage.stageWidth, div);
     div.y = (that.stage.stageHeight - div.height) * 0.5;
+    close_text.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+        egret.Tween.get(div).to({ alpha: 0 }, 500).call(function () {
+            that.removeChild(div);
+            callBack ? callBack() : "";
+        }, this);
+    }, that);
     that.addChild(div);
+}
+function ShowTipsBox(message, that) {
+    var cnt = new eui.Group();
+    var text = createTextFiledNoEui(message);
+    text.textColor = 0x851c1c;
+    text.size = 28;
+    middleObject(cnt.width, text);
+    var shape = new egret.Shape();
+    shape.graphics.beginFill(0xe6b956);
+    shape.graphics.drawRoundRect(text.x - 15, text.y - 10, text.width + 30, text.height + 20, 30);
+    shape.graphics.endFill();
+    cnt.addChild(shape);
+    cnt.addChild(text);
+    middleObject(that.stage.stageWidth, cnt);
+    cnt.y = that.stage.stageHeight * 0.1;
+    that.addChild(cnt);
+    egret.Tween.get(cnt).to({ y: cnt.y - 80 }, 800).wait(1000).to({ alpha: 0 }, 500);
+    //   egret.Tween.get(text).to({y:text.y-100},800).to({alpha:0},500);
 }
 //图片按钮
 function createBitButton(img, x, y, textColor, text, hoverImg, hoverTextColor) {

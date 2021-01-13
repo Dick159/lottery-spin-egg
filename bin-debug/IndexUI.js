@@ -132,9 +132,6 @@ var IndexUI = (function (_super) {
         this.addChild(this.languageCnt);
     };
     IndexUI.prototype.createView = function () {
-        // var tips = createRoundRectBox(0,0,"asdasdasdas",36,0x851c1c,"TIPS",this);
-        // this.addChild(tips);
-        ShowMessage("you have play today\r\n Try Again tomorrow", "Information", this);
         this.LoginRegisterbutton.y = this.stage.stageHeight * 0.88;
         this.createSwitchLanguage();
         var that = this;
@@ -179,7 +176,8 @@ var IndexUI = (function (_super) {
         this.sign_out_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             removeLocalStorage(Main.MEMBERID_SYB);
             if (!getLocalStorage(Main.MEMBERID_SYB)) {
-                this.popUpMessageTip(mc_content.SignOut, this);
+                //this.popUpMessageTip(mc_content.SignOut,this);
+                ShowTipsBox("Sign out success", this);
                 this.sign_out_btn.visible = false;
                 this.LoginRegisterbutton.visible = true;
                 var srlId = getQueryVariable(Main.SRLID_SYB);
@@ -776,14 +774,16 @@ var IndexUI = (function (_super) {
         loading(false);
     };
     IndexUI.prototype.pupUpErrorTips = function (_that) {
-        var width = 300;
-        var height = 500;
-        _that.addChild(ConfirmUtil.popUpTips(this.ERROR_MESSAGE, true, _that.stage.stageWidth * 0.5 - width * 0.5, _that.stage.stageHeight * 0.6, width, height));
+        // var width = 300;
+        // var height = 500;
+        // _that.addChild(ConfirmUtil.popUpTips(this.ERROR_MESSAGE,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
+        ShowConfirmBox(this.ERROR_MESSAGE, "Error", _that);
     };
     IndexUI.prototype.popUpMessageTip = function (str, _that) {
-        var width = 300;
-        var height = 700;
-        _that.addChild(ConfirmUtil.popUpTips(str, true, _that.stage.stageWidth * 0.5 - width * 0.5, _that.stage.stageHeight * 0.7, width, height));
+        // var width = 300;
+        // var height = 700;
+        // _that.addChild(ConfirmUtil.popUpTips(str,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.7,width,height));
+        ShowTipsBox(str, _that);
     };
     IndexUI.prototype.getPrizeDetailFinish = function (event) {
         loading(false);

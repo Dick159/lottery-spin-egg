@@ -225,7 +225,8 @@ class IndexUI extends egret.Sprite {
         this.sign_out_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
                 removeLocalStorage(Main.MEMBERID_SYB);
                 if(!getLocalStorage(Main.MEMBERID_SYB)){
-                    this.popUpMessageTip(mc_content.SignOut,this);
+                    //this.popUpMessageTip(mc_content.SignOut,this);
+                    ShowTipsBox("Sign out success",this);
                     this.sign_out_btn.visible = false;
                     this.LoginRegisterbutton.visible = true;
                     
@@ -955,15 +956,17 @@ class IndexUI extends egret.Sprite {
     }
 
     private pupUpErrorTips(_that){
-        var width = 300;
-        var height = 500;
-        _that.addChild(ConfirmUtil.popUpTips(this.ERROR_MESSAGE,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
+        // var width = 300;
+        // var height = 500;
+        // _that.addChild(ConfirmUtil.popUpTips(this.ERROR_MESSAGE,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
+        ShowConfirmBox(this.ERROR_MESSAGE,"Error",_that);
     }
 
     private popUpMessageTip(str:string,_that){
-        var width = 300;
-        var height = 700;
-        _that.addChild(ConfirmUtil.popUpTips(str,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.7,width,height));
+        // var width = 300;
+        // var height = 700;
+        // _that.addChild(ConfirmUtil.popUpTips(str,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.7,width,height));
+        ShowTipsBox(str,_that);
     }
      private getPrizeDetailFinish(event:egret.Event){
             loading(false);

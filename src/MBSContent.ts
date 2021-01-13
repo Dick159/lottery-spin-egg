@@ -49,5 +49,6 @@ let mc_content={
     "RedeemTime":"Redeem your prizes by 11 March 2021",
     "Play":"Please play the game",
     "TC":"Terms and Conditions.",
-    "haveBinded":"You have played today.\r\nNo new score is recorded"
+    "haveBinded":"You have played today.\r\nNo new score is recorded",
+    "ParamError":"Please fill in\r\ncorrect information."
 }
