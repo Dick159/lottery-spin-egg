@@ -22,7 +22,7 @@ class MyPrizes extends eui.UILayer {
         var back = createBitmap("back_png");
 
         back.x = (this.stage.stageWidth - back.width) * 0.5;
-        back.y = this.stage.stageHeight * 0.6;
+        back.y = this.stage.stageHeight * 0.8;
         this.addChild(back);
 
         back.touchEnabled = true;
@@ -34,7 +34,7 @@ class MyPrizes extends eui.UILayer {
 
     private createPrize(){
         var textColor = 0x851c1c;
-        var textSize = 40;
+        var textSize = 35;
         var _that = this;
 
         Main.jp_onoff = true;

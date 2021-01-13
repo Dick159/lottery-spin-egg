@@ -41,6 +41,8 @@ var Info1UI = (function (_super) {
         this.createHomebtn();
     };
     Info1UI.prototype.createHomebtn = function () {
+        homeBtn.x = 5;
+        homeBtn.y = 5;
         var homeBtn = createBitmap("homepageback_button_png");
         homeBtn.touchEnabled = true;
         homeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
@@ -70,7 +72,7 @@ var Info1UI = (function (_super) {
     Info1UI.prototype.createLoginView = function () {
         this.banner = createBitmap("SandsRewardsLifestyle_Logo_png");
         this.banner.x = (this.stage.stageWidth - this.banner.width) * 0.5;
-        this.banner.y = this.stage.stageHeight * 0.15;
+        this.banner.y = this.stage.stageHeight * 0.03;
         this.addChild(this.banner);
         this._loginView.touchThrough = true;
         var img = new eui.Image("/resource/assets/djy_wbk.png");
@@ -258,7 +260,7 @@ var Info1UI = (function (_super) {
         euiben.width = 700;
         euiben.width = 50;
         this.register_view.addChild(euiben);
-        this._registerScollerView.y = 300;
+        this._registerScollerView.y = this.stage.stageHeight * 0.04;
         this._registerScollerView.width = this.stage.stageWidth;
         this._registerScollerView.x = 15;
         this._registerScollerView.height = this.stage.stageHeight;
@@ -499,7 +501,7 @@ var Info1UI = (function (_super) {
         }, this);
         //--------------------------------------------------------------------
         //添加按钮
-        this.cj_btn = createBitmap("patronRegister_png", 140, 1050);
+        this.cj_btn = createBitmap("patronRegister_png", 140, 1000);
         this.register_view.addChild(this.cj_btn);
         //注册按钮点击
         this.cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {

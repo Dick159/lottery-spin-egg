@@ -77,6 +77,8 @@ class Info1UI extends eui.UILayer {
 
 
     private createHomebtn(){
+        homeBtn.x=5;
+        homeBtn.y=5;
         var homeBtn = createBitmap("homepageback_button_png");
         homeBtn.touchEnabled = true;
         homeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
@@ -113,7 +115,7 @@ class Info1UI extends eui.UILayer {
 
         this.banner = createBitmap("SandsRewardsLifestyle_Logo_png");
         this.banner.x =(this.stage.stageWidth - this.banner.width) * 0.5;
-        this.banner.y = this.stage.stageHeight * 0.15;
+        this.banner.y = this.stage.stageHeight * 0.03;
         this.addChild(this.banner);
 
         this._loginView.touchThrough = true;
@@ -335,7 +337,7 @@ class Info1UI extends eui.UILayer {
        euiben.width = 50;
        this.register_view.addChild(euiben);
         
-       this._registerScollerView.y = 300;
+       this._registerScollerView.y = this.stage.stageHeight * 0.04;
        this._registerScollerView.width = this.stage.stageWidth;
        this._registerScollerView.x = 15;
        this._registerScollerView.height =  this.stage.stageHeight;
@@ -632,7 +634,7 @@ class Info1UI extends eui.UILayer {
         //--------------------------------------------------------------------
 
        //添加按钮
-       this.cj_btn=createBitmap("patronRegister_png",140,1050);
+        this.cj_btn=createBitmap("patronRegister_png",140,1000);
        this.register_view.addChild(this.cj_btn);
 
        //注册按钮点击

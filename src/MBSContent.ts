@@ -11,6 +11,7 @@ let mc_content={
     "envCongTipsText1":"OF MARINA BAY SANDS",
     "envCongTipsText2":"LIMITED EDITION RED PACKET ENVELOPES",
     "PACK":" PACK",
+    "amount":"",
     "ac_content":" AUSPICIOUS OX\r\n COLLECTIBLE",
     "ad_content":" REWARD DOLLARS",
     "ae_content":" RED PACKET ENVELOP",
