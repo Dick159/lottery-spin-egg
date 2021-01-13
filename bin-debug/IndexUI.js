@@ -132,6 +132,9 @@ var IndexUI = (function (_super) {
         this.addChild(this.languageCnt);
     };
     IndexUI.prototype.createView = function () {
+        // var tips = createRoundRectBox(0,0,"asdasdasdas",36,0x851c1c,"TIPS",this);
+        // this.addChild(tips);
+        ShowMessage("you have play today\r\n Try Again tomorrow", "Information", this);
         this.LoginRegisterbutton.y = this.stage.stageHeight * 0.88;
         this.createSwitchLanguage();
         var that = this;

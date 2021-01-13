@@ -164,7 +164,7 @@ class IndexUI extends egret.Sprite {
     }
 
     private createView(): void {
-        
+
         this.LoginRegisterbutton.y = this.stage.stageHeight * 0.88;
 
         this.createSwitchLanguage();

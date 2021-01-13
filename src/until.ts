@@ -53,39 +53,57 @@ function createButton(x,y,width,height,bgColor,textColor,text,hoverBgColor,hover
 }
 
 
-function createRoundRectBox(x,y,width,height,text:string,textSize,textColor=0x000000,headerText="Tips"){
+function ShowMessage(text:string,headerText="Tips",isMessage=false,that){
     var div = new eui.Group();
 
-    div.x = x;
-    div.y = y;
+    var shader = new eui.Group();
+    shader.width = that.stage.stageWidth
+    shader.height = that.stage.stageHeight
+    shader.touchThrough = false;
+    
      
+    var msg_box_obj = createBitmap("msg_box_png");
     var msg_box = createBitmapEui("msg_box_png");
 
     var close_text = createBitmapEui("msg_box_close_png")
+    close_text.touchEnabled = !isMessage;
+    close_text.visible = !isMessage;
+    if(!isMessage){
+        close_text.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+            egret.Tween.get(div).to({alpha:0},500).call(function(){
+                that.removeChild(div);
+            },this)
+        },that);
+    }
 
-    close_text.x = div.x + div.width - close_text.width - 10;
-    close_text.y += 10;
+    div.width = msg_box_obj.width;
+    div.height = msg_box_obj.height;
 
-    var _text = createTextFiled(text);
-    _text.size = textSize;
-    _text.textColor = textColor;
-    _text.y = msg_box.y + 50;
-    middleObject(msg_box.width,_text);
+    close_text.x = div.x + div.width  - 30;
+    close_text.y += 15;
 
-    var header = createTextFiled(headerText);
+    var _text = createTextFiledNoEui(text);
+    _text.size = 36;
+    _text.textColor = 0x851c1c;
+    _text.y = msg_box.y + 125;
+    middleObject(div.width,_text);
+
+    var header = createTextFiledNoEui(headerText);
     header.text = headerText;
-    header.size = textSize;
-    header.textColor = 0xFFFFFF;
-    header.y = msg_box.y + 250;
-    middleObject(msg_box.width,_text);
+    header.size = 42;
+    header.textColor = 0x851c1c;
+    header.y = msg_box.y + 25;
+    middleObject(div.width,header);
 
+    div.addChild(shader);
     div.addChild(msg_box);
     div.addChild(close_text);
     div.addChild(_text);
     div.addChild(header);
     div.alpha = 0.9;
-
-    return div;
+    middleObject(that.stage.stageWidth,div);
+    div.y = (that.stage.stageHeight - div.height) * 0.5;
+    that.addChild(div);
 }
 
 //图片按钮
