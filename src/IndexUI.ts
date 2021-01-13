@@ -178,7 +178,7 @@ class IndexUI extends egret.Sprite {
 
 
         //gameRule
-         var gameRule = createBitmap("PrizesRulesButton_png",454,this.stage.stageHeight * 0.88);
+         var gameRule = createBitmap("PrizesRulesButton_png",440,this.stage.stageHeight * 0.88);
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
