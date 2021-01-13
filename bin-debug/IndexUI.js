@@ -788,10 +788,10 @@ var IndexUI = (function (_super) {
         if (request.response) {
             var jsonObject = JSON.parse(request.response);
             var _data = jsonObject.data;
-            if (_data.status && _data.status == "00") {
-                MyPrizes.currentAc = _data.ac;
-                MyPrizes.currentAd = _data.ad;
-                MyPrizes.currentAe = _data.ae;
+            if (_data.status && (_data.status == "00" || _data.status == "01")) {
+                MyPrizes.currentAc = _data.ac || "0";
+                MyPrizes.currentAd = _data.ad || "0";
+                MyPrizes.currentAe = _data.ae || "0";
                 var prizeScene = ScenceManage.create(this.stage);
                 prizeScene.loadScence("IndexUI", this, MyPrizes);
             }
