@@ -29,16 +29,21 @@
 
 class LoadingUI extends egret.Sprite {
 
+    //private loadingTextT = 
+
     public constructor() {
         super();
         this.createView();
     }
+
+    private baseY = 800;
 
     private textField: egret.TextField;
     private barBg;
     private bar;
     public static bg = new egret.Bitmap();
     private createView(): void {
+
         //添加背景
         RES.getResByUrl("resource/assets/common_bg.png", function (texture) {
             var bg = new egret.Bitmap();
@@ -47,7 +52,7 @@ class LoadingUI extends egret.Sprite {
         }, this);
         this.textField = new egret.TextField();
         this.addChild(this.textField);
-        this.textField.y = 500;
+        this.textField.y = this.baseY;
         this.textField.width = 750;
         this.textField.height = 100;
         this.textField.textAlign = "center";
@@ -56,13 +61,13 @@ class LoadingUI extends egret.Sprite {
 
         this.barBg = new egret.Shape();
         this.barBg.graphics.beginFill(0x000000);
-        this.barBg.graphics.drawRect(175, 530, 400, 20);
+        this.barBg.graphics.drawRect(175, this.baseY+ 130, 400, 20);
         this.barBg.graphics.endFill();
         this.addChild(this.barBg);
 
         this.bar = new egret.Shape();
         this.bar.graphics.beginFill(0xffffff);
-        this.bar.graphics.drawRect(175, 530, 0, 20);
+        this.bar.graphics.drawRect(175, this.baseY + 130, 0, 20);
         this.bar.graphics.endFill();
         this.addChild(this.bar);
 
@@ -73,7 +78,7 @@ class LoadingUI extends egret.Sprite {
         var percent1 = Math.ceil(current / total * 100);
         this.textField.text = `Loading...${percent1}%`;
         this.bar.graphics.beginFill(0xffffff);
-        this.bar.graphics.drawRect(175, 530, percent, 20);
+        this.bar.graphics.drawRect(175, this.baseY + 130, percent, 20);
         this.bar.graphics.endFill();
     }
 }

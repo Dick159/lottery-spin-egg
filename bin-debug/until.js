@@ -26,7 +26,7 @@ function createButton(x, y, width, height, bgColor, textColor, text, hoverBgColo
     if (borderWidth && borderColor !== undefined) {
         shape.graphics.lineStyle(borderWidth, borderColor); //描边的粗细和颜色
     }
-    shape.graphics.drawRect(0, 0, width, height); //定义好形状
+    shape.graphics.drawRect(5, 5, width, height); //定义好形状
     shape.graphics.endFill();
     div.addChild(shape);
     var shape_text = new egret.TextField();
@@ -50,6 +50,34 @@ function createButton(x, y, width, height, bgColor, textColor, text, hoverBgColo
         shape_text.textColor = textColor;
     }, div);
     div.touchEnabled = true; //开启点击侦听
+    return div;
+}
+function createRoundRectBox(x, y, width, height, text, textSize, textColor, headerText) {
+    if (textColor === void 0) { textColor = 0x000000; }
+    if (headerText === void 0) { headerText = "Tips"; }
+    var div = new eui.Group();
+    div.x = x;
+    div.y = y;
+    var msg_box = createBitmapEui("msg_box_png");
+    var close_text = createBitmapEui("msg_box_close_png");
+    close_text.x = div.x + div.width - close_text.width - 10;
+    close_text.y += 10;
+    var _text = createTextFiled(text);
+    _text.size = textSize;
+    _text.textColor = textColor;
+    _text.y = msg_box.y + 50;
+    middleObject(msg_box.width, _text);
+    var header = createTextFiled(headerText);
+    header.text = headerText;
+    header.size = textSize;
+    header.textColor = 0xFFFFFF;
+    header.y = msg_box.y + 250;
+    middleObject(msg_box.width, _text);
+    div.addChild(msg_box);
+    div.addChild(close_text);
+    div.addChild(_text);
+    div.addChild(header);
+    div.alpha = 0.9;
     return div;
 }
 //图片按钮

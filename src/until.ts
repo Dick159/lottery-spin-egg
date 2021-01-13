@@ -24,7 +24,7 @@ function createButton(x,y,width,height,bgColor,textColor,text,hoverBgColor,hover
     if(borderWidth&&borderColor!==undefined){//判断是否需要设置边框
         shape.graphics.lineStyle(borderWidth,borderColor);   //描边的粗细和颜色
     }
-    shape.graphics.drawRect(0,0,width,height);//定义好形状
+    shape.graphics.drawRect(5,5,width,height);//定义好形状
     shape.graphics.endFill();
     div.addChild(shape);
     var shape_text = new egret.TextField();
@@ -52,6 +52,41 @@ function createButton(x,y,width,height,bgColor,textColor,text,hoverBgColor,hover
     return div;
 }
 
+
+function createRoundRectBox(x,y,width,height,text:string,textSize,textColor=0x000000,headerText="Tips"){
+    var div = new eui.Group();
+
+    div.x = x;
+    div.y = y;
+     
+    var msg_box = createBitmapEui("msg_box_png");
+
+    var close_text = createBitmapEui("msg_box_close_png")
+
+    close_text.x = div.x + div.width - close_text.width - 10;
+    close_text.y += 10;
+
+    var _text = createTextFiled(text);
+    _text.size = textSize;
+    _text.textColor = textColor;
+    _text.y = msg_box.y + 50;
+    middleObject(msg_box.width,_text);
+
+    var header = createTextFiled(headerText);
+    header.text = headerText;
+    header.size = textSize;
+    header.textColor = 0xFFFFFF;
+    header.y = msg_box.y + 250;
+    middleObject(msg_box.width,_text);
+
+    div.addChild(msg_box);
+    div.addChild(close_text);
+    div.addChild(_text);
+    div.addChild(header);
+    div.alpha = 0.9;
+
+    return div;
+}
 
 //图片按钮
 function createBitButton(img,x,y,textColor,text,hoverImg,hoverTextColor){

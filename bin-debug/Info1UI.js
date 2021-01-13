@@ -123,24 +123,59 @@ var Info1UI = (function (_super) {
             var v = this.memerIdInput.text;
             var pattern = /^[1]\d{8}$/;
             if (pattern.test(v)) {
-                if (Main.isBindingAction || getLocalStorage(Main.NBD_TOKEN_SYB)) {
-                    this.tempPatronId = v;
-                    var tokenId = getLocalStorage(Main.TOKENID_SYB);
-                    var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId + "&remark=" + "binding" + "&cpt=" + getLocalStorage(Main.CPT);
-                    setLocalStorage(Main.MEMBERID_SYB, v);
-                    var request = requestPost(Main.baseUrl + Main.PostBindingMember, "?" + params);
-                    loading(true);
-                    request.send();
-                    request.addEventListener(egret.Event.COMPLETE, this.bindingResultSuccess, this);
-                    request.addEventListener(egret.IOErrorEvent.IO_ERROR, this.bindingError, this);
-                    Main.isBindingAction = false;
-                }
-                else {
-                    this.addChild(ConfirmUtil.popUpTips(mc_content.LoginSuccess, false, 150, 150, 400, 250));
-                    setLocalStorage(Main.MEMBERID_SYB, v);
-                    var gameui = ScenceManage.create(this.stage);
-                    gameui.loadScence("index", this, IndexUI);
-                }
+                var _group = new eui.Group();
+                var _whiteShader = createShaderMask(this.stage.stageWidth, this.stage.stageHeight, 0xFFFFFF, 0.5);
+                var _body = createBitmap("tips_box_png");
+                _body.y = this.stage.stageHeight * 0.25;
+                middleObject(this.stage.stageWidth, _body);
+                var _off = createBitmap("off_png");
+                _off.scaleX = 0.8;
+                _off.scaleY = 0.8;
+                var _button = createButton(_body.x + (_body.width - _body.width * 0.3) * 0.5, _body.y + _body.height - _body.height * 0.3, _body.width * 0.3, _body.height * 0.2, 0xe6b956, 0x851c1c, "Confirm", 0xe6b956, 0xFFFFFF, 0, 0);
+                _off.x = _body.x + _body.width - _off.width + 10;
+                _off.y += _body.y + 5;
+                _off.touchEnabled = true;
+                var text = createTextFiledNoEui("Confirmed ID:");
+                text.size = 48;
+                text.textColor = 0x851c1c;
+                text.y = _body.y + 50 + _body.height * 0.1;
+                middleObject(this.stage.stageWidth, text);
+                var textID = createTextFiledNoEui(v);
+                textID.textColor = 0x851c1c;
+                textID.size = 36;
+                middleObject(this.stage.stageWidth, textID);
+                textID.y = text.y + text.size * 2;
+                _group.addChild(_whiteShader);
+                _group.addChild(_body);
+                _group.addChild(_button);
+                _group.addChild(_off);
+                _group.addChild(text);
+                _group.addChild(textID);
+                _group.touchThrough = false;
+                this.addChild(_group);
+                _off.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                    this.removeChild(_group);
+                }, this);
+                _button.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
+                    if (Main.isBindingAction || getLocalStorage(Main.NBD_TOKEN_SYB)) {
+                        this.tempPatronId = v;
+                        var tokenId = getLocalStorage(Main.TOKENID_SYB);
+                        var params = "memberId=" + this.tempPatronId + "&tokenId=" + tokenId + "&remark=" + "binding" + "&cpt=" + getLocalStorage(Main.CPT);
+                        setLocalStorage(Main.MEMBERID_SYB, v);
+                        var request = requestPost(Main.baseUrl + Main.PostBindingMember, "?" + params);
+                        loading(true);
+                        request.send();
+                        request.addEventListener(egret.Event.COMPLETE, this.bindingResultSuccess, this);
+                        request.addEventListener(egret.IOErrorEvent.IO_ERROR, this.bindingError, this);
+                        Main.isBindingAction = false;
+                    }
+                    else {
+                        this.addChild(ConfirmUtil.popUpTips(mc_content.LoginSuccess, false, 150, 150, 400, 250));
+                        setLocalStorage(Main.MEMBERID_SYB, v);
+                        var gameui = ScenceManage.create(this.stage);
+                        gameui.loadScence("index", this, IndexUI);
+                    }
+                }, this);
             }
             else {
                 this.addChild(ConfirmUtil.popUpTips(mc_content.FormatErr, false, 150, 300, 400, 250));
@@ -198,6 +233,9 @@ var Info1UI = (function (_super) {
         }
         else if (jsonObject.code == "05") {
             this.popUpErrorTips(this, mc_content.haveBinded);
+            setTimeout(function () {
+                this.toMainPage();
+            }, 2000);
         }
         else {
             this.tempPatronId = "";
@@ -243,6 +281,9 @@ var Info1UI = (function (_super) {
         var email_label = createTextFiled("Email:", this.registerLabelX, this.registerLabelYBias + this.registerLabelY * 4, 24, 0x000000);
         //0,17+92*4
         this.mcCheckBox.skinName = "resource/eui_skins/CheckBoxSkin.exml";
+        //--------------------------------------------------------------------
+        this.mcCheckBox.left = 8;
+        //--------------------------------------------------------------------
         this.mcCheckBox.x = this.registerLabelX;
         this.mcCheckBox.y = this.registerLabelYBias + this.registerLabelY * 7.5;
         //   var terms1_LBoxTxt = createTextFiledNoEui(mc_content.terms1_LBox);
@@ -279,6 +320,9 @@ var Info1UI = (function (_super) {
         }, this);
         //0,17+92*4
         this.mcCheckBox2.skinName = "resource/eui_skins/CheckBoxSkin.exml";
+        //--------------------------------------------------------------------
+        this.mcCheckBox2.left = 8;
+        //--------------------------------------------------------------------
         this.mcCheckBox2.x = this.registerLabelX;
         this.mcCheckBox2.y = this.registerLabelYBias + this.registerLabelY * 8.5;
         var tx = new egret.TextField;
@@ -368,21 +412,23 @@ var Info1UI = (function (_super) {
         l_name_border.graphics.lineStyle(2, 0xb1b1b1);
         l_name_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 1, 420, 61, 25, 25);
         l_name_border.graphics.endFill;
-        var dob_y_text = createTextFiled("YYYY", this.registerInputX + 5, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 130, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
-        var dob_y_border = new egret.Shape();
-        dob_y_border.graphics.lineStyle(2, 0xb1b1b1);
-        dob_y_border.graphics.drawRoundRect(this.registerInputX, this.registerInputYBias + this.registerInputY * 2, 200, 61, 25, 25);
-        dob_y_border.graphics.endFill;
-        var dob_m_text = createTextFiled("MM", this.registerInputX + 5 + 170, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
-        var dob_m_border = new egret.Shape();
-        dob_m_border.graphics.lineStyle(2, 0xb1b1b1);
-        dob_m_border.graphics.drawRoundRect(this.registerInputX + 210, this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
-        dob_m_border.graphics.endFill;
-        var dob_d_text = createTextFiled("DD", this.registerInputX + 5 + 320, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        //---------------------------------------------------------------------
+        var dob_d_text = createTextFiled("DD", this.registerInputX + 5, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var dob_d_border = new egret.Shape();
         dob_d_border.graphics.lineStyle(2, 0xb1b1b1);
-        dob_d_border.graphics.drawRoundRect(this.registerInputX + 320, 10 + this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
+        dob_d_border.graphics.drawRoundRect(this.registerInputX, 10 + this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
         dob_d_border.graphics.endFill;
+        var dob_m_text = createTextFiled("MM", this.registerInputX + 170, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 100, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        var dob_m_border = new egret.Shape();
+        dob_m_border.graphics.lineStyle(2, 0xb1b1b1);
+        dob_m_border.graphics.drawRoundRect(this.registerInputX + 140, this.registerInputYBias + this.registerInputY * 2, 100, 61, 25, 25);
+        dob_m_border.graphics.endFill;
+        var dob_y_text = createTextFiled("YYYY", this.registerInputX + 5 + 310, 9 + this.registerInputYBias + this.registerInputY * 2, 25, 0xb1b1b1, "left", 130, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
+        var dob_y_border = new egret.Shape();
+        dob_y_border.graphics.lineStyle(2, 0xb1b1b1);
+        dob_y_border.graphics.drawRoundRect(this.registerInputX + 310, this.registerInputYBias + this.registerInputY * 2, 200, 61, 25, 25);
+        dob_y_border.graphics.endFill;
+        //------------------------------------------------------------------------
         this.mobilePhone = createTextFiled(mc_content.phone, this.registerInputX + 5 + 130, 10 + this.registerInputYBias + this.registerInputY * 3, 25, 0xb1b1b1, "left", 280, 61, "middle", false, 0xa0a0a0, false, egret.TextFieldType.INPUT);
         var tel_border = new egret.Shape();
         tel_border.graphics.lineStyle(2, 0xb1b1b1);
@@ -395,6 +441,8 @@ var Info1UI = (function (_super) {
         mail_border.graphics.endFill;
         //出错显示
         var chucuo_title = createTextFiled("", this.registerInputX - 50, this.registerInputYBias + this.registerInputY * 6, 25, 0xff0000, "center", 545, 30);
+        chucuo_title.size = 40;
+        chucuo_title.textColor = 0xe6b956;
         this.errorText = chucuo_title;
         this.register_view.addChild(this.firstNameText);
         this.register_view.addChild(this.lastNameText);
@@ -409,6 +457,13 @@ var Info1UI = (function (_super) {
         var yzmNum;
         this.firstNameText.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
         }, this);
+        this.mobilePhone.addEventListener(egret.TextEvent.CHANGE, function (evt) {
+            var pattern = /^[0-9]*$/;
+            while (!pattern.test(this.mobilePhone.text)) {
+                this.mobilePhone.text = this.mobilePhone.text.substring(0, this.mobilePhone.text.length - 1);
+            }
+        }, this);
+        //--------------------------------------------------------------------
         dob_y_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
             var v = dob_y_text.text;
             var pattern = /^(19\d{2}|20[01][0-9]|2020)$/;
@@ -417,6 +472,7 @@ var Info1UI = (function (_super) {
             }
             else {
                 this.showErrorText(mc_content.InvalidDate);
+                dob_m_text.text = '';
             }
         }, this);
         dob_m_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
@@ -427,12 +483,21 @@ var Info1UI = (function (_super) {
             }
             else {
                 this.showErrorText(mc_content.InvalidDate);
+                dob_m_text.text = '';
             }
         }, this);
         dob_d_text.addEventListener(egret.TouchEvent.FOCUS_OUT, function () {
             var v = dob_d_text.text;
-            this.dateD = v;
+            var pattern = /^(0[0-9]|1[0-9]|2[0-9]|3[0-1])$/;
+            if (pattern.test(v)) {
+                this.dateD = v;
+            }
+            else {
+                this.showErrorText(mc_content.InvalidDate);
+                dob_m_text.text = '';
+            }
         }, this);
+        //--------------------------------------------------------------------
         //添加按钮
         this.cj_btn = createBitmap("patronRegister_png", 140, 1050);
         this.register_view.addChild(this.cj_btn);
@@ -440,6 +505,9 @@ var Info1UI = (function (_super) {
         this.cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             this.cj_btn.touchEnabled = false;
             loading(true);
+            if (!this.checkParamasValidate()) {
+                this.showErrorText("Error Params.");
+            }
             var request = requestRegisterPost(Main.baseUrl + Main.patronRegisterUrl, "?" + this.getPatronPostData());
             request.send();
             request.addEventListener(egret.Event.COMPLETE, this.registerCompelete, this);
@@ -470,9 +538,10 @@ var Info1UI = (function (_super) {
                 Main.isBindingAction = false;
             }
             else {
+                var _that = this;
                 setTimeout(function () {
-                    var gameui = ScenceManage.create(this.stage);
-                    gameui.loadScence("index", this, IndexUI);
+                    var gameui = ScenceManage.create(_that.stage);
+                    gameui.loadScence("index", _that, IndexUI);
                 }, 2000);
             }
         }
@@ -505,6 +574,10 @@ var Info1UI = (function (_super) {
     Info1UI.prototype.toMainPage = function () {
         var gameui = ScenceManage.create(this.stage);
         gameui.loadScence("index", this, IndexUI);
+    };
+    Info1UI.prototype.checkParamasValidate = function () {
+        if (this.mobilePhone) {
+        }
     };
     return Info1UI;
 }(eui.UILayer));

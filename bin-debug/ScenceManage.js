@@ -41,8 +41,10 @@ var ScenceManage = (function () {
             RES.removeEventListener(RES.ResourceEvent.GROUP_PROGRESS, this.onResourceProgress, this);
             RES.removeEventListener(RES.ResourceEvent.ITEM_LOAD_ERROR, this.onItemLoadError, this);
             //创建新场景
+            //--------------------------------------------------------------------
             var newScence = new this._nextScence();
-            newScence.scaleX = 0;
+            newScence.scaleX = 1;
+            newScence.alpha = 0;
             newScence.x = this._stage.$stageWidth * .5;
             newScence.y = this._stage.$stageHeight * .5;
             newScence.anchorOffsetX = this._stage.$stageWidth * .5;
@@ -51,7 +53,7 @@ var ScenceManage = (function () {
             if (this._curScence != null) {
                 this._stage.removeChild(this._curScence);
             }
-            egret.Tween.get(newScence).to({ scaleX: 1 }, 1000).call(function () {
+            egret.Tween.get(newScence).to({ alpha: 1 }, 0.5).call(function () {
                 this._callback ? this._callback() : "";
             }.bind(this));
         }

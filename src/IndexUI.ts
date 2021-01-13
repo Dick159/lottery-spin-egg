@@ -87,12 +87,16 @@ class IndexUI extends egret.Sprite {
         startUpText.scaleY = 0.5;
 
 
-        egret.Tween.get(startUpText).to({scaleX : 1.2,scaleY : 1.2},300,egret.Ease.quadInOut).to({scaleX:0.8,scaleY:0.8},300,egret.Ease.quadInOut).to({scaleX:1,scaleY:1},300,egret.Ease.quadInOut).wait(1500).call(function(){
+        egret.Tween.get(startUpText).to({scaleX : 1.2,scaleY : 1.2},300,egret.Ease.quadInOut).to({scaleX:0.8,scaleY:0.8},300,egret.Ease.quadInOut).to({scaleX:1,scaleY:1},300,egret.Ease.quadInOut).call(function(){
                 
-                egret.Tween.get(cont).to({alpha:0},400).call(function(){
-                    Main.isFirstLoad = false;
-                    cont.visible = false;
-                })
+                egret.Tween.get(startUpText).wait(4000).call(function(){
+                    
+                        egret.Tween.get(cont).to({alpha:0},500).call(function(){
+                            Main.isFirstLoad = false;
+                            cont.visible = false;
+                        })
+
+                },this);
 
                 
                 cont.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
@@ -106,27 +110,13 @@ class IndexUI extends egret.Sprite {
 
         cont.touchThrough = false;
 
-
-
-
         this.addChild(cont);
     }
 
     private createSwitchLanguage(){
 
-        var _e = null;
-
-        var _c;
-
-        if(this.curLang == 'e'){
-            _e = createBitmap("Langauge Selection_English_png");
-            _c = createBitmap("Langauge Selection_Chinese_child_png");
-        }
-        else if(this.curLang=='c'){
-            _e = createBitmap("Langauge Selection_Chinese_png");
-            _c = createBitmap("Langauge Selection_English_child_png");
-        }
-
+        var _e = createBitmap("Langauge Selection_English_png");
+        var _c = createBitmap("Langauge Selection_Chinese_child_png");
         _e.touchEnabled = true;
         _c.touchEnabled = true;
         _e.x = this.stage.stageWidth - _e.width;
@@ -157,8 +147,6 @@ class IndexUI extends egret.Sprite {
                     this.isSelect = false;
                 }
 
-                window.location.href="https://zh.uat.marinabaysands.com"+window.location.pathname;
-
         },this)
 
         _e.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
@@ -179,7 +167,11 @@ class IndexUI extends egret.Sprite {
     }
 
     private createView(): void {
- 
+        
+        //  var tipsBox = createRoundRectBox(0,0,this.stage.stageWidth*0.6,200,"asdjsadjasjdasa",0xeeeaaa);
+        //  middleObject(this.stage.stageWidth,tipsBox);
+        //  this.addChild(tipsBox);
+
         this.createSwitchLanguage();
 
         var that = this;
@@ -190,25 +182,25 @@ class IndexUI extends egret.Sprite {
         this.addChild(title);
         //铃铛
         //声音
-    //     var dd = new egret.Sound;
-    //     dd.load("resource/assets/dd.mp3");
-    //     var bell = createBitmap("index_bell_png", 29, 233);
-    //     this.addChild(bell);
-    //     bell.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+        var dd = new egret.Sound;
+        dd.load("resource/assets/dd.mp3");
+        var bell = createBitmap("index_bell_png", 29, 233);
+        this.addChild(bell);
+        bell.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
            
-    //         egret.Tween.get(bell).to({ rotation: 30 }, 300).call(function () {
-    //             dd.play(0,1);
-    //             egret.Tween.get(bell).to({ rotation: -30 }, 300).call(function () {
-    //                 bell.rotation=0;
-    //                 //dog.play(0,1);
-    //                 // egret.Tween.get(fawn2).to({ alpha: 0 }, 300).to({alpha: 1},300).to({alpha: 0},300).call(function () {
-    //                 //     fawn2.alpha=1;
-    //                 //  }.bind(this));
+            egret.Tween.get(bell).to({ rotation: 30 }, 300).call(function () {
+                dd.play(0,1);
+                egret.Tween.get(bell).to({ rotation: -30 }, 300).call(function () {
+                    bell.rotation=0;
+                    //dog.play(0,1);
+                    // egret.Tween.get(fawn2).to({ alpha: 0 }, 300).to({alpha: 1},300).to({alpha: 0},300).call(function () {
+                    //     fawn2.alpha=1;
+                    //  }.bind(this));
                     
-    //             }.bind(this));
-    //         }.bind(this));
-    //     },this);
-    //    bell.touchEnabled = true; 
+                }.bind(this));
+            }.bind(this));
+        },this);
+       bell.touchEnabled = true; 
 
         //gameRule
         var gameRule = createBitmap("PrizesRulesButton_png",440,1295);
@@ -269,12 +261,6 @@ class IndexUI extends egret.Sprite {
                   }
               }
 
-              if(getLocalStorage(Main.IS_TOKEN_PLAYED)){
-                    this.popUpMessageTip(mc_content.PlayedMsg ,this)
-                    setLocalStorageList(Main.PAYED_SYN,getLocalStorage(Main.TOKENID_SYB));
-                    return;
-              }
-
               this.removeChild(this.languageCnt);
               Main.jp_onoff=true;
               //-----alpha to 0-------
@@ -316,7 +302,6 @@ class IndexUI extends egret.Sprite {
                             this.pauseAllBalls(this.balls);
                             //this.popUpMyPrizeList(that);
                             this.pupUpErrorTips(that);
-                            removeLocalStorage(Main.IS_TOKEN_PLAYED);
                         }
                         if(this.isNormalError){
                             this.pauseAllBalls(this.balls);
@@ -560,7 +545,6 @@ class IndexUI extends egret.Sprite {
                     _f = true;
                 }
                 else if(tokenId){
-                    setLocalStorage(Main.IS_TOKEN_PLAYED,"HPFB");
                     params += "&tokenId=" + tokenId;
                     _f = true;
                 }
@@ -573,9 +557,6 @@ class IndexUI extends egret.Sprite {
                 }else{
                     this.isErrorRequest = true;
                 }
-            }
-            else{
-                this.isErrorRequest = true;
             }
         }else{
             this.isErrorRequest = true;
@@ -733,7 +714,7 @@ class IndexUI extends egret.Sprite {
         typeText.x = (congText.x + congText.width * 0.5) - typeText.width*0.5;
         typeText.y = prizeValueText.y + typeText.size;
 
-        var congTextSize = 22;
+        var congTextSize = 25;
         var congTextColor = 0xFFFFFF;
         for(var i=0;i<congTipsTextList.length;i++){
              var _t = createTextFiledNoEui("");
@@ -995,20 +976,19 @@ class IndexUI extends egret.Sprite {
            
            var _data = jsonObject.data;
 
-           if(_data.status && _data.status == "00"){
-               MyPrizes.currentAc = _data.ac;
-               MyPrizes.currentAd = _data.ad;
-               MyPrizes.currentAe = _data.ae;
+           if(_data.status && _data.status == "00" || _data.status == "01"){
+               MyPrizes.currentAc = _data.ac || 0;
+               MyPrizes.currentAd = _data.ad || 0;
+               MyPrizes.currentAe = _data.ae || 0;
             var prizeScene = ScenceManage.create(this.stage);
-            prizeScene.loadScence("IndexUI",this,MyPrizes);
-           }else{
-                 this.pupUpErrorTips(this);
-                 Main.jp_onoff = false;
+            prizeScene.loadScence("index",this,MyPrizes);
+           }
+           else{
+                this.pupUpErrorTips(this);
            }
             }
             else{
                 this.pupUpErrorTips(this);
-                Main.jp_onoff = false;
             }
         this.MyPrizeBtn.touchEnabled = true;
     }   
@@ -1017,7 +997,6 @@ class IndexUI extends egret.Sprite {
         this.MyPrizeBtn.touchEnabled = true;
         loading(false);
         this.pupUpErrorTips(this);
-        Main.jp_onoff = false;
     }
 
     public ifLoginJudge(){
