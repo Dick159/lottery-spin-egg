@@ -141,7 +141,7 @@ var IndexUI = (function (_super) {
         var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
         //gameRule
-        var gameRule = createBitmap("PrizesRulesButton_png", 454, this.stage.stageHeight * 0.88);
+        var gameRule = createBitmap("PrizesRulesButton_png", 440, this.stage.stageHeight * 0.88);
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
