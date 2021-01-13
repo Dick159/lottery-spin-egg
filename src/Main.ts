@@ -38,8 +38,6 @@ class Main extends egret.DisplayObjectContainer {
     static mask_onoff=false;
     static laohujiButOnoff=true;
     static registLoginShow = false;
-    //http://150.109.32.241:4503/
-    // "https://staging.marinabaysands.com"
     static  baseUrl = window.location.protocol +"//" +window.location.host;
     // static  baseUrl = "https://staging.marinabaysands.com";
     private getProbabilityData = "/services/h5game/property";
@@ -165,7 +163,7 @@ class Main extends egret.DisplayObjectContainer {
         this.stage.addChild(this.loadingView);
         
         if(egret.Capabilities.isMobile){
-            this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT;
+            this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH;
         }else{
             this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
         }

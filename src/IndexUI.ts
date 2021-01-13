@@ -21,26 +21,15 @@ class IndexUI extends egret.Sprite {
     private MyPrizeBtn : egret.Bitmap;
     private start_btn : egret.Bitmap;
     private sign_out_btn = createBitmap("sign_out_png", 375, 603);
-    private LoginRegisterbutton = createBitmap("Member Login Button_1_png",0,1295);
+    private LoginRegisterbutton:egret.Bitmap= createBitmap("Member Login Button_1_png",0,1295);
 
     private curLang = "c";
 
     private languageCnt = new egret.DisplayObjectContainer();
 
     private isSelect =false;
-    private ballMove = [
-        //[x,y,t]
-        // x in [225,455]
-        // y in [525,725]
-        [[230,600,688],[380,700,600],[400,560,600]],
-        [[380,555,500],[360,666,450],[235,580,450]],
-        [[290,525,688],[240,680,600],[300,630,600]],
-        [[333,643,500],[380,700,450],[264,554,600]],
-        [[273,689,688],[425,636,600],[444,721,600]],
-        [[421,632,500],[400,660,600],[380,600,600]],
-        [[345,682,688],[300,630,450],[240,580,600]],
-        [[230,600,500],[264,714,600],[380,700,600]]
-    ];
+
+    private ballMove;
 
     public constructor() {
         super();
@@ -49,6 +38,7 @@ class IndexUI extends egret.Sprite {
     }
 
     private initData(){
+        
        this.ifLoginJudge();
        Main.jp_onoff = false;
        Main.isBindingAction = false;
@@ -179,7 +169,7 @@ class IndexUI extends egret.Sprite {
     }
 
     private createView(): void {
- 
+        this.LoginRegisterbutton.y = this.stage.stageHeight * 0.88;
         this.createSwitchLanguage();
 
         var that = this;
@@ -211,7 +201,7 @@ class IndexUI extends egret.Sprite {
     //    bell.touchEnabled = true; 
 
         //gameRule
-        var gameRule = createBitmap("PrizesRulesButton_png",454,1295);
+        var gameRule = createBitmap("PrizesRulesButton_png",454,this.stage.stageHeight * 0.88);
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
@@ -219,12 +209,13 @@ class IndexUI extends egret.Sprite {
         // //this.addChild(myPrizeButton);
         
         //人物
-        var machineMain = createBitmap("Capsule Machine_png", 0, 500);
+        var machineMain = createBitmap("Capsule Machine_png", 0, this.stage.stageHeight * 0.3);
+
         this.machine_group.addChild(machineMain);       
 
         this.addCapsuleToGroup(this.machine_group);
 
-        var Machine_Glass = createBitmap("Capsule Machine Glass_png", 130, 440);
+        var Machine_Glass = createBitmap("Capsule Machine Glass_png", 0, this.stage.stageHeight * 0.3);
 
         this.machine_group.addChild(Machine_Glass);  
 
@@ -243,98 +234,6 @@ class IndexUI extends egret.Sprite {
         //myPrizeButton.touchEnabled=true;
 
 
-        this.start_btn = createBitmap("gameStartBtn_png",250,1000);
-        this.addChild(this.start_btn);
-        var _gFilter = glowFilter(0xFFFFFF,0.8,25,25,2,true,false);
-        this.start_btn.filters = [_gFilter];
-        egret.Tween.get(this.start_btn, { loop: true }).to({ y: this.start_btn.y+30 }, 900,egret.Ease.quadOut).to({ y: this.start_btn.y }, 900,egret.Ease.quadOut);
-        egret.Tween.get(_gFilter,{loop : true}).to({alpha : 0.3},1000).to({alpha : 0.8},1000);
-        this.start_btn.touchEnabled = true;
-        this.start_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-              if(Main.jp_onoff){
-                  return ;
-              }
-
-              var hpl = getLocalStorageList(Main.PAYED_SYN);
-              if(getLocalStorage(Main.MEMBERID_SYB)){
-                  if(hpl.indexOf(getLocalStorage(Main.MEMBERID_SYB)) >= 0){
-                        this.popUpMessageTip(mc_content.PlayedMsg ,this)
-                        return;
-                  }
-              }
-              else if(getLocalStorage(Main.TOKENID_SYB)){
-                  if(hpl.indexOf(getLocalStorage(Main.TOKENID_SYB)) >= 0){
-                        this.popUpMessageTip(mc_content.PlayedMsg ,this)
-                        return;
-                  }
-              }
-
-              if(getLocalStorage(Main.IS_TOKEN_PLAYED)){
-                    this.popUpMessageTip(mc_content.PlayedMsg ,this)
-                    setLocalStorageList(Main.PAYED_SYN,getLocalStorage(Main.TOKENID_SYB));
-                    return;
-              }
-
-              this.removeChild(this.languageCnt);
-              Main.jp_onoff=true;
-              //-----alpha to 0-------
-              //disable button;
-              this.start_btn.touchEnabled = false;
-              this.LoginRegisterbutton.touchEnabled = false;
-              gameRule.touchEnabled = false;
-              this.sign_out_btn.touchEnabled = false;
-              egret.Tween.get(this.start_btn).to({alpha : 0},300)
-              egret.Tween.get(this.sign_out_btn).to({alpha : 0},300)
-              egret.Tween.get(this.LoginRegisterbutton).to({alpha : 0},300)
-              egret.Tween.get(gameRule).to({alpha : 0},300)
-              //-----alpha 
-
-
-              //----scale start-----
-              this.setBgAnchor(true);
-
-              egret.Tween.get(this._bg).to({scaleX : 1.4,scaleY : 1.35,y : this._bg.y + 80},1000)
-              
-              this.machine_group.anchorOffsetX = this.machine_group.width * 0.57;
-              this.machine_group.anchorOffsetY = this.machine_group.height;
-              this.machine_group.x = this.machine_group.x + this.machine_group.anchorOffsetX;
-              this.machine_group.y = this.machine_group.y + this.machine_group.anchorOffsetY;
-              egret.Tween.get(this.machine_group).to({scaleX : 1.35,scaleY : 1.35},1000).wait(500).call(function(){
-
-                  for(var i=0;i<this.balls.length;i++){
-                    var b1:egret.Bitmap = this.balls[i];
-                    egret.Tween.get(b1,{ loop: true }).to({x:this.ballMove[i][0][0]+b1.anchorOffsetX,y:this.ballMove[i][0][1] + +b1.anchorOffsetY},this.ballMove[i][0][2] ,egret.Ease.sineIn).to({x:this.ballMove[i][1][0]+b1.anchorOffsetX,y:this.ballMove[i][1][1] + b1.anchorOffsetY},this.ballMove[i][1][2],egret.Ease.sineOut).to({x:this.ballMove[i][2][0] + b1.anchorOffsetX,y:this.ballMove[i][2][1] + b1.anchorOffsetY},this.ballMove[i][2][2],egret.Ease.sineIn).to({x:b1.x,y:b1.y},500,egret.Ease.sineIn).call(function(){
-                        if(!this.isFirstLoop){
-                            this.doLotteryRequest();
-                        }
-                        if(this.isFinishSpin){
-                            this.pauseAllBalls(this.balls);
-                            this.popUpResult(that);
-
-                        }
-                        if(this.isErrorRequest){
-                            this.pauseAllBalls(this.balls);
-                            //this.popUpMyPrizeList(that);
-                            this.pupUpErrorTips(that);
-                            removeLocalStorage(Main.IS_TOKEN_PLAYED);
-                        }
-                        if(this.isNormalError){
-                            this.pauseAllBalls(this.balls);
-                            this.popUpMessageTip(mc_content.PlayedMsg,that);
-                        }
-                    },this)
-                    egret.Tween.get(b1,{ loop: true }).to({rotation : 360},2500);
-                  }
-              },this)
-              //------scale end-------
-
-              
-
-
-            //   var gameui = ScenceManage.create(this.stage);
-            //   gameui.loadScence("ResultUI",this,ReceiveUI);
-             
-        },this);
         //注册登录按钮
         this.LoginRegisterbutton.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             if(Main.jp_onoff){
@@ -345,7 +244,7 @@ class IndexUI extends egret.Sprite {
         },this)
 
         this.sign_out_btn.x = 0;
-        this.sign_out_btn.y = 1295;
+        this.sign_out_btn.y = this.stage.stageHeight * 0.88;
         this.sign_out_btn.touchEnabled = true;
 
         this.addChild(this.LoginRegisterbutton);
@@ -400,6 +299,115 @@ class IndexUI extends egret.Sprite {
         mask.anchorOffsetY = mask.height * .5;
 
 
+        var beginball = this.stage.stageHeight * 0.3+499;
+        this.start_btn = createBitmap("gameStartBtn_png",250,beginball);
+        this.addChild(this.start_btn);
+        var _gFilter = glowFilter(0xFFFFFF,0.8,25,25,2,true,false);
+        this.start_btn.filters = [_gFilter];
+        egret.Tween.get(this.start_btn, { loop: true }).to({ y: this.start_btn.y+30 }, 900,egret.Ease.quadOut).to({ y: this.start_btn.y }, 900,egret.Ease.quadOut);
+        egret.Tween.get(_gFilter,{loop : true}).to({alpha : 0.3},beginball).to({alpha : 0.8},beginball);
+        this.start_btn.touchEnabled = true;
+        this.start_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+              if(Main.jp_onoff){
+                  return ;
+              }
+
+              var hpl = getLocalStorageList(Main.PAYED_SYN);
+              if(getLocalStorage(Main.MEMBERID_SYB)){
+                  if(hpl.indexOf(getLocalStorage(Main.MEMBERID_SYB)) >= 0){
+                        this.popUpMessageTip(mc_content.PlayedMsg ,this)
+                        return;
+                  }
+              }
+              else if(getLocalStorage(Main.TOKENID_SYB)){
+                  if(hpl.indexOf(getLocalStorage(Main.TOKENID_SYB)) >= 0){
+                        this.popUpMessageTip(mc_content.PlayedMsg ,this)
+                        return;
+                  }
+              }
+
+              if(getLocalStorage(Main.IS_TOKEN_PLAYED)){
+                    this.popUpMessageTip(mc_content.PlayedMsg ,this)
+                    setLocalStorageList(Main.PAYED_SYN,getLocalStorage(Main.TOKENID_SYB));
+                    return;
+              }
+
+              this.removeChild(this.languageCnt);
+              Main.jp_onoff=true;
+              //-----alpha to 0-------
+              //disable button;
+              this.start_btn.touchEnabled = false;
+              this.LoginRegisterbutton.touchEnabled = false;
+              gameRule.touchEnabled = false;
+              this.sign_out_btn.touchEnabled = false;
+              egret.Tween.get(this.start_btn).to({alpha : 0},300)
+              egret.Tween.get(this.sign_out_btn).to({alpha : 0},300)
+              egret.Tween.get(this.LoginRegisterbutton).to({alpha : 0},300)
+              egret.Tween.get(gameRule).to({alpha : 0},300)
+              //-----alpha 
+
+              var ballMY = this.stage.stageHeight * 0.3+230;
+    this.ballMove = [
+        //[x,y,t]
+        // x in [225,455]
+        // y in [525,725]
+        [[230,ballMY-110,688],[380,ballMY-10,600],[400,ballMY-150,600]],
+        [[380,ballMY-155,500],[360,ballMY-44,450],[235,ballMY-130,450]],
+        [[290,ballMY-185,688],[240,ballMY-30,600],[300,ballMY-80,600]],
+        [[333,ballMY-67,500],[380,ballMY-10,450],[264,ballMY-156,600]],
+        [[273,ballMY-21,688],[425,ballMY-74,600],[444,ballMY-50,600]],
+        [[255,ballMY-178,500],[400,ballMY-40,600],[380,ballMY-180,600]],
+        [[345,ballMY-28,688],[300,ballMY-80,450],[240,ballMY-130,600]],
+        [[230,ballMY-110,500],[264,ballMY,600],[380,ballMY-10,600]]
+    ];
+              //----scale start-----
+              this.setBgAnchor(true);
+
+              egret.Tween.get(this._bg).to({scaleX : 1.4,scaleY : 1.35,y : this._bg.y + 80},1000)
+              
+              this.machine_group.anchorOffsetX = this.machine_group.width * 0.57;
+              this.machine_group.anchorOffsetY = this.machine_group.height;
+              this.machine_group.x = this.machine_group.x + this.machine_group.anchorOffsetX;
+              this.machine_group.y = this.machine_group.y + this.machine_group.anchorOffsetY;
+              egret.Tween.get(this.machine_group).to({scaleX : 1.35,scaleY : 1.35},1000).wait(500).call(function(){
+
+                  for(var i=0;i<this.balls.length;i++){
+                    var b1:egret.Bitmap = this.balls[i];
+                    egret.Tween.get(b1,{ loop: true }).to({x:this.ballMove[i][0][0]+b1.anchorOffsetX,y:this.ballMove[i][0][1] + +b1.anchorOffsetY},this.ballMove[i][0][2] ,egret.Ease.sineIn).to({x:this.ballMove[i][1][0]+b1.anchorOffsetX,y:this.ballMove[i][1][1] + b1.anchorOffsetY},this.ballMove[i][1][2],egret.Ease.sineOut).to({x:this.ballMove[i][2][0] + b1.anchorOffsetX,y:this.ballMove[i][2][1] + b1.anchorOffsetY},this.ballMove[i][2][2],egret.Ease.sineIn).to({x:b1.x,y:b1.y},500,egret.Ease.sineIn).call(function(){
+                        if(!this.isFirstLoop){
+                            this.doLotteryRequest();
+                        }
+                        if(this.isFinishSpin){
+                            this.pauseAllBalls(this.balls);
+                            this.popUpResult(that);
+
+                        }
+                        if(this.isErrorRequest){
+                            this.pauseAllBalls(this.balls);
+                            //this.popUpMyPrizeList(that);
+                            this.pupUpErrorTips(that);
+                            removeLocalStorage(Main.IS_TOKEN_PLAYED);
+                        }
+                        if(this.isNormalError){
+                            this.pauseAllBalls(this.balls);
+                            this.popUpMessageTip(mc_content.PlayedMsg,that);
+                        }
+                    },this)
+                    egret.Tween.get(b1,{ loop: true }).to({rotation : 360},2500);
+                  }
+              },this)
+              //------scale end-------
+
+              
+
+
+            //   var gameui = ScenceManage.create(this.stage);
+            //   gameui.loadScence("ResultUI",this,ReceiveUI);
+             
+        },this);
+
+
+
         //我的奖品点击逻辑;
         this.MyPrizeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
             if(!Main.jp_onoff && !mask.visible){
@@ -445,15 +453,16 @@ class IndexUI extends egret.Sprite {
     private addCapsuleToGroup(group:egret.DisplayObjectContainer){
         // x in [225,455]
         // y in [525,725]
+        var ballY = this.stage.stageHeight * 0.3+230;
          var pos = [
-             [235,660],
-             [260,710],
-             [295,640],
-             [330,680],
-             [380,620],
-             [400,710],
-             [425,650],
-             [445,660]
+             [235,ballY-50],
+             [260,ballY],
+             [295,ballY-70],
+             [330,ballY-30],
+             [380,ballY-90],
+             [400,ballY],
+             [425,ballY-60],
+             [445,ballY-50]
          ]
          for(var i=1;i<pos.length+1;i++){
              var b = createBitmap("Capsule" + i + "_png",pos[i-1][0],pos[i-1][1]);
@@ -672,7 +681,7 @@ class IndexUI extends egret.Sprite {
         var prizeSymbolPng = "Platform Prize Symbol- Dollar_png"
 
         var dvText = mc_content.DD;
-        var cvText = "OX COIN"
+        var cvText = mc_content.OX;
         var evText = ""
 
         var congTextPng = "Congratulations Text box2_png";
@@ -697,7 +706,7 @@ class IndexUI extends egret.Sprite {
         if(this.currentPrizeType && startWith(this.currentPrizeType,"C")){
             prizeSymbolPng = "Platform Prize Symbol- Ox_png";
             typeText.text =cvText
-            prizeValueText.text = this.currentPrizeValue + "";
+            prizeValueText.text = this.currentPrizeValue + mc_content.amount;
             congTipsTextList.push(coinsCongTipsText1);
             congTipsTextList.push(coinsCongTipsText2);
         }else if(this.currentPrizeType && startWith(this.currentPrizeType,"E")){
@@ -751,7 +760,7 @@ class IndexUI extends egret.Sprite {
         _container.addChild(typeText);
 
         _container.x = this.stage.width * 0.5 - platform.width;
-        _container.y = 500;
+        _container.y = this.stage.stageHeight * 0.23;
         this.addChild(_container);
 
 
@@ -805,7 +814,8 @@ class IndexUI extends egret.Sprite {
         },this)
 
         rdm_btn.x = (platform.x + platform.width * 0.5) - rdm_btn.width * 0.5
-        rdm_btn.y = congText.y + congText.height + 200;
+        // rdm_btn.y = congText.y + congText.height + 0;
+        rdm_btn.y = this.stage.stageHeight * 0.46;
 
         my_prize.x = (platform.x + platform.width * 0.5) - my_prize.width * 0.5
         my_prize.y = rdm_btn.y + rdm_btn.height;

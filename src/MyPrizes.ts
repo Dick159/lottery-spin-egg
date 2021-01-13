@@ -22,7 +22,7 @@ class MyPrizes extends eui.UILayer {
         var back = createBitmap("back_png");
 
         back.x = (this.stage.stageWidth - back.width) * 0.5;
-        back.y = this.stage.stageHeight * 0.6;
+        back.y = this.stage.stageHeight * 0.8;
         this.addChild(back);
 
         back.touchEnabled = true;
@@ -34,7 +34,7 @@ class MyPrizes extends eui.UILayer {
 
     private createPrize(){
         var textColor = 0x851c1c;
-        var textSize = 40;
+        var textSize = 35;
         var _that = this;
 
         Main.jp_onoff = true;
@@ -57,6 +57,7 @@ class MyPrizes extends eui.UILayer {
         var ac_content = createTextFiledNoEui(MyPrizes.currentAc + " "+mc_content.OX);
         ac_content.bold = true;
         ac_content.size = textSize
+        ac_content.fontFamily="Microsoft YaHei";
         ac_content.x = 200;
         ac_content.textColor = textColor;
         ac_content.y = my_prize_info_bg.y + 330;
@@ -64,6 +65,7 @@ class MyPrizes extends eui.UILayer {
 
         var rp_png = createBitmap("Red Packet Symbol_png");
         var aeTextBold = createTextFiledNoEui(MyPrizes.currentAe + mc_content.redPack);
+        aeTextBold.fontFamily="Microsoft YaHei";
         aeTextBold.x = 200;
         aeTextBold.bold = true;
         aeTextBold.textColor = textColor;
@@ -86,6 +88,7 @@ class MyPrizes extends eui.UILayer {
         var ad_text = "$" + MyPrizes.currentAd + mc_content.ad_content;
         var ad_content = createTextFiledNoEui(ad_text);
         ad_content.bold = true;
+        ad_content.fontFamily="Microsoft YaHei";
         ad_content.size = textSize;
         ad_content.x = 200;
         ad_content.textColor = textColor;

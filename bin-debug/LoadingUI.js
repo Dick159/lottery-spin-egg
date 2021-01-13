@@ -38,6 +38,7 @@ var LoadingUI = (function (_super) {
     __extends(LoadingUI, _super);
     function LoadingUI() {
         var _this = _super.call(this) || this;
+        _this.baseY = 800;
         _this.createView();
         return _this;
     }
@@ -50,18 +51,18 @@ var LoadingUI = (function (_super) {
         }, this);
         this.textField = new egret.TextField();
         this.addChild(this.textField);
-        this.textField.y = 500;
+        this.textField.y = this.baseY;
         this.textField.width = 750;
         this.textField.height = 100;
         this.textField.textAlign = "center";
         this.barBg = new egret.Shape();
         this.barBg.graphics.beginFill(0x000000);
-        this.barBg.graphics.drawRect(175, 530, 400, 20);
+        this.barBg.graphics.drawRect(175, this.baseY + 30, 400, 20);
         this.barBg.graphics.endFill();
         this.addChild(this.barBg);
         this.bar = new egret.Shape();
         this.bar.graphics.beginFill(0xffffff);
-        this.bar.graphics.drawRect(175, 530, 0, 20);
+        this.bar.graphics.drawRect(175, this.baseY + 30, 0, 20);
         this.bar.graphics.endFill();
         this.addChild(this.bar);
     };
@@ -70,7 +71,7 @@ var LoadingUI = (function (_super) {
         var percent1 = Math.ceil(current / total * 100);
         this.textField.text = "Loading..." + percent1 + "%";
         this.bar.graphics.beginFill(0xffffff);
-        this.bar.graphics.drawRect(175, 530, percent, 20);
+        this.bar.graphics.drawRect(175, this.baseY + 30, percent, 20);
         this.bar.graphics.endFill();
     };
     return LoadingUI;

@@ -45,7 +45,14 @@ class PrizeAndRules extends eui.UILayer {
 
         var my_prize_info_bg = createBitmap("TextBG_png");
         my_prize_info_bg.x = _that.stage.stageWidth * 0.5 - my_prize_info_bg.width*0.5;
-        my_prize_info_bg.y = _that.stage.stageHeight * 0.15;
+        my_prize_info_bg.y = _that.stage.stageHeight * 0.02;
+        var prizeHeight = this.stage.stageHeight * 0.45;
+        var multi = my_prize_info_bg.height/prizeHeight;
+        if(prizeHeight>my_prize_info_bg.height){
+            prizeHeight = my_prize_info_bg.height;
+            multi= 1;
+        }
+        my_prize_info_bg.height = prizeHeight;
 
         var title = createTextFiledNoEui(mc_content.PRIZE);
         title.textColor = textColor;
@@ -60,7 +67,8 @@ class PrizeAndRules extends eui.UILayer {
             ac_content.size = textSize
             ac_content.x = 200;
             ac_content.textColor = textColor;
-            ac_content.y = 570;
+            ac_content.fontFamily="Microsoft YaHei";
+            ac_content.y = (this.stage.stageHeight * 0.05+285)/multi;
             myPrizeInfo_cnt.addChild(ac_content);
         }
 
@@ -69,8 +77,9 @@ class PrizeAndRules extends eui.UILayer {
             var ae_content = createTextFiledNoEui(Main.staticEnvPrizeList[i]);
             ae_content.size = textSize;
             ae_content.x = 200;
+            ae_content.fontFamily="Microsoft YaHei";
             ae_content.textColor = textColor;
-            ae_content.y = 753.6;
+            ae_content.y = (this.stage.stageHeight * 0.05+480)/multi;
             myPrizeInfo_cnt.addChild(ae_content);
         }
 
@@ -81,8 +90,11 @@ class PrizeAndRules extends eui.UILayer {
             var ad_content = createTextFiledNoEui(Main.staticDDPrizeList[i]);
             ad_content.size = textSize;
             ad_content.x = 200;
+            ad_content.fontFamily="Microsoft YaHei";
             ad_content.textColor = textColor;
-            ad_content.y = my_prize_info_bg.y + 137 + textSize*i;
+            ad_content.y = (my_prize_info_bg.y + 137 + textSize*i)/multi;
+            ad_content.height = ad_content.height;
+            ad_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ad_content);
         }
 
@@ -90,7 +102,7 @@ class PrizeAndRules extends eui.UILayer {
 
 
         title.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - title.width*0.5;
-        title.y =  my_prize_info_bg.y + 32;
+        title.y =  (my_prize_info_bg.y + 32)/multi;
 
         var _scale = 1.5;
 
@@ -98,18 +110,18 @@ class PrizeAndRules extends eui.UILayer {
         dd_png.scaleX = _scale;
         dd_png.scaleY = _scale;
         dd_png.x = 150 - dd_png.width;
-        dd_png.y =  my_prize_info_bg.y + 130;
+        dd_png.y =  (my_prize_info_bg.y + 130)/multi;
 
 
         coins_png.scaleX = _scale;
         coins_png.scaleY = _scale;
         coins_png.x = 150 - coins_png.width;
-        coins_png.y = my_prize_info_bg.y + 315;
+        coins_png.y = (my_prize_info_bg.y + 315)/multi;
 
         rp_png.scaleX = _scale;
         rp_png.scaleY = _scale;
         rp_png.x = 150 - rp_png.width;
-        rp_png.y = my_prize_info_bg.y + 500;
+        rp_png.y = (my_prize_info_bg.y + 500)/multi;
 
 
         myPrizeInfo_cnt.addChild(coins_png);
@@ -138,7 +150,12 @@ class PrizeAndRules extends eui.UILayer {
 
         var rules_title_bg = createBitmap("Rules_title_png");
         rules_title_bg.x = _that.stage.stageWidth * 0.5 - rules_title_bg.width*0.5;
-        rules_title_bg.y = _that.stage.stageHeight * 0.57;
+        if(_that.stage.stageHeight * 0.45>=653){
+            rules_title_bg.y = _that.stage.stageHeight * 0.05+703;
+        }else{
+            rules_title_bg.y = _that.stage.stageHeight * 0.5;
+        }
+        
         //var rules_title_eui_bg = createBitmapEui("Rules_title_png");
 
         
@@ -164,9 +181,10 @@ class PrizeAndRules extends eui.UILayer {
 
 
         var tc = createTextFiledNoEui(mc_content.terms1_LBox);
+        tc.fontFamily="Microsoft YaHei";
             tc.size = 32;
-            tc.x = 435;
-            tc.y = 790;
+            tc.x = 436;
+            tc.y = 970;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 

@@ -95,7 +95,7 @@ var Main = (function (_super) {
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
         if (egret.Capabilities.isMobile) {
-            this.stage.scaleMode = egret.StageScaleMode.EXACT_FIT;
+            this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH;
         }
         else {
             this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
@@ -274,8 +274,6 @@ Main.jp_onoff = false;
 Main.mask_onoff = false;
 Main.laohujiButOnoff = true;
 Main.registLoginShow = false;
-//http://150.109.32.241:4503/
-// "https://staging.marinabaysands.com"
 // static  baseUrl = window.location.protocol +"//" +window.location.host;
 Main.baseUrl = "https://staging.marinabaysands.com";
 Main.patronRegisterUrl = "/services/members_card_register";
