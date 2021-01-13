@@ -77,9 +77,9 @@ class Info1UI extends eui.UILayer {
 
 
     private createHomebtn(){
+        var homeBtn = createBitmap("homepageback_button_png");
         homeBtn.x=5;
         homeBtn.y=5;
-        var homeBtn = createBitmap("homepageback_button_png");
         homeBtn.touchEnabled = true;
         homeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
                 this.toMainPage();

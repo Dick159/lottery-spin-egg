@@ -41,9 +41,9 @@ var Info1UI = (function (_super) {
         this.createHomebtn();
     };
     Info1UI.prototype.createHomebtn = function () {
+        var homeBtn = createBitmap("homepageback_button_png");
         homeBtn.x = 5;
         homeBtn.y = 5;
-        var homeBtn = createBitmap("homepageback_button_png");
         homeBtn.touchEnabled = true;
         homeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
             this.toMainPage();
