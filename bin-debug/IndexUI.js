@@ -26,7 +26,7 @@ var IndexUI = (function (_super) {
         _this.getTokenFirst = true;
         _this.sign_out_btn = createBitmap("sign_out_png", 375, 603);
         _this.LoginRegisterbutton = createBitmap("Member Login Button_1_png", 0, 1295);
-        _this.curLang = "e";
+        _this.curLang = "c";
         _this.languageCnt = new egret.DisplayObjectContainer();
         _this.isSelect = false;
         _this.once(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
@@ -141,7 +141,7 @@ var IndexUI = (function (_super) {
         var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
         //gameRule
-        var gameRule = createBitmap("PrizesRulesButton_png", 440, this.stage.stageHeight * 0.88);
+        var gameRule = createBitmap("PrizesRulesButton_png", 454, this.stage.stageHeight * 0.88);
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
@@ -177,7 +177,7 @@ var IndexUI = (function (_super) {
             removeLocalStorage(Main.MEMBERID_SYB);
             if (!getLocalStorage(Main.MEMBERID_SYB)) {
                 //this.popUpMessageTip(mc_content.SignOut,this);
-                ShowTipsBox("Sign out success", this);
+                ShowTipsBox(mc_content.SignOut, this);
                 this.sign_out_btn.visible = false;
                 this.LoginRegisterbutton.visible = true;
                 var srlId = getQueryVariable(Main.SRLID_SYB);

@@ -51,5 +51,6 @@ let mc_content={
     "TC":"条款与条件。",
     "haveBinded":"你今天已经玩过了,\r\n此次游戏不会被记录",
     "ParamError":"请检查您的输入信息",
-    "SUSuccess":"登陆成功:\r\n会员ID:"
+    "SUSuccess":"登陆成功:\r\n会员ID:",
+    "notLogin":"会员ID：未登录"
 }

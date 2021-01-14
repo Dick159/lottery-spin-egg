@@ -61,12 +61,12 @@ class PrizeAndRules extends eui.UILayer {
         title.size = textSize;
 
 
-        var cT = 'Member ID:';
+       var cT = mc_content.MID;
         if(getLocalStorage(Main.MEMBERID_SYB)){
-            cT = "Member ID: " + getLocalStorage(Main.MEMBERID_SYB)
+            cT = mc_content.MID + getLocalStorage(Main.MEMBERID_SYB)
             
         }else if(getLocalStorage(Main.TOKENID_SYB)){
-            cT = "Not Login"
+            cT = mc_content.notLogin;
         }
         var user = createTextFiledNoEui(cT);
         user.textColor = textColor;
@@ -83,7 +83,9 @@ class PrizeAndRules extends eui.UILayer {
             ac_content.size = textSize
             ac_content.x = 200;
             ac_content.textColor = textColor;
-            ac_content.y = (this.stage.stageHeight * 0.05+285+ textSize*i)/multi;
+            //ac_content.y = (this.stage.stageHeight * 0.05+305+ textSize*i)/multi;
+            ac_content.y = (my_prize_info_bg.y + 363 + textSize*i)/multi;
+            ac_content.fontFamily="Microsoft YaHei";
             ac_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ac_content);
         }
@@ -93,8 +95,9 @@ class PrizeAndRules extends eui.UILayer {
             var ae_content = createTextFiledNoEui(Main.staticEnvPrizeList[i]);
             ae_content.size = textSize;
             ae_content.x = 200;
+            ae_content.fontFamily="Microsoft YaHei";
             ae_content.textColor = textColor;
-            ae_content.y = (this.stage.stageHeight * 0.05+453+ textSize*i)/multi;
+            ae_content.y = (my_prize_info_bg.y + 550+ textSize*i)/multi;
             ae_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ae_content);
         }
@@ -106,8 +109,9 @@ class PrizeAndRules extends eui.UILayer {
             var ad_content = createTextFiledNoEui(Main.staticDDPrizeList[i]);
             ad_content.size = textSize;
             ad_content.x = 200;
+            ad_content.fontFamily="Microsoft YaHei";
             ad_content.textColor = textColor;
-            ad_content.y = (my_prize_info_bg.y + 170 + textSize*i)/multi;
+            ad_content.y = (my_prize_info_bg.y + 168 + textSize*i)/multi;
             ad_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ad_content);
         }
@@ -194,10 +198,11 @@ class PrizeAndRules extends eui.UILayer {
         _scroller.y = rules_title_bg.y + rules_title_bg.height - 5;
 
 
-        var tc = createTextFiledNoEui(mc_content.terms1_LBox);
+        var tc = createTextFiledNoEui(mc_content.terms1_LBox+"。");
+        tc.fontFamily="Microsoft YaHei";
             tc.size = 32;
-            tc.x = 306;
-            tc.y = 1144;
+            tc.x = 436;
+            tc.y = 973;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 

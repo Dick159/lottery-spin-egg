@@ -23,7 +23,7 @@ class IndexUI extends egret.Sprite {
     private sign_out_btn = createBitmap("sign_out_png", 375, 603);
     private LoginRegisterbutton:egret.Bitmap= createBitmap("Member Login Button_1_png",0,1295);
 
-    private curLang = "e";
+    private curLang = "c";
 
     private languageCnt = new egret.DisplayObjectContainer();
 
@@ -178,7 +178,7 @@ class IndexUI extends egret.Sprite {
 
 
         //gameRule
-         var gameRule = createBitmap("PrizesRulesButton_png",440,this.stage.stageHeight * 0.88);
+         var gameRule = createBitmap("PrizesRulesButton_png",454,this.stage.stageHeight * 0.88);
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
@@ -226,7 +226,7 @@ class IndexUI extends egret.Sprite {
                 removeLocalStorage(Main.MEMBERID_SYB);
                 if(!getLocalStorage(Main.MEMBERID_SYB)){
                     //this.popUpMessageTip(mc_content.SignOut,this);
-                    ShowTipsBox("Sign out success",this);
+                    ShowTipsBox(mc_content.SignOut,this);
                     this.sign_out_btn.visible = false;
                     this.LoginRegisterbutton.visible = true;
                     
