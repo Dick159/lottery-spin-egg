@@ -61,12 +61,12 @@ class PrizeAndRules extends eui.UILayer {
         title.size = textSize;
 
 
-        var cT = 'Member ID:';
+       var cT = mc_content.MID;
         if(getLocalStorage(Main.MEMBERID_SYB)){
-            cT = "Member ID: " + getLocalStorage(Main.MEMBERID_SYB)
+            cT = mc_content.MID + getLocalStorage(Main.MEMBERID_SYB)
             
         }else if(getLocalStorage(Main.TOKENID_SYB)){
-            cT = "Not Login"
+            cT = mc_content.notLogin;
         }
         var user = createTextFiledNoEui(cT);
         user.textColor = textColor;
@@ -83,7 +83,7 @@ class PrizeAndRules extends eui.UILayer {
             ac_content.size = textSize
             ac_content.x = 200;
             ac_content.textColor = textColor;
-            ac_content.y = (this.stage.stageHeight * 0.05+285+ textSize*i)/multi;
+            ac_content.y = (my_prize_info_bg.y + 336 + textSize*i)/multi;
             ac_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ac_content);
         }
@@ -94,7 +94,7 @@ class PrizeAndRules extends eui.UILayer {
             ae_content.size = textSize;
             ae_content.x = 200;
             ae_content.textColor = textColor;
-            ae_content.y = (this.stage.stageHeight * 0.05+453+ textSize*i)/multi;
+            ae_content.y = (my_prize_info_bg.y + 510+ textSize*i)/multi;
             ae_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ae_content);
         }

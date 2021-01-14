@@ -177,7 +177,7 @@ var IndexUI = (function (_super) {
             removeLocalStorage(Main.MEMBERID_SYB);
             if (!getLocalStorage(Main.MEMBERID_SYB)) {
                 //this.popUpMessageTip(mc_content.SignOut,this);
-                ShowTipsBox("Sign out success", this);
+                ShowTipsBox(mc_content.SignOut, this);
                 this.sign_out_btn.visible = false;
                 this.LoginRegisterbutton.visible = true;
                 var srlId = getQueryVariable(Main.SRLID_SYB);

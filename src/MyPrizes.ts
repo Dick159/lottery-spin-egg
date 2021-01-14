@@ -50,12 +50,12 @@ class MyPrizes extends eui.UILayer {
         title.textColor = textColor;
         title.size = textSize;
 
-        var cT = 'Member ID:';
+        var cT = mc_content.MID;
         if(getLocalStorage(Main.MEMBERID_SYB)){
-            cT = "Member ID: " + getLocalStorage(Main.MEMBERID_SYB)
+            cT = mc_content.MID + getLocalStorage(Main.MEMBERID_SYB)
             
         }else if(getLocalStorage(Main.TOKENID_SYB)){
-            cT = "Not Login"
+            cT = mc_content.notLogin;
         }
         var user = createTextFiledNoEui(cT);
         user.textColor = textColor;
@@ -72,7 +72,7 @@ class MyPrizes extends eui.UILayer {
         ac_content.size = textSize
         ac_content.x = 200;
         ac_content.textColor = textColor;
-        ac_content.y = my_prize_info_bg.y + 360;
+        ac_content.y = my_prize_info_bg.y + 366;
         myPrizeInfo_cnt.addChild(ac_content);
 
         var rp_png = createBitmap("Red Packet Symbol_png");
@@ -81,7 +81,7 @@ class MyPrizes extends eui.UILayer {
         aeTextBold.bold = true;
         aeTextBold.textColor = textColor;
         aeTextBold.size = textSize;
-        aeTextBold.y = my_prize_info_bg.y + 540 ;
+        aeTextBold.y = my_prize_info_bg.y + 530 ;
         myPrizeInfo_cnt.addChild(aeTextBold);
 
 

@@ -51,5 +51,6 @@ let mc_content={
     "TC":"Terms and Conditions.",
     "haveBinded":"You have played today.\r\nNo new score is recorded",
     "ParamError":"Please fill in\r\ncorrect information.",
-    "SUSuccess":"Sign up success:\r\nMember ID:"
+    "SUSuccess":"Sign up success:\r\nMember ID:",
+    "notLogin":"Not Login"
 }

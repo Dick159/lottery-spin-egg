@@ -101,13 +101,18 @@ class Info1UI extends eui.UILayer {
     }
 
     private createBannerAndTips(){
+    
+    	this.banner = createBitmap("SandsRewardsLifestyle_Logo_png");
+        this.banner.x =(this.stage.stageWidth - this.banner.width) * 0.5;
+        this.banner.y = this.stage.stageHeight * 0.03;
+        this.addChild(this.banner);
        var tipsTextSize = 40;
        var tipsTextColor = 0xFFFFFF;
        this.tipText1 =  createTextFiledNoEui(mc_content.tipText1);
        this.tipText1.textColor = tipsTextColor;
        this.tipText1.size = tipsTextSize;
        middleObject(this.stage.stageWidth,this.tipText1);
-       this.tipText1.y = this.stage.stageHeight * 0.30;
+       this.tipText1.y = this.banner.y +this.banner.height + 40;
 
        this.addChild(this.tipText1);
 
@@ -115,17 +120,12 @@ class Info1UI extends eui.UILayer {
        this.tipText2.textColor = tipsTextColor;
        this.tipText2.size = tipsTextSize;
        middleObject(this.stage.stageWidth,this.tipText2);
-       this.tipText2.y = this.stage.stageHeight * 0.30 + tipsTextSize;
+       //this.tipText2.y = this.stage.stageHeight * 0.30 + tipsTextSize;
+       this.tipText2.y = this.tipText1.y + this.tipText1.height + 10;
        this.addChild(this.tipText2);
     }
 
     private createLoginView(){
-
-        this.banner = createBitmap("SandsRewardsLifestyle_Logo_png");
-        this.banner.x =(this.stage.stageWidth - this.banner.width) * 0.5;
-        this.banner.y = this.stage.stageHeight * 0.03;
-        this.addChild(this.banner);
-
         this._loginView.touchThrough = true;
        var img = new eui.Image("/resource/assets/djy_wbk.png"); 
        var srlCard = new eui.Image("/resource/assets/SRL_Cards.png");
@@ -136,7 +136,7 @@ class Info1UI extends eui.UILayer {
        var inputTips = new eui.Image("/resource/assets/question_child.png");
        
        inputTips.x = 540;
-       inputTips.y = 645;
+       inputTips.y = 680;
        inputTips.scaleX = 1.3;
        inputTips.scaleY = 1.3;
        inputTips.touchEnabled = true;
@@ -161,23 +161,23 @@ class Info1UI extends eui.UILayer {
        },this);
 
        img.scaleY = 1.15;
-       this._loginView.y = 200;
+       this._loginView.y = 50;
        this._loginView.width =this.stage.stageWidth;
-       this._loginView.height = 1080;
+       //this._loginView.height = 1080;
        var last_name_label=createTextFiled(mc_content.MID,this.registerLabelX,this.registerLabelYBias+this.registerLabelY*1,24,0x000000);
-       this.memerIdInput=createTextFiled(mc_content.InputID, 149 + 62 , 633, 25,  0xa1a1a1, "left",320,72, "middle", false,  0x000000, false,egret.TextFieldType.INPUT);
+       this.memerIdInput=createTextFiled(mc_content.InputID, 149 + 62 , 668, 25,  0xa1a1a1, "left",320,72, "middle", false,  0x000000, false,egret.TextFieldType.INPUT);
 
        srlCard.x = 115;
        srlCard.y = 420;
 
        loginPanel.x = 149;
-       loginPanel.y = 600;
+       loginPanel.y = 630;
 
        loginBtn.x = 149;
-       loginBtn.y = 715;
+       loginBtn.y = 765;
 
        sigUpText.x = 226;
-       sigUpText.y = 900;
+       sigUpText.y = 950;
 
        this._loginView.addChild(srlCard);
        this._loginView.addChild(loginPanel);
@@ -475,8 +475,8 @@ class Info1UI extends eui.UILayer {
 
             var tc = createTextFiledNoEui(mc_content.TC);
             tc.size = 28;
-            tc.x = this.registerLabelX+63;
-            tc.y = myCard.y +myCard.height * 0.48;
+            tc.x = myCard.x+51;
+            tc.y =  myCard.y+277;
             tc.textColor = 0x851c1c;
             tc.bold = true;
              cont.addChild(_whiteShader);
