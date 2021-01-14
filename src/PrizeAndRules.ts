@@ -16,11 +16,12 @@ class PrizeAndRules extends eui.UILayer {
     private createView(): void {
          this.createPrize();
          this.createRules();
-         this.createBackBtn();
+         this.createHowToRedeem();
+         this.createHomebtn();
     }
     
-    private createBackBtn(){
-        var back = createBitmap("back_png");
+    private createHowToRedeem(){
+        var back = createBitmap("How to redeem button_png");
 
         back.x = (this.stage.stageWidth - back.width) * 0.5;
         back.y = this.stage.stageHeight * 0.91;
@@ -29,7 +30,8 @@ class PrizeAndRules extends eui.UILayer {
         back.touchEnabled = true;
         
         back.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-                this.toMainPage();
+             var gameui = ScenceManage.create(this.stage);
+             gameui.loadScence("index", this, HowToRedeem);
         },this);
     }
 
@@ -58,8 +60,22 @@ class PrizeAndRules extends eui.UILayer {
         title.textColor = textColor;
         title.size = textSize;
 
+
+        var cT = 'Member ID:';
+        if(getLocalStorage(Main.MEMBERID_SYB)){
+            cT = "Member ID: " + getLocalStorage(Main.MEMBERID_SYB)
+            
+        }else if(getLocalStorage(Main.TOKENID_SYB)){
+            cT = "Not Login"
+        }
+        var user = createTextFiledNoEui(cT);
+        user.textColor = textColor;
+        user.size = 30;
+
         myPrizeInfo_cnt.addChild(my_prize_info_bg);
         myPrizeInfo_cnt.addChild(title);
+        myPrizeInfo_cnt.addChild(user);
+
 
         var coins_png = createBitmap("Ox symbol_png");
         for(var i=0;i<Main.staticEnvPrizeList.length;i++){
@@ -101,7 +117,8 @@ class PrizeAndRules extends eui.UILayer {
 
         title.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - title.width*0.5;
         title.y =  (my_prize_info_bg.y + 32)/multi;
-
+        user.y = title.y +title.height + 8;
+        user.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - user.width*0.5;
         var _scale = 1.5;
 
         
@@ -206,4 +223,16 @@ class PrizeAndRules extends eui.UILayer {
             gameui.loadScence("index", this, IndexUI);
     }
 
+
+    private createHomebtn(){
+        var homeBtn = createBitmap("homepageback_button_png");
+        homeBtn.x=5;
+        homeBtn.y=5;
+        homeBtn.touchEnabled = true;
+        homeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                this.toMainPage();
+        },this)
+
+        this.addChild(homeBtn);
+    }
 }

@@ -50,8 +50,21 @@ class MyPrizes extends eui.UILayer {
         title.textColor = textColor;
         title.size = textSize;
 
+        var cT = 'Member ID:';
+        if(getLocalStorage(Main.MEMBERID_SYB)){
+            cT = "Member ID: " + getLocalStorage(Main.MEMBERID_SYB)
+            
+        }else if(getLocalStorage(Main.TOKENID_SYB)){
+            cT = "Not Login"
+        }
+        var user = createTextFiledNoEui(cT);
+        user.textColor = textColor;
+        user.size = 30;
+
+
         myPrizeInfo_cnt.addChild(my_prize_info_bg);
         myPrizeInfo_cnt.addChild(title);
+        myPrizeInfo_cnt.addChild(user);
 
         var coins_png = createBitmap("Ox symbol_png");
         var ac_content = createTextFiledNoEui(MyPrizes.currentAc + " "+mc_content.OX);
@@ -97,6 +110,9 @@ class MyPrizes extends eui.UILayer {
 
         title.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - title.width*0.5;
         title.y =  my_prize_info_bg.y + 32;
+
+        user.y = title.y +title.height + 8;
+        user.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - user.width*0.5;
 
         var _scale = 1.5;
 

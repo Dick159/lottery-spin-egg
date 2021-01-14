@@ -216,7 +216,7 @@ class IndexUI extends egret.Sprite {
         },this)
 
         this.sign_out_btn.x = 0;
-        this.sign_out_btn.y = 1295;
+        this.sign_out_btn.y = this.stage.stageHeight * 0.88;
         this.sign_out_btn.touchEnabled = true;
 
         this.addChild(this.LoginRegisterbutton);
@@ -297,13 +297,13 @@ class IndexUI extends egret.Sprite {
                         this.popUpMessageTip(mc_content.PlayedMsg ,this)
                         return;
                   }
+                    if(getLocalStorage(Main.IS_TOKEN_PLAYED)){
+                            this.popUpMessageTip(mc_content.PlayedMsg ,this)
+                            setLocalStorageList(Main.PAYED_SYN,getLocalStorage(Main.TOKENID_SYB));
+                            return;
+                    }
               }
 
-                            if(getLocalStorage(Main.IS_TOKEN_PLAYED)){
-                    this.popUpMessageTip(mc_content.PlayedMsg ,this)
-                    setLocalStorageList(Main.PAYED_SYN,getLocalStorage(Main.TOKENID_SYB));
-                    return;
-              }
               this.removeChild(this.languageCnt);
               Main.jp_onoff=true;
               //-----alpha to 0-------
@@ -357,12 +357,19 @@ class IndexUI extends egret.Sprite {
                         if(this.isErrorRequest){
                             this.pauseAllBalls(this.balls);
                             //this.popUpMyPrizeList(that);
-                            this.pupUpErrorTips(that);
+                            this.pupUpErrorTips(that,function(){
+                                  var gameui = ScenceManage.create(that.stage);
+                                  gameui.loadScence("index", that, IndexUI);
+                            });
                              removeLocalStorage(Main.IS_TOKEN_PLAYED);
                         }
                         if(this.isNormalError){
                             this.pauseAllBalls(this.balls);
-                            this.popUpMessageTip(mc_content.PlayedMsg,that);
+                            //this.popUpMessageTip(mc_content.PlayedMsg,that);
+                            ShowConfirmBox(this.PlayedMsg,"Warning",that,function(){
+                                  var gameui = ScenceManage.create(that.stage);
+                                  gameui.loadScence("index", that, IndexUI);
+                            });
                         }
                     },this)
                     egret.Tween.get(b1,{ loop: true }).to({rotation : 360},2500);
@@ -955,11 +962,11 @@ class IndexUI extends egret.Sprite {
         loading(false);
     }
 
-    private pupUpErrorTips(_that){
+    private pupUpErrorTips(_that,callBack=null){
         // var width = 300;
         // var height = 500;
         // _that.addChild(ConfirmUtil.popUpTips(this.ERROR_MESSAGE,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
-        ShowConfirmBox(this.ERROR_MESSAGE,"Error",_that);
+        ShowConfirmBox(this.ERROR_MESSAGE,"Error",_that,callBack);
     }
 
     private popUpMessageTip(str:string,_that){

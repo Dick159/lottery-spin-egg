@@ -67,14 +67,14 @@ function ShowConfirmBox(text:string,headerText="Tips",that,callBack=null){
     var msg_box = createBitmapEui("msg_box_png");
 
     var close_text = createBitmapEui("msg_box_close_png")
-    close_text.scaleX = 2;
-    close_text.scaleY = 2;
+    close_text.scaleX = 3;
+    close_text.scaleY = 3;
     close_text.touchEnabled = true;
 
     div.width = msg_box_obj.width;
     div.height = msg_box_obj.height;
 
-    close_text.x = div.x + div.width  - 40;
+    close_text.x = div.x + div.width  - 60;
     close_text.y += 20;
 
     var _text = createTextFiledNoEui(text);
@@ -108,7 +108,7 @@ function ShowConfirmBox(text:string,headerText="Tips",that,callBack=null){
     that.addChild(div);
 }
 
-function ShowTipsBox(message:string,that){
+function ShowTipsBox(message:string,that,callBack=null){
 
     var cnt = new eui.Group();
 
@@ -132,7 +132,11 @@ function ShowTipsBox(message:string,that){
 
     that.addChild(cnt)
 
-    egret.Tween.get(cnt).to({y:cnt.y-80},800).wait(1000).to({alpha:0},500);
+    egret.Tween.get(cnt).to({y:cnt.y-80},800).wait(1000).to({alpha:0},500).call(function(){
+        if(callBack){
+            callBack();
+        }
+    },that);
  //   egret.Tween.get(text).to({y:text.y-100},800).to({alpha:0},500);
 
 
@@ -163,7 +167,9 @@ function createBitButton(img,x,y,textColor,text,hoverImg,hoverTextColor){
         
         shape_text.textColor = textColor;
     },div);
-    div.touchEnabled = true;    //开启点击侦听
+    div.touchEnabled = true;    //开启点击侦听  
+    div.scaleX = Main._baseScale;
+    div.scaleY = Main._baseScale;
     return div;
 }
 /**
@@ -184,6 +190,8 @@ function crawReactShape(shape,x=0,y=0,width=10,height=10,bgColor=0x000000,border
     shape.graphics.lineStyle(borderWidth, borderColor);
     shape.graphics.drawRect(x, y, width, height);
     shape.graphics.endFill();
+    shape.scaleX = Main._baseScale;
+    shape.scaleY = Main._baseScale;
     return shape;
 }
 function drawReactShape(shape,x=0,y=0,width=10,height=10,bgColor=0xBC1717,borderColor=0xBC1717,borderWidth=2){
@@ -193,6 +201,8 @@ function drawReactShape(shape,x=0,y=0,width=10,height=10,bgColor=0xBC1717,border
     shape.graphics.lineStyle(borderWidth, borderColor);
     shape.graphics.drawRect(x, y, width, height);
     shape.graphics.endFill();
+    shape.scaleX = Main._baseScale;
+    shape.scaleY = Main._baseScale;
     return shape;
 }
 function formatTime(time:number){
@@ -212,6 +222,8 @@ function createBitmap(img,x=0,y=0,name="",anchorOffsetX=0,anchorOffsetY=0,scaleX
     bitmap.scaleX=scaleX;
     bitmap.scaleY=scaleY;
     bitmap.alpha=alpha;
+    bitmap.scaleX = Main._baseScale;
+    bitmap.scaleY = Main._baseScale;
     return bitmap;
 }
 
@@ -225,6 +237,8 @@ function createBitmapEui(img,x=0,y=0,name="",anchorOffsetX=0,anchorOffsetY=0,sca
     bitmap.scaleX=scaleX;
     bitmap.scaleY=scaleY;
     bitmap.alpha=alpha;
+    bitmap.scaleX = Main._baseScale;
+    bitmap.scaleY = Main._baseScale;
     return bitmap;
 }
 /**
@@ -259,6 +273,8 @@ function createTextFiled(text="",x=0,y=0,size=30,textColor=0x000000,textAlign="c
     if(border){TextField.border = border;TextField.borderColor=borderColor}
     TextField.multiline = multiline;
     TextField.type = type;
+    TextField.scaleX = Main._baseScale;
+    TextField.scaleY = Main._baseScale;
     return TextField;
 }
 
@@ -278,6 +294,8 @@ function createTextFiledNoEui(text="",x=0,y=0,size=30,textColor=0x000000,textAli
     if(border){TextField.border = border;TextField.borderColor=borderColor}
     TextField.multiline = multiline;
     TextField.type = type;
+    TextField.scaleX = Main._baseScale;
+    TextField.scaleY = Main._baseScale;
     return TextField;
 }
 

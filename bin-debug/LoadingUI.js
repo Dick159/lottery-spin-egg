@@ -58,12 +58,12 @@ var LoadingUI = (function (_super) {
         this.textField.textAlign = "center";
         this.barBg = new egret.Shape();
         this.barBg.graphics.beginFill(0x000000);
-        this.barBg.graphics.drawRect(175, this.baseY + 130, 400, 20);
+        this.barBg.graphics.drawRect(175, this.baseY + 40, 400, 20);
         this.barBg.graphics.endFill();
         this.addChild(this.barBg);
         this.bar = new egret.Shape();
         this.bar.graphics.beginFill(0xffffff);
-        this.bar.graphics.drawRect(175, this.baseY + 130, 0, 20);
+        this.bar.graphics.drawRect(175, this.baseY + 40, 0, 20);
         this.bar.graphics.endFill();
         this.addChild(this.bar);
     };
@@ -72,7 +72,7 @@ var LoadingUI = (function (_super) {
         var percent1 = Math.ceil(current / total * 100);
         this.textField.text = "Loading..." + percent1 + "%";
         this.bar.graphics.beginFill(0xffffff);
-        this.bar.graphics.drawRect(175, this.baseY + 130, percent, 20);
+        this.bar.graphics.drawRect(175, this.baseY + 40, percent, 20);
         this.bar.graphics.endFill();
     };
     return LoadingUI;

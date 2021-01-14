@@ -39,6 +39,8 @@ var Main = (function (_super) {
     function Main() {
         var _this = _super.call(this) || this;
         _this.getProbabilityData = "/services/h5game/property";
+        _this.currentW = 1624;
+        _this.currentH = 750;
         _this.addEventListener(egret.Event.ADDED_TO_STAGE, _this.onAddToStage, _this);
         return _this;
     }
@@ -276,7 +278,7 @@ Main.laohujiButOnoff = true;
 Main.registLoginShow = false;
 //http://150.109.32.241:4503/
 //"https://staging.marinabaysands.com"
-// static  baseUrl = window.location.protocol +"//" +window.location.host;
+//static  baseUrl = window.location.protocol +"//" +window.location.host;
 Main.baseUrl = "https://staging.marinabaysands.com";
 Main.patronRegisterUrl = "/services/members_card_register";
 Main.lotteryApi = "/services/h5game/lottery";
@@ -301,6 +303,9 @@ Main.IS_TOKEN_PLAYED = "djs8sjfnvnm";
 Main.staticCoinsPrizeList = [];
 Main.staticDDPrizeList = [];
 Main.staticEnvPrizeList = [];
+Main._baseScaleX = 1;
+Main._baseScaleY = 1;
+Main._baseScale = 1;
 Main.countryList = [];
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

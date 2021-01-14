@@ -169,7 +169,7 @@ var IndexUI = (function (_super) {
             info.loadScence("info", this, Info1UI);
         }, this);
         this.sign_out_btn.x = 0;
-        this.sign_out_btn.y = 1295;
+        this.sign_out_btn.y = this.stage.stageHeight * 0.88;
         this.sign_out_btn.touchEnabled = true;
         this.addChild(this.LoginRegisterbutton);
         this.addChild(this.sign_out_btn);
@@ -240,11 +240,11 @@ var IndexUI = (function (_super) {
                     this.popUpMessageTip(mc_content.PlayedMsg, this);
                     return;
                 }
-            }
-            if (getLocalStorage(Main.IS_TOKEN_PLAYED)) {
-                this.popUpMessageTip(mc_content.PlayedMsg, this);
-                setLocalStorageList(Main.PAYED_SYN, getLocalStorage(Main.TOKENID_SYB));
-                return;
+                if (getLocalStorage(Main.IS_TOKEN_PLAYED)) {
+                    this.popUpMessageTip(mc_content.PlayedMsg, this);
+                    setLocalStorageList(Main.PAYED_SYN, getLocalStorage(Main.TOKENID_SYB));
+                    return;
+                }
             }
             this.removeChild(this.languageCnt);
             Main.jp_onoff = true;
@@ -294,12 +294,19 @@ var IndexUI = (function (_super) {
                         if (this.isErrorRequest) {
                             this.pauseAllBalls(this.balls);
                             //this.popUpMyPrizeList(that);
-                            this.pupUpErrorTips(that);
+                            this.pupUpErrorTips(that, function () {
+                                var gameui = ScenceManage.create(that.stage);
+                                gameui.loadScence("index", that, IndexUI);
+                            });
                             removeLocalStorage(Main.IS_TOKEN_PLAYED);
                         }
                         if (this.isNormalError) {
                             this.pauseAllBalls(this.balls);
-                            this.popUpMessageTip(mc_content.PlayedMsg, that);
+                            //this.popUpMessageTip(mc_content.PlayedMsg,that);
+                            ShowConfirmBox(this.PlayedMsg, "Warning", that, function () {
+                                var gameui = ScenceManage.create(that.stage);
+                                gameui.loadScence("index", that, IndexUI);
+                            });
                         }
                     }, this);
                     egret.Tween.get(b1, { loop: true }).to({ rotation: 360 }, 2500);
@@ -773,11 +780,12 @@ var IndexUI = (function (_super) {
         }, this);
         loading(false);
     };
-    IndexUI.prototype.pupUpErrorTips = function (_that) {
+    IndexUI.prototype.pupUpErrorTips = function (_that, callBack) {
+        if (callBack === void 0) { callBack = null; }
         // var width = 300;
         // var height = 500;
         // _that.addChild(ConfirmUtil.popUpTips(this.ERROR_MESSAGE,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
-        ShowConfirmBox(this.ERROR_MESSAGE, "Error", _that);
+        ShowConfirmBox(this.ERROR_MESSAGE, "Error", _that, callBack);
     };
     IndexUI.prototype.popUpMessageTip = function (str, _that) {
         // var width = 300;

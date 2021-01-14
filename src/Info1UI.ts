@@ -59,6 +59,8 @@ class Info1UI extends eui.UILayer {
 
     private mcCheckBox2 = new eui.CheckBox();
 
+    private _button;
+
     private banner = createBitmap("SandsRewardsLifestyle_Logo_png");
     public constructor() {
         super();    
@@ -133,8 +135,10 @@ class Info1UI extends eui.UILayer {
 
        var inputTips = new eui.Image("/resource/assets/question_child.png");
        
-       inputTips.x = 544;
-       inputTips.y = 651;
+       inputTips.x = 540;
+       inputTips.y = 645;
+       inputTips.scaleX = 1.3;
+       inputTips.scaleY = 1.3;
        inputTips.touchEnabled = true;
 
        inputTips.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){              
@@ -199,10 +203,11 @@ class Info1UI extends eui.UILayer {
                     _body.y = this.stage.stageHeight * 0.25;
                     
                     middleObject(this.stage.stageWidth,_body);
-                    var _off = createBitmap("off_png");
+                    var _off = createBitmap("close_off_png");
                     _off.scaleX = 0.8;
                     _off.scaleY = 0.8;
-                    var _button = createButton( _body.x + (_body.width - _body.width * 0.3)*0.5,_body.y + _body.height - _body.height * 0.3,_body.width * 0.3,_body.height * 0.2,0xe6b956,0x851c1c,"Confirm",0xe6b956,0xFFFFFF,0,0);
+                    this._button = createButton( _body.x + (_body.width - _body.width * 0.3)*0.5,_body.y + _body.height - _body.height * 0.3,_body.width * 0.3,_body.height * 0.2,0xe6b956,0x851c1c,"Confirm",0xe6b956,0xFFFFFF,0,0);
+                    this._button.touchEnabled = true;
                     _off.x = _body.x + _body.width - _off.width + 10;
                     _off.y += _body.y+5;
                     _off.touchEnabled = true;
@@ -220,7 +225,7 @@ class Info1UI extends eui.UILayer {
 
                     _group.addChild(_whiteShader);
                     _group.addChild(_body);
-                    _group.addChild(_button);
+                    _group.addChild(this._button);
                     _group.addChild(_off);
                     _group.addChild(text);
                     _group.addChild(textID);
@@ -232,8 +237,8 @@ class Info1UI extends eui.UILayer {
                             
                     },this)
 
-                    _button.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
-
+                    this._button.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                        this._button.touchEnabled = false;
                        if(Main.isBindingAction || getLocalStorage(Main.NBD_TOKEN_SYB)){
                          this.tempPatronId = v;
 
@@ -249,17 +254,23 @@ class Info1UI extends eui.UILayer {
                      }
                      else{
                       //  this.addChild(ConfirmUtil.popUpTips(mc_content.LoginSuccess,false,150,150,400,250));
-                        ShowTipsBox(mc_content.LoginSuccess,this);
+                        var that = this;
+                        ShowTipsBox(mc_content.LoginSuccess,this,function(){
+                            var gameui = ScenceManage.create(that.stage);
+                            gameui.loadScence("index", that, IndexUI);
+                        });
                         setLocalStorage(Main.MEMBERID_SYB,v);
-                        var gameui = ScenceManage.create(this.stage);
-                        gameui.loadScence("index", this, IndexUI);
+                        //this._button.touchEnabled = true;
                      }
 
                     },this)
                     
                 }else{
                     //this.addChild(ConfirmUtil.popUpTips(mc_content.FormatErr,false,150,300,400,250));
-                    ShowConfirmBox(mc_content.FormatErr,"Error",this,null);
+                    loginBtn.touchEnabled = false;
+                    ShowConfirmBox(mc_content.FormatErr,"Error",this,function(){
+                        loginBtn.touchEnabled = true;
+                    });
                 }
        },this);
        loginBtn.touchEnabled = true;    //开启点击侦听
@@ -279,55 +290,66 @@ class Info1UI extends eui.UILayer {
     private bindingError(event:egret.Event){
           this.tempPatronId = "";
           this.popUpErrorTips(this,mc_content.NetworkErr);
+          this._button.touchEnabled = true;
     }
 
     private bindingResultSuccess(event:egret.Event){
          loading(false);
          var request = <egret.HttpRequest>event.currentTarget;
+
+         if(!request.response){
+             ShowConfirmBox(mc_content.ERROR_MESSAGE,"Error",this,null);
+             return ;
+         }
+
          var jsonObject= JSON.parse(request.response);
          setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
+         var _that = this;
          if(jsonObject.code == "200"){
              if(jsonObject.data.Output.Response.StatusCode == "00"){
                  setLocalStorage(Main.MEMBERID_SYB,this.tempPatronId);
+                 setLocalStorageList(Main.PAYED_SYN,this.tempPatronId);
                  removeNonBindTokenId();
-                 this.popUpErrorTips(this,mc_content.BinSuccess);
                  removeLocalStorage(Main.TOKENID_SYB);
                  setLocalStorage("MBS_TOKENID",uuid2(16,null));
-                 setTimeout(this.toMainPage(),2000);
+                 ShowTipsBox(mc_content.BinSuccess,this,this.resetBtnStatus(true));
+                 setTimeout(function(){
+                     _that.toMainPage();
+                 },2000);
              }else if(jsonObject.data.Output.Response.StatusCode == "01"){
                  var _message = jsonObject.data.Output.Response.StatusDescription;
                  if(_message && _message.indexOf("already") >= 0 && _message.indexOf("TOKENID") >=0 ){
-                     this.popUpErrorTips(this,mc_content.Binded);
+                     this.popUpErrorTips(this,mc_content.Binded,this.resetBtnStatus(true));
                      removeLocalStorage(Main.NBD_TOKEN_SYB);
                      removeLocalStorage(Main.TOKENID_SYB);
                      setLocalStorage("MBS_TOKENID",uuid2(16,null));
                  }else if(_message && _message.indexOf("already") >= 0 && _message.indexOf("MEMBERSHIPID") >= 0){
-                     this.popUpErrorTips(this,mc_content.BindedBefore);
+                     this.popUpErrorTips(this,mc_content.BindedBefore,this.resetBtnStatus(true));
                  }else{
-                     this.popUpErrorTips(this,mc_content.ERROR_MESSAGE);
+                     this.popUpErrorTips(this,mc_content.ERROR_MESSAGE,this.resetBtnStatus(true));
                  }
                  this.tempPatronId = "";
              }
              else{
                 this.tempPatronId = "";
-                this.popUpErrorTips(this,mc_content.Bindfail);
+                this.popUpErrorTips(this,mc_content.Bindfail,this.resetBtnStatus(true));
              }
          }else if(jsonObject.code == "05"){
-             this.popUpErrorTips(this,mc_content.haveBinded);
+             this.popUpErrorTips(this,mc_content.haveBinded,this.resetBtnStatus(true));
              setTimeout(function(){
                     this.toMainPage();
                 },2000)
          }else{
              this.tempPatronId = "";
-             this.popUpErrorTips(this,mc_content.Bindfail);
+             this.popUpErrorTips(this,mc_content.Bindfail,this.resetBtnStatus(true));
          }
     }
 
-   private popUpErrorTips(_that,message){
+   private popUpErrorTips(_that,message,callBack=null){
         // var width = 300;
         // var height = 500;
         // _that.addChild(ConfirmUtil.popUpTips(message,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
-        ShowConfirmBox(message,"Error",_that,null);
+        ShowConfirmBox(message,"Error",_that,callBack);
     }
 
     private createRegisterView(){
@@ -447,14 +469,14 @@ class Info1UI extends eui.UILayer {
             console.log( evt.text );
              var cont = new egret.DisplayObjectContainer();
              var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,0.8);
-             var myCard = createBitmap("terms1_png");
+             var myCard:egret.Bitmap = createBitmap("terms1_png");
              middleObject(this.stage.stageWidth,myCard);
              myCard.y = this.stage.stageHeight * 0.2;
 
             var tc = createTextFiledNoEui(mc_content.TC);
             tc.size = 28;
             tc.x = this.registerLabelX+63;
-            tc.y = this.stage.stageHeight * 0.4-49;
+            tc.y = myCard.y +myCard.height * 0.48;
             tc.textColor = 0x851c1c;
             tc.bold = true;
              cont.addChild(_whiteShader);
@@ -655,15 +677,19 @@ class Info1UI extends eui.UILayer {
        this.cj_btn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
          this.cj_btn.touchEnabled = false;
          loading(true);
-         if(!this.checkParamasValidate()){
+         var that = this;
+         if(!this.checkParamasValidate(function(){
+            that.cj_btn.touchEnabled = true;
+         })){
              loading(false);
-             this.cj_btn.touchEnabled = true;
-              return;
+             return;
 
          }
+         this.resetZcStatus(false);
          var request = requestRegisterPost(Main.baseUrl+Main.patronRegisterUrl,"?" + this.getPatronPostData());
          request.send();
          request.addEventListener(egret.Event.COMPLETE,this.registerCompelete,this);
+         request.addEventListener(egret.IOErrorEvent.IO_ERROR,this.signUpNetworkError,this);
          
        },this);
        this.cj_btn.touchEnabled = true;    //开启点击侦听
@@ -675,6 +701,12 @@ class Info1UI extends eui.UILayer {
 
         
          this.addChild(chucuo_title);
+    }
+    
+    private signUpNetworkError(event:egret.Event){
+        ShowConfirmBox(mc_content.NetworkErr,"Error",this,null);
+        this.resetZcStatus(true);
+        loading(false);
     }
 
      private registerCompelete(event:egret.Event){
@@ -704,16 +736,16 @@ class Info1UI extends eui.UILayer {
             }
             else{
                 var _that = this;
-                setTimeout(function(){
-                    var gameui = ScenceManage.create(_that.stage);
+                ShowConfirmBox(mc_content.SUSuccess + patronId,"Success",_that,function(){
+                     var gameui = ScenceManage.create(_that.stage);
                     gameui.loadScence("index", _that, IndexUI);
-                },2000);
+                });
             }
 
          }
          else if(jsonObject.result == 'ERROR'){
             // this.addChild(ConfirmUtil.popUpTips(mc_content.SUFailExist + patronId,false,150,300,450,350));
-            ShowConfirmBox(mc_content.SUFailExist + patronId,"Error",this,null);
+            ShowConfirmBox(mc_content.SUFailExist,"Error",this,null);
          }
          this.cj_btn.touchEnabled = true; 
     }
@@ -736,11 +768,11 @@ class Info1UI extends eui.UILayer {
         }.bind(this));
     }
 
-    private showErrorText(text){
+    private showErrorText(text,callBack=null){
         // this.errorText.text = text;
         // this.errorText.alpha = 1
         // egret.Tween.get(this.errorText,{loop:false}).to({alpha:0},2500);
-        ShowConfirmBox(text,"Error",this,null);
+        ShowConfirmBox(text,"Error",this,callBack);
     }
 
     private toMainPage(){
@@ -748,39 +780,46 @@ class Info1UI extends eui.UILayer {
         gameui.loadScence("index", this, IndexUI);
     }
 
-    private checkParamasValidate(){
+    private checkParamasValidate(callBack = null){
         if(!this.firstNameText.text){
-            this.showErrorText(mc_content.ParamError);
+            this.showErrorText(mc_content.ParamError,callBack);
             return false;
         }
         if(!this.lastNameText.text){
-            this.showErrorText(mc_content.ParamError);
+            this.showErrorText(mc_content.ParamError,callBack);
             return false;
         }
         var pattern = /^[0-9]*$/;
         if(!pattern.test(this.mobilePhone.text)){
-             this.showErrorText(mc_content.ParamError);
+             this.showErrorText(mc_content.ParamError,callBack);
              return false;
         }
 
         var pattern = /^(19\d{2}|20[01][0-9]|2020)$/
         if(!pattern.test(this.dob_y_text.text)){
-             this.showErrorText(mc_content.ParamError);
+             this.showErrorText(mc_content.ParamError,callBack);
              return false;
         }
 
         var pattern = /^(0[0-9]|1[0-2])$/
         if(!pattern.test(this.dob_m_text.text)){
-             this.showErrorText(mc_content.ParamError);
+             this.showErrorText(mc_content.ParamError,callBack);
              return false;
         }   
 
         var pattern = /^(0[0-9]|1[0-9]|2[0-9]|3[0-1])$/;
         if(!pattern.test(this.dob_d_text.text)){
-             this.showErrorText(mc_content.ParamError);
+             this.showErrorText(mc_content.ParamError,callBack);
              return false;
         }
         return true;
     }
 
+    private resetBtnStatus(f){
+        this._button.touchEnabled = f;
+    }
+
+    private resetZcStatus(f){
+        this.cj_btn.touchEnabled = f;
+    }
 }

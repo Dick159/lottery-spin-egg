@@ -40,8 +40,8 @@ class Main extends egret.DisplayObjectContainer {
     static registLoginShow = false;
     //http://150.109.32.241:4503/
     //"https://staging.marinabaysands.com"
-    // static  baseUrl = window.location.protocol +"//" +window.location.host;
-      static  baseUrl = "https://staging.marinabaysands.com";
+    static  baseUrl = window.location.protocol +"//" +window.location.host;
+    // static  baseUrl = "https://staging.marinabaysands.com";
     private getProbabilityData = "/services/h5game/property";
     static patronRegisterUrl = "/services/members_card_register"
     static lotteryApi = "/services/h5game/lottery";
@@ -86,6 +86,16 @@ class Main extends egret.DisplayObjectContainer {
     static staticDDPrizeList = [];
     static staticEnvPrizeList = [];
     static bg;
+
+    private currentW = 1624;
+
+    private currentH = 750;  
+
+    static _baseScaleX = 1;
+
+    static _baseScaleY = 1;
+
+    static _baseScale = 1;
 
     static countryList = []
 
@@ -161,11 +171,19 @@ class Main extends egret.DisplayObjectContainer {
         Main.bg= createBitmap("common_bg_png",0,0);
         this.stage.addChild(Main.bg);
 
+
+
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
         
         if(egret.Capabilities.isMobile){
             this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH;
+            // var sx = this.currentW - document.body.clientWidth;
+            // var sy = this.currentH - document.body.clientHeight;
+            // Main._baseScaleX = sx > 0 ? document.body.clientWidth / this.currentW :1;
+            // Main._baseScaleY = sy > 0 ? document.body.clientHeight / this.currentH  :1;
+            // Main._baseScale = (Main._baseScaleX + Main._baseScaleY) * 0.5;
+            // alert(Main._baseScale);
         }else{
             this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
         }

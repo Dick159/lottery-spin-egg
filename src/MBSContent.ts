@@ -3,8 +3,8 @@ let mc_content={
     "PlayedMsg":"You have played today.\r\nPlay again tomorrow.",
     "SignOut":"Sign out success.",
     "DD":"REWARD DOLLARS",
-    "OX":"OX COIN",
-    "redPack":" RED PAKCET",
+    "OX":"OX COINS",
+    "redPack":" RED PACKET",
     "ENVELOPES":"ENVELOPES",
     "coinsCongTipsText1":"Collect 888 Virtual Ox coins to redeem a",
     "coinsCongTipsText2":"Marina Bay Sands Capsule Machine Game.",
@@ -17,7 +17,7 @@ let mc_content={
     "ae_content":" RED PACKET ENVELOP",
     "MYPRIZE":"MY PRIZE",
     "PRIZE":"PRIZE",
-    "tipText1":"Login/Sign up to Save",
+    "tipText1":"Login/Sign up to save",
     "tipText2":"your scores & prizes!",
     "MID":"Member ID:",
     "InputID":"Input ID",
@@ -50,5 +50,6 @@ let mc_content={
     "Play":"Please play the game",
     "TC":"Terms and Conditions.",
     "haveBinded":"You have played today.\r\nNo new score is recorded",
-    "ParamError":"Please fill in\r\ncorrect information."
+    "ParamError":"Please fill in\r\ncorrect information.",
+    "SUSuccess":"Sign up success:\r\nMember ID:"
 }

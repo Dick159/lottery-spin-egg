@@ -64,12 +64,12 @@ function ShowConfirmBox(text, headerText, that, callBack) {
     var msg_box_obj = createBitmap("msg_box_png");
     var msg_box = createBitmapEui("msg_box_png");
     var close_text = createBitmapEui("msg_box_close_png");
-    close_text.scaleX = 2;
-    close_text.scaleY = 2;
+    close_text.scaleX = 3;
+    close_text.scaleY = 3;
     close_text.touchEnabled = true;
     div.width = msg_box_obj.width;
     div.height = msg_box_obj.height;
-    close_text.x = div.x + div.width - 40;
+    close_text.x = div.x + div.width - 60;
     close_text.y += 20;
     var _text = createTextFiledNoEui(text);
     _text.size = 36;
@@ -98,7 +98,8 @@ function ShowConfirmBox(text, headerText, that, callBack) {
     }, that);
     that.addChild(div);
 }
-function ShowTipsBox(message, that) {
+function ShowTipsBox(message, that, callBack) {
+    if (callBack === void 0) { callBack = null; }
     var cnt = new eui.Group();
     var text = createTextFiledNoEui(message);
     text.textColor = 0x851c1c;
@@ -113,7 +114,11 @@ function ShowTipsBox(message, that) {
     middleObject(that.stage.stageWidth, cnt);
     cnt.y = that.stage.stageHeight * 0.1;
     that.addChild(cnt);
-    egret.Tween.get(cnt).to({ y: cnt.y - 80 }, 800).wait(1000).to({ alpha: 0 }, 500);
+    egret.Tween.get(cnt).to({ y: cnt.y - 80 }, 800).wait(1000).to({ alpha: 0 }, 500).call(function () {
+        if (callBack) {
+            callBack();
+        }
+    }, that);
     //   egret.Tween.get(text).to({y:text.y-100},800).to({alpha:0},500);
 }
 //图片按钮
@@ -139,7 +144,9 @@ function createBitButton(img, x, y, textColor, text, hoverImg, hoverTextColor) {
         bit.texture = RES.getRes(img);
         shape_text.textColor = textColor;
     }, div);
-    div.touchEnabled = true; //开启点击侦听
+    div.touchEnabled = true; //开启点击侦听  
+    div.scaleX = Main._baseScale;
+    div.scaleY = Main._baseScale;
     return div;
 }
 /**
@@ -167,6 +174,8 @@ function crawReactShape(shape, x, y, width, height, bgColor, borderColor, border
     shape.graphics.lineStyle(borderWidth, borderColor);
     shape.graphics.drawRect(x, y, width, height);
     shape.graphics.endFill();
+    shape.scaleX = Main._baseScale;
+    shape.scaleY = Main._baseScale;
     return shape;
 }
 function drawReactShape(shape, x, y, width, height, bgColor, borderColor, borderWidth) {
@@ -183,6 +192,8 @@ function drawReactShape(shape, x, y, width, height, bgColor, borderColor, border
     shape.graphics.lineStyle(borderWidth, borderColor);
     shape.graphics.drawRect(x, y, width, height);
     shape.graphics.endFill();
+    shape.scaleX = Main._baseScale;
+    shape.scaleY = Main._baseScale;
     return shape;
 }
 function formatTime(time) {
@@ -210,6 +221,8 @@ function createBitmap(img, x, y, name, anchorOffsetX, anchorOffsetY, scaleX, sca
     bitmap.scaleX = scaleX;
     bitmap.scaleY = scaleY;
     bitmap.alpha = alpha;
+    bitmap.scaleX = Main._baseScale;
+    bitmap.scaleY = Main._baseScale;
     return bitmap;
 }
 function createBitmapEui(img, x, y, name, anchorOffsetX, anchorOffsetY, scaleX, scaleY, alpha) {
@@ -230,6 +243,8 @@ function createBitmapEui(img, x, y, name, anchorOffsetX, anchorOffsetY, scaleX, 
     bitmap.scaleX = scaleX;
     bitmap.scaleY = scaleY;
     bitmap.alpha = alpha;
+    bitmap.scaleX = Main._baseScale;
+    bitmap.scaleY = Main._baseScale;
     return bitmap;
 }
 /**
@@ -284,6 +299,8 @@ function createTextFiled(text, x, y, size, textColor, textAlign, width, height, 
     }
     TextField.multiline = multiline;
     TextField.type = type;
+    TextField.scaleX = Main._baseScale;
+    TextField.scaleY = Main._baseScale;
     return TextField;
 }
 function createTextFiledNoEui(text, x, y, size, textColor, textAlign, width, height, verticalAlign, border, borderColor, multiline, type) {
@@ -320,6 +337,8 @@ function createTextFiledNoEui(text, x, y, size, textColor, textAlign, width, hei
     }
     TextField.multiline = multiline;
     TextField.type = type;
+    TextField.scaleX = Main._baseScale;
+    TextField.scaleY = Main._baseScale;
     return TextField;
 }
 function setLocalStorage(key, value) {
