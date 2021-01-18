@@ -232,7 +232,7 @@ class PrizeAndRules extends eui.UILayer {
     private createHomebtn(){
         var homeBtn = createBitmap("homepageback_button_png");
         homeBtn.x=5;
-        homeBtn.y=5;
+        homeBtn.y=35;
         homeBtn.touchEnabled = true;
         homeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
                 this.toMainPage();
