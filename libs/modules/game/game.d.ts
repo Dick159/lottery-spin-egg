@@ -977,12 +977,12 @@ declare namespace egret {
          * @private
          * @inheritDoc
          */
-        $setWidth(value: number): boolean;
+        $setWidth(value: number): void;
         /**
          * @private
          * @inheritDoc
          */
-        $setHeight(value: number): boolean;
+        $setHeight(value: number): void;
         /**
          * @private
          *
@@ -1470,16 +1470,36 @@ declare namespace egret {
         private getResponseType(dataFormat);
         /**
          * @private
+         */
+        private sound;
+        /**
+         * @private
          *
          * @param loader
          */
         private loadSound(loader);
+        private onSoundoadComplete(event);
+        private onSoundLoaderPostProgress(event);
+        private onSoundLoaderError(event);
+        private removeSoundLoaderListeners();
+        /**
+         * @private
+         */
+        private imageLoader;
+        /**
+         * @private
+         */
+        private virtualUrl;
         /**
          * @private
          *
          * @param loader
          */
         private loadTexture(loader);
+        private onImageLoadComplete(event);
+        private onImageLoaderPostProgress(event);
+        private onImageLoaderError(event);
+        private removeImageLoaderListeners();
         /**
          * @private
          */
@@ -1502,7 +1522,7 @@ declare namespace egret {
      * 影片剪辑，可以通过影片剪辑播放序列帧动画。MovieClip 类从以下类继承而来：DisplayObject 和 EventDispatcher。不同于 DisplayObject 对象，MovieClip 对象拥有一个时间轴。
      * @extends egret.DisplayObject
      * @event egret.Event.COMPLETE 动画播放完成。
-     * @event egret.Event.LOOP_COMPLETE 动画循环播放完成。
+     * @event egret.Event.LOOP_COMPLETE 动画循环播放完成。循环最后一次只派发 COMPLETE 事件，不派发 LOOP_COMPLETE 事件。
      * @see http://edn.egret.com/cn/docs/page/596 MovieClip序列帧动画
      * @version Egret 2.4
      * @platform Web,Native
@@ -1510,7 +1530,7 @@ declare namespace egret {
      * @language zh_CN
      */
     class MovieClip extends DisplayObject {
-        $bitmapData: Texture;
+        $texture: Texture;
         private offsetPoint;
         $movieClipData: MovieClipData;
         /**
@@ -1585,6 +1605,7 @@ declare namespace egret {
          * @platform Web,Native
          */
         constructor(movieClipData?: MovieClipData);
+        protected createNativeDisplayObject(): void;
         /**
          * @private
          */
@@ -1620,7 +1641,7 @@ declare namespace egret {
         /**
          * @private
          */
-        $render(): void;
+        $updateRenderNode(): void;
         /**
          * @private
          */
@@ -2256,31 +2277,11 @@ declare namespace egret {
          */
         static DEVICE_MOBILE: string;
         /**
-         * @private
-         */
-        static _runtimeType: string;
-        /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        static readonly runtimeType: string;
-        /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        static RUNTIME_HTML5: string;
-        /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        static RUNTIME_NATIVE: string;
-        /**
          * 游戏启动，开启主循环，参考Flash的滑动跑道模型
          * @method egret.MainContext#run
          * @version Egret 2.4
          * @platform Web,Native
          */
-        run(): void;
         /**
          * @private
          */
@@ -2294,14 +2295,6 @@ declare namespace egret {
         static readonly instance: egret.MainContext;
     }
 }
-/**
- * @private
- */
-declare let testDeviceType1: () => boolean;
-/**
- * @private
- */
-declare let testRuntimeType1: () => boolean;
 declare namespace egret {
     /**
      * Tool class for object cache repeat use, which can be used to construct an object pool. Objects are automatically recycled after a certain duration.

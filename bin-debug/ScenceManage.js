@@ -56,6 +56,7 @@ var ScenceManage = (function () {
             egret.Tween.get(newScence).to({ alpha: 1 }, 0.5).call(function () {
                 this._callback ? this._callback() : "";
             }.bind(this));
+            //--------------------------------------------------------------------
         }
     };
     /**
