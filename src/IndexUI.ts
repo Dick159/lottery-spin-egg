@@ -366,7 +366,7 @@ class IndexUI extends egret.Sprite {
                         if(this.isNormalError){
                             this.pauseAllBalls(this.balls);
                             //this.popUpMessageTip(mc_content.PlayedMsg,that);
-                            ShowConfirmBox(this.PlayedMsg,"Warning",that,function(){
+                            ShowConfirmBox(mc_content.PlayedMsg,"提示",that,function(){
                                   var gameui = ScenceManage.create(that.stage);
                                   gameui.loadScence("index", that, IndexUI);
                             });
