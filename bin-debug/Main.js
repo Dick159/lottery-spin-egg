@@ -29,12 +29,10 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
-var __extends = this && this.__extends || function __extends(t, e) { 
- function r() { 
- this.constructor = t;
-}
-for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
-r.prototype = e.prototype, t.prototype = new r();
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Main = (function (_super) {
     __extends(Main, _super);
@@ -100,12 +98,6 @@ var Main = (function (_super) {
         this.stage.addChild(this.loadingView);
         if (egret.Capabilities.isMobile) {
             this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH;
-            // var sx = this.currentW - document.body.clientWidth;
-            // var sy = this.currentH - document.body.clientHeight;
-            // Main._baseScaleX = sx > 0 ? document.body.clientWidth / this.currentW :1;
-            // Main._baseScaleY = sy > 0 ? document.body.clientHeight / this.currentH  :1;
-            // Main._baseScale = (Main._baseScaleX + Main._baseScaleY) * 0.5;
-            // alert(Main._baseScale);
         }
         else {
             this.stage.scaleMode = egret.StageScaleMode.SHOW_ALL;
@@ -278,42 +270,42 @@ var Main = (function (_super) {
         request.open(url, egret.HttpMethod.GET);
         request.send();
     };
-    Main.jp_onoff = false;
-    Main.mask_onoff = false;
-    Main.laohujiButOnoff = true;
-    Main.registLoginShow = false;
-    //http://150.109.32.241:4503/
-    //"https://staging.marinabaysands.com"
-    //static  baseUrl = window.location.protocol +"//" +window.location.host;
-    Main.baseUrl = "https://staging.marinabaysands.com";
-    Main.patronRegisterUrl = "/services/members_card_register";
-    Main.lotteryApi = "/services/h5game/lottery";
-    Main.PostTokenizerApi = "/services/h5game/token";
-    Main.GetContentApi = "/services/h5game/content";
-    Main.GetMemberUserDetail = "/services/h5game/getMemberGameData";
-    Main.GetTokenUserDetail = "/services/h5game/getTokenGameData";
-    // static PostMemberDetail = "/services/h5game/postMemberData";
-    // static PostTokenUserDetail = "/services/h5game/postTokenData";
-    Main.PostBindingMember = "/services/h5game/putData";
-    Main.TOKENID_SYB = "MBS_TOKENID";
-    Main.MEMBERID_SYB = "memberId";
-    Main.isBindingAction = false;
-    Main.NBD_TOKEN_SYB = "NBDTK";
-    Main.zpname = mc_content.zpname; //奖的名称
-    Main.SRLID_SYB = "srlID";
-    Main.PAYED_SYN = "cx1542";
-    Main.CURRENT_DATE = "cn284sjdj";
-    Main.CPT = "fdjsf83283";
-    Main.isFirstLoad = true;
-    Main.IS_TOKEN_PLAYED = "djs8sjfnvnm";
-    Main.staticCoinsPrizeList = [];
-    Main.staticDDPrizeList = [];
-    Main.staticEnvPrizeList = [];
-    Main._baseScaleX = 1;
-    Main._baseScaleY = 1;
-    Main._baseScale = 1;
-    Main.countryList = [];
     return Main;
 }(egret.DisplayObjectContainer));
+Main.jp_onoff = false;
+Main.mask_onoff = false;
+Main.laohujiButOnoff = true;
+Main.registLoginShow = false;
+//http://150.109.32.241:4503/
+//"https://staging.marinabaysands.com"
+//static  baseUrl = window.location.protocol +"//" +window.location.host;
+Main.baseUrl = "https://staging.marinabaysands.com";
+Main.patronRegisterUrl = "/services/members_card_register";
+Main.lotteryApi = "/services/h5game/lottery";
+Main.PostTokenizerApi = "/services/h5game/token";
+Main.GetContentApi = "/services/h5game/content";
+Main.GetMemberUserDetail = "/services/h5game/getMemberGameData";
+Main.GetTokenUserDetail = "/services/h5game/getTokenGameData";
+// static PostMemberDetail = "/services/h5game/postMemberData";
+// static PostTokenUserDetail = "/services/h5game/postTokenData";
+Main.PostBindingMember = "/services/h5game/putData";
+Main.TOKENID_SYB = "MBS_TOKENID";
+Main.MEMBERID_SYB = "memberId";
+Main.isBindingAction = false;
+Main.NBD_TOKEN_SYB = "NBDTK";
+Main.zpname = mc_content.zpname; //奖的名称
+Main.SRLID_SYB = "srlID";
+Main.PAYED_SYN = "cx1542";
+Main.CURRENT_DATE = "cn284sjdj";
+Main.CPT = "fdjsf83283";
+Main.isFirstLoad = true;
+Main.IS_TOKEN_PLAYED = "djs8sjfnvnm";
+Main.staticCoinsPrizeList = [];
+Main.staticDDPrizeList = [];
+Main.staticEnvPrizeList = [];
+Main._baseScaleX = 1;
+Main._baseScaleY = 1;
+Main._baseScale = 1;
+Main.countryList = [];
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

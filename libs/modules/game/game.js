@@ -1,12 +1,10 @@
 var __reflect = (this && this.__reflect) || function (p, c, t) {
     p.__class__ = c, t ? t.push(c) : t = [c], p.__types__ = p.__types__ ? t.concat(p.__types__) : t;
 };
-var __extends = this && this.__extends || function __extends(t, e) { 
- function r() { 
- this.constructor = t;
-}
-for (var i in e) e.hasOwnProperty(i) && (t[i] = e[i]);
-r.prototype = e.prototype, t.prototype = new r();
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 //////////////////////////////////////////////////////////////////////////////////////
 //
@@ -57,73 +55,73 @@ var egret;
     var URLLoaderDataFormat = (function () {
         function URLLoaderDataFormat() {
         }
-        /**
-         * Specify that downloaded data is received as raw binary data.
-         * @version Egret 2.4
-         * @platform Web
-         * @language en_US
-         */
-        /**
-         * 指定以原始二进制数据形式接收下载的数据。
-         * @version Egret 2.4
-         * @platform Web
-         * @language zh_CN
-         */
-        URLLoaderDataFormat.BINARY = "binary";
-        /**
-         * Specify that downloaded data is received as text.
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language en_US
-         */
-        /**
-         * 指定以文本形式接收已下载的数据。
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language zh_CN
-         */
-        URLLoaderDataFormat.TEXT = "text";
-        /**
-         * Specify that downloaded data is received as URL-encoded variables.
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language en_US
-         */
-        /**
-         * 指定以 URL 编码变量形式接收下载的数据。
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language zh_CN
-         */
-        URLLoaderDataFormat.VARIABLES = "variables";
-        /**
-         * Specify that downloaded data is received as bitmap texture.
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language en_US
-         */
-        /**
-         * 指定以位图纹理形式接收已下载的数据。
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language zh_CN
-         */
-        URLLoaderDataFormat.TEXTURE = "texture";
-        /**
-         * Specify that downloaded data is received as sound.
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language en_US
-         */
-        /**
-         * 指定以声音形式接收已下载的数据。
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language zh_CN
-         */
-        URLLoaderDataFormat.SOUND = "sound";
         return URLLoaderDataFormat;
     }());
+    /**
+     * Specify that downloaded data is received as raw binary data.
+     * @version Egret 2.4
+     * @platform Web
+     * @language en_US
+     */
+    /**
+     * 指定以原始二进制数据形式接收下载的数据。
+     * @version Egret 2.4
+     * @platform Web
+     * @language zh_CN
+     */
+    URLLoaderDataFormat.BINARY = "binary";
+    /**
+     * Specify that downloaded data is received as text.
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language en_US
+     */
+    /**
+     * 指定以文本形式接收已下载的数据。
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language zh_CN
+     */
+    URLLoaderDataFormat.TEXT = "text";
+    /**
+     * Specify that downloaded data is received as URL-encoded variables.
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language en_US
+     */
+    /**
+     * 指定以 URL 编码变量形式接收下载的数据。
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language zh_CN
+     */
+    URLLoaderDataFormat.VARIABLES = "variables";
+    /**
+     * Specify that downloaded data is received as bitmap texture.
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language en_US
+     */
+    /**
+     * 指定以位图纹理形式接收已下载的数据。
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language zh_CN
+     */
+    URLLoaderDataFormat.TEXTURE = "texture";
+    /**
+     * Specify that downloaded data is received as sound.
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language en_US
+     */
+    /**
+     * 指定以声音形式接收已下载的数据。
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language zh_CN
+     */
+    URLLoaderDataFormat.SOUND = "sound";
     egret.URLLoaderDataFormat = URLLoaderDataFormat;
     __reflect(URLLoaderDataFormat.prototype, "egret.URLLoaderDataFormat");
 })(egret || (egret = {}));
@@ -819,21 +817,21 @@ var egret;
             egret.Event.release(event);
             return result;
         };
-        /**
-         * Dispatched whenever the current frame have a frameLabel.
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language en_US
-         */
-        /**
-         * 动画的当前帧上有事件时调度
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language zh_CN
-         */
-        MovieClipEvent.FRAME_LABEL = "frame_label";
         return MovieClipEvent;
     }(egret.Event));
+    /**
+     * Dispatched whenever the current frame have a frameLabel.
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language en_US
+     */
+    /**
+     * 动画的当前帧上有事件时调度
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language zh_CN
+     */
+    MovieClipEvent.FRAME_LABEL = "frame_label";
     egret.MovieClipEvent = MovieClipEvent;
     __reflect(MovieClipEvent.prototype, "egret.MovieClipEvent");
 })(egret || (egret = {}));
@@ -914,18 +912,18 @@ var egret;
                 return 1 - Math.pow(1 - t, pow);
             };
         };
-        /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        ScrollEase.quintOut = ScrollEase.getPowOut(5);
-        /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        ScrollEase.quartOut = ScrollEase.getPowOut(4);
         return ScrollEase;
     }());
+    /**
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    ScrollEase.quintOut = ScrollEase.getPowOut(5);
+    /**
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    ScrollEase.quartOut = ScrollEase.getPowOut(4);
     egret.ScrollEase = ScrollEase;
     __reflect(ScrollEase.prototype, "egret.ScrollEase");
     /**
@@ -1092,7 +1090,7 @@ var egret;
                 tweens.push(tween);
                 if (!ScrollTween._inited) {
                     ScrollTween._lastTime = egret.getTimer();
-                    egret.ticker.$startTick(ScrollTween.tick, null);
+                    egret.sys.$ticker.$startTick(ScrollTween.tick, null);
                     ScrollTween._inited = true;
                 }
             }
@@ -1459,25 +1457,25 @@ var egret;
             }
             this.setPosition(this._prevPosition + delta);
         };
-        /**
-         * @private
-         */
-        ScrollTween._tweens = [];
-        /**
-         * @private
-         */
-        ScrollTween.IGNORE = {};
-        /**
-         * @private
-         */
-        ScrollTween._plugins = {};
-        /**
-         * @private
-         */
-        ScrollTween._inited = false;
-        ScrollTween._lastTime = 0;
         return ScrollTween;
     }(egret.EventDispatcher));
+    /**
+     * @private
+     */
+    ScrollTween._tweens = [];
+    /**
+     * @private
+     */
+    ScrollTween.IGNORE = {};
+    /**
+     * @private
+     */
+    ScrollTween._plugins = {};
+    /**
+     * @private
+     */
+    ScrollTween._inited = false;
+    ScrollTween._lastTime = 0;
     egret.ScrollTween = ScrollTween;
     __reflect(ScrollTween.prototype, "egret.ScrollTween");
 })(egret || (egret = {}));
@@ -1842,22 +1840,23 @@ var egret;
          * @inheritDoc
          */
         ScrollView.prototype.$setWidth = function (value) {
-            if (this.$explicitWidth == value) {
-                return;
+            if (this.$getExplicitWidth() == value) {
+                return false;
             }
-            _super.prototype.$setWidth.call(this, value);
+            var result = _super.prototype.$setWidth.call(this, value);
             this._updateContentPosition();
+            return result;
         };
         /**
          * @private
          * @inheritDoc
          */
         ScrollView.prototype.$setHeight = function (value) {
-            if (this.$explicitHeight == value) {
-                return;
-            }
-            _super.prototype.$setHeight.call(this, value);
+            if (this.$getExplicitHeight() == value)
+                return false;
+            var result = _super.prototype.$setHeight.call(this, value);
             this._updateContentPosition();
+            return true;
         };
         /**
          * @private
@@ -2137,7 +2136,7 @@ var egret;
          * @returns
          */
         ScrollView.prototype._getContentWidth = function () {
-            return this._content.$explicitWidth || this._content.width;
+            return this._content.$getExplicitWidth() || this._content.width;
         };
         /**
          * @private
@@ -2145,7 +2144,7 @@ var egret;
          * @returns
          */
         ScrollView.prototype._getContentHeight = function () {
-            return this._content.$explicitHeight || this._content.height;
+            return this._content.$getExplicitHeight() || this._content.height;
         };
         /**
          * The left side of the maximum distance
@@ -2456,12 +2455,12 @@ var egret;
         ScrollView.prototype.swapChildrenAt = function (index1, index2) {
             this.throwNotSupportedError();
         };
-        /**
-         * @private
-         */
-        ScrollView.weight = [1, 1.33, 1.66, 2, 2.33];
         return ScrollView;
     }(egret.DisplayObjectContainer));
+    /**
+     * @private
+     */
+    ScrollView.weight = [1, 1.33, 1.66, 2, 2.33];
     egret.ScrollView = ScrollView;
     __reflect(ScrollView.prototype, "egret.ScrollView");
 })(egret || (egret = {}));
@@ -2752,12 +2751,16 @@ var egret;
             if (request.method == egret.URLRequestMethod.GET || !request.data) {
             }
             else if (request.data instanceof egret.URLVariables) {
-                httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                if (egret.Capabilities.runtimeType == egret.RuntimeType.WEB) {
+                    httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                }
                 var urlVars = request.data;
                 sendData = urlVars.toString();
             }
             else {
-                httpRequest.setRequestHeader("Content-Type", "multipart/form-data");
+                if (egret.Capabilities.runtimeType == egret.RuntimeType.WEB) {
+                    httpRequest.setRequestHeader("Content-Type", "multipart/form-data");
+                }
                 sendData = request.data;
             }
             var length = request.requestHeaders.length;
@@ -2795,30 +2798,29 @@ var egret;
             var self = this;
             var virtualUrl = loader._request.url;
             var sound = new egret.Sound();
-            this.sound = sound;
-            sound.addEventListener(egret.Event.COMPLETE, this.onSoundoadComplete, this);
-            sound.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onSoundLoaderError, this);
-            sound.addEventListener(egret.ProgressEvent.PROGRESS, this.onSoundLoaderPostProgress, this);
+            sound.addEventListener(egret.Event.COMPLETE, onLoadComplete, self);
+            sound.addEventListener(egret.IOErrorEvent.IO_ERROR, onError, self);
+            sound.addEventListener(egret.ProgressEvent.PROGRESS, onPostProgress, self);
             sound.load(virtualUrl);
-        };
-        URLLoader.prototype.onSoundoadComplete = function (event) {
-            var _this = this;
-            this.removeSoundLoaderListeners();
-            this.data = this.sound;
-            window.setTimeout(function () {
-                _this.dispatchEventWith(egret.Event.COMPLETE);
-            }, 0);
-        };
-        URLLoader.prototype.onSoundLoaderPostProgress = function (event) {
-            this.dispatchEvent(event);
-        };
-        URLLoader.prototype.onSoundLoaderError = function (event) {
-            this.dispatchEvent(event);
-        };
-        URLLoader.prototype.removeSoundLoaderListeners = function () {
-            this.sound.removeEventListener(egret.Event.COMPLETE, this.onSoundoadComplete, this);
-            this.sound.removeEventListener(egret.IOErrorEvent.IO_ERROR, this.onSoundLoaderError, this);
-            this.sound.removeEventListener(egret.ProgressEvent.PROGRESS, this.onSoundLoaderPostProgress, this);
+            function onPostProgress(event) {
+                loader.dispatchEvent(event);
+            }
+            function onError(event) {
+                removeListeners();
+                loader.dispatchEvent(event);
+            }
+            function onLoadComplete(e) {
+                removeListeners();
+                loader.data = sound;
+                window.setTimeout(function () {
+                    loader.dispatchEventWith(egret.Event.COMPLETE);
+                }, 0);
+            }
+            function removeListeners() {
+                sound.removeEventListener(egret.Event.COMPLETE, onLoadComplete, self);
+                sound.removeEventListener(egret.IOErrorEvent.IO_ERROR, onError, self);
+                sound.removeEventListener(egret.ProgressEvent.PROGRESS, onPostProgress, self);
+            }
         };
         /**
          * @private
@@ -2826,38 +2828,38 @@ var egret;
          * @param loader
          */
         URLLoader.prototype.loadTexture = function (loader) {
-            this.virtualUrl = loader._request.url;
+            var self = this;
+            var virtualUrl = loader._request.url;
             var imageLoader = new egret.ImageLoader();
-            this.imageLoader = imageLoader;
-            imageLoader.addEventListener(egret.Event.COMPLETE, this.onImageLoadComplete, this);
-            imageLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, this.onImageLoaderError, this);
-            imageLoader.addEventListener(egret.ProgressEvent.PROGRESS, this.onImageLoaderPostProgress, this);
-            imageLoader.load(this.virtualUrl);
-        };
-        URLLoader.prototype.onImageLoadComplete = function (event) {
-            var _this = this;
-            this.removeImageLoaderListeners();
-            var texture = new egret.Texture();
-            var bitmapData = this.imageLoader.data;
-            if (bitmapData.source.setAttribute) {
-                bitmapData.source.setAttribute("bitmapSrc", this.virtualUrl);
+            imageLoader.addEventListener(egret.Event.COMPLETE, onLoadComplete, self);
+            imageLoader.addEventListener(egret.IOErrorEvent.IO_ERROR, onError, self);
+            imageLoader.addEventListener(egret.ProgressEvent.PROGRESS, onPostProgress, self);
+            imageLoader.load(virtualUrl);
+            function onPostProgress(event) {
+                loader.dispatchEvent(event);
             }
-            texture._setBitmapData(bitmapData);
-            this.data = texture;
-            window.setTimeout(function () {
-                _this.dispatchEventWith(egret.Event.COMPLETE);
-            }, 0);
-        };
-        URLLoader.prototype.onImageLoaderPostProgress = function (event) {
-            this.dispatchEvent(event);
-        };
-        URLLoader.prototype.onImageLoaderError = function (event) {
-            this.dispatchEvent(event);
-        };
-        URLLoader.prototype.removeImageLoaderListeners = function () {
-            this.imageLoader.removeEventListener(egret.Event.COMPLETE, this.onImageLoadComplete, this);
-            this.imageLoader.removeEventListener(egret.IOErrorEvent.IO_ERROR, this.onImageLoaderError, this);
-            this.imageLoader.removeEventListener(egret.ProgressEvent.PROGRESS, this.onImageLoaderPostProgress, this);
+            function onError(event) {
+                removeListeners();
+                loader.dispatchEvent(event);
+            }
+            function onLoadComplete(e) {
+                removeListeners();
+                var bitmapData = imageLoader.data;
+                if (egret.Capabilities.runtimeType == egret.RuntimeType.WEB) {
+                    bitmapData.source.setAttribute("bitmapSrc", virtualUrl);
+                }
+                var texture = new egret.Texture();
+                texture._setBitmapData(bitmapData);
+                loader.data = texture;
+                window.setTimeout(function () {
+                    loader.dispatchEventWith(egret.Event.COMPLETE);
+                }, self);
+            }
+            function removeListeners() {
+                imageLoader.removeEventListener(egret.Event.COMPLETE, onLoadComplete, self);
+                imageLoader.removeEventListener(egret.IOErrorEvent.IO_ERROR, onError, self);
+                imageLoader.removeEventListener(egret.ProgressEvent.PROGRESS, onPostProgress, self);
+            }
         };
         /**
          * @private
@@ -2912,7 +2914,7 @@ var egret;
      * 影片剪辑，可以通过影片剪辑播放序列帧动画。MovieClip 类从以下类继承而来：DisplayObject 和 EventDispatcher。不同于 DisplayObject 对象，MovieClip 对象拥有一个时间轴。
      * @extends egret.DisplayObject
      * @event egret.Event.COMPLETE 动画播放完成。
-     * @event egret.Event.LOOP_COMPLETE 动画循环播放完成。循环最后一次只派发 COMPLETE 事件，不派发 LOOP_COMPLETE 事件。
+     * @event egret.Event.LOOP_COMPLETE 动画循环播放完成。
      * @see http://edn.egret.com/cn/docs/page/596 MovieClip序列帧动画
      * @version Egret 2.4
      * @platform Web,Native
@@ -2931,7 +2933,7 @@ var egret;
         function MovieClip(movieClipData) {
             var _this = _super.call(this) || this;
             //Render Property
-            _this.$texture = null;
+            _this.$bitmapData = null;
             //Render Property
             _this.offsetPoint = egret.Point.create(0, 0);
             //Data Property
@@ -3007,15 +3009,10 @@ var egret;
              */
             _this.lastTime = 0;
             _this.$smoothing = egret.Bitmap.defaultSmoothing;
+            _this.$renderNode = new egret.sys.BitmapNode();
             _this.setMovieClipData(movieClipData);
-            if (!egret.nativeRender) {
-                _this.$renderNode = new egret.sys.NormalBitmapNode();
-            }
             return _this;
         }
-        MovieClip.prototype.createNativeDisplayObject = function () {
-            this.$nativeDisplayObject = new egret_native.NativeDisplayObject(11 /* BITMAP_TEXT */);
-        };
         Object.defineProperty(MovieClip.prototype, "smoothing", {
             /**
              * Whether or not is smoothed when scaled.
@@ -3033,10 +3030,12 @@ var egret;
                 return this.$smoothing;
             },
             set: function (value) {
+                value = !!value;
                 if (value == this.$smoothing) {
                     return;
                 }
                 this.$smoothing = value;
+                this.$invalidate();
             },
             enumerable: true,
             configurable: true
@@ -3086,27 +3085,27 @@ var egret;
         /**
          * @private
          */
-        MovieClip.prototype.$updateRenderNode = function () {
-            var texture = this.$texture;
+        MovieClip.prototype.$render = function () {
+            var texture = this.$bitmapData;
             if (texture) {
                 var offsetX = Math.round(this.offsetPoint.x);
                 var offsetY = Math.round(this.offsetPoint.y);
-                var bitmapWidth = texture.$bitmapWidth;
-                var bitmapHeight = texture.$bitmapHeight;
+                var bitmapWidth = texture._bitmapWidth;
+                var bitmapHeight = texture._bitmapHeight;
                 var textureWidth = texture.$getTextureWidth();
                 var textureHeight = texture.$getTextureHeight();
                 var destW = Math.round(texture.$getScaleBitmapWidth());
                 var destH = Math.round(texture.$getScaleBitmapHeight());
-                var sourceWidth = texture.$sourceWidth;
-                var sourceHeight = texture.$sourceHeight;
-                egret.sys.BitmapNode.$updateTextureData(this.$renderNode, texture.$bitmapData, texture.$bitmapX, texture.$bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureWidth, textureHeight, destW, destH, sourceWidth, sourceHeight, egret.BitmapFillMode.SCALE, this.$smoothing);
+                var sourceWidth = texture._sourceWidth;
+                var sourceHeight = texture._sourceHeight;
+                egret.sys.BitmapNode.$updateTextureData(this.$renderNode, texture._bitmapData, texture._bitmapX, texture._bitmapY, bitmapWidth, bitmapHeight, offsetX, offsetY, textureWidth, textureHeight, destW, destH, sourceWidth, sourceHeight, null, egret.BitmapFillMode.SCALE, this.$smoothing);
             }
         };
         /**
          * @private
          */
         MovieClip.prototype.$measureContentBounds = function (bounds) {
-            var texture = this.$texture;
+            var texture = this.$bitmapData;
             if (texture) {
                 var x = this.offsetPoint.x;
                 var y = this.offsetPoint.y;
@@ -3232,8 +3231,6 @@ var egret;
          */
         MovieClip.prototype.play = function (playTimes) {
             if (playTimes === void 0) { playTimes = 0; }
-            this.lastTime = egret.getTimer();
-            this.passedTime = 0;
             this.$isPlaying = true;
             this.setPlayTimes(playTimes);
             if (this.$totalFrames > 1 && this.$stage) {
@@ -3394,55 +3391,22 @@ var egret;
          *
          */
         MovieClip.prototype.constructFrame = function () {
-            var self = this;
-            var currentFrameNum = self.$currentFrameNum;
-            if (self.displayedKeyFrameNum == currentFrameNum) {
+            var currentFrameNum = this.$currentFrameNum;
+            if (this.displayedKeyFrameNum == currentFrameNum) {
                 return;
             }
-            var texture = self.$movieClipData.getTextureByFrame(currentFrameNum);
-            self.$texture = texture;
-            self.$movieClipData.$getOffsetByFrame(currentFrameNum, self.offsetPoint);
-            self.displayedKeyFrameNum = currentFrameNum;
-            self.$renderDirty = true;
-            if (egret.nativeRender) {
-                self.$nativeDisplayObject.setDataToBitmapNode(self.$nativeDisplayObject.id, texture, [texture.$bitmapX, texture.$bitmapY, texture.$bitmapWidth, texture.$bitmapHeight,
-                    self.offsetPoint.x, self.offsetPoint.y, texture.$getScaleBitmapWidth(), texture.$getScaleBitmapHeight(),
-                    texture.$sourceWidth, texture.$sourceHeight]);
-                //todo 负数offsetPoint
-                self.$nativeDisplayObject.setWidth(texture.$getTextureWidth() + self.offsetPoint.x);
-                self.$nativeDisplayObject.setHeight(texture.$getTextureHeight() + self.offsetPoint.y);
-            }
-            else {
-                var p = self.$parent;
-                if (p && !p.$cacheDirty) {
-                    p.$cacheDirty = true;
-                    p.$cacheDirtyUp();
-                }
-                var maskedObject = self.$maskedObject;
-                if (maskedObject && !maskedObject.$cacheDirty) {
-                    maskedObject.$cacheDirty = true;
-                    maskedObject.$cacheDirtyUp();
-                }
-            }
+            this.$bitmapData = this.$movieClipData.getTextureByFrame(currentFrameNum);
+            this.$movieClipData.$getOffsetByFrame(currentFrameNum, this.offsetPoint);
+            this.$invalidateContentBounds();
+            this.displayedKeyFrameNum = currentFrameNum;
         };
         /**
          * @private
          *
          */
         MovieClip.prototype.$renderFrame = function () {
-            var self = this;
-            self.$texture = self.$movieClipData.getTextureByFrame(self.$currentFrameNum);
-            self.$renderDirty = true;
-            var p = self.$parent;
-            if (p && !p.$cacheDirty) {
-                p.$cacheDirty = true;
-                p.$cacheDirtyUp();
-            }
-            var maskedObject = self.$maskedObject;
-            if (maskedObject && !maskedObject.$cacheDirty) {
-                maskedObject.$cacheDirty = true;
-                maskedObject.$cacheDirtyUp();
-            }
+            this.$bitmapData = this.$movieClipData.getTextureByFrame(this.$currentFrameNum);
+            this.$invalidateContentBounds();
         };
         /**
          * @private
@@ -3607,12 +3571,12 @@ var egret;
             }
             this.isStopped = value;
             if (value) {
-                egret.ticker.$stopTick(this.advanceTime, this);
+                egret.sys.$ticker.$stopTick(this.advanceTime, this);
             }
             else {
                 this.playTimes = this.playTimes == 0 ? 1 : this.playTimes;
                 this.lastTime = egret.getTimer();
-                egret.ticker.$startTick(this.advanceTime, this);
+                egret.sys.$ticker.$startTick(this.advanceTime, this);
             }
         };
         return MovieClip;
@@ -3910,34 +3874,34 @@ var egret;
     var URLRequestMethod = (function () {
         function URLRequestMethod() {
         }
-        /**
-         * Specify that the URLRequest object is a GET.
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language en_US
-         */
-        /**
-         * 表示 URLRequest 对象是一个 GET。
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language zh_CN
-         */
-        URLRequestMethod.GET = "get";
-        /**
-         * Specify that the URLRequest object is a POST.
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language en_US
-         */
-        /**
-         * 表示 URLRequest 对象是一个 POST。
-         * @version Egret 2.4
-         * @platform Web,Native
-         * @language zh_CN
-         */
-        URLRequestMethod.POST = "post";
         return URLRequestMethod;
     }());
+    /**
+     * Specify that the URLRequest object is a GET.
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language en_US
+     */
+    /**
+     * 表示 URLRequest 对象是一个 GET。
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language zh_CN
+     */
+    URLRequestMethod.GET = "get";
+    /**
+     * Specify that the URLRequest object is a POST.
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language en_US
+     */
+    /**
+     * 表示 URLRequest 对象是一个 POST。
+     * @version Egret 2.4
+     * @platform Web,Native
+     * @language zh_CN
+     */
+    URLRequestMethod.POST = "post";
     egret.URLRequestMethod = URLRequestMethod;
     __reflect(URLRequestMethod.prototype, "egret.URLRequestMethod");
 })(egret || (egret = {}));
@@ -4180,7 +4144,7 @@ var egret;
                     egret.$error(1033);
                 }
             }
-            egret.ticker.$startTick(_this.update, _this);
+            egret.sys.$ticker.$startTick(_this.update, _this);
             _this._lastTime = egret.getTimer();
             return _this;
         }
@@ -4359,6 +4323,26 @@ var egret;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(MainContext, "runtimeType", {
+            /**
+             * @version Egret 2.4
+             * @platform Web,Native
+             */
+            get: function () {
+                egret.$warn(1041, "egret.MainContext.runtimeType", "egret.Capabilities.runtimeType");
+                return MainContext._runtimeType;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * 游戏启动，开启主循环，参考Flash的滑动跑道模型
+         * @method egret.MainContext#run
+         * @version Egret 2.4
+         * @platform Web,Native
+         */
+        MainContext.prototype.run = function () {
+        };
         Object.defineProperty(MainContext, "instance", {
             /**
              * @method egret.Ticker.getInstance
@@ -4375,38 +4359,59 @@ var egret;
             enumerable: true,
             configurable: true
         });
-        /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        MainContext.deviceType = null;
-        /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        MainContext.DEVICE_PC = "web";
-        /**
-         * @version Egret 2.4
-         * @platform Web,Native
-         */
-        MainContext.DEVICE_MOBILE = "native";
         return MainContext;
     }(egret.EventDispatcher));
+    /**
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    MainContext.deviceType = null;
+    /**
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    MainContext.DEVICE_PC = "web";
+    /**
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    MainContext.DEVICE_MOBILE = "native";
+    /**
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    MainContext.RUNTIME_HTML5 = "runtimeHtml5";
+    /**
+     * @version Egret 2.4
+     * @platform Web,Native
+     */
+    MainContext.RUNTIME_NATIVE = "runtimeNative";
     egret.MainContext = MainContext;
     __reflect(MainContext.prototype, "egret.MainContext");
 })(egret || (egret = {}));
 /**
  * @private
  */
-egret["testDeviceType1"] = function () {
-    if (!window["navigator"] || !navigator) {
+var testDeviceType1 = function () {
+    if (!this["navigator"]) {
         return true;
     }
     var ua = navigator.userAgent.toLowerCase();
     return (ua.indexOf('mobile') != -1 || ua.indexOf('android') != -1);
 };
-egret.MainContext.deviceType = egret["testDeviceType1"]() ? egret.MainContext.DEVICE_MOBILE : egret.MainContext.DEVICE_PC;
-delete egret["testDeviceType1"];
+/**
+ * @private
+ */
+var testRuntimeType1 = function () {
+    if (this["navigator"]) {
+        return true;
+    }
+    return false;
+};
+egret.MainContext.deviceType = testDeviceType1() ? egret.MainContext.DEVICE_MOBILE : egret.MainContext.DEVICE_PC;
+egret.MainContext._runtimeType = testRuntimeType1() ? egret.MainContext.RUNTIME_HTML5 : egret.MainContext.RUNTIME_NATIVE;
+delete testDeviceType1;
+delete testRuntimeType1;
 //////////////////////////////////////////////////////////////////////////////////////
 //
 //  Copyright (c) 2014-present, Egret Technology.
@@ -4487,7 +4492,7 @@ var egret;
             return _this;
         }
         Recycler.$init = function () {
-            egret.ticker.$startTick(Recycler.onUpdate, Recycler);
+            egret.sys.$ticker.$startTick(Recycler.onUpdate, Recycler);
         };
         Recycler.onUpdate = function (timeStamp) {
             var list = Recycler._callBackList;
@@ -4597,12 +4602,12 @@ var egret;
                 list.splice(index, 1);
             }
         };
-        /**
-         * @private
-         */
-        Recycler._callBackList = [];
         return Recycler;
     }(egret.HashObject));
+    /**
+     * @private
+     */
+    Recycler._callBackList = [];
     egret.Recycler = Recycler;
     __reflect(Recycler.prototype, "egret.Recycler");
     Recycler.$init();
@@ -4646,7 +4651,7 @@ var egret;
         setIntervalCount++;
         if (setIntervalCount == 1) {
             lastTime = egret.getTimer();
-            egret.ticker.$startTick(intervalUpdate, null);
+            egret.sys.$ticker.$startTick(intervalUpdate, null);
         }
         setIntervalIndex++;
         setIntervalCache[setIntervalIndex] = data;
@@ -4674,7 +4679,7 @@ var egret;
             setIntervalCount--;
             delete setIntervalCache[key];
             if (setIntervalCount == 0) {
-                egret.ticker.$stopTick(intervalUpdate, null);
+                egret.sys.$ticker.$stopTick(intervalUpdate, null);
             }
         }
     }
@@ -4763,9 +4768,9 @@ var egret;
         }
         var data = { listener: listener, thisObject: thisObject, delay: delay, params: args };
         setTimeoutCount++;
-        if (setTimeoutCount == 1 && egret.ticker) {
+        if (setTimeoutCount == 1 && egret.sys.$ticker) {
             lastTime = egret.getTimer();
-            egret.ticker.$startTick(timeoutUpdate, null);
+            egret.sys.$ticker.$startTick(timeoutUpdate, null);
         }
         setTimeoutIndex++;
         setTimeoutCache[setTimeoutIndex] = data;
@@ -4790,8 +4795,8 @@ var egret;
         if (setTimeoutCache[key]) {
             setTimeoutCount--;
             delete setTimeoutCache[key];
-            if (setTimeoutCount == 0 && egret.ticker) {
-                egret.ticker.$stopTick(timeoutUpdate, null);
+            if (setTimeoutCount == 0 && egret.sys.$ticker) {
+                egret.sys.$ticker.$stopTick(timeoutUpdate, null);
             }
         }
     }
@@ -4809,8 +4814,8 @@ var egret;
             var data = setTimeoutCache[key2];
             data.delay -= dt;
             if (data.delay <= 0) {
-                clearTimeout(key2);
                 data.listener.apply(data.thisObject, data.params);
+                clearTimeout(key2);
             }
         }
         return false;
