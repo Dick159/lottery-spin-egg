@@ -143,7 +143,7 @@ class IndexUI extends egret.Sprite {
                     egret.Tween.get(_c).to({y:_e.y},200);
                     this.isSelect = false;
                 }
-                window.location.href="https://uat.marinabaysands.com"+window.location.pathname;
+                window.location.href="https://zh.uat.marinabaysands.com"+window.location.pathname;
         },this)
 
         _e.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){

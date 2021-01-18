@@ -87,7 +87,7 @@ class Info1UI extends eui.UILayer {
     private createHomebtn(){
         var homeBtn = createBitmap("homepageback_button_png");
         homeBtn.x=5;
-        homeBtn.y=5;
+        homeBtn.y=35;
         homeBtn.touchEnabled = true;
         homeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
                 this.toMainPage();
@@ -790,7 +790,7 @@ class Info1UI extends eui.UILayer {
             return false;
         }
         var pattern = /^[0-9]*$/;
-        if(!pattern.test(this.mobilePhone.text)){
+        if(!pattern.test(this.mobilePhone.text) || !this.mobilePhone.text){
              this.showErrorText(mc_content.ParamError,callBack);
              return false;
         }
@@ -809,6 +809,11 @@ class Info1UI extends eui.UILayer {
 
         var pattern = /^(0[0-9]|1[0-9]|2[0-9]|3[0-1])$/;
         if(!pattern.test(this.dob_d_text.text)){
+             this.showErrorText(mc_content.ParamError,callBack);
+             return false;
+        }
+
+        if(!this.mcCheckBox2.selected){
              this.showErrorText(mc_content.ParamError,callBack);
              return false;
         }

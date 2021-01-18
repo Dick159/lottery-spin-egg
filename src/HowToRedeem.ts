@@ -49,6 +49,8 @@ class HowToRedeem extends eui.UILayer {
             var gameui = ScenceManage.create(this.stage);
             gameui.loadScence("index", this, PrizeAndRules);
           },this)
+
+          this.createHomebtn();
     }
     
     private createBackBtn(){
@@ -69,6 +71,18 @@ class HowToRedeem extends eui.UILayer {
     private toMainPage(){
             var gameui = ScenceManage.create(this.stage);
             gameui.loadScence("index", this, IndexUI);
+    }
+
+    private createHomebtn(){
+        var homeBtn = createBitmap("homepageback_button_png");
+        homeBtn.x=5;
+        homeBtn.y=35;
+        homeBtn.touchEnabled = true;
+        homeBtn.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                this.toMainPage();
+        },this)
+
+        this.addChild(homeBtn);
     }
 
 }
