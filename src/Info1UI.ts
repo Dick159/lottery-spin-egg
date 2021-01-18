@@ -137,7 +137,7 @@ class Info1UI extends eui.UILayer {
        var inputTips = new eui.Image("/resource/assets/question_child.png");
        
        inputTips.x = 540;
-       inputTips.y = 680;
+       inputTips.y = 675;
        inputTips.scaleX = 1.3;
        inputTips.scaleY = 1.3;
        inputTips.touchEnabled = true;
