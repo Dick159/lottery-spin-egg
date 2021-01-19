@@ -59,7 +59,7 @@ class Info1UI extends eui.UILayer {
 
     private mcCheckBox2 = new eui.CheckBox();
 
-    private _button;
+    private _button = null;
 
     private banner = createBitmap("SandsRewardsLifestyle_Logo_png");
     public constructor() {
@@ -208,8 +208,8 @@ class Info1UI extends eui.UILayer {
                     var _off = createBitmap("close_off_png");
                     _off.scaleX = 0.8;
                     _off.scaleY = 0.8;
-                    this._button = createButton( _body.x + (_body.width - _body.width * 0.3)*0.5,_body.y + _body.height - _body.height * 0.3,_body.width * 0.3,_body.height * 0.2,0xe6b956,0x851c1c,"Confirm",0xe6b956,0xFFFFFF,0,0);
-                    this._button.touchEnabled = true;
+                    // this._button = createButton( _body.x + (_body.width - _body.width * 0.3)*0.5,_body.y + _body.height - _body.height * 0.3,_body.width * 0.3,_body.height * 0.2,0xe6b956,0x851c1c,"Confirm",0xe6b956,0xFFFFFF,0,0);
+                    // this._button.touchEnabled = true;
                     _off.x = _body.x + _body.width - _off.width + 10;
                     _off.y += _body.y+5;
                     _off.touchEnabled = true;
@@ -288,6 +288,12 @@ class Info1UI extends eui.UILayer {
        sigUpText.touchEnabled = true;    //开启点击侦听
 
        this.addChild(this._loginView);
+
+        var _body = createBitmap("tips_box_png");
+        _body.y = this.stage.stageHeight * 0.25;
+        middleObject(this.stage.stageWidth,_body);
+        this._button = createButton( _body.x + (_body.width - _body.width * 0.3)*0.5,_body.y + _body.height - _body.height * 0.3,_body.width * 0.3,_body.height * 0.2,0xe6b956,0x851c1c,"Confirm",0xe6b956,0xFFFFFF,0,0);
+        this._button.touchEnabled = true;
     }
     private bindingError(event:egret.Event){
           this.tempPatronId = "";
