@@ -87,7 +87,7 @@ function ShowConfirmBox(text, headerText, that, callBack) {
     div.addChild(close_text);
     div.addChild(_text);
     div.addChild(header);
-    div.alpha = 0.9;
+    div.alpha = 1;
     middleObject(that.stage.stageWidth, div);
     div.y = (that.stage.stageHeight - div.height) * 0.5;
     close_text.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {

@@ -95,7 +95,7 @@ function ShowConfirmBox(text:string,headerText="Tips",that,callBack=null){
     div.addChild(close_text);
     div.addChild(_text);
     div.addChild(header);
-    div.alpha = 0.9;
+    div.alpha = 1;
     middleObject(that.stage.stageWidth,div);
 
     div.y = (that.stage.stageHeight - div.height) * 0.5;

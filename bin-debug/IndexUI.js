@@ -141,7 +141,7 @@ var IndexUI = (function (_super) {
         var title = createBitmap("index_title_png", 0, 10);
         this.addChild(title);
         //gameRule
-        var gameRule = createBitmap("PrizesRulesButton_png", 440, this.stage.stageHeight * 0.88);
+        var gameRule = createBitmap("PrizesRulesButton_png", 454, this.stage.stageHeight * 0.88);
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
@@ -588,6 +588,11 @@ var IndexUI = (function (_super) {
         prizeValueText.y = congText.y + congText.height * 0.37;
         typeText.x = (congText.x + congText.width * 0.5) - typeText.width * 0.5;
         typeText.y = prizeValueText.y + typeText.size;
+        _container.addChild(platform);
+        _container.addChild(prizeSymbol);
+        _container.addChild(congText);
+        _container.addChild(prizeValueText);
+        _container.addChild(typeText);
         var congTextSize = 25;
         var congTextColor = 0xFFFFFF;
         for (var i = 0; i < congTipsTextList.length; i++) {
@@ -599,11 +604,6 @@ var IndexUI = (function (_super) {
             _t.y = typeText.y + 72 + congTextSize * i;
             _container.addChild(_t);
         }
-        _container.addChild(platform);
-        _container.addChild(prizeSymbol);
-        _container.addChild(congText);
-        _container.addChild(prizeValueText);
-        _container.addChild(typeText);
         _container.x = this.stage.width * 0.5 - platform.width;
         _container.y = this.stage.stageHeight * 0.23;
         this.addChild(_container);

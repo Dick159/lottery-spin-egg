@@ -27,6 +27,7 @@ var Info1UI = (function (_super) {
         _this.dropDwonList = new euiextendsion.DropDwonList(Main.countryList);
         _this.mcCheckBox = new eui.CheckBox();
         _this.mcCheckBox2 = new eui.CheckBox();
+        _this._button = null;
         _this.banner = createBitmap("SandsRewardsLifestyle_Logo_png");
         //this.createView();
         _this.once(egret.Event.ADDED_TO_STAGE, _this.createView, _this);
@@ -64,7 +65,7 @@ var Info1UI = (function (_super) {
         this.tipText1.textColor = tipsTextColor;
         this.tipText1.size = tipsTextSize;
         middleObject(this.stage.stageWidth, this.tipText1);
-        this.tipText1.y = this.banner.y + this.banner.height + 40;
+        this.tipText1.y = this.banner.y + this.banner.height + 70;
         this.addChild(this.tipText1);
         this.tipText2 = createTextFiledNoEui(mc_content.tipText2);
         this.tipText2.textColor = tipsTextColor;
@@ -136,13 +137,13 @@ var Info1UI = (function (_super) {
                 var _off = createBitmap("close_off_png");
                 _off.scaleX = 0.8;
                 _off.scaleY = 0.8;
-                this._button = createButton(_body.x + (_body.width - _body.width * 0.3) * 0.5, _body.y + _body.height - _body.height * 0.3, _body.width * 0.3, _body.height * 0.2, 0xe6b956, 0x851c1c, "Confirm", 0xe6b956, 0xFFFFFF, 0, 0);
-                this._button.touchEnabled = true;
+                // this._button = createButton( _body.x + (_body.width - _body.width * 0.3)*0.5,_body.y + _body.height - _body.height * 0.3,_body.width * 0.3,_body.height * 0.2,0xe6b956,0x851c1c,"Confirm",0xe6b956,0xFFFFFF,0,0);
+                // this._button.touchEnabled = true;
                 _off.x = _body.x + _body.width - _off.width + 10;
                 _off.y += _body.y + 5;
                 _off.touchEnabled = true;
-                var text = createTextFiledNoEui("Confirmed ID:");
-                text.size = 48;
+                var text = createTextFiledNoEui(mc_content.confirmTxt);
+                text.size = 36;
                 text.textColor = 0x851c1c;
                 text.y = _body.y + 50 + _body.height * 0.1;
                 middleObject(this.stage.stageWidth, text);
@@ -150,7 +151,7 @@ var Info1UI = (function (_super) {
                 textID.textColor = 0x851c1c;
                 textID.size = 36;
                 middleObject(this.stage.stageWidth, textID);
-                textID.y = text.y + text.size * 2;
+                textID.y = text.y + text.size * 3;
                 _group.addChild(_whiteShader);
                 _group.addChild(_body);
                 _group.addChild(this._button);
@@ -205,6 +206,11 @@ var Info1UI = (function (_super) {
         }, this);
         sigUpText.touchEnabled = true; //开启点击侦听
         this.addChild(this._loginView);
+        var _body = createBitmap("tips_box_png");
+        _body.y = this.stage.stageHeight * 0.25;
+        middleObject(this.stage.stageWidth, _body);
+        this._button = createButton(_body.x + (_body.width - _body.width * 0.3) * 0.5, _body.y + _body.height - _body.height * 0.3, _body.width * 0.3, _body.height * 0.2, 0xe6b956, 0x851c1c, "Confirm", 0xe6b956, 0xFFFFFF, 0, 0);
+        this._button.touchEnabled = true;
     };
     Info1UI.prototype.bindingError = function (event) {
         this.tempPatronId = "";
@@ -315,9 +321,9 @@ var Info1UI = (function (_super) {
         var terms1_LBoxTxt = new egret.TextField;
         terms1_LBoxTxt.textFlow = new Array({ text: "I wish to receive marketing updates via postal mail,\r\nemail,text messaging and/or telephone as \r\ndescribed ", style: {} }, { text: mc_content.terms1_LBox, style: { "href": "event:text event triggered", "bold": true } });
         terms1_LBoxTxt.size = 23;
+        terms1_LBoxTxt.textColor = 0xffffff;
         terms1_LBoxTxt.x = this.registerLabelX + 50;
         terms1_LBoxTxt.y = 822;
-        terms1_LBoxTxt.textColor = 0x000000;
         terms1_LBoxTxt.touchEnabled = true;
         terms1_LBoxTxt.addEventListener(egret.TextEvent.LINK, function (evt) {
             var cont = new egret.DisplayObjectContainer();
@@ -384,7 +390,7 @@ var Info1UI = (function (_super) {
         tx.x = 100;
         tx.y = this.registerLabelYBias + this.registerLabelY * 8.5;
         tx.size = 23;
-        tx.textColor = 0x000000;
+        tx.textColor = 0xffffff;
         tx.addEventListener(egret.TouchEvent.TOUCH_TAP, function (evt) {
             this.mcCheckBox2.selected = !this.mcCheckBox2.selected;
         }, this);

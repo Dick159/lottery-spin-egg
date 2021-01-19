@@ -178,7 +178,7 @@ class IndexUI extends egret.Sprite {
 
 
         //gameRule
-         var gameRule = createBitmap("PrizesRulesButton_png",440,this.stage.stageHeight * 0.88);
+         var gameRule = createBitmap("PrizesRulesButton_png",454,this.stage.stageHeight * 0.88);
         this.addChild(gameRule);
         gameRule.touchEnabled = true;
         //game rule pop up
@@ -719,6 +719,13 @@ class IndexUI extends egret.Sprite {
         typeText.x = (congText.x + congText.width * 0.5) - typeText.width*0.5;
         typeText.y = prizeValueText.y + typeText.size;
 
+        _container.addChild(platform);
+        _container.addChild(prizeSymbol);
+        _container.addChild(congText);
+        _container.addChild(prizeValueText);
+        _container.addChild(typeText);
+
+
         var congTextSize = 25;
         var congTextColor = 0xFFFFFF;
         for(var i=0;i<congTipsTextList.length;i++){
@@ -731,11 +738,6 @@ class IndexUI extends egret.Sprite {
              _container.addChild(_t);
         }
    
-        _container.addChild(platform);
-        _container.addChild(prizeSymbol);
-        _container.addChild(congText);
-        _container.addChild(prizeValueText);
-        _container.addChild(typeText);
 
         _container.x = this.stage.width * 0.5 - platform.width;
         _container.y = this.stage.stageHeight * 0.23;
