@@ -40,8 +40,8 @@ class Main extends egret.DisplayObjectContainer {
     static registLoginShow = false;
     //http://150.109.32.241:4503/
     //"https://staging.marinabaysands.com"
-    // static  baseUrl = window.location.protocol +"//" +window.location.host;
-    static  baseUrl = "https://staging.marinabaysands.com";
+    static  baseUrl = window.location.protocol +"//" +window.location.host;
+    // static  baseUrl = "https://staging.marinabaysands.com";
     private getProbabilityData = "/services/h5game/property";
     static patronRegisterUrl = "/services/members_card_register"
     static lotteryApi = "/services/h5game/lottery";

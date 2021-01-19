@@ -552,7 +552,9 @@ var IndexUI = (function (_super) {
         var envCongTipsText2 = mc_content.envCongTipsText2;
         var congTipsTextList = [];
         var typeText = createTextFiledNoEui("");
+        typeText.fontFamily = "Microsoft YaHei";
         var prizeValueText = createTextFiledNoEui("");
+        prizeValueText.fontFamily = "Microsoft YaHei";
         typeText.size = 34;
         typeText.textColor = 0xFFFFFF;
         prizeValueText.size = 34;
@@ -585,25 +587,26 @@ var IndexUI = (function (_super) {
         congText.x = (platform.x + platform.width * 0.5) - congText.width * 0.5;
         congText.y = platform.y + platform.height + 10;
         prizeValueText.x = (congText.x + congText.width * 0.5) - prizeValueText.width * 0.5;
-        prizeValueText.y = congText.y + congText.height * 0.37;
+        prizeValueText.y = 10 + congText.y + congText.height * 0.37;
         typeText.x = (congText.x + congText.width * 0.5) - typeText.width * 0.5;
         typeText.y = prizeValueText.y + typeText.size;
-        var congTextSize = 25;
-        var congTextColor = 0xFFFFFF;
-        for (var i = 0; i < congTipsTextList.length; i++) {
-            var _t = createTextFiledNoEui("");
-            _t.text = congTipsTextList[i];
-            _t.textColor = congTextColor;
-            _t.size = congTextSize;
-            _t.x = (congText.x + congText.width * 0.5) - _t.width * 0.5;
-            _t.y = typeText.y + 72 + congTextSize * i;
-            _container.addChild(_t);
-        }
         _container.addChild(platform);
         _container.addChild(prizeSymbol);
         _container.addChild(congText);
         _container.addChild(prizeValueText);
         _container.addChild(typeText);
+        var congTextSize = 25;
+        var congTextColor = 0xFFFFFF;
+        for (var i = 0; i < congTipsTextList.length; i++) {
+            var _t = createTextFiledNoEui("");
+            _t.fontFamily = "Microsoft YaHei";
+            _t.text = congTipsTextList[i];
+            _t.textColor = congTextColor;
+            _t.size = congTextSize;
+            _t.x = (congText.x + congText.width * 0.5) - _t.width * 0.5;
+            _t.y = typeText.y + 72 + (congTextSize + 10) * i;
+            _container.addChild(_t);
+        }
         _container.x = this.stage.width * 0.5 - platform.width;
         _container.y = this.stage.stageHeight * 0.23;
         this.addChild(_container);

@@ -15,6 +15,7 @@ class MyPrizes extends eui.UILayer {
      
     private createView(): void {
          this.createPrize();
+         this.createHowToRedeem();
          this.createBackBtn();
     }
     
@@ -44,7 +45,7 @@ class MyPrizes extends eui.UILayer {
 
         var my_prize_info_bg = createBitmap("TextBG_png");
         my_prize_info_bg.x = _that.stage.stageWidth * 0.5 - my_prize_info_bg.width*0.5;
-        my_prize_info_bg.y = _that.stage.stageHeight * 0.15;
+        my_prize_info_bg.y = _that.stage.stageHeight * 0.35;
 
         var title = createTextFiledNoEui(mc_content.MYPRIZE);
         title.textColor = textColor;
@@ -161,6 +162,21 @@ class MyPrizes extends eui.UILayer {
     private toMainPage(){
             var gameui = ScenceManage.create(this.stage);
             gameui.loadScence("index", this, IndexUI);
+    }
+
+    private createHowToRedeem(){
+    var back = createBitmap("How to redeem button_png");
+
+    back.x = (this.stage.stageWidth - back.width) * 0.5;
+    back.y = this.stage.stageHeight * 0.73;
+    this.addChild(back);
+
+    back.touchEnabled = true;
+    
+    back.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+            var gameui = ScenceManage.create(this.stage);
+            gameui.loadScence("index", this, HowToRedeem);
+    },this);
     }
 
 }

@@ -29,6 +29,7 @@ function createButton(x,y,width,height,bgColor,textColor,text,hoverBgColor,hover
     div.addChild(shape);
     var shape_text = new egret.TextField();
     shape_text.text = text;
+    shape_text.fontFamily="Microsoft YaHei";
     shape_text.width = shape.width;
     shape_text.height = shape.height;
     shape_text.textAlign="center";
@@ -95,7 +96,7 @@ function ShowConfirmBox(text:string,headerText="Tips",that,callBack=null){
     div.addChild(close_text);
     div.addChild(_text);
     div.addChild(header);
-    div.alpha = 0.9;
+    div.alpha = 1;
     middleObject(that.stage.stageWidth,div);
 
     div.y = (that.stage.stageHeight - div.height) * 0.5;

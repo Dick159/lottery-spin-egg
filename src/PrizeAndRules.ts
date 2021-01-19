@@ -60,22 +60,23 @@ class PrizeAndRules extends eui.UILayer {
         var title = createTextFiledNoEui(mc_content.PRIZE);
         title.textColor = textColor;
         title.size = textSize;
+        title.fontFamily="Microsoft YaHei";
 
 
-       var cT = mc_content.MID;
-        if(getLocalStorage(Main.MEMBERID_SYB)){
-            cT = mc_content.MID + getLocalStorage(Main.MEMBERID_SYB)
+    //    var cT = mc_content.MID;
+    //     if(getLocalStorage(Main.MEMBERID_SYB)){
+    //         cT = mc_content.MID + getLocalStorage(Main.MEMBERID_SYB)
             
-        }else if(getLocalStorage(Main.TOKENID_SYB)){
-            cT = mc_content.notLogin;
-        }
-        var user = createTextFiledNoEui(cT);
-        user.textColor = textColor;
-        user.size = 30;
+    //     }else if(getLocalStorage(Main.TOKENID_SYB)){
+    //         cT = mc_content.notLogin;
+    //     }
+    //     var user = createTextFiledNoEui(cT);
+    //     user.textColor = textColor;
+    //     user.size = 30;
 
         myPrizeInfo_cnt.addChild(my_prize_info_bg);
         myPrizeInfo_cnt.addChild(title);
-        myPrizeInfo_cnt.addChild(user);
+        //myPrizeInfo_cnt.addChild(user);
 
 
         var coins_png = createBitmap("Ox symbol_png");
@@ -85,7 +86,7 @@ class PrizeAndRules extends eui.UILayer {
             ac_content.x = 200;
             ac_content.textColor = textColor;
             //ac_content.y = (this.stage.stageHeight * 0.05+305+ textSize*i)/multi;
-            ac_content.y = (my_prize_info_bg.y + 175 + textSize*i)/multi;
+            ac_content.y = (my_prize_info_bg.y + 180 + textSize*i)/multi;
             ac_content.fontFamily="Microsoft YaHei";
             ac_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ac_content);
@@ -121,9 +122,9 @@ class PrizeAndRules extends eui.UILayer {
 
 
         title.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - title.width*0.5;
-        title.y =  (my_prize_info_bg.y + 32)/multi;
-        user.y = title.y +title.height + 8;
-        user.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - user.width*0.5;
+        title.y =  (my_prize_info_bg.y + 42)/multi;
+        //user.y = title.y +title.height + 8;
+        //user.x = (my_prize_info_bg.x + my_prize_info_bg.width * 0.5) - user.width*0.5;
         var _scale = 1.5;
 
         
@@ -165,7 +166,7 @@ class PrizeAndRules extends eui.UILayer {
         var textSize = 40;
         var _that = this;
 
-        var myRulesInfo_cnt = new eui.Group
+        var myRulesInfo_cnt = new eui.Group();
         myRulesInfo_cnt.visible = false;
         myRulesInfo_cnt.alpha = 0;
 
@@ -191,8 +192,12 @@ class PrizeAndRules extends eui.UILayer {
         _scroller.bounces = false;
 
 
-        //设置viewport
-        _scroller.viewport = myRulesInfo_cnt;
+        var upSilder = createBitmap("upSlider_png");
+
+
+        upSilder.x =  rules_body_bg.width - upSilder.width - 5;
+        upSilder.y =  rules_body_bg.height * 0.7
+
 
 
         _scroller.width = rules_title_bg.width;
@@ -205,13 +210,20 @@ class PrizeAndRules extends eui.UILayer {
         tc.fontFamily="Microsoft YaHei";
             tc.size = 32;
             tc.x = 436;
-            tc.y = 908;
+            tc.y = 876;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 
         
         myRulesInfo_cnt.addChild(rules_body_eui_bg);
         myRulesInfo_cnt.addChild(tc);
+        myRulesInfo_cnt.addChild(upSilder);
+        myRulesInfo_cnt.touchEnabled = true;
+        myRulesInfo_cnt.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+            egret.Tween.pauseTweens(upSilder);
+            upSilder.alpha = 0;
+        },this)
+        
         tc.touchEnabled = true;
              tc.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
                  window.location.href=Main.baseUrl + "/campaign/fortuneOx2021-terms-and-conditions.html";
@@ -224,6 +236,13 @@ class PrizeAndRules extends eui.UILayer {
         myRulesInfo_cnt.visible = true;
 
         egret.Tween.get(myRulesInfo_cnt).to({alpha : 1},800);
+        egret.Tween.get(upSilder,{loop:true}).to({alpha :0.5, y:upSilder.y-100},1500);
+
+
+                //设置viewport
+        _scroller.viewport = myRulesInfo_cnt;
+
+        
     }
 
     private toMainPage(){
