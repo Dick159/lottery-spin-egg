@@ -147,16 +147,23 @@ class MyPrizes extends eui.UILayer {
         tipsContent.x = (this.stage.stageWidth - tipsContent.width)*0.5;
         //tipsContent.y =this.stage.stageHeight * 0.56 + 35;
         tipsContent.y = my_prize_info_bg.y + my_prize_info_bg.height + 35;
-        this.addChild(tipsContent);
+        //this.addChild(tipsContent);
 
 
+        myPrizeInfo_cnt.addChild(tipsContent);
         _that.addChild(myPrizeInfo_cnt);
 
+        if(egret.Capabilities.isMobile){
+            if(document.body.clientHeight <  Main.smallScaleHeight){
+                myPrizeInfo_cnt.scaleX = 0.8;
+                myPrizeInfo_cnt.scaleY = 0.8;
+                middleObject(_that.stage.stageWidth,myPrizeInfo_cnt);
+            }
+        }
         
         myPrizeInfo_cnt.visible = true;
 
         egret.Tween.get(myPrizeInfo_cnt).to({alpha : 1},800);
-
     }
 
     private toMainPage(){
