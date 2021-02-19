@@ -76,7 +76,7 @@ class PrizeAndRules extends eui.UILayer {
 
         myPrizeInfo_cnt.addChild(my_prize_info_bg);
         myPrizeInfo_cnt.addChild(title);
-        //myPrizeInfo_cnt.addChild(user);
+        //myPrizeInfo_cnt.addChild( );
 
 
         var coins_png = createBitmap("Ox symbol_png");
@@ -105,18 +105,18 @@ class PrizeAndRules extends eui.UILayer {
         // }
 
 
-        // var dd_png = createBitmap("Dollar Symbol_png");
+        var dd_png = createBitmap("Dollar Symbol_png");
          
-        // for(var i =0;i< Main.staticDDPrizeList.length ; i++){
-        //     var ad_content = createTextFiledNoEui(Main.staticDDPrizeList[i]);
-        //     ad_content.size = textSize;
-        //     ad_content.x = 200;
-        //     ad_content.fontFamily="Microsoft YaHei";
-        //     ad_content.textColor = textColor;
-        //     ad_content.y = (my_prize_info_bg.y + 168 + textSize*i)/multi;
-        //     ad_content.y+= (i?1:0)*15;
-        //     myPrizeInfo_cnt.addChild(ad_content);
-        // }
+        for(var i =0;i< Main.staticDDPrizeList.length ; i++){
+            var ad_content = createTextFiledNoEui(Main.staticDDPrizeList[i]);
+            ad_content.size = textSize;
+            ad_content.x = 200;
+            ad_content.fontFamily="Microsoft YaHei";
+            ad_content.textColor = textColor;
+            ad_content.y = (my_prize_info_bg.y + 355 + textSize*i)/multi;
+            ad_content.y+= (i?1:0)*15;
+            myPrizeInfo_cnt.addChild(ad_content);
+        }
 
 
 
@@ -128,17 +128,17 @@ class PrizeAndRules extends eui.UILayer {
         var _scale = 1.5;
 
         
-        // dd_png.scaleX = _scale;
-        // dd_png.scaleY = _scale;
-        // dd_png.x = 150 - dd_png.width;
-        // dd_png.y =  (my_prize_info_bg.y + 165)/multi;
+        dd_png.scaleX = _scale;
+        dd_png.scaleY = _scale;
+        dd_png.x = 150 - dd_png.width;
+        dd_png.y =  (my_prize_info_bg.y + 165)/multi;
 
 
         coins_png.scaleX = _scale;
         coins_png.scaleY = _scale;
         coins_png.x = 150 - coins_png.width;
         //coins_png.y = (my_prize_info_bg.y + 350)/multi;
-        coins_png.y = (my_prize_info_bg.y + 165)/multi;
+        coins_png.y = (my_prize_info_bg.y + 365)/multi;
 
         // rp_png.scaleX = _scale;
         // rp_png.scaleY = _scale;
@@ -147,7 +147,7 @@ class PrizeAndRules extends eui.UILayer {
 
 
         myPrizeInfo_cnt.addChild(coins_png);
-        // myPrizeInfo_cnt.addChild(dd_png);
+        myPrizeInfo_cnt.addChild(dd_png);
         // myPrizeInfo_cnt.addChild(rp_png);
         myPrizeInfo_cnt.addChild(ac_content);
         // myPrizeInfo_cnt.addChild(ae_content);
@@ -209,8 +209,8 @@ class PrizeAndRules extends eui.UILayer {
         var tc = createTextFiledNoEui(mc_content.terms1_LBox+"。");
         tc.fontFamily="Microsoft YaHei";
             tc.size = 32;
-            tc.x = 436;
-            tc.y = 876;
+            tc.x = 444;
+            tc.y = 944;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 

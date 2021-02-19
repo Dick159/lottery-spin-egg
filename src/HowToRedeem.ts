@@ -34,12 +34,12 @@ class HowToRedeem extends eui.UILayer {
           p2.height = p2Height;
           p2.y = p1.y + p1.height + 30;
 
-          tips.y = p1.y + p1.height + 10;
+          tips.y =  p2.y + p2.height + 25;
 
         //   prizeRulesBtn.y = tips.y + tips.height + 40;
           prizeRulesBtn.y = this.stage.stageHeight * 0.91
           this.addChild(p1);
-        //   this.addChild(p2);
+          this.addChild(p2);
           this.addChild(tips);
           this.addChild(prizeRulesBtn);
 

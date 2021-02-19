@@ -23,7 +23,7 @@ class MyPrizes extends eui.UILayer {
         var back = createBitmap("back_png");
 
         back.x = (this.stage.stageWidth - back.width) * 0.5;
-        back.y = this.stage.stageHeight * 0.8;
+        back.y = this.stage.stageHeight * 0.9;
         this.addChild(back);
 
         back.touchEnabled = true;
@@ -74,7 +74,7 @@ class MyPrizes extends eui.UILayer {
         ac_content.x = 200;
         ac_content.textColor = textColor;
         // ac_content.y = my_prize_info_bg.y + 360;
-        ac_content.y = my_prize_info_bg.y + 190;
+        ac_content.y = my_prize_info_bg.y + 390;
         myPrizeInfo_cnt.addChild(ac_content);
 
         // var rp_png = createBitmap("Red Packet Symbol_png");
@@ -97,15 +97,15 @@ class MyPrizes extends eui.UILayer {
 
 
 
-        // var dd_png = createBitmap("Dollar Symbol_png");
-        // var ad_text = "$" + MyPrizes.currentAd + mc_content.ad_content;
-        // var ad_content = createTextFiledNoEui(ad_text);
-        // ad_content.bold = true;
-        // ad_content.size = textSize;
-        // ad_content.x = 200;
-        // ad_content.textColor = textColor;
-        // ad_content.y = my_prize_info_bg.y + 190;
-        // myPrizeInfo_cnt.addChild(ad_content);
+        var dd_png = createBitmap("Dollar Symbol_png");
+        var ad_text = "$" + MyPrizes.currentAd + mc_content.ad_content;
+        var ad_content = createTextFiledNoEui(ad_text);
+        ad_content.bold = true;
+        ad_content.size = textSize;
+        ad_content.x = 200;
+        ad_content.textColor = textColor;
+        ad_content.y = my_prize_info_bg.y + 190;
+        myPrizeInfo_cnt.addChild(ad_content);
 
 
 
@@ -119,17 +119,17 @@ class MyPrizes extends eui.UILayer {
         var _scale = 1.5;
 
         
-        // dd_png.scaleX = _scale;
-        // dd_png.scaleY = _scale;
-        // dd_png.x = 150 - dd_png.width;
-        // dd_png.y =  my_prize_info_bg.y + 165;
+        dd_png.scaleX = _scale;
+        dd_png.scaleY = _scale;
+        dd_png.x = 150 - dd_png.width;
+        dd_png.y =  my_prize_info_bg.y + 165;
 
 
         coins_png.scaleX = _scale;
         coins_png.scaleY = _scale;
         coins_png.x = 150 - coins_png.width;
         // coins_png.y = my_prize_info_bg.y + 350;
-         coins_png.y = my_prize_info_bg.y + 165;
+         coins_png.y = my_prize_info_bg.y + 365;
 
         // rp_png.scaleX = _scale + 0.2;
         // rp_png.scaleY = _scale + 0.2;
@@ -138,7 +138,7 @@ class MyPrizes extends eui.UILayer {
 
 
         myPrizeInfo_cnt.addChild(coins_png);
-        // myPrizeInfo_cnt.addChild(dd_png);
+        myPrizeInfo_cnt.addChild(dd_png);
         // myPrizeInfo_cnt.addChild(rp_png);
 
         var tipsContent = createTextFiledNoEui(mc_content.RedeemTime);
@@ -168,7 +168,7 @@ class MyPrizes extends eui.UILayer {
     var back = createBitmap("How to redeem button_png");
 
     back.x = (this.stage.stageWidth - back.width) * 0.5;
-    back.y = this.stage.stageHeight * 0.73;
+    back.y = this.stage.stageHeight * 0.83;
     this.addChild(back);
 
     back.touchEnabled = true;
