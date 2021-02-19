@@ -87,7 +87,7 @@ class PrizeAndRules extends eui.UILayer {
             ac_content.x = 200;
             ac_content.textColor = textColor;
             //ac_content.y = (my_prize_info_bg.y + 336 + textSize*i)/multi;
-            ac_content.y = (my_prize_info_bg.y + 170 + textSize*i)/multi;
+            ac_content.y = (my_prize_info_bg.y + 360 + textSize*i)/multi;
             ac_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ac_content);
         }
@@ -104,17 +104,17 @@ class PrizeAndRules extends eui.UILayer {
         // }
 
 
-        // var dd_png = createBitmap("Dollar Symbol_png");
+        var dd_png = createBitmap("Dollar Symbol_png");
          
-        // for(var i =0;i< Main.staticDDPrizeList.length ; i++){
-        //     var ad_content = createTextFiledNoEui(Main.staticDDPrizeList[i]);
-        //     ad_content.size = textSize;
-        //     ad_content.x = 200;
-        //     ad_content.textColor = textColor;
-        //     ad_content.y = (my_prize_info_bg.y + 170 + textSize*i)/multi;
-        //     ad_content.y+= (i?1:0)*15;
-        //     myPrizeInfo_cnt.addChild(ad_content);
-        // }
+        for(var i =0;i< Main.staticDDPrizeList.length ; i++){
+            var ad_content = createTextFiledNoEui(Main.staticDDPrizeList[i]);
+            ad_content.size = textSize;
+            ad_content.x = 200;
+            ad_content.textColor = textColor;
+            ad_content.y = (my_prize_info_bg.y + 170 + textSize*i)/multi;
+            ad_content.y+= (i?1:0)*15;
+            myPrizeInfo_cnt.addChild(ad_content);
+        }
 
 
 
@@ -126,17 +126,17 @@ class PrizeAndRules extends eui.UILayer {
         var _scale = 1.5;
 
         
-        // dd_png.scaleX = _scale;
-        // dd_png.scaleY = _scale;
-        // dd_png.x = 150 - dd_png.width;
-        // dd_png.y =  (my_prize_info_bg.y + 165)/multi;
+        dd_png.scaleX = _scale;
+        dd_png.scaleY = _scale;
+        dd_png.x = 150 - dd_png.width;
+        dd_png.y =  (my_prize_info_bg.y + 165)/multi;
 
 
         coins_png.scaleX = _scale;
         coins_png.scaleY = _scale;
         coins_png.x = 150 - coins_png.width;
         //coins_png.y = (my_prize_info_bg.y + 350)/multi;
-        coins_png.y = (my_prize_info_bg.y + 165)/multi;
+        coins_png.y = (my_prize_info_bg.y + 365)/multi;
 
         // rp_png.scaleX = _scale;
         // rp_png.scaleY = _scale;
@@ -145,7 +145,7 @@ class PrizeAndRules extends eui.UILayer {
 
 
         myPrizeInfo_cnt.addChild(coins_png);
-        // myPrizeInfo_cnt.addChild(dd_png);
+        myPrizeInfo_cnt.addChild(dd_png);
         // myPrizeInfo_cnt.addChild(rp_png);
         myPrizeInfo_cnt.addChild(ac_content);
         // myPrizeInfo_cnt.addChild(ae_content);
@@ -207,8 +207,8 @@ class PrizeAndRules extends eui.UILayer {
 
         var tc = createTextFiledNoEui(mc_content.terms1_LBox);
             tc.size = 32;
-            tc.x = 323;
-            tc.y = 1060;
+            tc.x = 308;
+            tc.y = 1071;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 
