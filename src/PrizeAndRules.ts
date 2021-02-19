@@ -154,6 +154,17 @@ class PrizeAndRules extends eui.UILayer {
 
         _that.addChild(myPrizeInfo_cnt);
 
+        _that.addChild(myPrizeInfo_cnt);
+
+        if(egret.Capabilities.isMobile){
+            if(document.body.clientHeight <  Main.smallScaleHeight){
+                myPrizeInfo_cnt.scaleX = 0.8;
+                myPrizeInfo_cnt.scaleY = 0.8;
+                middleObject(this.stage.stageWidth,myPrizeInfo_cnt);
+            }
+         }
+
+
         
         myPrizeInfo_cnt.visible = true;
 
@@ -242,7 +253,24 @@ class PrizeAndRules extends eui.UILayer {
                 //设置viewport
         _scroller.viewport = myRulesInfo_cnt;
 
-        
+   if(egret.Capabilities.isMobile){
+            if(document.body.clientHeight <  Main.smallScaleHeight){
+                var sw = _scroller.width;
+                var sh = _scroller.height;
+                _scroller.width = myRulesInfo_cnt.width * 0.8;
+                _scroller.height = myRulesInfo_cnt.height * 0.8;
+                rules_title_bg.scaleX = 0.8;
+                rules_title_bg.scaleY = 0.8;
+                middleObject(this.stage.stageWidth,_scroller);
+                _scroller.width = sw;
+                _scroller.height = sh;
+                _scroller.scaleX = 0.8;
+                _scroller.scaleY = 0.8;
+                rules_title_bg.x = _scroller.x;
+                rules_title_bg.y = this.prizeBg.y + this.prizeBg.height*0.8 + 40;
+                _scroller.y = rules_title_bg.y + rules_title_bg.height - 20;
+            }
+         }
     }
 
     private toMainPage(){

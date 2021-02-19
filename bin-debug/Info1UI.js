@@ -490,6 +490,12 @@ var Info1UI = (function (_super) {
         var yzmNum;
         this.firstNameText.addEventListener(egret.TouchEvent.TOUCH_TAP, function () {
         }, this);
+        this.firstNameText.addEventListener(egret.TouchEvent.CHANGE, function () {
+            this.firstNameText.text = this.firstNameText.text.replace(/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/g, '');
+        }, this);
+        this.lastNameText.addEventListener(egret.TouchEvent.CHANGE, function () {
+            this.lastNameText.text = this.lastNameText.text.replace(/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/g, '');
+        }, this);
         this.mobilePhone.addEventListener(egret.TextEvent.CHANGE, function (evt) {
             var pattern = /^[0-9]*$/;
             while (!pattern.test(this.mobilePhone.text)) {
@@ -623,7 +629,7 @@ var Info1UI = (function (_super) {
         // this.errorText.text = text;
         // this.errorText.alpha = 1
         // egret.Tween.get(this.errorText,{loop:false}).to({alpha:0},2500);
-        ShowConfirmBox(text, "Error", this, callBack);
+        ShowConfirmBox(text, "错误", this, callBack);
     };
     Info1UI.prototype.toMainPage = function () {
         var gameui = ScenceManage.create(this.stage);

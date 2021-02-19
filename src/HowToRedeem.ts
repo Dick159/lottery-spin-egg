@@ -10,6 +10,7 @@ class HowToRedeem extends eui.UILayer {
     }
      
     private createView(): void {
+          var _cnt = new egret.DisplayObjectContainer();
           var p1 = createBitmap("how to redeem 1_png");
           var p2 = createBitmap("how to redeem 2_png");
 
@@ -17,9 +18,9 @@ class HowToRedeem extends eui.UILayer {
 
           var prizeRulesBtn = createBitmap("PrizesRulesButton_png");
 
-          middleObject(this.stage.stageWidth,p1);
-          middleObject(this.stage.stageWidth,p2);
-          middleObject(this.stage.stageWidth,tips);
+        //   middleObject(this.stage.stageWidth,p1);
+        //   middleObject(this.stage.stageWidth,p2);
+        //   middleObject(this.stage.stageWidth,tips);
           middleObject(this.stage.stageWidth,prizeRulesBtn);
         
         var p1Height = this.stage.stageHeight * 0.45;
@@ -38,10 +39,22 @@ class HowToRedeem extends eui.UILayer {
 
         //   prizeRulesBtn.y = tips.y + tips.height + 40;
           prizeRulesBtn.y = this.stage.stageHeight * 0.91
-          this.addChild(p1);
-          this.addChild(p2);
-          this.addChild(tips);
+          _cnt.addChild(p1);
+          _cnt.addChild(p2);
+          _cnt.addChild(tips);
+        //   this.addChild(p1);
+        //   this.addChild(p2);
+        //   this.addChild(tips);
           this.addChild(prizeRulesBtn);
+          this.addChild(_cnt);
+            middleObject(this.stage.stageWidth,_cnt);          
+            if(egret.Capabilities.isMobile){
+                if(document.body.clientHeight < Main.smallScaleHeight){   
+                    _cnt.scaleX = 0.8;
+                    _cnt.scaleY = 0.8;
+                    middleObject(this.stage.stageWidth*1.2,_cnt);
+                }
+            }
 
           prizeRulesBtn.touchEnabled = true;
 
