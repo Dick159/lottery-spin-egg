@@ -205,10 +205,10 @@ class PrizeAndRules extends eui.UILayer {
         _scroller.y = rules_title_bg.y + rules_title_bg.height - 5;
 
 
-        var tc = createTextFiledNoEui(mc_content.terms1_LBox);
-            tc.size = 32;
-            tc.x = 308;
-            tc.y = 1071;
+        var tc = createTextFiledNoEui('Terms');
+            tc.size = 25;
+            tc.x = 55;
+            tc.y = 1420;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 
