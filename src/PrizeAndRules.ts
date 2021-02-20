@@ -86,7 +86,7 @@ class PrizeAndRules extends eui.UILayer {
             ac_content.x = 200;
             ac_content.textColor = textColor;
             //ac_content.y = (this.stage.stageHeight * 0.05+305+ textSize*i)/multi;
-            ac_content.y = (my_prize_info_bg.y + 180 + textSize*i)/multi;
+            ac_content.y = (my_prize_info_bg.y + 380 + textSize*i)/multi;
             ac_content.fontFamily="Microsoft YaHei";
             ac_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ac_content);
@@ -113,7 +113,7 @@ class PrizeAndRules extends eui.UILayer {
             ad_content.x = 200;
             ad_content.fontFamily="Microsoft YaHei";
             ad_content.textColor = textColor;
-            ad_content.y = (my_prize_info_bg.y + 355 + textSize*i)/multi;
+            ad_content.y = (my_prize_info_bg.y + 165 + textSize*i)/multi;
             ad_content.y+= (i?1:0)*15;
             myPrizeInfo_cnt.addChild(ad_content);
         }
