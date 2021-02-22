@@ -101,6 +101,10 @@ class Main extends egret.DisplayObjectContainer {
 
     static smallScaleHeight = 680;
 
+    static WECHAT_SYN = "utm_source"
+
+    static QR_CODE_SHOW = "QRCODE_SHOW"
+
     public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);

@@ -14,6 +14,7 @@ class MyPrizes extends eui.UILayer {
     }
      
     private createView(): void {
+         this.createQRCode();
          this.createPrize();
          this.createHowToRedeem();
          this.createBackBtn();
@@ -184,6 +185,20 @@ class MyPrizes extends eui.UILayer {
             var gameui = ScenceManage.create(this.stage);
             gameui.loadScence("index", this, HowToRedeem);
     },this);
+    }
+
+
+    private createQRCode(){
+
+         var isWechat = getQueryVariable(Main.WECHAT_SYN)
+
+         if(isWechat && isWechat == 'WECHAT'){
+
+             var qrCode = createBitmap("");
+             
+
+         }
+
     }
 
 }
