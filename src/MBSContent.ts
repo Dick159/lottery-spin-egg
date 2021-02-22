@@ -49,7 +49,7 @@ let mc_content={
     "RedeemTime":"请在2021年3月31日之前兑换您的奖品",
     "Play":"请开始游戏",
     "TC":"条款与条件。",
-    "haveBinded":"你今天已经玩过了,\r\n此次游戏不会被记录",
+    "haveBinded":"登录成功\r\n绑定失败,\r\n原因:该账户已经被其他\r\n设备绑定,请重新游戏",
     "ParamError":"请检查您的输入信息",
     "SUSuccess":"登陆成功:\r\n会员ID:",
     "notLogin":"会员ID：未登录",

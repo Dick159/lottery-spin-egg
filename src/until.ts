@@ -62,7 +62,6 @@ function ShowConfirmBox(text:string,headerText="Tips",that,callBack=null){
     shader.height = that.stage.stageHeight
     shader.touchThrough = false;
     div.touchThrough=false;
-    
      
     var msg_box_obj = createBitmap("msg_box_png");
     var msg_box = createBitmapEui("msg_box_png");
@@ -98,7 +97,6 @@ function ShowConfirmBox(text:string,headerText="Tips",that,callBack=null){
     div.addChild(header);
     div.alpha = 1;
     middleObject(that.stage.stageWidth,div);
-
     div.y = (that.stage.stageHeight - div.height) * 0.5;
     close_text.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
         egret.Tween.get(div).to({alpha:0},500).call(function(){

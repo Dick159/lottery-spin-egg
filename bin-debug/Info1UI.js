@@ -261,10 +261,10 @@ var Info1UI = (function (_super) {
             }
         }
         else if (jsonObject.code == "05") {
-            this.popUpErrorTips(this, mc_content.haveBinded, this.resetBtnStatus(true));
-            setTimeout(function () {
-                this.toMainPage();
-            }, 2000);
+            var gameui = ScenceManage.create(_that.stage);
+            this.popUpErrorTips(this, mc_content.haveBinded, function () {
+                gameui.loadScence("index", _that, IndexUI);
+            });
         }
         else {
             this.tempPatronId = "";
@@ -276,7 +276,7 @@ var Info1UI = (function (_super) {
         // var width = 300;
         // var height = 500;
         // _that.addChild(ConfirmUtil.popUpTips(message,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
-        ShowConfirmBox(message, "Error", _that, callBack);
+        ShowConfirmBox(message, "错误", _that, callBack);
     };
     Info1UI.prototype.createRegisterView = function () {
         var img = new eui.Image("/resource/assets/djy_wbk.png");
@@ -676,6 +676,10 @@ var Info1UI = (function (_super) {
     };
     Info1UI.prototype.resetZcStatus = function (f) {
         this.cj_btn.touchEnabled = f;
+    };
+    Info1UI.prototype.toMainPage2 = function (that) {
+        var gameui = ScenceManage.create(that.stage);
+        gameui.loadScence("index", that, IndexUI);
     };
     return Info1UI;
 }(eui.UILayer));

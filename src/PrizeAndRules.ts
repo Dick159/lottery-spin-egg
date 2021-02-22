@@ -220,8 +220,8 @@ class PrizeAndRules extends eui.UILayer {
         var tc = createTextFiledNoEui('点击');
         tc.fontFamily="Microsoft YaHei";
             tc.size = 30;
-            tc.x = 401;
-            tc.y = 1214;
+            tc.x = 397;
+            tc.y = 1317;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 
