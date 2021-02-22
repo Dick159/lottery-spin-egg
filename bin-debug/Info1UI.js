@@ -677,10 +677,6 @@ var Info1UI = (function (_super) {
     Info1UI.prototype.resetZcStatus = function (f) {
         this.cj_btn.touchEnabled = f;
     };
-    Info1UI.prototype.toMainPage2 = function (that) {
-        var gameui = ScenceManage.create(that.stage);
-        gameui.loadScence("index", that, IndexUI);
-    };
     return Info1UI;
 }(eui.UILayer));
 __reflect(Info1UI.prototype, "Info1UI");

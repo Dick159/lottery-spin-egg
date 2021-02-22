@@ -308,5 +308,7 @@ Main._baseScaleY = 1;
 Main._baseScale = 1;
 Main.countryList = [];
 Main.smallScaleHeight = 680;
+Main.WECHAT_SYN = "utm_source";
+Main.IS_QR_CODE_SHOW = "QRCODE_SHOW";
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map

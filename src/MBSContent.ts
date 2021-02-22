@@ -53,5 +53,6 @@ let mc_content={
     "ParamError":"请检查您的输入信息",
     "SUSuccess":"登陆成功:\r\n会员ID:",
     "notLogin":"会员ID：未登录",
-    "confirmTxt":"会员ID:"
+    "confirmTxt":"会员ID:",
+    "QRCodeContent":'扫描二维码或微信搜索关注\r\n"新加坡滨海湾金沙度假区"\r\n公众号,随时查看积分,兑换奖品。'
 }

@@ -221,7 +221,7 @@ class PrizeAndRules extends eui.UILayer {
         tc.fontFamily="Microsoft YaHei";
             tc.size = 30;
             tc.x = 397;
-            tc.y = 1317;
+            tc.y = 1321;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 

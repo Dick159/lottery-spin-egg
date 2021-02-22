@@ -354,7 +354,12 @@ class Info1UI extends eui.UILayer {
             //  },2000)
          }else{
              this.tempPatronId = "";
-             this.popUpErrorTips(this,mc_content.Bindfail,this.resetBtnStatus(true));
+             //this.resetBtnStatus(true)
+             var gameui = ScenceManage.create(_that.stage);
+             this.popUpErrorTips(this,mc_content.Bindfail,function(){
+                  gameui.loadScence("index", _that , IndexUI);
+                  _that.resetBtnStatus(true);
+             });
          }
     }
 
