@@ -53,5 +53,6 @@ let mc_content={
     "ParamError":"Please fill in\r\ncorrect information.",
     "SUSuccess":"Sign up success:\r\nMember ID:",
     "notLogin":"Please login to view.",
-    "confirmTxt":"Please proceed with this \r\nSands Rewards LifeStyle ID:"
+    "confirmTxt":"Please proceed with this \r\nSands Rewards LifeStyle ID:",
+    "QRCodeContent":"Scan to follow Marina Bay Sands Wechat account\r\nfor points check and prize redemption."
 }

@@ -5,7 +5,7 @@
 			"name": "preload"
 		},
 		{
-			"keys": "Machine_Glass,music_logo_png,common_bg_png,PrizesRulesButton_png,game_rule_png,Rules_png,gameStartBtn_png,Capsule1_png,Capsule2_png,Capsule3_png,Capsule4_png,Capsule5_png,Capsule6_png,Capsule8_png,Capsule9_png,Big Capsule(Glow)_png,OpenCapsule_png,Dollar Symbol_png,OpenCapsule- Just Dollar_png,Platform_png,Platform Prize Symbol- Dollar_png,black_mask_png,Background2_png,Congratulations Text box_png,How to redeem button_png,How to redeem info_png,Playagaintomorrow Button_png,OpenCapsule- Just Ox_png,MyPrizes_png,TextBG_png,Platform Prize Symbol- Ox_png,Ox symbol_png,login_btn_png,login_input_png,sign_out_png,preloading_gif,OpenCapsule- Just Red Packet_png,Platform Prize Symbol- Red Packet_png,Red Packet Symbol_png,seven_share_png,Rules_body_png,Rules_title_png,back_png,rule_long_content_png,my_prize_btn_png,how to redeem 1_png,how to redeem 2_png,Redeem your prizes by_text_png,Startup Text_png,Langauge Selection_English_png,Capsule Machine_png,Capsule Machine Glass_png,Congratulations Text box 2_png,MY PRIZES Button_2_png,Member Login Button_2_png,Member Login Button_1_png,Congratulations Text box2_png,Congratulations Text box 1_png,Playagaintomorrow text_png,Langauge Selection_Chinese_png,Langauge Selection_Chinese_child_png,Langauge Selection_English_child_png,msg_box_close_png,msg_box_png,homepageback_button_png,upSlider_png",
+			"keys": "Machine_Glass,music_logo_png,common_bg_png,PrizesRulesButton_png,game_rule_png,Rules_png,gameStartBtn_png,Capsule1_png,Capsule2_png,Capsule3_png,Capsule4_png,Capsule5_png,Capsule6_png,Capsule8_png,Capsule9_png,Big Capsule(Glow)_png,OpenCapsule_png,Dollar Symbol_png,OpenCapsule- Just Dollar_png,Platform_png,Platform Prize Symbol- Dollar_png,black_mask_png,Background2_png,Congratulations Text box_png,How to redeem button_png,How to redeem info_png,Playagaintomorrow Button_png,OpenCapsule- Just Ox_png,MyPrizes_png,TextBG_png,Platform Prize Symbol- Ox_png,Ox symbol_png,login_btn_png,login_input_png,sign_out_png,preloading_gif,OpenCapsule- Just Red Packet_png,Platform Prize Symbol- Red Packet_png,Red Packet Symbol_png,seven_share_png,Rules_body_png,Rules_title_png,back_png,rule_long_content_png,my_prize_btn_png,how to redeem 1_png,how to redeem 2_png,Redeem your prizes by_text_png,Startup Text_png,Langauge Selection_English_png,Capsule Machine_png,Capsule Machine Glass_png,Congratulations Text box 2_png,MY PRIZES Button_2_png,Member Login Button_2_png,Member Login Button_1_png,Congratulations Text box2_png,Congratulations Text box 1_png,Playagaintomorrow text_png,Langauge Selection_Chinese_png,Langauge Selection_Chinese_child_png,Langauge Selection_English_child_png,msg_box_close_png,msg_box_png,homepageback_button_png,upSlider_png,wechat_qrcode_jpg",
 			"name": "index"
 		},
 		{
@@ -1574,9 +1574,9 @@
 			"name": "upSlider2_png"
 		},
 		{
-			"name": "wechat_qrcode_jpg",
+			"url": "assets/wechat_qrcode.jpg",
 			"type": "image",
-			"url": "assets/wechat_qrcode.jpg"
+			"name": "wechat_qrcode_jpg"
 		}
 	]
 }

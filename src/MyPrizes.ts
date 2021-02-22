@@ -14,10 +14,10 @@ class MyPrizes extends eui.UILayer {
     }
      
     private createView(): void {
-         this.createQRCode();
          this.createPrize();
          this.createHowToRedeem();
          this.createBackBtn();
+         this.createQRCode();
     }
     
     private createBackBtn(){
@@ -194,11 +194,72 @@ class MyPrizes extends eui.UILayer {
 
          if(isWechat && isWechat == 'WECHAT'){
 
-             var qrCode = createBitmap("");
-             
+             var qrCode = createBitmap("wechat_qrcode_jpg");
+
+             this.addChild(qrCode);
+
+             qrCode.y = this.stage.stageHeight * 0.2;
+
+             qrCode.x = 0;
+
+             var flag = getLocalStorage(Main.IS_QR_CODE_SHOW);
+
+             if(!flag){
+                 this.showQrCodeCard();
+                 setLocalStorage(Main.IS_QR_CODE_SHOW,"1");
+             }
+
+            if(egret.Capabilities.isMobile){
+                if(document.body.clientHeight <  Main.smallScaleHeight){
+                    qrCode.scaleX = 0.5;
+                    qrCode.scaleY = 0.5;
+                }else{
+                    qrCode.scaleX = 0.6;
+                    qrCode.scaleY = 0.6;
+                }
+            }else{
+                    qrCode.scaleX = 0.8;
+                    qrCode.scaleY = 0.8;
+            }
+
+            qrCode.touchEnabled = true;
+
+            qrCode.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                 this.showQrCodeCard();
+            },this);
 
          }
 
+    }
+
+
+    private showQrCodeCard(){
+        var cont = new egret.DisplayObjectContainer();
+        var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,0.8);
+        var qrCodeBig = createBitmap("wechat_qrcode_jpg");
+
+        middleObject(this.stage.stageWidth,qrCodeBig);
+        qrCodeBig.y = this.stage.stageHeight * 0.2;
+
+        var text = createTextFiledNoEui(mc_content.QRCodeContent);
+        text.size =28;
+        text.textColor = 0x00000;
+        text.bold = true;
+        text.y = qrCodeBig.y  + qrCodeBig.height + 10;
+        middleObject(this.stage.stageWidth,text);
+
+        cont.addChild(_whiteShader);
+        cont.addChild(qrCodeBig);
+        cont.addChild(text);
+        cont.touchEnabled = true;
+        cont.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
+                egret.Tween.get(cont).to({alpha:0},500).call(function(){
+                    cont.alpha = 0;
+                    cont.visible = false;
+                })
+        },this);
+        
+        this.addChild(cont);
     }
 
 }

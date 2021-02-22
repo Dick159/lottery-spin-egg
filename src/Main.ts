@@ -103,7 +103,7 @@ class Main extends egret.DisplayObjectContainer {
 
     static WECHAT_SYN = "utm_source"
 
-    static QR_CODE_SHOW = "QRCODE_SHOW"
+    static IS_QR_CODE_SHOW = "QRCODE_SHOW"
 
     public constructor() {
         super();
