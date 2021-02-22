@@ -49,7 +49,7 @@ let mc_content={
     "RedeemTime":"Redeem a Fortune Ox Capsule collectible\r\n with every 88 Ox coins by 31 March 2021.",
     "Play":"Please play the game",
     "TC":"Terms and Conditions.",
-    "haveBinded":"You have played today.\r\nNo new score is recorded",
+    "haveBinded":"Your Member ID was\r\nbond with another device.\r\nPlease kindly log in first.",
     "ParamError":"Please fill in\r\ncorrect information.",
     "SUSuccess":"Sign up success:\r\nMember ID:",
     "notLogin":"Please login to view.",
