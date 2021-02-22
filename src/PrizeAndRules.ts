@@ -217,11 +217,11 @@ class PrizeAndRules extends eui.UILayer {
         _scroller.y = rules_title_bg.y + rules_title_bg.height - 5;
 
 
-        var tc = createTextFiledNoEui(mc_content.terms1_LBox+"。");
+        var tc = createTextFiledNoEui('点击');
         tc.fontFamily="Microsoft YaHei";
-            tc.size = 32;
-            tc.x = 444;
-            tc.y = 944;
+            tc.size = 30;
+            tc.x = 401;
+            tc.y = 1214;
             tc.textColor = 0x851c1c;
             tc.bold = true;
 
