@@ -344,10 +344,15 @@ class Info1UI extends eui.UILayer {
                 this.popUpErrorTips(this,mc_content.Bindfail,this.resetBtnStatus(true));
              }
          }else if(jsonObject.code == "05"){
-             this.popUpErrorTips(this,mc_content.haveBinded,this.resetBtnStatus(true));
-             setTimeout(function(){
-                    this.toMainPage();
-                },2000)
+             var gameui = ScenceManage.create(_that.stage);
+             this.popUpErrorTips(this,mc_content.haveBinded,function(){
+                     gameui.loadScence("index", _that , IndexUI);
+             });
+            //  Main.isBindingAction=false;
+            //  removeLocalStorage(Main.NBD_TOKEN_SYB);
+            //  setTimeout(function(){
+            //         _that.toMainPage();
+            //  },2000)
          }else{
              this.tempPatronId = "";
              this.popUpErrorTips(this,mc_content.Bindfail,this.resetBtnStatus(true));

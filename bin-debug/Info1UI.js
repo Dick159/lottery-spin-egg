@@ -261,10 +261,10 @@ var Info1UI = (function (_super) {
             }
         }
         else if (jsonObject.code == "05") {
-            this.popUpErrorTips(this, mc_content.haveBinded, this.resetBtnStatus(true));
-            setTimeout(function () {
-                this.toMainPage();
-            }, 2000);
+            var gameui = ScenceManage.create(_that.stage);
+            this.popUpErrorTips(this, mc_content.haveBinded, function () {
+                gameui.loadScence("index", _that, IndexUI);
+            });
         }
         else {
             this.tempPatronId = "";
