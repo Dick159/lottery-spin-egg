@@ -804,7 +804,7 @@ var IndexUI = (function (_super) {
                 MyPrizes.currentAd = _data.ad || "0";
                 MyPrizes.currentAe = _data.ae || "0";
                 var prizeScene = ScenceManage.create(this.stage);
-                prizeScene.loadScence("IndexUI", this, MyPrizes);
+                prizeScene.loadScence("index", this, MyPrizes);
             }
             else {
                 this.pupUpErrorTips(this);

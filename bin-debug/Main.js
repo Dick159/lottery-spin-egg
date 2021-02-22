@@ -96,6 +96,7 @@ var Main = (function (_super) {
         this.stage.addChild(Main.bg);
         this.loadingView = new LoadingUI();
         this.stage.addChild(this.loadingView);
+        //console.log(egret.Capabilities.isMobile);
         if (egret.Capabilities.isMobile) {
             this.stage.scaleMode = egret.StageScaleMode.FIXED_WIDTH;
         }
@@ -278,7 +279,7 @@ Main.laohujiButOnoff = true;
 Main.registLoginShow = false;
 //http://150.109.32.241:4503/
 //"https://staging.marinabaysands.com"
-// static  baseUrl = window.location.protocol +"//" +window.location.host;
+//static  baseUrl = window.location.protocol +"//" +window.location.host;
 Main.baseUrl = "https://staging.marinabaysands.com";
 Main.patronRegisterUrl = "/services/members_card_register";
 Main.lotteryApi = "/services/h5game/lottery";
@@ -307,5 +308,6 @@ Main._baseScaleX = 1;
 Main._baseScaleY = 1;
 Main._baseScale = 1;
 Main.countryList = [];
+Main.smallScaleHeight = 680;
 __reflect(Main.prototype, "Main");
 //# sourceMappingURL=Main.js.map
