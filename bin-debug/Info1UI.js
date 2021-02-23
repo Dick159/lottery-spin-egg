@@ -264,7 +264,7 @@ var Info1UI = (function (_super) {
             var gameui = ScenceManage.create(_that.stage);
             this.popUpErrorTips(this, mc_content.haveBinded, function () {
                 gameui.loadScence("index", _that, IndexUI);
-            });
+            }, "提示");
         }
         else if (jsonObject.code == "03" || jsonObject.code == "01") {
             var gameui = ScenceManage.create(_that.stage);
@@ -273,24 +273,25 @@ var Info1UI = (function (_super) {
             this.popUpErrorTips(this, mc_content.Bindfail, function () {
                 gameui.loadScence("index", _that, IndexUI);
                 _that.resetBtnStatus(true);
-            });
+            }, "提示");
         }
         else {
             this.tempPatronId = "";
             //this.resetBtnStatus(true)
             var gameui = ScenceManage.create(_that.stage);
-            this.popUpErrorTips(this, mc_content.Bindfail, function () {
+            this.popUpErrorTips(this, mc_content.NetworkErr, function () {
                 gameui.loadScence("index", _that, IndexUI);
                 _that.resetBtnStatus(true);
             });
         }
     };
-    Info1UI.prototype.popUpErrorTips = function (_that, message, callBack) {
+    Info1UI.prototype.popUpErrorTips = function (_that, message, callBack, title) {
         if (callBack === void 0) { callBack = null; }
+        if (title === void 0) { title = "错误"; }
         // var width = 300;
         // var height = 500;
         // _that.addChild(ConfirmUtil.popUpTips(message,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
-        ShowConfirmBox(message, "错误", _that, callBack);
+        ShowConfirmBox(message, title, _that, callBack);
     };
     Info1UI.prototype.createRegisterView = function () {
         var img = new eui.Image("/resource/assets/djy_wbk.png");

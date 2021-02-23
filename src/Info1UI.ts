@@ -346,7 +346,7 @@ class Info1UI extends eui.UILayer {
              var gameui = ScenceManage.create(_that.stage);
              this.popUpErrorTips(this,mc_content.haveBinded,function(){
                      gameui.loadScence("index", _that , IndexUI);
-             });
+             },"提示");
             //  Main.isBindingAction=false;
             //  removeLocalStorage(Main.NBD_TOKEN_SYB);
             //  setTimeout(function(){
@@ -359,23 +359,23 @@ class Info1UI extends eui.UILayer {
              this.popUpErrorTips(this,mc_content.Bindfail,function(){
                  gameui.loadScence("index", _that , IndexUI);
                  _that.resetBtnStatus(true);
-             });
+             },"提示");
          }else{
              this.tempPatronId = "";
              //this.resetBtnStatus(true)
              var gameui = ScenceManage.create(_that.stage);
-             this.popUpErrorTips(this,mc_content.Bindfail,function(){
+             this.popUpErrorTips(this,mc_content.NetworkErr,function(){
                   gameui.loadScence("index", _that , IndexUI);
                   _that.resetBtnStatus(true);
              });
          }
     }
 
-   private popUpErrorTips(_that,message,callBack=null){
+   private popUpErrorTips(_that,message,callBack=null,title="错误"){
         // var width = 300;
         // var height = 500;
         // _that.addChild(ConfirmUtil.popUpTips(message,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
-        ShowConfirmBox(message,"错误",_that,callBack);
+        ShowConfirmBox(message,title,_that,callBack);
     }
 
     private createRegisterView(){
