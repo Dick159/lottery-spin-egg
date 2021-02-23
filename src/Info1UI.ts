@@ -360,7 +360,7 @@ class Info1UI extends eui.UILayer {
              this.popUpErrorTips(this,mc_content.Bindfail,function(){
                  gameui.loadScence("index", _that , IndexUI);
                  _that.resetBtnStatus(true);
-             });
+             },"Tips");
          }else{
              var gameui = ScenceManage.create(_that.stage);
              //this.resetBtnStatus(true)
@@ -372,7 +372,7 @@ class Info1UI extends eui.UILayer {
          }
     }
 
-   private popUpErrorTips(_that,message,callBack=null){
+   private popUpErrorTips(_that,message,callBack=null,title="Error"){
         // var width = 300;
         // var height = 500;
         // _that.addChild(ConfirmUtil.popUpTips(message,true,_that.stage.stageWidth * 0.5 - width * 0.5,_that.stage.stageHeight * 0.6,width,height));
