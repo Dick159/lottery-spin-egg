@@ -268,7 +268,12 @@ var Info1UI = (function (_super) {
         }
         else {
             this.tempPatronId = "";
-            this.popUpErrorTips(this, mc_content.Bindfail, this.resetBtnStatus(true));
+            //this.resetBtnStatus(true)
+            var gameui = ScenceManage.create(_that.stage);
+            this.popUpErrorTips(this, mc_content.Bindfail, function () {
+                gameui.loadScence("index", _that, IndexUI);
+                _that.resetBtnStatus(true);
+            });
         }
     };
     Info1UI.prototype.popUpErrorTips = function (_that, message, callBack) {

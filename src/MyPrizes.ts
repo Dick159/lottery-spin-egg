@@ -236,6 +236,8 @@ class MyPrizes extends eui.UILayer {
         var cont = new egret.DisplayObjectContainer();
         var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,0.8);
         var qrCodeBig = createBitmap("wechat_qrcode_jpg");
+        qrCodeBig.width = this.stage.stageWidth*0.5;
+        qrCodeBig.height = qrCodeBig.width;
 
         middleObject(this.stage.stageWidth,qrCodeBig);
         qrCodeBig.y = this.stage.stageHeight * 0.2;
