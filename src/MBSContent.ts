@@ -27,7 +27,7 @@ let mc_content={
     "BinSuccess":"新记录已成功登记",
     "Binded":"奖品已经与其他会员绑定，请检查您的输入",
     "BindedBefore":"您的账号已经被绑定过了，请检查您的输入",
-    "Bindfail":"网络连接出错。\r\n请稍后再试。",
+    "Bindfail":"登陆成功。\r\n绑定遇到错误。",
     "terms1":"  我希望通过信件、电邮、简讯及/或电话搜集，\r\n接收所述的最新营销动态在",
     "terms1_LBox":"此处",
     "terms2":"  我理解并同意金沙尊赏时尚会员计划的条款与条件 以及 对于本人资料的处理，同时保证声明内容    真实有效。",
@@ -54,5 +54,6 @@ let mc_content={
     "SUSuccess":"登陆成功:\r\n会员ID:",
     "notLogin":"会员ID：未登录",
     "confirmTxt":"会员ID:",
-    "QRCodeContent":'扫描二维码或微信搜索关注\r\n"新加坡滨海湾金沙度假区"\r\n公众号,随时查看积分,兑换奖品。'
+    "QRCodeContent":'扫描二维码或微信搜索关注\r\n"新加坡滨海湾金沙度假区"\r\n公众号,随时查看积分,兑换奖品。',
+    "wechatFollow":"微信关注"
 }

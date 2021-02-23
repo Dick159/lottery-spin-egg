@@ -266,6 +266,15 @@ var Info1UI = (function (_super) {
                 gameui.loadScence("index", _that, IndexUI);
             });
         }
+        else if (jsonObject.code == "03" || jsonObject.code == "01") {
+            var gameui = ScenceManage.create(_that.stage);
+            //this.resetBtnStatus(true)
+            this.tempPatronId = "";
+            this.popUpErrorTips(this, mc_content.Bindfail, function () {
+                gameui.loadScence("index", _that, IndexUI);
+                _that.resetBtnStatus(true);
+            });
+        }
         else {
             this.tempPatronId = "";
             //this.resetBtnStatus(true)
