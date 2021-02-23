@@ -39,7 +39,7 @@ class PrizeAndRules extends eui.UILayer {
 
     private createPrize(){
         var textColor = 0x851c1c;
-        var textSize = 40;
+        var textSize = 27;
         var _that = this;
 
         Main.jp_onoff = true;
