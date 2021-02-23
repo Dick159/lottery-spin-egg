@@ -266,9 +266,23 @@ var Info1UI = (function (_super) {
                 gameui.loadScence("index", _that, IndexUI);
             });
         }
-        else {
+        else if (jsonObject.code == "03" || jsonObject.code == "01") {
+            var gameui = ScenceManage.create(_that.stage);
+            //this.resetBtnStatus(true)
             this.tempPatronId = "";
-            this.popUpErrorTips(this, mc_content.Bindfail, this.resetBtnStatus(true));
+            this.popUpErrorTips(this, mc_content.Bindfail, function () {
+                gameui.loadScence("index", _that, IndexUI);
+                _that.resetBtnStatus(true);
+            });
+        }
+        else {
+            var gameui = ScenceManage.create(_that.stage);
+            //this.resetBtnStatus(true)
+            this.tempPatronId = "";
+            this.popUpErrorTips(this, mc_content.NetworkErr, function () {
+                gameui.loadScence("index", _that, IndexUI);
+                _that.resetBtnStatus(true);
+            });
         }
     };
     Info1UI.prototype.popUpErrorTips = function (_that, message, callBack) {

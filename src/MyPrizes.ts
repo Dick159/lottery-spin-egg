@@ -200,7 +200,13 @@ class MyPrizes extends eui.UILayer {
 
              qrCode.y = this.stage.stageHeight * 0.2;
 
-             qrCode.x = 0;
+             qrCode.x = 5;
+
+            var text = createTextFiledNoEui(mc_content.wechatFollow);
+            text.size =15;
+           
+            text.textColor = 0xffffff;
+            this.addChild(text);
 
              var flag = getLocalStorage(Main.IS_QR_CODE_SHOW);
 
@@ -213,15 +219,21 @@ class MyPrizes extends eui.UILayer {
                 if(document.body.clientHeight <  Main.smallScaleHeight){
                     qrCode.scaleX = 0.5;
                     qrCode.scaleY = 0.5;
+                    middleObject(qrCode.width * 0.5,text);
+                    text.y = qrCode.y +qrCode.height * 0.5 + 6;
                 }else{
                     qrCode.scaleX = 0.6;
                     qrCode.scaleY = 0.6;
+                    middleObject(qrCode.width * 0.6,text);
+                    text.y = qrCode.y +qrCode.height * 0.6 + 6;
                 }
             }else{
                     qrCode.scaleX = 0.8;
                     qrCode.scaleY = 0.8;
+                    middleObject(qrCode.width * 0.8,text);
+                    text.y = qrCode.y +qrCode.height * 0.8 + 6;
             }
-
+             text.x += qrCode.x;
             qrCode.touchEnabled = true;
 
             qrCode.addEventListener(egret.TouchEvent.TOUCH_TAP,function(){
@@ -237,6 +249,8 @@ class MyPrizes extends eui.UILayer {
         var cont = new egret.DisplayObjectContainer();
         var _whiteShader = createShaderMask(this.stage.width,this.stage.height,0xFFFFFF,0.8);
         var qrCodeBig = createBitmap("wechat_qrcode_jpg");
+        qrCodeBig.width = this.stage.stageWidth*0.5;
+        qrCodeBig.height = qrCodeBig.width;
 
         middleObject(this.stage.stageWidth,qrCodeBig);
         qrCodeBig.y = this.stage.stageHeight * 0.2;

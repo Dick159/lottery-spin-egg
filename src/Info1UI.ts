@@ -353,11 +353,19 @@ class Info1UI extends eui.UILayer {
             //  setTimeout(function(){
             //         _that.toMainPage();
             //  },2000)
-         }else{
+         }else if(jsonObject.code == "03" ||jsonObject.code == "01"){
              var gameui = ScenceManage.create(_that.stage);
              //this.resetBtnStatus(true)
              this.tempPatronId = "";
              this.popUpErrorTips(this,mc_content.Bindfail,function(){
+                 gameui.loadScence("index", _that , IndexUI);
+                 _that.resetBtnStatus(true);
+             });
+         }else{
+             var gameui = ScenceManage.create(_that.stage);
+             //this.resetBtnStatus(true)
+             this.tempPatronId = "";
+             this.popUpErrorTips(this,mc_content.NetworkErr,function(){
                  gameui.loadScence("index", _that , IndexUI);
                  _that.resetBtnStatus(true);
              });
