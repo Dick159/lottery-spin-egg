@@ -279,7 +279,7 @@ Main.laohujiButOnoff = true;
 Main.registLoginShow = false;
 //http://150.109.32.241:4503/
 //"https://staging.marinabaysands.com"
-//static  baseUrl = window.location.protocol +"//" +window.location.host;
+// static  baseUrl = window.location.protocol +"//" +window.location.host;
 Main.baseUrl = "https://staging.marinabaysands.com";
 Main.patronRegisterUrl = "/services/members_card_register";
 Main.lotteryApi = "/services/h5game/lottery";
