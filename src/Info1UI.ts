@@ -344,22 +344,28 @@ class Info1UI extends eui.UILayer {
              }
          }else if(jsonObject.code == "05"){
              var gameui = ScenceManage.create(_that.stage);
-             this.popUpErrorTips(this,mc_content.haveBinded,function(){
-                     gameui.loadScence("index", _that , IndexUI);
-             },"提示");
+            //  this.popUpErrorTips(this,mc_content.haveBinded,function(){
+            //          gameui.loadScence("index", _that , IndexUI);
+            //  },"提示");
             //  Main.isBindingAction=false;
             //  removeLocalStorage(Main.NBD_TOKEN_SYB);
             //  setTimeout(function(){
             //         _that.toMainPage();
             //  },2000)
+             ShowTipsBox(mc_content.LoginSuccess,this,function(){
+                            gameui.loadScence("index", _that, IndexUI);
+                        });
          }else if(jsonObject.code == "03" ||jsonObject.code == "01"){
              var gameui = ScenceManage.create(_that.stage);
              //this.resetBtnStatus(true)
              this.tempPatronId = "";
-             this.popUpErrorTips(this,mc_content.Bindfail,function(){
-                 gameui.loadScence("index", _that , IndexUI);
-                 _that.resetBtnStatus(true);
-             },"提示");
+            //  this.popUpErrorTips(this,mc_content.Bindfail,function(){
+            //      gameui.loadScence("index", _that , IndexUI);
+            //      _that.resetBtnStatus(true);
+            //  },"提示");
+             ShowTipsBox(mc_content.LoginSuccess,this,function(){
+                            gameui.loadScence("index", _that, IndexUI);
+                        });
          }else{
              this.tempPatronId = "";
              //this.resetBtnStatus(true)
