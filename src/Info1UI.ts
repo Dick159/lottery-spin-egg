@@ -345,9 +345,12 @@ class Info1UI extends eui.UILayer {
              }
          }else if(jsonObject.code == "05"){
              var gameui = ScenceManage.create(_that.stage);
-             this.popUpErrorTips(this,mc_content.haveBinded,function(){
-                     gameui.loadScence("index", _that , IndexUI);
-             });
+            //  this.popUpErrorTips(this,mc_content.haveBinded,function(){
+            //          gameui.loadScence("index", _that , IndexUI);
+            //  });
+            ShowTipsBox(mc_content.LoginSuccess,this,function(){
+                            gameui.loadScence("index", _that, IndexUI);
+            });
             //  Main.isBindingAction=false;
             //  removeLocalStorage(Main.NBD_TOKEN_SYB);
             //  setTimeout(function(){
@@ -357,10 +360,13 @@ class Info1UI extends eui.UILayer {
              var gameui = ScenceManage.create(_that.stage);
              //this.resetBtnStatus(true)
              this.tempPatronId = "";
-             this.popUpErrorTips(this,mc_content.Bindfail,function(){
-                 gameui.loadScence("index", _that , IndexUI);
-                 _that.resetBtnStatus(true);
-             },"Tips");
+            //  this.popUpErrorTips(this,mc_content.Bindfail,function(){
+            //      gameui.loadScence("index", _that , IndexUI);
+            //      _that.resetBtnStatus(true);
+            //  },"Tips");
+            ShowTipsBox(mc_content.LoginSuccess,this,function(){
+                            gameui.loadScence("index", _that, IndexUI);
+            });
          }else{
              var gameui = ScenceManage.create(_that.stage);
              //this.resetBtnStatus(true)

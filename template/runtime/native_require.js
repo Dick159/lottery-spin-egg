@@ -9,14 +9,14 @@ var game_file_list = [
 	"libs/modules/tween/tween.js",
 	"libs/modules/eui/eui.js",
 	"bin-debug/MBSContent.js",
-	"bin-debug/until.js",
+	"bin-debug/Main.js",
 	"bin-debug/GameUI.js",
 	"bin-debug/HowToRedeem.js",
 	"bin-debug/IndexUI.js",
 	"bin-debug/Info1UI.js",
 	"bin-debug/InfoUI.js",
 	"bin-debug/LoadingUI.js",
-	"bin-debug/Main.js",
+	"bin-debug/DropDownList.js",
 	"bin-debug/ComfirmUtil.js",
 	"bin-debug/MyPrizes.js",
 	"bin-debug/PrizeAndRules.js",
@@ -24,7 +24,7 @@ var game_file_list = [
 	"bin-debug/ResultUI.js",
 	"bin-debug/ScenceManage.js",
 	"bin-debug/ScrollerPanel.js",
-	"bin-debug/DropDownList.js",
+	"bin-debug/until.js",
 	//----auto game_file_list end----
 ];
 
