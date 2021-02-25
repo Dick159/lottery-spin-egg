@@ -38,6 +38,7 @@ var Main = (function (_super) {
     __extends(Main, _super);
     function Main() {
         var _this = _super.call(this) || this;
+        // static  baseUrl = "https://staging.marinabaysands.com";
         _this.getProbabilityData = "/services/h5game/property";
         _this.currentW = 1624;
         _this.currentH = 750;
@@ -279,8 +280,7 @@ Main.laohujiButOnoff = true;
 Main.registLoginShow = false;
 //http://150.109.32.241:4503/
 //"https://staging.marinabaysands.com"
-//static  baseUrl = window.location.protocol +"//" +window.location.host;
-Main.baseUrl = "https://staging.marinabaysands.com";
+Main.baseUrl = window.location.protocol + "//" + window.location.host;
 Main.patronRegisterUrl = "/services/members_card_register";
 Main.lotteryApi = "/services/h5game/lottery";
 Main.PostTokenizerApi = "/services/h5game/token";

@@ -46,7 +46,7 @@ let mc_content={
     "eText2":"REDPACKET",
     "eText3":"ENVELOPES",
     "eText":"LIMITED EDITION\r\nREDPACKET\nENVELOPES",
-    "RedeemTime":"Redeem Marina Bay Sands gifts collectible\r\n with every 88 Ox coins by 31 March 2021.",
+    "RedeemTime":"Redeem Marina Bay Sands gifts with \r\n every 88 Ox coins by 31 March 2021.",
     "Play":"Please play the game",
     "TC":"Terms and Conditions.",
     "haveBinded":"Your Member ID was\r\nbond with another device.\r\nPlease kindly log in first.",
